@@ -41,7 +41,7 @@ It's just better, like it or not. Name me something better and I'll find a reaso
 * Keybind (Can be used as special String alternatives in unsupporting languages, with more limitations)
 * SRGB Color (represented through 8bit hexadecimal color code)
 * Linear Color (represented through 8bit hexadecimal color code or unlimited 16bit declaration)
-* Byte Array (stored as hexadecimal)
+* Binary (stored as hexadecimal)
 
 ## The Backstory
 
