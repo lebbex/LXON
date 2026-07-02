@@ -23,8 +23,7 @@ Alternatively, you can simply open the folder representing the programming langu
 
 ## Why LXON?
 
-It's just better, like it or not. Name me something better and I'll find a reason to call you a loser.
-- Nick Jasper (I do not speak in the image of the company)
+It's just better, like it or not. Name me something better and I'll find a reason to call you a loser. -Nick Jasper (I do not speak in the image of the company)
 
 ## Supported Container Types
 * Objects
