@@ -25,10 +25,10 @@ Alternatively, you can simply open the folder representing the programming langu
 It's just better, like it or not. Name me something better and I'll find a reason to call you a loser. -Nick Jasper (I do not speak in the image of the company)
 
 ## Supported Container Types
-* Objects
-* Arrays
-* Maps (same as objects but with typed keys, key type must be homogeneous)
-* Doodads (same as objects but with single character keys that optimize speed and size, practical for Vectors)
+* Object
+* Array
+* Map (same as objects but with typed keys, key type must be homogeneous)
+* Doodad (same as objects but with single character keys that optimize speed and size, practical for Vectors)
 
 ## Supported Value Types
 * Full String (Doesn't require trailing double quote)
