@@ -12,15 +12,13 @@ As he developped the editor, he decided to remake it due to its bugs, switching 
 
 With this came the realization of the limitations of JSON, where it's missing many crucial value types and container types. This realization is what gave birth to LXON.
 
-## Supported Types
-
-CONTAINERS:
+## Supported Container Types
 * Objects
 * Arrays
 * Maps (same as objects but with typed keys, key type must be homogenious)
-* Doodads (micro-objects with single character keys that optimize speed and size, used mostly for things such as Vectors)
+* Doodads (same as objects but with single character keys that optimize speed and size, practical for Vectors)
 
-VALUES:
+## Supported Value Types
 * Strings
 * Char (Single character string)
 * Boolean
