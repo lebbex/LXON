@@ -4,7 +4,7 @@ LXON is a serialization format developped solely by Nicholas (Jasper) Birla-Elia
 
 ## How To Use
 
-Read the license, then go the folder representing the programming language or framework you wish to use LXON in.
+Read the license, then go to Releases. Find the latest version which has the tag representing the programming language or framework your project uses. Alternatively, you can simply open the folder representing the programming language or framework your project uses, and download the source code from there, whether it be a single file script or a full Unreal Engine plugin.
 
 ## Supported Container Types
 * Objects
