@@ -31,17 +31,17 @@ It's just better, like it or not. Name me something better and I'll find a reaso
 * Doodads (same as objects but with single character keys that optimize speed and size, practical for Vectors)
 
 ## Supported Value Types
-* Full Strings (Doesn't require trailing double quote)
-* Strings
+* Full String (Doesn't require trailing double quote)
+* String
 * Char (Single character string)
 * Boolean
-* Numbers
+* Number
 * Null, Undefined, NaN, +Infinity and -Infinity
-* Dates (ISO standard, very forgiving and dynamic syntax)
-* Keybinds (Can be used as special String alternatives in unsupporting languages, with more limitations)
-* SRGB Colors (represented through 8bit hexadecimal color code)
-* Linear Colors (represented through 8bit hexadecimal color code or unlimited 16bit declaration)
-* Byte Arrays (stored as hexadecimal)
+* Date (ISO standard, very forgiving and dynamic syntax)
+* Keybind (Can be used as special String alternatives in unsupporting languages, with more limitations)
+* SRGB Color (represented through 8bit hexadecimal color code)
+* Linear Color (represented through 8bit hexadecimal color code or unlimited 16bit declaration)
+* Byte Array (stored as hexadecimal)
 
 ## The Backstory
 
