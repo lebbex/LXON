@@ -31,6 +31,7 @@ It's just better, like it or not. Name me something better and I'll find a reaso
 * Doodads (same as objects but with single character keys that optimize speed and size, practical for Vectors)
 
 ## Supported Value Types
+* Full Strings (Doesn't require trailing double quote)
 * Strings
 * Char (Single character string)
 * Boolean
