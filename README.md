@@ -52,3 +52,9 @@ He then realized how terrible JSON is to write and read, so he modified the edit
 As he developped the editor, he decided to remake it due to its bugs, switching from a text based editor similar to Visual Studio Code, to something node based with seemless editing, the best of both worlds.
 
 With this came the realization of the limitations of JSON, where it's missing many crucial value types and container types. This realization is what gave birth to LXON.
+
+## Contributing
+
+Contributions are welcome. Feel free to create your own parser/stringify scripts/plugins/etc. using LXON in the name, however it cannot be called just LXON the way ours are. 
+
+If you want to reach out to us further, contact us at lxon@lebbex.com
