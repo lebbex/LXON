@@ -30,8 +30,6 @@ const __dirname = path.dirname(__filename);
 
 class LxonError extends Error {
     constructor(message) {
-        super(message);
-        this.name = "LxonError";
         const stop = new Set(["\n","\r","\t"]);
         let start = i;
         let end = i;
@@ -44,7 +42,8 @@ class LxonError extends Error {
             end++;
         }
         const line = file.slice(start, end);
-        console.error("\x1b[31m%s\x1b[0m", "\nLXON ERROR: " + message + `\n⤷ at line ${ln}, column ${col}\n→ ` + line + " ←\n  " + " ".repeat(i - start) + "^");
+        super(message + `\n⤷ at line ${ln}, column ${col}\n→ ` + line + " ←\n  " + " ".repeat(i - start) + "^");
+        this.name = "LxonError";
     }
 }
 
@@ -239,16 +238,11 @@ function parseFile(fileName){
     if(file.length < 1) return undefined;
     ln = 1;
     col = 1;
-    try{
-        switch(ch){
-            case "{": nextChar(); return parseObject();
-            case "[": nextChar(); return parseArray();
-            case "(": nextChar(); return parseMap();
-            default: return parseDoodad();
-        }
-    }
-    catch(err){
-        return undefined;
+    switch(ch){
+        case "{": nextChar(); return parseObject();
+        case "[": nextChar(); return parseArray();
+        case "(": nextChar(); return parseMap();
+        default: return parseDoodad();
     }
 }
 
@@ -261,16 +255,11 @@ function parse(str){
     if(file.length < 1) return undefined;
     ln = 1;
     col = 1;
-    try{
-        switch(ch){
-            case "{": nextChar(); return parseObject();
-            case "[": nextChar(); return parseArray();
-            case "(": nextChar(); return parseMap();
-            default: return parseDoodad();
-        }
-    }
-    catch(err){
-        return undefined;
+    switch(ch){
+        case "{": nextChar(); return parseObject();
+        case "[": nextChar(); return parseArray();
+        case "(": nextChar(); return parseMap();
+        default: return parseDoodad();
     }
 }
 
@@ -1239,15 +1228,13 @@ function parseDate(){
     if(ch >= "0" && ch <= "9"){
         year = 0;
         let len = 0;
-        while(ch >= "0" && ch <= "9"){
+        while(ch >= "0" && ch <= "9" && ch !== null){
             year = Number(ch) + year * 10;
             nextChar();
             len++;
-            if(len > 11){
-                return new Date(year);
-            }
         }
-        if(len > 6) return new Date(year * 1000);
+        if(len > 11) return new Date(year);
+        if(len > 7) return new Date(year * 1000);
         if(len < 3) year += 2000;
         if(ch === "-" || ch === "W"){
             if(ch === "-") nextChar();
@@ -1270,6 +1257,7 @@ function parseDate(){
                 const jan4Day = jan4.getUTCDay() || 7;
                 const days = (week - 1) * 7 + dayOf - jan4Day;
                 day = 4 + days;
+                nextChar();
             }
             else{
                 if(ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the month when reading Date value.");
