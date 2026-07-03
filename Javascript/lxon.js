@@ -196,6 +196,23 @@ class LinearColor{
 }
 
 
+class Enum{
+    constructor(type, mem){
+        this.type = type;
+        this.member = mem;
+    }
+
+    toString(){ return `${this.type}:${this.member}`; }
+
+    [inspect.custom](depth, options, inspectFn) {
+        const label = options.stylize('Enum', 'special');
+        const type = inspectFn(this.type, options);
+        const mem = inspectFn(this.member, options);
+        return `${label}(${type}::${mem})`;
+    }
+}
+
+
 class Doodad{
     constructor(obj){
         this.obj = obj;
@@ -266,7 +283,7 @@ function parse(str){
 
 // -------------------- Parse Object --------------------
 
-function parseObject(){ // NCP
+function parseObject(){
     depth++;
     let temp;
     let finalObj = {};
@@ -280,7 +297,7 @@ function parseObject(){ // NCP
 }
 
 
-function parseObjectPair(){ // NCP
+function parseObjectPair(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " ") nextChar();  // Skips all spaces
@@ -305,7 +322,7 @@ function parseObjectPair(){ // NCP
 }
 
 
-function parseObjectPairWasNewline(){ // NCP
+function parseObjectPairWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -331,7 +348,7 @@ function parseObjectPairWasNewline(){ // NCP
 
 // -------------------- Parse Doodad --------------------
 
-function parseDoodad(){ // NCP
+function parseDoodad(){
     depth++;
     let temp;
     let finalObj = {};
@@ -345,7 +362,7 @@ function parseDoodad(){ // NCP
 }
 
 
-function parseDoodadPair(){ // NCP
+function parseDoodadPair(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " ") nextChar();  // Skips all spaces
@@ -367,7 +384,7 @@ function parseDoodadPair(){ // NCP
 }
 
 
-function parseDoodadPairWasNewline(){ // NCP
+function parseDoodadPairWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -390,7 +407,7 @@ function parseDoodadPairWasNewline(){ // NCP
 
 // -------------------- Parse Array --------------------
 
-function parseArray(){ // NCP
+function parseArray(){
     depth++;
     let temp;
     let finalArray = [];
@@ -447,7 +464,7 @@ function parseArrayItemWasNewline(){ //
 
 // -------------------- Parse Map --------------------
 
-function parseMap(){ // NCP
+function parseMap(){
     depth++;
     let temp;
     let finalMap = new Map();
@@ -545,7 +562,7 @@ function parseMap(){ // NCP
 // -------------------- Parse Map String --------------------
 
 
-function parseMapPairStr(){ // NCP
+function parseMapPairStr(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " ") nextChar();  // Skips all spaces
@@ -570,7 +587,7 @@ function parseMapPairStr(){ // NCP
 }
 
 
-function parseMapPairStrWasNewline(){ // NCP
+function parseMapPairStrWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -597,7 +614,7 @@ function parseMapPairStrWasNewline(){ // NCP
 // -------------------- Parse Map Character --------------------
 
 
-function parseMapPairChar(){ // NCP
+function parseMapPairChar(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " ") nextChar();  // Skips all spaces
@@ -621,7 +638,7 @@ function parseMapPairChar(){ // NCP
 }
 
 
-function parseMapPairCharWasNewline(){ // NCP
+function parseMapPairCharWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -646,7 +663,7 @@ function parseMapPairCharWasNewline(){ // NCP
 
 // -------------------- Parse Map Number --------------------
 
-function parseMapPairNum(){ // NCP
+function parseMapPairNum(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " ") nextChar();  // Skips all spaces
@@ -673,7 +690,7 @@ function parseMapPairNum(){ // NCP
 }
 
 
-function parseMapPairNumWasNewline(){ // NCP
+function parseMapPairNumWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -701,7 +718,7 @@ function parseMapPairNumWasNewline(){ // NCP
 
 // -------------------- Parse Map Color SRGB --------------------
 
-function parseMapPairColor(){ // NCP
+function parseMapPairColor(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " ") nextChar();  // Skips all spaces
@@ -726,7 +743,7 @@ function parseMapPairColor(){ // NCP
 }
 
 
-function parseMapPairColorWasNewline(){ // NCP
+function parseMapPairColorWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -752,7 +769,7 @@ function parseMapPairColorWasNewline(){ // NCP
 
 // -------------------- Parse Map Linear Color --------------------
 
-function parseMapPairLinCol(){ // NCP
+function parseMapPairLinCol(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " ") nextChar();  // Skips all spaces
@@ -777,7 +794,7 @@ function parseMapPairLinCol(){ // NCP
 }
 
 
-function parseMapPairLinColWasNewline(){ // NCP
+function parseMapPairLinColWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -803,7 +820,7 @@ function parseMapPairLinColWasNewline(){ // NCP
 
 // -------------------- Parse Map Boolean --------------------
 
-function parseMapPairBool(){ // NCP
+function parseMapPairBool(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " ") nextChar();  // Skips all spaces
@@ -834,7 +851,7 @@ function parseMapPairBool(){ // NCP
 }
 
 
-function parseMapPairBoolWasNewline(){ // NCP
+function parseMapPairBoolWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -865,7 +882,7 @@ function parseMapPairBoolWasNewline(){ // NCP
 
 // -------------------- Parse Map Date --------------------
 
-function parseMapPairDate(){ // NCP
+function parseMapPairDate(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " "){ nextChar(); } // Skips all spaces
@@ -890,7 +907,7 @@ function parseMapPairDate(){ // NCP
 }
 
 
-function parseMapPairDateWasNewline(){ // NCP
+function parseMapPairDateWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -916,7 +933,7 @@ function parseMapPairDateWasNewline(){ // NCP
 
 // -------------------- Parse Map Keybind --------------------
 
-function parseMapPairKeybind(){ // NCP
+function parseMapPairKeybind(){
     let thisDepth = 0;
     let newline = false;
     while(ch === " ") nextChar();  // Skips all spaces
@@ -941,7 +958,7 @@ function parseMapPairKeybind(){ // NCP
 }
 
 
-function parseMapPairKeybindWasNewline(){ // NCP
+function parseMapPairKeybindWasNewline(){
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
@@ -968,7 +985,7 @@ function parseMapPairKeybindWasNewline(){ // NCP
 // -------------------- Parse Value Switch --------------------
 
 
-function parseValue(container){ // NCP
+function parseValue(container){
     switch(ch){
         case null:
             return undefined;
@@ -998,6 +1015,8 @@ function parseValue(container){ // NCP
             nextChar(); return parseDate();
         case "@":
             nextChar(); return parseKeybind();
+        case "*":
+            nextChar(); return parseEnum();
         case "-":
             nextChar(); return parseNegNumber();
         case "{":
@@ -1027,7 +1046,7 @@ function parseValue(container){ // NCP
 
 // -------------------- Parse Values --------------------
 
-function parseStringFull(){ // NCP
+function parseStringFull(){
     const out = [];
     while(ch !== "\n" && ch !== null){
         if(ch === "\\"){
@@ -1050,12 +1069,12 @@ function parseStringFull(){ // NCP
 }
 
 
-function parseString(){ // NCP
+function parseString(){
     const out = [];
-    while(ch !== "`" && ch !== "^" && ch !== null){
+    while(ch !== "`" && ch !== "^" && ch !== null && ch !== "\n"){
         if(ch === "\\"){
             nextChar();
-            if(ch === null) return out.join("");
+            if(ch === null || ch === "\n") return out.join("");
             switch(ch){
                 case "n": out.push("\n"); break;
                 case "r": out.push("\r"); break;
@@ -1074,7 +1093,7 @@ function parseString(){ // NCP
 }
 
 
-function parseStringKey(){ // NCP
+function parseStringKey(){
     const out = [];
     while(ch !== ":" && ch !== null){
         if(ch === "\\"){
@@ -1150,9 +1169,9 @@ function parseBinary(){
 }
 
 
-function parseKeybind(){ // NCP
+function parseKeybind(){
     const out = [];
-    while(ch !== "`" && ch !== "^" && ch !== "@" && ch !== "\n" && ch !== null){
+    while(ch !== "`" && ch !== "^" && ch !== "@" && ch !== "*" && ch !== "?" && ch !== "\n" && ch !== null){
         if(ch === "\\"){
             nextChar();
             if(ch === null) return Symbol.for(out.join(""));
@@ -1171,6 +1190,18 @@ function parseKeybind(){ // NCP
     }
     if(ch === "`") nextChar();
     return Symbol.for(out.join(""));
+}
+
+
+function parseEnum(){
+    const start = i;
+    while(ch !== null && ch !== ":" && ch !== "\n" && ch !== "\t") nextChar();
+    if(ch === null || ch === "\n" || ch === "\t") return undefined;
+    const end = i;
+    nextChar();
+    if(ch === null) return undefined;
+    const member = parseKeybind();
+    return new Enum(file.slice(start, end), member);
 }
 
 
@@ -1519,6 +1550,7 @@ function writeArray(arr){
             else if(value instanceof LinearColor) continue;
             else if(value instanceof Uint8Array) continue;
             else if(value instanceof ColorSRGB) continue;
+            else if(value instanceof Enum) continue;
             inline = false;
             break;
         }
@@ -1594,23 +1626,25 @@ const keyTypes = [
     "=", // 3 Linear Color
     "", // 4 Boolean
     "#", // 5 Color SRGB
-    "'", // 6 String Character
-    '"' //  7 String
+    "*", // 6 Enum
+    "'", // 7 String Character
+    '"' //  8 String
 ]
 
 
 function getKeyType(key) {
     if (typeof key === 'number') return 0;
     if (key instanceof Date) return 1;
+    if (typeof key === 'string') {
+        if(key.length === 1) return 7;
+        return 8;
+    }
     if (typeof key === 'symbol') return 2;
     if (key instanceof LinearColor) return 3;
     if (typeof key === 'boolean') return 4;
     if (key instanceof ColorSRGB) return 5;
-    if (typeof key === 'string') {
-        if(key.length === 1) return 6;
-        return 7;
-    }
-    throw new Error("Invalid map key type. Must be of type String, Number, Bool, Date, ColorSRGB, LinearColor, Symbol, ")
+    if (key instanceof Enum) return 6;
+    throw new Error("Invalid map key type. Must be of type String, Char, Number, Bool, Date, ColorSRGB, LinearColor, Keybind or Enum.")
 }
 
 
@@ -1672,8 +1706,11 @@ function writeMapKey(key, inline, type){
         case 5: // Color SRGB
             file.push(inline ? "" : "\t".repeat(depth), key.toHex());
             break;
-        case 6: // String char
-        case 7: // String
+        case 6: // Enum
+            file.push(inline ? "" : "\t".repeat(depth), key.toString());
+            break;
+        case 7: // String char
+        case 8: // String
             file.push(inline ? "" : "\t".repeat(depth), cleanStringKey(key));
             break;
     }
@@ -1733,6 +1770,7 @@ function writeColon(value, inline){
         else if(value === null){ file.push(": "); }
         else if(value instanceof LinearColor){ file.push(": "); }
         else if(value instanceof ColorSRGB){ file.push(": "); }
+        else if(value instanceof Enum){ file.push(": "); }
         else file.push(":");
         return;
     }
@@ -1781,6 +1819,10 @@ function writeValue(value, inline, last, wasArray = false, wasDoodad = false){
             }
             else if(value instanceof LinearColor){
                 file.push(value.toString(), end); // Linear Color
+            }
+            else if(value instanceof Enum){
+                if(inline && !last) file.push("*", value.toString(), "`", end); // Inline Enum
+                else file.push("*", value.toString(), end); // Multiline Enum
             }
             else if(Array.isArray(value)){ // Array
                 writeArray(value);
