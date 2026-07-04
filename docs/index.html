@@ -251,11 +251,11 @@
 
 			// ---- tweakables -----------------------------------------------------
 			const NOISE_SCALE = 2;
-			const TIME_SPEED = 0.5; //0.05
+			const TIME_SPEED = 0.07; //0.05
 			const PARALLAX_FACTOR = -0.5;
 			const GRAIN_AMOUNT = 0.02;
 			const GRAIN_SIZE = 1.0;
-			const FALL_SPEED = -0.1; //0.02
+			const FALL_SPEED = -0.03; //0.02
 			// Lenis's own smoothing amount (0-1). Lower = more glide/lag, higher =
 			// snappier. 0.1 is Lenis's own default and feels good; this replaces the
 			// old hand-rolled SCROLL_SMOOTHNESS lerp entirely - don't stack both or
@@ -271,12 +271,11 @@
 				lerp: LENIS_LERP,
 				wheelMultiplier: 0.5,
 				touchMultiplier: 1.0,
-				syncTouch: true,
 			});
 
 			const navBox = document.getElementById('nav-box');
 			lenis.on('scroll', (e) => {
-				if (e.direction === 1 && lenis.scroll > window.innerHeight / 4) {
+				if (e.direction === 1 && window.scrollY > window.innerHeight / 4) {
 					navBox.classList.add('nav-hidden');   // scrolling down
 				} else if (e.direction === -1) {
 					navBox.classList.remove('nav-hidden'); // scrolling up
@@ -465,9 +464,8 @@
 
 				const elapsed = (now - startTime) / 1000;
 
-				// lenis.scroll is Lenis's own smoothed scroll value - no extra lerp
 				// layered on top of it here.
-				const scrollY = lenis.scroll;
+				const scrollY = window.scrollY;
 				gl.uniform1f(loc.time, elapsed * TIME_SPEED);
 				gl.uniform1f(loc.scrollY, scrollY * dpr * PARALLAX_FACTOR + elapsed * FALL_SPEED * winWidth);
 				gl.uniform1f(loc.grainScrollY, scrollY * dpr * PARALLAX_FACTOR);
