@@ -139,7 +139,13 @@
 			opacity: 0.5;
 		}
 
-		@media (max-width: 510px) {
+		@media (max-width: 330px) {
+			.nav-editor {
+				display: none !important;
+			}
+		}
+
+		@media (max-width: 450px) {
 			.site-icon {
 				top: calc(5.5rem - 10px);
 			}
@@ -185,6 +191,20 @@
 			background: rgba(231, 235, 241, 0.08);
 		}
 
+		.nav-link .short-text {
+			display: none;
+		}
+
+		@media (max-width: 520px) {
+			.nav-link .full-text {
+				display: none;
+			}
+
+			.nav-link .short-text {
+				display: inline;
+			}
+		}
+
 		.divider {
 			width: 100%;
 			height: 1px;
@@ -212,8 +232,11 @@
 
 	<nav class="nav-box nav-hidden" id="nav-box">
 		<a href="https://github.com/lebbex/LXON" class="nav-link">GitHub</a>
-		<a href="https://github.com/lebbex/LXON/wiki" class="nav-link">Documentation</a>
-		<a href="/editor" class="nav-link">Editor</a>
+		<a href="https://github.com/lebbex/LXON/wiki" class="nav-link">
+			<span class="full-text">Documentation</span>
+			<span class="short-text">Doc.</span>
+		</a>
+		<a href="/editor" class="nav-link nav-editor">Editor</a>
 	</nav>
 
 	<div id="scroll-container">
