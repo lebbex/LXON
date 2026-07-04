@@ -317,7 +317,7 @@
     float perlin3(vec3 p) {
       vec3 i = floor(p);
       vec3 f = fract(p);
-      vec3 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+      vec3 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0); 
 
       float n000 = dot(hash3(i + vec3(0.0,0.0,0.0)), f - vec3(0.0,0.0,0.0));
       float n100 = dot(hash3(i + vec3(1.0,0.0,0.0)), f - vec3(1.0,0.0,0.0));
