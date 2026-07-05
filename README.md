@@ -8,6 +8,8 @@ In short, the Apache License 2.0 doesn't extend to the full contents of this rep
 
 Also, the following are trademarks/names of their owner and are NOT licensed to you: "Lebbex", "LXON", all logos, the name "Nicholas Jasper Birla-Eliade".
 
+This briefing is to ensure you read it, although you HAVE to read the notice. Go do it now if it isn't already done.
+
 ## Goals
 
 LXON was created with the following principles in mind:
