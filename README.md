@@ -2,6 +2,8 @@
 
 LXON (Lebbex Object Notation) is a serialization format developped solely by Nicholas (Jasper) Birla-Eliade, designed to be simple to read/edit, all while being as capable as possible for many and most usages.
 
+### BEFORE DOING ANYTHING, READ THE LICENSE AND NOTICE.
+
 ## Goals
 
 LXON was created with the following principles in mind:
@@ -16,6 +18,8 @@ LXON was created with the following principles in mind:
 
 ## How To Use
 
+Read the LICENSE and NOTICE files.
+
 Go to Releases, then find the latest version which has the tag representing the programming language or framework your project uses. 
 
 Alternatively, you can simply open the folder representing the programming language or framework your project uses, and download the source code from there, whether it be a single file script or a full Unreal Engine plugin.
@@ -23,6 +27,8 @@ Alternatively, you can simply open the folder representing the programming langu
 ## Why LXON?
 
 It's just better, like it or not. Name me something better and I'll find a reason to call you a loser. -Nick Jasper (I do not speak in the image of the company)
+
+Now go read the LICENSE AND NOTICE files.
 
 ## Supported Container Types
 * Object
@@ -55,6 +61,8 @@ As he developped the editor, he decided to remake it due to its bugs, switching 
 With this came the realization of the limitations of JSON, where it's missing many crucial value types and container types. This realization is what gave birth to LXON.
 
 ## Contributing
+
+Before even considering contribution, read the LICENSE and NOTICE files.
 
 Contributions are welcome. Feel free to create your own parser/stringify scripts/plugins/etc. using LXON in the name, however it cannot be called just LXON the way ours are. 
 
