@@ -2,66 +2,17 @@
 
 LXON (Lebbex Object Notation) is a serialization format developped solely by Nicholas (Jasper) Birla-Eliade, designed to be simple to read/edit, all while being as capable as possible for many and most usages.
 
-## CODE LICENSE
-All source code in this repository is licensed under the Apache
-License, Version 2.0 (see LICENSE), EXCEPT for the contents of the
-/docs folder (the LXON.lebbex.com website), which is proprietary.
+## License & Trademarks
 
-/docs folder: all images, code, text, logos, audio, video, and
-design within /docs are NOT covered by the Apache 2.0 license and
-are Copyright © 2026 Nicholas (Jasper) Birla-Eliade / Lebbex. 
-All rights reserved.
+This project's source code is licensed under Apache License 2.0.
+The `/docs` folder (the LXON.lebbex.com website) is proprietary and
+excluded from that license. "Lebbex", "LXON", and associated logos
+are trademarks and are not covered by the code license.
 
-## TRADEMARKS
-"Lebbex", "LXON", all logos, and the name "Nicholas Jasper
-Birla-Eliade" are trademarks/names of their owner and are NOT
-licensed under Apache 2.0 or any other license granted in this
-repository, regardless of which folder they appear in.
-The Apache License explicitly does not grant trademark rights
-(see Apache 2.0, Section 6).
-
-You may not use these names, their derivatives (Nick Jasper) or logos
-without prior written permission, even if the underlying code is used
-under the Apache License.
-
-You may use the name LXON to identify, endorse or promote a plugin,
-fork, or derivative work, however you may not release anything by the
-name of LXON that licenses from this project unless it has a distinction,
-whether it be a modified name (LXOM), or an appended qualifier (Fast-LXON).
-The name you choose must make it obvious that your project is independant, 
-unendorsed, unofficial and unaffiliated.
-
-Examples of innapropriate names:
-- Official LXON
-- The LXON
-- LXON by NJ
-- OG LXON
-- LXON LXON
-- lxon
-- LxoN
-- New Lxon
-
-Examples of Borderline names, must be greenlit:
-- LXON!
-- LXON for Unity
-- LXON2
-- LX0N
-
-Examples of appopriate names:
-- Fast Lxon
-- OpLXON
-- LXON by Pete McJee
-- LXON4u
-- LXOM
-- LXONI
-- LXON-SHMEXON
-- The Best Lxon
-- LXXON
-- 7XON
-
-We would highly appreciate if you sent us a email at lxon@lebbex.com with your lxon fork name and we could verify it.
-Well done projects have a higher chance of getting greenlit for affiliated-sounding names (such as LX0N, LXON2 or LXON!).
-
+**Read [LICENSE](./LICENSE) and [NOTICE](./NOTICE) in full before
+using, forking, or contributing to this project**. NOTICE covers
+naming rules for forks/derivatives (e.g. what you can and can't call
+a fork using "LXON").
 
 ## Goals
 
