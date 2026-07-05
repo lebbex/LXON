@@ -28,7 +28,7 @@ Alternatively, you can simply open the folder representing the programming langu
 
 It's just better, like it or not. Name me something better and I'll find a reason to call you a loser. -Nick Jasper (I do not speak in the image of the company)
 
-Now go read the LICENSE AND NOTICE files.
+Now go read the LICENSE and NOTICE files.
 
 ## Supported Container Types
 * Object
