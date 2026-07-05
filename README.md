@@ -2,7 +2,7 @@
 
 LXON (Lebbex Object Notation) is a serialization format developped solely by Nicholas (Jasper) Birla-Eliade, designed to be simple to read/edit, all while being as capable as possible for many and most usages.
 
-# Before doing anything, read the NOTICE
+## Before doing anything, read the NOTICE
 
 In short, the Apache License 2.0 doesn't extend to the full contents of this repository. Specifically, the /docs folder's contents are fully proprietary, everything inside.
 
