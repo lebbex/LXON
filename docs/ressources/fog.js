@@ -1,6 +1,6 @@
 let wasHome = true;
 
-window.bg = {
+window.fog = {
     init: function (colorDark, color, lenis, isHome) {
         document.documentElement.style.background = `rgb(${color[0] * 100}, ${color[1] * 100}, ${color[2] * 100})`;
         window.scrollTo(0, 0);
