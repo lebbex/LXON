@@ -1,5 +1,7 @@
+let wasHome = true;
+
 window.bg = {
-    init: function (color) {
+    init: function (colorDark, color, lenis, isHome) {
         document.documentElement.style.background = `rgb(${color[0] * 100}, ${color[1] * 100}, ${color[2] * 100})`;
         window.scrollTo(0, 0);
         if (history.scrollRestoration) {
@@ -21,33 +23,10 @@ window.bg = {
         const GRAIN_AMOUNT = 0.02;
         const GRAIN_SIZE = 1.0;
         const FALL_SPEED = -1;
-        // Lenis's own smoothing amount (0-1). Lower = more glide/lag, higher =
-        // snappier. 0.1 is Lenis's own default and feels good; this replaces the
-        // old hand-rolled SCROLL_SMOOTHNESS lerp entirely - don't stack both or
-        // you'll double up the lag.
-        const LENIS_LERP = 0.1;
-        const COLOR_DARK = [0.0, 0.0, 0.0];
+        const COLOR_DARK = colorDark;
         const COLOR_LIGHT = color;
         // -----------------------------------------------------------------------
 
-        // Lenis smooth-scrolls the real window. No wrapper div, no transform,
-        // no manual body-height hack - it just takes over native scroll.
-        const lenis = new Lenis({
-            lerp: LENIS_LERP,
-            wheelMultiplier: 0.5,
-            touchMultiplier: 1.0,
-            syncTouch: true,
-            touchInertiaExponent: 10000,
-        });
-
-        const navBox = document.getElementById('nav-box');
-        lenis.on('scroll', (e) => {
-            if (e.direction === 1 && lenis.scroll > window.innerHeight / 4) {
-                navBox.classList.add('nav-hidden');   // scrolling down
-            } else if (e.direction === -1) {
-                navBox.classList.remove('nav-hidden'); // scrolling up
-            }
-        });
 
         const vertexSrc = `
     attribute vec2 a_position;
@@ -61,7 +40,8 @@ window.bg = {
 
     uniform float u_time;
     uniform float u_scrollY;
-	uniform float u_grainScrollY;
+    uniform float u_grainScrollY;
+    uniform float u_noiseScroll; // CHANGED THIS: Added uniform
     uniform float u_scale;
     uniform vec3  u_colorDark;
     uniform vec3  u_colorLight;
@@ -120,17 +100,18 @@ window.bg = {
     }
 
     void main() {
-      	vec2 fragCoord = gl_FragCoord.xy;
-      	float sampledY = fragCoord.y + u_scrollY;
+        vec2 fragCoord = gl_FragCoord.xy;
+        float sampledY = fragCoord.y + u_scrollY;
 
-      	vec3 p = vec3(fragCoord.x * u_scale, sampledY * u_scale, u_time);
-      	float n = fbm(p) * 0.5 + 0.5;
+        // CHANGED THIS: Added u_noiseScroll after u_scale multiplication
+        vec3 p = vec3(fragCoord.x * u_scale, (sampledY * u_scale) + u_noiseScroll, u_time);
+        float n = fbm(p) * 0.5 + 0.5;
 
-      	vec3 color = mix(u_colorDark, u_colorLight, clamp(n, 0.0, 1.0));
+        vec3 color = mix(u_colorDark, u_colorLight, clamp(n, 0.0, 1.0));
 
-      	vec2 grainCoord = floor(vec2(fragCoord.x, fragCoord.y + u_grainScrollY) / u_grainSize);
-		float pixelNoise = random(grainCoord);
-		color -= pixelNoise * u_grainAmount;
+        vec2 grainCoord = floor(vec2(fragCoord.x, fragCoord.y + u_grainScrollY) / u_grainSize);
+        float pixelNoise = random(grainCoord);
+        color -= pixelNoise * u_grainAmount;
 
       gl_FragColor = vec4(color, 1.0);
     }
@@ -181,6 +162,7 @@ window.bg = {
             time: gl.getUniformLocation(program, 'u_time'),
             scrollY: gl.getUniformLocation(program, 'u_scrollY'),
             grainScrollY: gl.getUniformLocation(program, 'u_grainScrollY'),
+            noiseScroll: gl.getUniformLocation(program, 'u_noiseScroll'), // CHANGED THIS: Linked new uniform
             scale: gl.getUniformLocation(program, 'u_scale'),
             colorDark: gl.getUniformLocation(program, 'u_colorDark'),
             colorLight: gl.getUniformLocation(program, 'u_colorLight'),
@@ -213,20 +195,10 @@ window.bg = {
         resize();
 
 
-        const scrollContainer = document.getElementById('scroll-container');
-
-        // wait two frames so the browser commits the initial hidden state
-        // before we flip the class — otherwise the transition can get skipped
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                scrollContainer.classList.add('loaded');
-                navBox.classList.remove('nav-hidden');
-            });
-        });
-
         const startTime = performance.now();
 
-        let noiseScroll = 0;
+        // CHANGED THIS: Smaller random offset because it's no longer being multiplied by scale
+        let noiseScroll = Math.random() * 100;
 
         let lastTime = 0;
 
@@ -241,9 +213,14 @@ window.bg = {
             // layered on top of it here.
             const scrollY = lenis.scroll;
             gl.uniform1f(loc.time, elapsed * TIME_SPEED);
-            noiseScroll += deltaTime * FALL_SPEED * Math.sqrt(winWidth);
-            gl.uniform1f(loc.scrollY, scrollY * dpr * PARALLAX_FACTOR + noiseScroll);
-            console.log(winWidth);
+            
+            // CHANGED THIS: Replaced Math.sqrt hack with a flat multiplier (0.05) to keep your exact original speed
+            noiseScroll += deltaTime * FALL_SPEED * 0.05; 
+            
+            // CHANGED THIS: Sent Lenis scroll and Noise scroll separately
+            gl.uniform1f(loc.scrollY, scrollY * dpr * PARALLAX_FACTOR);
+            gl.uniform1f(loc.noiseScroll, noiseScroll); 
+            
             gl.uniform1f(loc.grainScrollY, scrollY * dpr * PARALLAX_FACTOR);
 
             gl.drawArrays(gl.TRIANGLES, 0, 3);

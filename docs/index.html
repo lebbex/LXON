@@ -7,219 +7,8 @@
 	<title>LXON</title>
 	<link rel="icon" href="ressources/icon.png" type="image/x-icon">
 	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
-	<style>
-		:root {
-			--ink: #e7ebf1;
-			--ink-dim: #9aa5b4;
-			--line: rgba(231, 235, 241, 0.12);
-		}
-
-		* {
-			box-sizing: border-box;
-		}
-
-		/* Hide the native scrollbar completely */
-		::-webkit-scrollbar {
-			display: none;
-		}
-
-		html {
-			-ms-overflow-style: none;
-			/* IE and Edge */
-			scrollbar-width: none;
-			/* Firefox */
-			background: #000;
-		}
-
-		html,
-		body {
-			margin: 0;
-			padding: 0;
-			color: var(--ink);
-			font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
-			overflow-x: hidden;
-		}
-
-		/* The noise canvas stays completely fixed behind everything */
-		#noise-canvas {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 100vh;
-			z-index: -1;
-			display: block;
-		}
-
-		/* Plain wrapper, no positioning tricks needed - Lenis smooth-scrolls
-     the real page, content just sits in normal flow. */
-		#scroll-container {
-			width: 100%;
-			z-index: 1;
-			opacity: 0;
-			transition: opacity 10s ease;
-		}
-
-		#scroll-container.loaded {
-			opacity: 1;
-		}
-
-		section {
-			min-height: 50vh;
-			display: flex;
-			flex-direction: column;
-			justify-content: top;
-			padding: 8vh 8vw;
-			align-items: center;
-			text-align: center;
-		}
-
-		.landing {
-			min-height: 100vh;
-			height: 100vh;
-			justify-content: center;
-		}
-
-		.eyebrow {
-			font-size: 0.75rem;
-			letter-spacing: 0.18em;
-			text-transform: uppercase;
-			color: var(--ink-dim);
-			margin-bottom: 1.2rem;
-		}
-
-		h1 {
-			font-size: clamp(2.2rem, 6vw, 4.5rem);
-			line-height: 1.05;
-			letter-spacing: -0.01em;
-			margin: 0 0 1rem 0;
-			max-width: 18ch;
-			font-weight: 600;
-		}
-
-		h2 {
-			font-size: clamp(1.6rem, 4vw, 2.6rem);
-			margin: 0 0 1rem 0;
-			max-width: 20ch;
-			font-weight: 600;
-		}
-
-		p {
-			font-size: 1.05rem;
-			line-height: 1.6;
-			color: var(--ink-dim);
-			max-width: 74ch;
-		}
-
-		.site-icon {
-			position: fixed;
-			top: calc(1.8rem - 10px);
-			left: calc(1.5rem - 10px);
-			z-index: 10;
-			display: block;
-			width: 50px;
-			height: 50px;
-			padding: 10px;
-			cursor: default;
-		}
-
-		.site-icon img {
-			width: 100%;
-			height: 100%;
-			object-fit: contain;
-			filter: brightness(100);
-			opacity: 0.1;
-			transition: opacity 1s ease;
-			-webkit-user-drag: none;
-			user-select: none;
-			-webkit-user-select: none;
-		}
-
-		.site-icon:hover img {
-			opacity: 0.5;
-		}
-
-		@media (max-width: 330px) {
-			.nav-editor {
-				display: none !important;
-			}
-		}
-
-		@media (max-width: 450px) {
-			.site-icon {
-				top: calc(5.5rem - 10px);
-			}
-		}
-
-		.nav-box {
-			position: fixed;
-			top: 1rem;
-			left: 50%;
-			transform: translateX(-50%) translateY(0);
-			display: flex;
-			align-items: stretch;
-			padding: 0.4rem;
-			border: 1px solid var(--line);
-			border-radius: 8px;
-			background: rgba(10, 12, 16, 0.4);
-			backdrop-filter: blur(8px);
-			-webkit-backdrop-filter: blur(8px);
-			z-index: 10;
-			transition: transform 1.2s ease;
-		}
-
-		.nav-box.nav-hidden {
-			transform: translateX(-50%) translateY(calc(-100% - 3rem));
-		}
-
-		.nav-link {
-			display: flex;
-			align-items: center;
-			color: var(--ink);
-			text-decoration: none;
-			font-size: 0.95rem;
-			letter-spacing: 0.02em;
-			padding: 0.6rem 1.5rem;
-			border-radius: 6px;
-			opacity: 0.8;
-			cursor: default;
-			transition: opacity 0.2s ease, background 0.4s ease;
-		}
-
-		.nav-link:hover {
-			opacity: 1;
-			background: rgba(231, 235, 241, 0.08);
-		}
-
-		.nav-link .short-text {
-			display: none;
-		}
-
-		@media (max-width: 520px) {
-			.nav-link .full-text {
-				display: none;
-			}
-
-			.nav-link .short-text {
-				display: inline;
-			}
-		}
-
-		.divider {
-			width: 100%;
-			height: 1px;
-			background: var(--line);
-			margin: 0 0;
-		}
-
-		footer {
-			padding: 3vh 0 3vh;
-			color: var(--ink-dim);
-			font-size: 0.85rem;
-			align-items: center;
-			text-align: center;
-		}
-	</style>
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="style-nav.css">
 </head>
 
 <body>
@@ -227,30 +16,60 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<a href="https://lebbex.com" class="site-icon">
-		<img src="ressources/icon.png" alt="Lebbex">
+		<img src="/ressources/icon.png" alt="Lebbex">
 	</a>
+	<nav class="nav-wrapper">
+		<nav class="nav-box nav-hidden" id="nav-box">
+			<a href="https://github.com/lebbex/LXON" class="nav-link nav-git">
+				<span class="full-text-git">GitHub</span>
+				<span class="short-text-git">Git.</span>
+			</a>
 
-	<nav class="nav-box nav-hidden" id="nav-box">
-		<a href="https://github.com/lebbex/LXON" class="nav-link">GitHub</a>
-		<a href="https://github.com/lebbex/LXON/wiki" class="nav-link">
-			<span class="full-text">Documentation</span>
-			<span class="short-text">Doc.</span>
-		</a>
-		<a href="/editor" class="nav-link nav-editor">Editor</a>
+			<a href="/doc" class="nav-link nav-doc" id="nav-doc">
+				<span class="full-text-doc">Documentation</span>
+				<span class="short-text-doc">Doc.</span>
+			</a>
+
+			<a href="/editor" class="nav-link nav-editor">Editor</a>
+		</nav>
 	</nav>
+
+	<div class="dropdown" id="dropdown">
+		<div class="dropdown-content" id="dropdown-content">
+			<div class="dropdown-blur" id="dropdown-blur"></div>
+			<div class="dropdown-content-box" id="dropdown-box">
+				<a href="/doc/containers" class="nav-link" id="nav-containers">Containers</a>
+				<a href="/doc/keys" class="nav-link" id="nav-keys">Keys</a>
+				<a href="/doc/values" class="nav-link" id="nav-values">Values</a>
+			</div>
+		</div>
+		<div class="subdown" id="subdown">
+			<div class="subdown-wrapper" id="subdown-wrapper">
+				<div class="subdown-content" id="subdown-blur">
+					<div class="subdown-content-box" id="subdown-box"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="nav-hitbox" id="nav-hitbox"></div>
 
 	<div id="scroll-container">
 		<main>
 			<section class="landing">
-				<div class="eyebrow">Lebbex</div>
+				<div class="eyebrow">LEBBEX</div>
 				<h1>LXON</h1>
 			</section>
 
 			<section>
 				<h2>About</h2>
-				<p>LXON is a JSON alternative developed solely by Nicholas (Jasper) Birla-Eliade, introducing twice the
-					container types and quadruple the value types. It also uses far less syntax, making it much smaller
-					(often up to half a JSON file) and far easier to read, write and edit.</p>
+				<p>The LXON serialization format is a better JSON alternative developed solely by Nicholas (Jasper)
+					Birla-Eliade.</p>
+				<p>It introduces twice the container types and quadruple the value types.
+					It also uses far less syntax, making it much smaller (often up to half a JSON file)
+					and far easier to read, write and edit.
+				</p>
+
 			</section>
 
 			<div class="divider"></div>
@@ -262,9 +81,313 @@
 	</div>
 
 	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
-	<script src="ressources/bg.js"></script>
+	<script src="/ressources/bg.js"></script>
 	<script>
-		bg.init([0.45, 0.5, 0.65]);
+		const lenis = new Lenis({
+			lerp: 0.1,
+			wheelMultiplier: 0.5,
+			touchMultiplier: 1.0,
+			syncTouch: true,
+			touchInertiaExponent: 10000,
+		});
+
+		bg.init([0.0, 0.0, 0.0], [0.45, 0.5, 0.65], lenis);
+
+		const navBox = document.getElementById('nav-box');
+		const navWrapperEl = document.querySelector('.nav-wrapper');
+		const navHitboxEl = document.getElementById('nav-hitbox');
+		const navDocLink = document.getElementById('nav-doc');
+		const navContainersLink = document.getElementById('nav-containers');
+		const navKeysLink = document.getElementById('nav-keys');
+		const navValuesLink = document.getElementById('nav-values');
+		const dropdownEl = document.getElementById('dropdown');
+		const dropdownContentEl = document.getElementById('dropdown-content');
+		const dropdownBoxEl = document.getElementById('dropdown-box');
+		const dropdownBlurEl = document.getElementById('dropdown-blur');
+		const subdownEl = document.getElementById('subdown');
+		const subdownWrapperEl = document.getElementById('subdown-wrapper');
+		const subdownBoxEl = document.getElementById('subdown-box');
+		const subdownBlurEl = document.getElementById('subdown-blur');
+		const scrollContainer = document.getElementById('scroll-container');
+
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				scrollContainer.classList.add('loaded');
+				navBox.classList.remove('nav-hidden');
+			});
+		});
+
+
+
+		// -------------------- Show/Hide Nav --------------------
+
+		let navVisible = true;
+
+		// Lenis scroll window handling
+		lenis.on('scroll', (e) => {
+			if (navVisible && !hoveringNavArea) {
+				if (e.direction === 1) {
+					navBox.classList.add('nav-hidden');
+					navVisible = false;
+				}
+			}
+			else if (e.direction === -1) {
+				navBox.classList.remove('nav-hidden');
+				navVisible = true;
+			}
+
+		});
+
+		let hoveringNavArea = false;
+
+		function setHoveringNavArea(val) {
+			hoveringNavArea = val;
+			if (hoveringNavArea && !navVisible) {
+				navBox.classList.remove('nav-hidden');
+				navVisible = true;
+			}
+		}
+
+		navHitboxEl.addEventListener('mouseenter', () => setHoveringNavArea(true));
+		navHitboxEl.addEventListener('mouseleave', () => setHoveringNavArea(false));
+
+		navWrapperEl.addEventListener('mouseenter', () => setHoveringNavArea(true));
+		navWrapperEl.addEventListener('mouseleave', () => setHoveringNavArea(false));
+
+		dropdownEl.addEventListener('mouseenter', () => setHoveringNavArea(true));
+		dropdownEl.addEventListener('mouseleave', () => setHoveringNavArea(false));
+
+
+
+		// -------------------- Show/Hide Dropdown --------------------
+
+		let hoveringDoc = false;
+		let hoveringDropdown = false;
+
+		let showingDropdown = false;
+		let dropBlurStepAwaiting = false;
+		let dropBlurLevel = 0;
+
+		function setDropdownBlur(px) {
+			dropdownBlurEl.style.backdropFilter = `blur(${px}px)`;
+			dropdownBlurEl.style.webkitBackdropFilter = `blur(${px}px)`;
+		}
+
+		function stepDropdownBlur() {
+			dropBlurStepAwaiting = false;
+
+			if (showingDropdown) {
+				if (dropBlurLevel < 0) dropBlurLevel = 0;
+				dropBlurLevel++;
+				setDropdownBlur(Math.min(dropBlurLevel, 8));
+				if (dropBlurLevel < 8) queueDropdownBlurStep();
+			} else {
+				dropBlurLevel--;
+				setDropdownBlur(Math.max(dropBlurLevel, 0));
+				if (dropBlurLevel > -12) queueDropdownBlurStep();
+				else dropdownEl.style.visibility = `collapse`;
+			}
+		}
+
+		function queueDropdownBlurStep() {
+			if (dropBlurStepAwaiting) return;
+			dropBlurStepAwaiting = true;
+			setTimeout(stepDropdownBlur, 30);
+		}
+
+		function updateDropdownVisibility() {
+			const shouldShow = hoveringDoc || hoveringDropdown;
+			dropdownEl.style.visibility = `visible`;
+			if (shouldShow === showingDropdown) return;
+
+			showingDropdown = shouldShow;
+			dropdownContentEl.classList.toggle('visible', showingDropdown);
+			dropdownBoxEl.classList.toggle('visible', showingDropdown);
+			queueDropdownBlurStep();
+		}
+
+		navDocLink.addEventListener('mouseenter', () => { hoveringDoc = true; updateDropdownVisibility(); });
+		navDocLink.addEventListener('mouseleave', () => { hoveringDoc = false; updateDropdownVisibility(); });
+
+		dropdownEl.addEventListener('mouseenter', () => { hoveringDropdown = true; updateDropdownVisibility(); });
+		dropdownEl.addEventListener('mouseleave', () => { hoveringDropdown = false; updateDropdownVisibility(); });
+
+
+
+		// -------------------- Show/Hide Sub-Dropdown (Subdown) --------------------
+
+		let hoveringContainers = false;
+		let hoveringKeys = false;
+		let hoveringValues = false;
+		let hoveringSubdown = false;
+
+		let showingSubdown = false;
+		let subBlurStepAwaiting = false;
+		let subBlurLevel = 0;
+
+		let hideTimeout = null;
+		let lastAnimationStartTime = 0;
+
+		function setSubdownBlur(px) {
+			subdownBlurEl.style.backdropFilter = `blur(${px}px)`;
+			subdownBlurEl.style.webkitBackdropFilter = `blur(${px}px)`;
+		}
+
+		function stepSubdownBlur() {
+			subBlurStepAwaiting = false;
+
+			if (showingSubdown) {
+				if (subBlurLevel < 0) subBlurLevel = 0;
+				subBlurLevel++;
+				setSubdownBlur(Math.min(subBlurLevel, 8));
+				if (subBlurLevel < 8) queueSubdownBlurStep();
+			} else {
+				subBlurLevel--;
+				setSubdownBlur(Math.max(subBlurLevel, 0));
+				if (subBlurLevel > -18) queueSubdownBlurStep();
+				else subdownEl.style.visibility = `collapse`;
+			}
+		}
+
+		function queueSubdownBlurStep() {
+			if (subBlurStepAwaiting) return;
+			subBlurStepAwaiting = true;
+			setTimeout(stepSubdownBlur, 20);
+		}
+
+		function executeHide() {
+			// Failsafe: check one last time if the user moved their mouse BACK over a menu
+			// while we were waiting for the 0.5s timer to finish.
+			const stillHovering = hoveringContainers || hoveringKeys || hoveringValues || hoveringSubdown;
+			if (stillHovering) return;
+
+			showingSubdown = false;
+			subdownWrapperEl.classList.remove('visible');
+			subdownBoxEl.classList.remove('visible');
+			queueSubdownBlurStep();
+		}
+
+		function updateSubdownVisibility() {
+			const shouldShow = hoveringContainers || hoveringKeys || hoveringValues || hoveringSubdown;
+			subdownEl.style.visibility = `visible`;
+
+			if (shouldShow) {
+				// If we are showing it, cancel any pending hide timers
+				if (hideTimeout) {
+					clearTimeout(hideTimeout);
+					hideTimeout = null;
+				}
+
+				// If it wasn't already showing, show it now
+				if (!showingSubdown) {
+					showingSubdown = true;
+					subdownWrapperEl.classList.add('visible');
+					subdownBoxEl.classList.add('visible');
+					queueSubdownBlurStep();
+				}
+			} else {
+				if (showingSubdown && !hideTimeout) {
+					const timeSinceAnimationStarted = Date.now() - lastAnimationStartTime;
+					const minimumShowTime = 200;
+
+					if (timeSinceAnimationStarted < minimumShowTime) {
+						// If it hasn't been 0.5s yet, wait the remaining time before hiding
+						const remainingTime = minimumShowTime - timeSinceAnimationStarted;
+						hideTimeout = setTimeout(executeHide, remainingTime);
+					} else {
+						// It's been long enough, hide immediately
+						executeHide();
+					}
+				}
+			}
+		}
+
+		navContainersLink.addEventListener('mouseenter', () => { hoveringContainers = true; updateSubdownVisibility(); loadSubdown("containers"); });
+		navContainersLink.addEventListener('mouseleave', () => { hoveringContainers = false; updateSubdownVisibility(); });
+		navKeysLink.addEventListener('mouseenter', () => { hoveringKeys = true; updateSubdownVisibility(); loadSubdown("keys"); });
+		navKeysLink.addEventListener('mouseleave', () => { hoveringKeys = false; updateSubdownVisibility(); });
+		navValuesLink.addEventListener('mouseenter', () => { hoveringValues = true; updateSubdownVisibility(); loadSubdown("values"); });
+		navValuesLink.addEventListener('mouseleave', () => { hoveringValues = false; updateSubdownVisibility(); });
+
+		subdownEl.addEventListener('mouseenter', () => { hoveringSubdown = true; updateSubdownVisibility(); });
+		subdownEl.addEventListener('mouseleave', () => { hoveringSubdown = false; updateSubdownVisibility(); });
+
+
+
+		// -------------------- Switch Contents Sub-Dropdown (Subdown) --------------------
+
+		function restartSubdownRevealAnimation() {
+			// Record exactly when this animation started
+			lastAnimationStartTime = Date.now();
+
+			// 1. Temporarily disable CSS transitions
+			subdownWrapperEl.style.transition = 'none';
+			subdownBoxEl.style.transition = 'none';
+
+			// 2. Remove the visible class 
+			subdownWrapperEl.classList.remove('visible');
+			subdownBoxEl.classList.remove('visible');
+
+			// 3. Force the reflow
+			void subdownWrapperEl.offsetWidth;
+
+			// 4. Restore the CSS transitions
+			subdownWrapperEl.style.transition = '';
+			subdownBoxEl.style.transition = '';
+
+			// 5. Flip back to "shown"
+			subdownWrapperEl.classList.add('visible');
+			subdownBoxEl.classList.add('visible');
+
+			// Reset blur animation
+			subBlurLevel = 0;
+			setSubdownBlur(0);
+			queueSubdownBlurStep();
+		}
+
+		function loadSubdown(key) {
+			subdownBoxEl.innerHTML = null;
+			for (const value of subDropOptions[key]) {
+				const link = document.createElement("a");
+				link.href = "/doc/" + value[1];
+				link.className = "nav-link";
+				link.textContent = value[0];
+				subdownBoxEl.appendChild(link);
+			}
+			subdownBlurEl.classList.remove("containers", "keys", "values");
+			subdownBlurEl.classList.add(key);
+
+			restartSubdownRevealAnimation();
+		}
+
+		const subDropOptions = {
+			containers: [
+				["Object", "object"],
+				["Array", "array"],
+				["Map", "map"],
+				["Doodad", "doodad"]
+			],
+			keys: [
+				["String", "keys/string"],
+				["Boolean", "keys/bool"],
+				["Number", "keys/number"],
+				["Date", "keys/date"],
+				["Keybind", "keys/keybind"],
+				["Color", "keys/color"],
+				["Enum", "keys/enum"]
+			],
+			values: [
+				["String", "string"],
+				["Boolean", "bool"],
+				["Number", "number"],
+				["Date", "date"],
+				["Keybind", "keybind"],
+				["Color", "color"],
+				["Enum", "enum"],
+				["Binary", "binary"],
+				["Special", "special"]
+			]
+		}
 	</script>
 
 </body>
