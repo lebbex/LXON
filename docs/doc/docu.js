@@ -263,6 +263,7 @@ window.docu = {
 		// Create the nav
 		const nav = document.createElement('div');
 		nav.id = "nav";
+		nav.classList.add("hidden");
 		body.appendChild(nav);
 
 
@@ -315,7 +316,6 @@ window.docu = {
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
 				content.classList.add('loaded');
-				nav.classList.remove('hidden');
 				docu.search(path, "");
 				docu.applyObservers = false;
 			});
@@ -338,8 +338,40 @@ window.docu = {
 
 		// -------------------- Wrap content with div --------------------
 
-		function wrapH1Sections(container, { moveIdToDiv = true } = {}) {
-			const h1s = Array.from(container.children).filter(el => el.tagName === 'H1' || el.tagName === 'H2');
+		function wrapH1Sections(container, path, { moveIdToDiv = true } = {}) {
+			let inner = [];
+			switch (path.length) {
+				case 1:
+					inner = docnav[path[0]];
+					break;
+				case 2:
+					inner = docnav[path[0]][path[1]];
+					break;
+				case 3:
+					inner = docnav[path[0]][path[1]][path[2]];
+					break;
+				case 4:
+					inner = docnav[path[0]][path[1]][path[2]][path[3]];
+					break;
+			}
+
+			let targets = new Set();
+
+			try {
+				inner.forEach(item => {
+					if (Array.isArray(item)) {
+						targets.add(item[1]);
+					}
+				})
+			}
+			catch{
+				return;
+			}
+			
+
+			console.log(targets);
+
+			const h1s = Array.from(container.children).filter(el => (el.tagName === 'H1' || el.tagName === 'H2') && targets.has(el.id));
 
 			for (let i = 0; i < h1s.length - 1; i++) {
 				const currentH1 = h1s[i];
@@ -365,7 +397,7 @@ window.docu = {
 			return container;
 		}
 
-		wrapH1Sections(document.getElementById('content'));
+		wrapH1Sections(document.getElementById('content'), path);
 
 
 
@@ -407,7 +439,6 @@ window.docu = {
 				let i = 0;
 				const linkTemp = link.split("/");
 				linkTemp.forEach(key => {
-					console.log(key);
 					if (key.includes("#")) {
 						const split = key.split("#");
 						obj = obj[split[0].trim()]
