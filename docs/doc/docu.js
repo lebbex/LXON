@@ -329,25 +329,72 @@ window.docu = {
 		});
 
 
-		// Create home button
+		// Create home button, tab button and mini nav
+		const miniNav = document.createElement("div");
+		miniNav.classList.add("site-mini-nav")
+
 		const home = document.createElement("a");
 		home.href = "/";
 		home.classList.add("site-icon");
 		home.classList.add("site-home");
-
 		const homeImage = document.createElement("img");
 		homeImage.alt = "Home";
 		homeImage.src = "/ressources/home.png";
-
 		home.append(homeImage);
+
+		const tabButton = document.createElement("button");
+		tabButton.classList.add("site-tab");
+		const tabImage = document.createElement("img");
+		tabImage.alt = "Tab";
+		tabImage.src = "/ressources/ham.png";
+		tabButton.append(tabImage);
+
+		function tabButtonClick(){
+			nav.classList.toggle("hidden");
+			tabBackground.classList.toggle("show");
+		}
+		tabButton.addEventListener('click', tabButtonClick);
+
+		const tabBackground = document.createElement("button");
+		tabBackground.classList.add("tab-background");
+		tabBackground.addEventListener('click', tabButtonClick);
+
 		body.append(home);
+		body.append(tabButton);
+		body.append(miniNav);
+		body.append(tabBackground);
 
 
-		// Create content header
+		const depthColors = ["#ffff99", "#ff99ff", "#99ffff", "#ffff99", "#ff99ff", "#99ffff"]
+
+		// Create titles
 		const title = document.createElement("div");
 		title.classList.add("title");
 		title.textContent = path[path.length - 1];
+		title.style.color = depthColors[path.length - 1];
 
+		let i = 0;
+		let obj = docnav;
+		path.forEach(item => {
+			obj = obj[path[i]];
+			const t = document.createElement("a");
+			t.classList.add("title-mini");
+			console.log(obj);
+			if (i < path.length - 1) {
+				if (Array.isArray(obj)) t.href = "/doc" + obj[0];
+				else t.href = "/doc" + obj._;
+			}
+			t.style.color = depthColors[i];
+			t.textContent = path[i];
+			miniNav.append(t);
+			i++;
+			if (i < path.length) {
+				const s = document.createElement("a");
+				s.classList.add("title-mini-slash");
+				s.textContent = "/";
+				miniNav.append(s);
+			}
+		});
 		content.prepend(title);
 
 
@@ -459,9 +506,6 @@ window.docu = {
 			catch {
 				return;
 			}
-
-
-			console.log(targets);
 
 			const h1s = Array.from(container.children).filter(el => (el.tagName === 'H1' || el.tagName === 'H2') && targets.has(el.id));
 
@@ -662,7 +706,8 @@ window.docu = {
 					if (!docu.matches(value[i][0], q)) continue;
 					let sub = document.createElement('a');
 					sub.textContent = value[i][0].replaceAll("_", " ");
-					sub.className = 'nav' + (index + 1).toString();
+					sub.className = 'nav-sub';
+					sub.classList.add("depth" + index.toString())
 					sub.href = "/doc" + value[0] + "/#" + value[i][1];
 					sub.onclick = event => {
 						const subs = docu.subNavs;
