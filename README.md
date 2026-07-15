@@ -30,7 +30,7 @@ Go to Releases, then find the latest version which has the tag representing the 
 
 Alternatively, you can simply open the folder representing the programming language or framework your project uses, and download the source code from there, whether it be a single file script or a full Unreal Engine plugin.
 
-You can also do `npm install lebbex` (lxon is too similar to other packages unfortunately, but since Lebbex probably will never have any other npm packages this works, i rather something simple and personal)
+You can also do `npm i lebbex` (lxon is too similar to other packages unfortunately, but since Lebbex probably will never have any other npm packages this works, i rather something simple and personal)
 
 ## Why LXON?
 
