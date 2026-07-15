@@ -159,13 +159,21 @@ window.docu = {
 		const body = document.body;
 		const content = document.getElementById('content');
 
+		const contentWrapper = document.createElement('div');
+        contentWrapper.id = 'content-wrapper';
+
+        content.parentNode.insertBefore(contentWrapper, content);
+        contentWrapper.appendChild(content);
+
 		docu.lenis = new Lenis({
+			wrapper: contentWrapper,
+            content: content,
 			lerp: 0.1,
 			wheelMultiplier: 0.75,
 			touchMultiplier: 1.0,
 			syncTouch: true,
-			syncTouchLerp: 1,        // 1:1 instant tracking while dragging, no built-in catch-up lag
-			touchInertiaExponent: 1, // neutralize Lenis's own inertia curve, we replace it below
+			syncTouchLerp: 1,
+			touchInertiaExponent: 1,
 		});
 
 		(function setupCustomTouchMomentum(lenis, target = window) {
@@ -254,7 +262,7 @@ window.docu = {
 			target.addEventListener('touchmove', onTouchMove, { passive: true });
 			target.addEventListener('touchend', onTouchEnd, { passive: true });
 			target.addEventListener('touchcancel', onTouchEnd, { passive: true });
-		})(docu.lenis);
+		})(docu.lenis, contentWrapper);
 
 
 
@@ -349,7 +357,7 @@ window.docu = {
 		tabImage.src = "/ressources/ham.png";
 		tabButton.append(tabImage);
 
-		function tabButtonClick(){
+		function tabButtonClick() {
 			nav.classList.toggle("hidden");
 			tabBackground.classList.toggle("show");
 		}
@@ -379,7 +387,6 @@ window.docu = {
 			obj = obj[path[i]];
 			const t = document.createElement("a");
 			t.classList.add("title-mini");
-			console.log(obj);
 			if (i < path.length - 1) {
 				if (Array.isArray(obj)) t.href = "/doc" + obj[0];
 				else t.href = "/doc" + obj._;
