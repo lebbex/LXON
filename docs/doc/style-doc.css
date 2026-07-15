@@ -252,14 +252,13 @@ button.symbol {
 /* This container now just handles the scrollable portion of the sidebar */
 #nav-scroll {
     flex-grow: 1;
-    /* Fills remaining space below the search input */
     overflow-y: auto;
-    /* Let Lenis or native scrolling happen here */
+    overscroll-behavior: contain;
 }
 
 #nav-inner {
     padding: 0 20px 20px 20px;
-    /* Reduced top padding since search has margin */
+    overscroll-behavior: contain;
 }
 
 .nav1 {

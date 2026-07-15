@@ -164,8 +164,99 @@ window.docu = {
 			wheelMultiplier: 0.75,
 			touchMultiplier: 1.0,
 			syncTouch: true,
-			touchInertiaExponent: 10000,
+			syncTouchLerp: 1,        // 1:1 instant tracking while dragging, no built-in catch-up lag
+			touchInertiaExponent: 1, // neutralize Lenis's own inertia curve, we replace it below
 		});
+
+		(function setupCustomTouchMomentum(lenis, target = window) {
+			let touching = false;
+			let velocity = 0;
+			let lastY = 0;
+			let lastTime = 0;
+			let rafId = null;
+			let virtualScroll = 0; // our own float-precision position, never rounded
+
+			const friction = 0.97;
+			const stopThreshold = 0.005;
+			const velocitySamples = [];
+			const maxSamples = 10;
+
+			function onTouchStart(e) {
+				if (e.target.closest('[data-lenis-prevent]')) return; // ignore touches that belong to nested scrollers
+				touching = true;
+				cancelAnimationFrame(rafId);
+				velocity = 0;
+				velocitySamples.length = 0;
+				lastY = e.touches[0].clientY;
+				lastTime = performance.now();
+			}
+
+			function onTouchMove(e) {
+				if (!touching) return;
+				const now = performance.now();
+				const y = e.touches[0].clientY;
+				const dt = Math.max(now - lastTime, 1);
+				const v = (lastY - y) / dt;
+
+				velocitySamples.push(v);
+				if (velocitySamples.length > maxSamples) velocitySamples.shift();
+
+				lastY = y;
+				lastTime = now;
+			}
+
+			function onTouchEnd() {
+				if (!touching) return;
+				touching = false;
+
+				velocity = velocitySamples.length
+					? velocitySamples.reduce((a, b) => a + b, 0) / velocitySamples.length
+					: 0;
+
+				cancelAnimationFrame(rafId);
+				lenis.scrollTo(lenis.animatedScroll, { immediate: true });
+
+				virtualScroll = lenis.animatedScroll; // seed our float tracker from real position
+				lastFrameTime = 0;
+				rafId = requestAnimationFrame(glide);
+			}
+
+			let lastFrameTime = 0;
+
+			function glide(now = performance.now()) {
+				const dt = lastFrameTime ? now - lastFrameTime : 16;
+				lastFrameTime = now;
+
+				if (Math.abs(velocity) < stopThreshold) {
+					lastFrameTime = 0;
+					return;
+				}
+
+				const limit = lenis.limit; // max scrollable distance
+				const next = virtualScroll + velocity * dt;
+
+				// stop only on a REAL boundary hit, not rounding
+				if (next <= 0 || next >= limit) {
+					virtualScroll = Math.max(0, Math.min(limit, next));
+					lenis.scrollTo(virtualScroll, { immediate: true });
+					lastFrameTime = 0;
+					return;
+				}
+
+				virtualScroll = next;
+				lenis.scrollTo(virtualScroll, { immediate: true });
+
+				velocity *= Math.pow(friction, dt / 16);
+				rafId = requestAnimationFrame(glide);
+			}
+
+			target.addEventListener('touchstart', onTouchStart, { passive: true });
+			target.addEventListener('touchmove', onTouchMove, { passive: true });
+			target.addEventListener('touchend', onTouchEnd, { passive: true });
+			target.addEventListener('touchcancel', onTouchEnd, { passive: true });
+		})(docu.lenis);
+
+
 
 		fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, 0.015, 1);
 
@@ -289,6 +380,7 @@ window.docu = {
 		// Create the nav scroll
 		const navScroll = document.createElement('nav');
 		navScroll.id = 'nav-scroll';
+		navScroll.setAttribute('data-lenis-prevent', '');
 		nav.appendChild(navScroll);
 		const navInner = document.createElement('div');
 		navInner.id = 'nav-inner';
@@ -304,7 +396,7 @@ window.docu = {
 			wheelMultiplier: 0.5,
 			touchMultiplier: 1.0,
 			syncTouch: true,
-			touchInertiaExponent: 10000,
+			touchInertiaExponent: 1,
 		});
 
 		function raf(time) {
@@ -364,10 +456,10 @@ window.docu = {
 					}
 				})
 			}
-			catch{
+			catch {
 				return;
 			}
-			
+
 
 			console.log(targets);
 
