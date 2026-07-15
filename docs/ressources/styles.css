@@ -26,8 +26,9 @@ body {
     margin: 0;
     padding: 0;
     color: var(--ink);
-    font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
+    font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
     overflow-x: hidden;
+    width: 100%;
 }
 
 /* The noise canvas stays completely fixed behind everything */
@@ -41,65 +42,6 @@ body {
     display: block;
 }
 
-/* Plain wrapper, no positioning tricks needed - Lenis smooth-scrolls
-     the real page, content just sits in normal flow. */
-#scroll-container {
-    width: 100%;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 10s ease;
-}
-
-#scroll-container.loaded {
-    opacity: 1;
-}
-
-section {
-    min-height: 50vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: top;
-    padding: 8vh 8vw;
-    align-items: center;
-    text-align: center;
-}
-
-.landing {
-    min-height: 100vh;
-    height: 100vh;
-    justify-content: center;
-}
-
-.eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-    margin-bottom: 1.2rem;
-}
-
-h1 {
-    font-size: clamp(2.2rem, 6vw, 4.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-    margin: 0 0 1rem 0;
-    max-width: 18ch;
-    font-weight: 600;
-}
-
-h2 {
-    font-size: clamp(1.6rem, 4vw, 2.6rem);
-    margin: 0 0 1rem 0;
-    max-width: 20ch;
-    font-weight: 600;
-}
-
-p {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: var(--ink-dim);
-    max-width: 74ch;
-}
 
 .site-icon {
     position: fixed;
@@ -127,6 +69,10 @@ p {
 
 .site-icon:hover img {
     opacity: 0.5;
+}
+
+.site-home{
+    padding: 10px 12.5px 15px 12.5px;
 }
 
 .divider {

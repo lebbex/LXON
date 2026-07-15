@@ -1,0 +1,332 @@
+.nav-scroll {
+    position: fixed;
+}
+
+.content {
+    margin-left: 380px;
+    padding-bottom: 100px;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.content.loaded {
+    opacity: 1;
+}
+
+.title {
+    padding: 50px 0px 10px;
+    font-size: 300%;
+    font-weight: lighter;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+h1 {
+    margin-right: 10%;
+    padding: 40px 0px 10px 20px;
+    font-size: 200%;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+h2 {
+    padding: 20px 0px 0px 60px;
+    font-size: 160%;
+    font-weight: bold;
+}
+
+p {
+    padding: 0px 0px 10px 60px;
+    margin-right: 20%;
+    font-size: 100%;
+    line-height: 1.6;
+    text-align: justify;
+    font-weight: lighter;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+a {
+    color: rgba(149, 255, 149, 0.9);
+}
+
+/* Asterix */
+span.a {
+    display: inline-block;
+    transform: translateY(-8px);
+    font-size: 80%;
+    line-height: 1;
+    text-align: justify;
+    font-style: italic;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.267);
+}
+
+li {
+    padding: 0px 0px 10px 10px;
+    margin-right: 20%;
+    margin-bottom: 10px;
+    font-size: 100%;
+    text-align: justify;
+    font-weight: lighter;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+li:last-child,
+li:last-child {
+    margin-bottom: 0;
+}
+
+ol {
+    padding: 0px 0px 10px 100px;
+    gap: 20px;
+}
+
+ul {
+    padding: 10px 0px 0px 100px;
+}
+
+pre {
+    padding: 20px 0px 25px 20px;
+    margin-left: 40px;
+    margin-right: 20%;
+    font-size: 130%;
+    text-align: justify;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.733);
+    background-color: rgba(4, 4, 6, 0.6);
+    border-radius: 20px;
+    tab-size: 4;
+    -moz-tab-size: 4;
+}
+
+button.symbol {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
+    margin: -2px 8px;
+    background-color: rgba(4, 4, 6, 0.6);
+    border-radius: 5px;
+    border-width: 0;
+}
+
+div.symbol {
+    margin: 4px 4px;
+    color: rgb(255, 255, 255);
+    font-size: 120%;
+}
+
+div.symbol-text {
+    margin: 4px 3px;
+    color: rgba(255, 255, 255, 0.365);
+    font-size: 90%;
+    font-style: italic;
+}
+
+button.symbol {
+    position: relative;
+    /* anchors the tooltip to just this button */
+}
+
+.copy-tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%) translateY(7px);
+    white-space: nowrap;
+    padding: 4px 10px;
+    font-size: 100%;
+    font-weight: bolder;
+    font-style: italic;
+    color: rgb(10, 6, 6);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10000;
+    transition: opacity 0.2s ease, transform 2.4s cubic-bezier(0, 1, 0.8, 1);
+}
+
+.copy-tooltip.visible {
+    transform: translateX(-50%) translateY(0px);
+    opacity: 1;
+}
+
+/* Position the entire sidebar container on the screen */
+#nav {
+    position: fixed;
+    top: 80px;
+    left: 25px;
+    width: 280px;
+    height: calc(100vh - 100px);
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column; /* Stack search input on top of the list */
+    overflow: hidden;
+    transition: transform 1.2s cubic-bezier(0.3, 1, 0.5, 1), opacity 1.2s ease-out;
+}
+
+/* Slide out the entire sidebar if hidden */
+#nav.hidden {
+    transform: translateX(calc(-100% - 1rem));
+    opacity: 0;
+}
+
+/* Style the text input inside our sidebar */
+#search {
+    margin: 15px;
+    font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
+        width: calc(100% - 30px);
+    padding: 10px 15px;
+    font-size: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+#search::placeholder {
+    color: rgba(255, 255, 255, 0.15);
+}
+
+/* This container now just handles the scrollable portion of the sidebar */
+#nav-scroll {
+    flex-grow: 1; /* Fills remaining space below the search input */
+    overflow-y: auto; /* Let Lenis or native scrolling happen here */
+}
+
+#nav-inner {
+    padding: 0 20px 20px 20px; /* Reduced top padding since search has margin */
+}
+
+.nav1 {
+    display: block;
+    padding: 5px 10px;
+    margin-top: 5px;
+    color: rgba(255, 255, 150, 0.5);
+    transform: translateX(0px);
+    text-decoration: none;
+    cursor: default;
+    transition: color 0.1s ease, transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+}
+
+.nav1:hover {
+    color: rgba(255, 255, 0, 1);
+    transform: translateX(4px);
+}
+
+.nav1.selected {
+    color: white;
+}
+
+.nav1.open {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: lighter;
+    transform: translateX(0px);
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+.nav2 {
+    display: block;
+    padding: 5px 0px 5px 48px;
+    color: rgba(255, 150, 255, 0.5);
+    transform: translateX(0px);
+    text-decoration: none;
+    cursor: default;
+    transition: color 0.1s ease, transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+}
+
+.nav2:hover {
+    color: rgba(255, 0, 255, 1);
+    transform: translateX(4px);
+
+}
+
+.nav2.selected {
+    color: white;
+}
+
+.nav2.open {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: lighter;
+    transform: translateX(0px);
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+.nav2.inter {
+    color: white;
+    font-weight: lighter;
+}
+
+.nav3 {
+    display: block;
+    padding: 5px 0px 5px 86px;
+    color: rgba(150, 255, 255, 0.5);
+    transform: translateX(0px);
+    text-decoration: none;
+    cursor: default;
+    transition: color 0.1s ease, transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+}
+
+.nav3:hover {
+    color: rgba(0, 255, 255, 1);
+    transform: translateX(4px);
+}
+
+.nav3.selected {
+    color: white;
+}
+
+.nav3.open {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: lighter;
+    transform: translateX(0px);
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+.nav3.inter {
+    color: white;
+    font-weight: lighter;
+}
+
+.nav4 {
+    display: block;
+    padding: 5px 0px 5px 124px;
+    margin-top: 5px;
+    color: rgba(255, 255, 150, 0.5);
+    transform: translateX(0px);
+    text-decoration: none;
+    cursor: default;
+    transition: color 0.1s ease, transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+}
+
+.nav4:hover {
+    color: rgba(255, 255, 0, 1);
+    transform: translateX(4px);
+}
+
+.nav4.selected {
+    color: white;
+}
+
+.nav4.open {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: lighter;
+    transform: translateX(0px);
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+.nav4.inter {
+    color: white;
+    font-weight: lighter;
+}

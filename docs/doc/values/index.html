@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="outline"> Outline </h1>
+		<p>
+			Values are structureless independant chunks of data. They're the entries of stored data.
+		</p>
+		<p>
+			Containers are also values and can be used anywhere a value is expected,
+			although "value" often refers to the non-container values, 
+			such as on this page and all it's sub-pages in majority.
+		</p>
+		<h1 id="static"> Static Values </h1>
+		<p>
+			Static value are values that don't actually take in data.
+			All they do is define a single preset value using a declaration character.
+		</p>
+		<p>
+			Here is a cheat sheet list of all static values and their respective declaration characters:
+		</p>
+		<ul>
+			<li>True<dfn>$</dfn></li>
+			<li>False<dfn>!</dfn></li>
+			<li>Null<dfn>~</dfn></li>
+			<li>Undefined<dfn>_</dfn></li>
+			<li>NaN<dfn>+ -</dfn><h0></h0><span class="a">*Must be followed by a non-numerical character</span></li>
+			<li>Positive (+) Infinity<dfn>% +%</dfn></li>
+			<li>Negative (-) Infinity<dfn>-%</dfn></li>
+		</ul>
+		<h1 id="dynamic"> Dynamic Values </h1>
+		<p>
+			Dynamic values are values that take in data.
+			They use a value type declaration symbol at the start, or are self defined in certain cases,
+			and then expect additional data, which will be the acctual information stored itself.
+			The type declaration only announces how the value should be interpreted.
+		</p>
+		<p>
+			Here is a cheat sheet list of all dynamic values and their respective declaration characters:
+		</p>
+		<ul>
+			<li>Full String<dfn>"</dfn></li>
+			<li>String<dfn>`</dfn></li>
+			<li>Char<dfn>'</dfn></li>
+			<li>Number<dfn></dfn></li>
+			<li>Date<dfn>&</dfn></li>
+			<li>Keybind<dfn>@</dfn></li>
+			<li>SRGB Color<dfn>#</dfn></li>
+			<li>Linear Color (8bit)<dfn>=</dfn></li>
+			<li>Linear Color (16bit)<dfn>/</dfn></li>
+			<li>Enum<dfn>*</dfn></li>
+			<li>Binary<dfn>?</dfn></li>
+		</ul>
+
+		<h1 id="usage"> Usage </h1>
+		<p>
+			To use a value, simply use its type declaration when defining a value.
+		</p>
+		<p>
+			Here's some example usage of various values as inspiration:
+		</p>
+		<pre><code>{
+name: "James
+acro: 'J
+male: $
+age: 24
+mana: +52.4
+
+NaN: -
+null: ~
+undefined: _
+
+array:[ "string1
+	`string2^string3
+	$$!$$!!!$$
+	&2026-07-01
+
+forward: @up_arrow_key
+magenta: #ff00ff
+yellow: =ffff
+
+enum: *weapon:metal pipe
+code: ?23f5 29ab3 1e4892fc</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Values"]);
+	</script>
+
+</body>
+
+</html>

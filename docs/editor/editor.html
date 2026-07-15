@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<style>
+		/* ---------------------------------------------------------------- */
+		/* Docs homepage layout — two independently scrolling glass panels   */
+		/* floating over the existing fog canvas. Tokens at the top so you   */
+		/* can fold these into styles.css and retheme in one place.         */
+		/* ---------------------------------------------------------------- */
+		:root {
+			--docs-bg: #0a0c11;
+			--docs-nav-panel: rgba(12, 15, 20, 0.55);
+			--docs-main-panel: rgba(12, 15, 20, 0.28);
+			--docs-border: rgba(255, 255, 255, 0.08);
+			--docs-text: #e7e9ee;
+			--docs-text-dim: #9aa1ad;
+			--docs-body: #c7cad1;
+			--docs-accent: #e3b567;
+			--docs-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+			--docs-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		}
+
+		html, body {
+			height: 100%;
+			margin: 0;
+			overflow: hidden; /* the window never scrolls — each panel below owns its own scroll */
+			background: var(--docs-bg);
+			color: var(--docs-text);
+			font-family: var(--docs-sans);
+		}
+
+		.docs-shell {
+			position: relative;
+			z-index: 1;
+			display: flex;
+			gap: 20px;
+			height: 100vh;
+			height: 100dvh;
+			padding: 88px 32px 32px; /* top offset clears the .site-icon corner — adjust to match its real size */
+			box-sizing: border-box;
+		}
+
+		.docs-nav,
+		.docs-main {
+			border-radius: 18px;
+			border: 1px solid var(--docs-border);
+			backdrop-filter: blur(20px);
+			-webkit-backdrop-filter: blur(20px);
+			overflow-y: auto;
+			overflow-x: hidden;
+			scrollbar-width: none; /* Lenis is doing the scrolling feedback, native bar stays hidden */
+		}
+		.docs-nav::-webkit-scrollbar,
+		.docs-main::-webkit-scrollbar {
+			display: none;
+		}
+
+		/* LEFT — nav panel, independent Lenis instance */
+		.docs-nav {
+			width: 272px;
+			flex-shrink: 0;
+			background: var(--docs-nav-panel);
+		}
+
+		.docs-nav-inner {
+			padding: 28px 18px 140px;
+		}
+
+		.docs-nav-group {
+			margin-bottom: 26px;
+		}
+
+		.docs-nav-label {
+			font-family: var(--docs-mono);
+			font-size: 11px;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: var(--docs-text-dim);
+			margin: 0 10px 8px;
+		}
+
+		.docs-nav-link {
+			display: block;
+			padding: 6px 10px;
+			margin: 1px 0;
+			border-radius: 6px;
+			font-size: 13.5px;
+			font-family: var(--docs-mono);
+			color: var(--docs-text-dim);
+			text-decoration: none;
+			cursor: pointer;
+			transition: color 0.15s ease, background 0.15s ease;
+		}
+		.docs-nav-link:hover,
+		.docs-nav-link.is-active {
+			color: var(--docs-text);
+			background: rgba(255, 255, 255, 0.06);
+		}
+		.docs-nav-link:focus-visible {
+			outline: 2px solid var(--docs-accent);
+			outline-offset: 2px;
+		}
+		.docs-nav-link .type-dot {
+			display: inline-block;
+			width: 6px;
+			height: 6px;
+			border-radius: 50%;
+			background: var(--docs-accent);
+			margin-right: 9px;
+			opacity: 0.55;
+		}
+		.docs-nav-link.is-active .type-dot {
+			opacity: 1;
+		}
+
+		/* RIGHT — main content panel, drives the fog background as before */
+		.docs-main {
+			flex: 1;
+			min-width: 0;
+			background: var(--docs-main-panel);
+		}
+
+		.docs-main-inner {
+			max-width: 680px;
+			margin: 0 auto;
+			padding: 56px 48px 220px;
+		}
+
+		.docs-eyebrow {
+			font-family: var(--docs-mono);
+			font-size: 12px;
+			color: var(--docs-accent);
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			margin-bottom: 14px;
+		}
+
+		.docs-hero h1 {
+			font-size: 40px;
+			font-weight: 600;
+			line-height: 1.15;
+			margin: 0 0 16px;
+		}
+		.docs-hero p {
+			font-size: 16px;
+			color: var(--docs-text-dim);
+			max-width: 54ch;
+			line-height: 1.6;
+		}
+
+		section.docs-section {
+			padding-top: 52px;
+			margin-top: 52px;
+			border-top: 1px solid var(--docs-border);
+			scroll-margin-top: 24px;
+		}
+		.docs-hero {
+			scroll-margin-top: 24px;
+		}
+
+		.docs-section-kicker {
+			font-family: var(--docs-mono);
+			font-size: 12px;
+			color: var(--docs-text-dim);
+			margin-bottom: 16px;
+		}
+		.docs-section h2 {
+			font-size: 22px;
+			font-weight: 600;
+			margin: 0 0 6px;
+		}
+		.docs-section p {
+			font-size: 15px;
+			line-height: 1.7;
+			color: var(--docs-body);
+			margin-bottom: 14px;
+		}
+		.docs-section code {
+			font-family: var(--docs-mono);
+			background: rgba(255, 255, 255, 0.06);
+			border: 1px solid var(--docs-border);
+			padding: 2px 6px;
+			border-radius: 4px;
+			font-size: 13px;
+			color: var(--docs-accent);
+		}
+
+		.docs-principles {
+			display: flex;
+			flex-direction: column;
+			gap: 18px;
+			margin: 20px 0;
+		}
+		.docs-principle {
+			display: flex;
+			gap: 16px;
+		}
+		.docs-principle-label {
+			flex-shrink: 0;
+			width: 140px;
+			font-family: var(--docs-mono);
+			font-size: 12.5px;
+			color: var(--docs-accent);
+			padding-top: 2px;
+		}
+		.docs-principle p {
+			margin: 0;
+		}
+
+		.docs-code {
+			font-family: var(--docs-mono);
+			font-size: 13px;
+			line-height: 1.7;
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid var(--docs-border);
+			border-radius: 10px;
+			padding: 18px 20px;
+			overflow-x: auto;
+			color: var(--docs-body);
+			margin: 18px 0;
+		}
+		.docs-code .tok-type { color: var(--docs-accent); }
+		.docs-code .tok-comment { color: var(--docs-text-dim); }
+
+		@media (max-width: 760px) {
+			.docs-shell { padding: 76px 14px 14px; gap: 12px; }
+			.docs-nav { width: 208px; }
+			.docs-nav-inner { padding: 20px 12px 120px; }
+			.docs-main-inner { padding: 36px 22px 180px; }
+			.docs-hero h1 { font-size: 30px; }
+			.docs-principle { flex-direction: column; gap: 4px; }
+			.docs-principle-label { width: auto; }
+		}
+	</style>
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<a href="https://lebbex.com" class="site-icon">
+		<img src="/ressources/icon.png" alt="Lebbex">
+	</a>
+
+	<div class="docs-shell">
+
+		<!-- LEFT: independent scroll area — nav -->
+		<nav class="docs-nav" id="docs-nav">
+			<div class="docs-nav-inner" id="docs-nav-inner">
+
+				<div class="docs-nav-group">
+					<div class="docs-nav-label">Start</div>
+					<a class="docs-nav-link is-active" data-target="intro"><span class="type-dot"></span>Introduction</a>
+					<a class="docs-nav-link" data-target="why"><span class="type-dot"></span>Why LXON</a>
+					<a class="docs-nav-link" data-target="organization"><span class="type-dot"></span>How these docs work</a>
+				</div>
+
+				<div class="docs-nav-group">
+					<div class="docs-nav-label">Value types</div>
+					<a class="docs-nav-link" data-target="string"><span class="type-dot"></span>String</a>
+					<a class="docs-nav-link" data-target="number"><span class="type-dot"></span>Number</a>
+					<a class="docs-nav-link" data-target="boolean"><span class="type-dot"></span>Boolean</a>
+					<a class="docs-nav-link" data-target="null-type"><span class="type-dot"></span>Null</a>
+					<a class="docs-nav-link" data-target="binary"><span class="type-dot"></span>Binary</a>
+					<a class="docs-nav-link" data-target="timestamp"><span class="type-dot"></span>Timestamp</a>
+				</div>
+
+				<div class="docs-nav-group">
+					<div class="docs-nav-label">Key types</div>
+					<a class="docs-nav-link" data-target="identifier-keys"><span class="type-dot"></span>Identifier</a>
+					<a class="docs-nav-link" data-target="integer-keys"><span class="type-dot"></span>Integer</a>
+					<a class="docs-nav-link" data-target="composite-keys"><span class="type-dot"></span>Composite</a>
+				</div>
+
+				<div class="docs-nav-group">
+					<div class="docs-nav-label">Container types</div>
+					<a class="docs-nav-link" data-target="array"><span class="type-dot"></span>Array</a>
+					<a class="docs-nav-link" data-target="map"><span class="type-dot"></span>Map</a>
+					<a class="docs-nav-link" data-target="set"><span class="type-dot"></span>Set</a>
+					<a class="docs-nav-link" data-target="struct"><span class="type-dot"></span>Struct</a>
+					<a class="docs-nav-link" data-target="table"><span class="type-dot"></span>Table</a>
+				</div>
+
+				<div class="docs-nav-group">
+					<div class="docs-nav-label">Reference</div>
+					<a class="docs-nav-link" data-target="encoding"><span class="type-dot"></span>Encoding</a>
+					<a class="docs-nav-link" data-target="schema"><span class="type-dot"></span>Schema &amp; validation</a>
+					<a class="docs-nav-link" data-target="versioning"><span class="type-dot"></span>Versioning</a>
+				</div>
+
+			</div>
+		</nav>
+
+		<!-- RIGHT: independent scroll area — content. This is the panel that also drives fog.js -->
+		<main class="docs-main" id="docs-main">
+			<div class="docs-main-inner" id="docs-main-inner">
+
+				<div class="docs-hero" id="intro">
+					<div class="docs-eyebrow">LXON — Documentation</div>
+					<h1>A serialization format that remembers what your data is.</h1>
+					<p>This is the homepage for the LXON docs. Everything else — every value, key, and
+					container type — lives one page deeper, organized by the categories on the left.
+					Scroll around, both panels move independently.</p>
+				</div>
+
+				<section class="docs-section" id="why">
+					<div class="docs-section-kicker">01 — Motivation</div>
+					<h2>Why a typed format</h2>
+					<p>Most text-based formats throw away type information the moment they touch the
+					wire. A number becomes indistinguishable from a numeric string, a missing field
+					looks the same as an explicit null, and binary data has to be smuggled through as
+					base64. Decoders end up guessing, and every guess is a place a bug can hide.</p>
+					<p>LXON keeps the type tag attached to the value all the way through. A decoder
+					never has to infer whether <code>"42"</code> was meant to be a string or a number —
+					the format already told it.</p>
+				</section>
+
+				<section class="docs-section" id="organization">
+					<div class="docs-section-kicker">02 — Orientation</div>
+					<h2>How these docs work</h2>
+					<p>The sidebar is split into three families. <strong>Value types</strong> are the
+					atomic building blocks — string, number, boolean, null, binary, timestamp.
+					<strong>Key types</strong> describe how a field gets named inside a container.
+					<strong>Container types</strong> are how values get grouped — array, map, set,
+					struct, table — each with different rules about ordering and uniqueness.</p>
+					<p>Reference pages at the bottom cover the binary encoding itself, schema
+					validation, and how the format handles versioning over time.</p>
+				</section>
+
+				<section class="docs-section" id="philosophy">
+					<div class="docs-section-kicker">03 — Design</div>
+					<h2>Three rules the format doesn't break</h2>
+					<div class="docs-principles">
+						<div class="docs-principle">
+							<div class="docs-principle-label">typed always</div>
+							<p>Every value carries its type tag on the wire. There is no untyped value
+							in LXON, only ones you haven't looked at yet.</p>
+						</div>
+						<div class="docs-principle">
+							<div class="docs-principle-label">homogeneous by default</div>
+							<p>Arrays and sets assume one value type unless you reach for a struct,
+							which is the container built for mixed fields.</p>
+						</div>
+						<div class="docs-principle">
+							<div class="docs-principle-label">boring encoding</div>
+							<p>No clever bit-packing tricks. The byte layout is predictable enough
+							to hand-decode with a hex viewer if you had to.</p>
+						</div>
+					</div>
+				</section>
+
+				<section class="docs-section" id="example">
+					<div class="docs-section-kicker">04 — A quick look</div>
+					<h2>What a struct looks like</h2>
+					<p>A <code>struct</code> is the container you reach for when fields have different
+					types. Each field gets a key, a type, and a slot in a fixed layout:</p>
+					<div class="docs-code"><span class="tok-comment">// placeholder syntax, not final</span><br>user :: <span class="tok-type">Struct</span> {<br>&nbsp;&nbsp;0x01 name&nbsp;&nbsp;&nbsp;&nbsp;-&gt; <span class="tok-type">String</span><br>&nbsp;&nbsp;0x02 age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt; <span class="tok-type">Number</span><br>&nbsp;&nbsp;0x03 tags&nbsp;&nbsp;&nbsp;&nbsp;-&gt; <span class="tok-type">Set</span>&lt;<span class="tok-type">String</span>&gt;<br>&nbsp;&nbsp;0x04 active&nbsp;&nbsp;-&gt; <span class="tok-type">Boolean</span><br>}</div>
+					<p>The full breakdown of key numbering, field ordering, and optional fields lives
+					on the Struct page under Container types.</p>
+				</section>
+
+				<section class="docs-section" id="versioning">
+					<div class="docs-section-kicker">05 — Stability</div>
+					<h2>Versioning &amp; stability</h2>
+					<p>Schemas are expected to change. LXON treats adding a new field as safe by
+					default, and reserves key numbers so removed fields don't get silently reused
+					by something else later.</p>
+					<p>The Versioning reference page goes through what counts as a breaking change
+					and how older readers behave when they meet a newer schema.</p>
+				</section>
+
+				<section class="docs-section" id="next">
+					<div class="docs-section-kicker">Next</div>
+					<h2>Where to go next</h2>
+					<p>If you're skimming, start with Value types — everything else is built out of
+					them. If you already know roughly what you need, the sidebar search-by-scroll
+					works fine too; this panel and the nav scroll independently, so jumping around
+					doesn't lose your place in either one.</p>
+				</section>
+
+			</div>
+		</main>
+
+	</div>
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/nav.js"></script>
+	<script>
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		// Main scroll area (right panel) — same instance as before, now scoped to
+		// #docs-main instead of the window. Still the one handed to fog.js.
+		const lenis = new Lenis({
+			wrapper: document.getElementById('docs-main'),
+			content: document.getElementById('docs-main-inner'),
+			lerp: prefersReducedMotion ? 1 : 0.1,
+			wheelMultiplier: 0.5,
+			touchMultiplier: 1.0,
+			syncTouch: true,
+			touchInertiaExponent: 10000,
+		});
+
+		fog.init([-0.05, -0.07, -0.12], [0.25, 0.3, 0.4], lenis);
+		// NOTE: there's no requestAnimationFrame loop calling lenis.raf() anywhere in
+		// this file — that only works if fog.js already runs one internally (likely,
+		// since this main lenis instance had no raf loop before either and was
+		// presumably already scrolling fine). If scrolling on this panel feels dead,
+		// fog.js isn't ticking it — add the same raf loop used for navLenis below.
+
+		// Nav panel (left) — fully separate Lenis instance with its own raf loop,
+		// completely independent from the main panel's scroll position.
+		const navLenis = new Lenis({
+			wrapper: document.getElementById('docs-nav'),
+			content: document.getElementById('docs-nav-inner'),
+			lerp: prefersReducedMotion ? 1 : 0.1,
+			wheelMultiplier: 0.5,
+			touchMultiplier: 1.0,
+			syncTouch: true,
+		});
+
+		function navRaf(time) {
+			navLenis.raf(time);
+			requestAnimationFrame(navRaf);
+		}
+		requestAnimationFrame(navRaf);
+
+		// Clicking a nav item smooth-scrolls the main panel to that section (if it
+		// exists on this page — most type pages don't exist yet, this is just the
+		// homepage, so those links are inert for now).
+		const navLinks = document.querySelectorAll('.docs-nav-link');
+		navLinks.forEach((link) => {
+			link.addEventListener('click', (e) => {
+				e.preventDefault();
+				const target = document.getElementById(link.dataset.target);
+				if (!target) return;
+				lenis.scrollTo(target, { offset: -24 });
+			});
+		});
+
+		// Keep the active nav item in sync with whatever section is in view.
+		const sections = document.querySelectorAll('#docs-main-inner [id]');
+		const sectionObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (!entry.isIntersecting) return;
+					const link = document.querySelector(`.docs-nav-link[data-target="${entry.target.id}"]`);
+					if (!link) return;
+					navLinks.forEach((l) => l.classList.remove('is-active'));
+					link.classList.add('is-active');
+				});
+			},
+			{ root: document.getElementById('docs-main'), threshold: 0.5 }
+		);
+		sections.forEach((s) => sectionObserver.observe(s));
+	</script>
+
+</body>
+
+</html>

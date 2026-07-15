@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="regular"> Regular Keys </h1>
+		<p>
+			Regular keys are used by !! Containers / Object ! objects !. 
+			They can only be text with a specific format and syntax.
+			Many characters aren't allowed, such as starting whitespace and colons.
+			Escape characters (\n, \s, etc.) also aren't supported.
+		</p>
+		<h2 id="regular-usage"> Usage </h2>
+		<p>
+			To use a regular key, simply create a !! Containers / Object ! object ! and write your key as is. Here's some example usage as reference:
+		</p>
+		<pre><code>{
+key1: "string
+
+key2:{
+	a: 10
+	b: 20
+
+key3:
+	3key: "value
+</code></pre>
+
+		<h1 id="typed"> Typed Keys </h1>
+		<p>
+			Typed keys are used by !! Containers / Map ! maps ! and support keys of text and non-text types.
+			Also, string keys are superior to regular text keys since they support escape characters,
+			allowing starting whitespace and colons.
+			All typed keys of a map must be of the same type, hence typed keys are homogeniously typed.
+		</p>
+		<p>
+			Here is a cheat sheet list of all typed key types and their respective declaration characters:
+		</p>
+		<ul>
+			<li>String<dfn>" `</dfn></li>
+			<li>Char<dfn>'</dfn></li>
+			<li>Boolean<dfn></dfn></li>
+			<li>Number<dfn></dfn></li>
+			<li>Date<dfn>&</dfn></li>
+			<li>Keybind<dfn>@</dfn></li>
+			<li>SRGB Color<dfn>#</dfn></li>
+			<li>Linear Color<dfn>= /</dfn></li>
+			<li>Enum<dfn>*</dfn></li>
+		</ul>
+
+		<h2 id="typed-usage"> Usage </h2>
+		<p>
+			To use a key, simply create a !! Containers / Map ! map ! and declare the key type using a respective declaration character (see above).
+
+		</p>
+		<p>
+			Here's some example usage of various values as inspiration:
+		</p>
+		<pre><code>("
+key\n1: "string
+
+key2:('
+	a: 10
+	b: 20
+
+key3:(
+	3.2: "value
+	-.4: "value
+
+key4:(&
+	2026-07: "value
+	2026-07-01T12:30:: "value
+
+key5:(*weapon
+	sword: 42
+	gun: 83
+	hammer: 0
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Keys"]);
+	</script>
+
+</body>
+
+</html>

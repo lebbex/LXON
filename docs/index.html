@@ -7,8 +7,9 @@
 	<title>LXON</title>
 	<link rel="icon" href="ressources/icon.png" type="image/x-icon">
 	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
 	<link rel="stylesheet" href="/ressources/styles.css">
-	<link rel="stylesheet" href="style-nav.css">
+	<link rel="stylesheet" href="style-home.css">
 </head>
 
 <body>
@@ -20,7 +21,7 @@
 	</a>
 	<nav class="nav-wrapper">
 		<nav class="nav-box nav-hidden" id="nav-box">
-			<a href="https://github.com/lebbex/LXON" class="nav-link nav-git">
+			<a href="https://github.com/lebbex/LXON" target="_blank" class="nav-link nav-git">
 				<span class="full-text-git">GitHub</span>
 				<span class="short-text-git">Git.</span>
 			</a>
@@ -91,7 +92,7 @@
 			touchInertiaExponent: 10000,
 		});
 
-		fog.init([0.0, 0.0, 0.0], [0.45, 0.5, 0.65], lenis);
+		fog.init([0.0, 0.0, 0.0], [0.45, 0.5, 0.65], lenis, 0.02, 2);
 
 		const navBox = document.getElementById('nav-box');
 		const navWrapperEl = document.querySelector('.nav-wrapper');
@@ -349,7 +350,7 @@
 			subdownBoxEl.innerHTML = null;
 			for (const value of subDropOptions[key]) {
 				const link = document.createElement("a");
-				link.href = "/doc/" + value[1];
+				link.href = "/doc" + value[1];
 				link.className = "nav-link";
 				link.textContent = value[0];
 				subdownBoxEl.appendChild(link);
@@ -362,30 +363,30 @@
 
 		const subDropOptions = {
 			containers: [
-				["Object", "object"],
-				["Array", "array"],
-				["Map", "map"],
-				["Doodad", "doodad"]
+				["Object", "/object"],
+				["Array", "/array"],
+				["Map", "/map"],
+				["Doodad", "/doodad"]
 			],
 			keys: [
-				["String", "keys/string"],
-				["Boolean", "keys/bool"],
-				["Number", "keys/number"],
-				["Date", "keys/date"],
-				["Keybind", "keys/keybind"],
-				["Color", "keys/color"],
-				["Enum", "keys/enum"]
+				["Text", "/keys/text"],
+				["Boolean", "/keys/bool"],
+				["Number", "/keys/number"],
+				["Date", "/keys/date"],
+				["Keybind", "/keys/keybind"],
+				["Color", "/keys/color"],
+				["Enum", "/keys/enum"]
 			],
 			values: [
-				["String", "string"],
-				["Boolean", "bool"],
-				["Number", "number"],
-				["Date", "date"],
-				["Keybind", "keybind"],
-				["Color", "color"],
-				["Enum", "enum"],
-				["Binary", "binary"],
-				["Special", "special"]
+				["Text", "/text"],
+				["Boolean", "/bool"],
+				["Number", "/number"],
+				["Date", "/date"],
+				["Keybind", "/keybind"],
+				["Color", "/color"],
+				["Enum", "/enum"],
+				["Binary", "/binary"],
+				["Special", "/special"]
 			]
 		}
 	</script>

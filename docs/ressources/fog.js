@@ -1,41 +1,41 @@
 let wasHome = true;
 
 window.fog = {
-    init: function (colorDark, color, lenis, isHome) {
-        document.documentElement.style.background = `rgb(${color[0] * 100}, ${color[1] * 100}, ${color[2] * 100})`;
-        window.scrollTo(0, 0);
-        if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        }
+	init: function (colorDark, color, lenis, grain, scale) {
+		document.documentElement.style.background = `rgb(${color[0] * 100}, ${color[1] * 100}, ${color[2] * 100})`;
+		window.scrollTo(0, 0);
+		if (history.scrollRestoration) {
+			history.scrollRestoration = 'manual';
+		}
 
-        const canvas = document.getElementById('noise-canvas');
-        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+		const canvas = document.getElementById('noise-canvas');
+		const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
-        if (!gl) {
-            console.warn('WebGL unavailable — background falls back to flat color.');
-            return;
-        }
+		if (!gl) {
+			console.warn('WebGL unavailable — background falls back to flat color.');
+			return;
+		}
 
-        // ---- tweakables -----------------------------------------------------
-        const NOISE_SCALE = 2;
-        const TIME_SPEED = 0.08;
-        const PARALLAX_FACTOR = -0.5;
-        const GRAIN_AMOUNT = 0.02;
-        const GRAIN_SIZE = 1.0;
-        const FALL_SPEED = -1;
-        const COLOR_DARK = colorDark;
-        const COLOR_LIGHT = color;
-        // -----------------------------------------------------------------------
+		// ---- tweakables -----------------------------------------------------
+		const NOISE_SCALE = scale;
+		const TIME_SPEED = 0.08;
+		const PARALLAX_FACTOR = -0.5;
+		const GRAIN_AMOUNT = grain;
+		const GRAIN_SIZE = 1.0;
+		const FALL_SPEED = -1;
+		const COLOR_DARK = colorDark;
+		const COLOR_LIGHT = color;
+		// -----------------------------------------------------------------------
 
 
-        const vertexSrc = `
+		const vertexSrc = `
     attribute vec2 a_position;
     void main() {
       gl_Position = vec4(a_position, 0.0, 1.0);
     }
   `;
 
-        const fragmentSrc = `
+		const fragmentSrc = `
     precision highp float;
 
     uniform float u_time;
@@ -117,115 +117,115 @@ window.fog = {
     }
   `;
 
-        function compile(type, src) {
-            const shader = gl.createShader(type);
-            gl.shaderSource(shader, src);
-            gl.compileShader(shader);
-            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                console.error(gl.getShaderInfoLog(shader));
-                gl.deleteShader(shader);
-                return null;
-            }
-            return shader;
-        }
+		function compile(type, src) {
+			const shader = gl.createShader(type);
+			gl.shaderSource(shader, src);
+			gl.compileShader(shader);
+			if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+				console.error(gl.getShaderInfoLog(shader));
+				gl.deleteShader(shader);
+				return null;
+			}
+			return shader;
+		}
 
-        document.addEventListener('dragstart', (e) => e.preventDefault());
+		document.addEventListener('dragstart', (e) => e.preventDefault());
 
-        const vShader = compile(gl.VERTEX_SHADER, vertexSrc);
-        const fShader = compile(gl.FRAGMENT_SHADER, fragmentSrc);
+		const vShader = compile(gl.VERTEX_SHADER, vertexSrc);
+		const fShader = compile(gl.FRAGMENT_SHADER, fragmentSrc);
 
-        const program = gl.createProgram();
-        gl.attachShader(program, vShader);
-        gl.attachShader(program, fShader);
-        gl.linkProgram(program);
+		const program = gl.createProgram();
+		gl.attachShader(program, vShader);
+		gl.attachShader(program, fShader);
+		gl.linkProgram(program);
 
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.error(gl.getProgramInfoLog(program));
-            return;
-        }
-        gl.useProgram(program);
+		if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+			console.error(gl.getProgramInfoLog(program));
+			return;
+		}
+		gl.useProgram(program);
 
-        const positions = new Float32Array([
-            -1, -1,
-            3, -1,
-            -1, 3
-        ]);
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+		const positions = new Float32Array([
+			-1, -1,
+			3, -1,
+			-1, 3
+		]);
+		const buffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+		gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
 
-        const posLoc = gl.getAttribLocation(program, 'a_position');
-        gl.enableVertexAttribArray(posLoc);
-        gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+		const posLoc = gl.getAttribLocation(program, 'a_position');
+		gl.enableVertexAttribArray(posLoc);
+		gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-        const loc = {
-            time: gl.getUniformLocation(program, 'u_time'),
-            scrollY: gl.getUniformLocation(program, 'u_scrollY'),
-            grainScrollY: gl.getUniformLocation(program, 'u_grainScrollY'),
-            noiseScroll: gl.getUniformLocation(program, 'u_noiseScroll'), // CHANGED THIS: Linked new uniform
-            scale: gl.getUniformLocation(program, 'u_scale'),
-            colorDark: gl.getUniformLocation(program, 'u_colorDark'),
-            colorLight: gl.getUniformLocation(program, 'u_colorLight'),
-            grainAmount: gl.getUniformLocation(program, 'u_grainAmount'),
-            grainSize: gl.getUniformLocation(program, 'u_grainSize'),
-        };
+		const loc = {
+			time: gl.getUniformLocation(program, 'u_time'),
+			scrollY: gl.getUniformLocation(program, 'u_scrollY'),
+			grainScrollY: gl.getUniformLocation(program, 'u_grainScrollY'),
+			noiseScroll: gl.getUniformLocation(program, 'u_noiseScroll'), // CHANGED THIS: Linked new uniform
+			scale: gl.getUniformLocation(program, 'u_scale'),
+			colorDark: gl.getUniformLocation(program, 'u_colorDark'),
+			colorLight: gl.getUniformLocation(program, 'u_colorLight'),
+			grainAmount: gl.getUniformLocation(program, 'u_grainAmount'),
+			grainSize: gl.getUniformLocation(program, 'u_grainSize'),
+		};
 
-        gl.uniform3f(loc.colorDark, COLOR_DARK[0], COLOR_DARK[1], COLOR_DARK[2]);
-        gl.uniform3f(loc.colorLight, COLOR_LIGHT[0], COLOR_LIGHT[1], COLOR_LIGHT[2]);
-        gl.uniform1f(loc.grainAmount, GRAIN_AMOUNT);
-        gl.uniform1f(loc.grainSize, GRAIN_SIZE);
+		gl.uniform3f(loc.colorDark, COLOR_DARK[0], COLOR_DARK[1], COLOR_DARK[2]);
+		gl.uniform3f(loc.colorLight, COLOR_LIGHT[0], COLOR_LIGHT[1], COLOR_LIGHT[2]);
+		gl.uniform1f(loc.grainAmount, GRAIN_AMOUNT);
+		gl.uniform1f(loc.grainSize, GRAIN_SIZE);
 
-        let dpr = Math.min(window.devicePixelRatio || 1, 2);
-        let winWidth = 0;
-        let winHeight = 0;
+		let dpr = Math.min(window.devicePixelRatio || 1, 2);
+		let winWidth = 0;
+		let winHeight = 0;
 
-        function resize() {
-            dpr = Math.min(window.devicePixelRatio || 1, 2);
-            canvas.width = Math.floor(window.innerWidth * dpr);
-            canvas.height = Math.floor(window.innerHeight * dpr);
-            gl.viewport(0, 0, canvas.width, canvas.height);
+		function resize() {
+			dpr = Math.min(window.devicePixelRatio || 1, 2);
+			canvas.width = Math.floor(window.innerWidth * dpr);
+			canvas.height = Math.floor(window.innerHeight * dpr);
+			gl.viewport(0, 0, canvas.width, canvas.height);
 
-            const diagonal = Math.hypot(window.innerWidth, window.innerHeight);
-            winWidth = window.innerWidth;
-            winHeight = window.innerHeight;
-            gl.uniform1f(loc.scale, NOISE_SCALE / Math.max(winWidth, winHeight));
-        }
+			const diagonal = Math.hypot(window.innerWidth, window.innerHeight);
+			winWidth = window.innerWidth;
+			winHeight = window.innerHeight;
+			gl.uniform1f(loc.scale, NOISE_SCALE / Math.max(winWidth, winHeight));
+		}
 
-        window.addEventListener('resize', resize);
-        resize();
-
-
-        const startTime = performance.now();
-
-        // CHANGED THIS: Smaller random offset because it's no longer being multiplied by scale
-        let noiseScroll = Math.random() * 100;
-
-        let lastTime = 0;
-
-        function render(now) {
-            const deltaTime = (now - lastTime) / 1000;
-            lastTime = now;
-            lenis.raf(now);
-
-            const elapsed = (now - startTime) / 1000;
+		window.addEventListener('resize', resize);
+		resize();
 
 
-            // layered on top of it here.
-            const scrollY = lenis.scroll;
-            gl.uniform1f(loc.time, elapsed * TIME_SPEED);
-            
-            // CHANGED THIS: Replaced Math.sqrt hack with a flat multiplier (0.05) to keep your exact original speed
-            noiseScroll += deltaTime * FALL_SPEED * 0.05; 
-            
-            // CHANGED THIS: Sent Lenis scroll and Noise scroll separately
-            gl.uniform1f(loc.scrollY, scrollY * dpr * PARALLAX_FACTOR);
-            gl.uniform1f(loc.noiseScroll, noiseScroll); 
-            
-            gl.uniform1f(loc.grainScrollY, scrollY * dpr * PARALLAX_FACTOR);
+		const startTime = performance.now();
 
-            gl.drawArrays(gl.TRIANGLES, 0, 3);
-            requestAnimationFrame(render);
-        }
-        requestAnimationFrame(render);
-    }
+		// CHANGED THIS: Smaller random offset because it's no longer being multiplied by scale
+		let noiseScroll = Math.random() * 100;
+
+		let lastTime = 0;
+
+		function render(now) {
+			const deltaTime = (now - lastTime) / 1000;
+			lastTime = now;
+			lenis.raf(now);
+
+			const elapsed = (now - startTime) / 1000;
+
+
+			// layered on top of it here.
+			const scrollY = lenis.scroll;
+			gl.uniform1f(loc.time, elapsed * TIME_SPEED);
+
+			// CHANGED THIS: Replaced Math.sqrt hack with a flat multiplier (0.05) to keep your exact original speed
+			noiseScroll += deltaTime * FALL_SPEED * 0.05;
+
+			// CHANGED THIS: Sent Lenis scroll and Noise scroll separately
+			gl.uniform1f(loc.scrollY, scrollY * dpr * PARALLAX_FACTOR);
+			gl.uniform1f(loc.noiseScroll, noiseScroll);
+
+			gl.uniform1f(loc.grainScrollY, scrollY * dpr * PARALLAX_FACTOR);
+
+			gl.drawArrays(gl.TRIANGLES, 0, 3);
+			requestAnimationFrame(render);
+		}
+		requestAnimationFrame(render);
+	}
 }
