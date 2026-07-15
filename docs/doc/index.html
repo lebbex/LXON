@@ -36,53 +36,11 @@
 			</li>
 			<li>
 				In order to find those items or boxes, we either index them by number or assign them labels.
-				The labels are the !! Keys ! keys ! used by 
+				The labels are the !! Keys ! keys ! used by
 				!! Containers / Object ! objects !, !! Containers / Map ! maps ! and !! Containers / Doodad ! doodads !,
 				while the indexes are invisible keys used internally by !! Containers / Array ! arrays !.
 			</li>
 		</ol>
-		</p>
-		<h1 id="goals"> Goals </h1>
-		<p>
-			LXON was created with the following principles in mind:
-			</ol>
-		<ol>
-			<li>Fast parsing with minimal overhead.</li>
-			<li>Easy implementation, just download once and have it do what it should with no complications.</li>
-			<li>Human-readable syntax suitable for fast reading and manual editing.</li>
-			<li>Compact with as little verbosity as possible.</li>
-			<li>Simple and intuitive enough to be something you can do with minimal research.</li>
-			<li>Extremely dynamic, supporting pracically all necessary container and value types.</li>
-			<li>Extensible syntax that can evolve while still being able of parsing LXON written in previous versions.
-			</li>
-		</ol>
-		<h1 id="backstory"> Backstory </h1>
-		<p>
-			Originally, Nick Jasper was creating a way to automatically set up email redirect on Cloudflare for the
-			@lebbex.com domain
-			(and all its TLD alternatives).
-			The redirect editor script had a HTML user interface that would allow him to add email addresses and where
-			they redirect to
-			and sync up these changes across the different domain extensions automatically.
-			Initially, he structured it under a tree navigation system, before switching to a pure custom-made JSON
-			editor.
-		</p>
-		<p>
-			He then realized how terrible JSON is to write and read, so he modified the editor, removing clutter. One of
-			the first big changes,
-			the root of what was changed in what would later become LXON, was the removal of trailing quotation marks
-			for string values.
-		</p>
-		<p>
-			As he developped the editor, he decided to remake it due to its bugs, switching from a text based editor
-			similar to Visual Studio Code,
-			to something node based with seamless editing, the best of both worlds.
-		</p>
-		<p>
-			With this came the realization of the limitations of JSON, where it's missing many crucial value types and
-			container types.
-			This realization is what gave birth to LXON.
-		</p>
 		<h1 id="types"> Supported Types </h1>
 		<p>
 			LXON supports 4 container types, 9 key types and 12 value types.
@@ -144,6 +102,47 @@
 				</ul>
 			</li>
 		</ul>
+		<h1 id="goals"> Goals </h1>
+		<p>
+			LXON was created with the following principles in mind:
+			</ol>
+		<ol>
+			<li>Fast parsing with minimal overhead.</li>
+			<li>Easy implementation, just download once and have it do what it should with no complications.</li>
+			<li>Human-readable syntax suitable for fast reading and manual editing.</li>
+			<li>Compact with as little verbosity as possible.</li>
+			<li>Simple and intuitive enough to be something you can do with minimal research.</li>
+			<li>Extremely dynamic, supporting pracically all necessary container and value types.</li>
+			<li>Extensible syntax that can evolve while still being able of parsing LXON written in previous versions.
+			</li>
+		</ol>
+		<h1 id="backstory"> Backstory </h1>
+		<p>
+			Originally, Nick Jasper was creating a way to automatically set up email redirect on Cloudflare for the
+			@lebbex.com domain
+			(and all its TLD alternatives).
+			The redirect editor script had a HTML user interface that would allow him to add email addresses and where
+			they redirect to
+			and sync up these changes across the different domain extensions automatically.
+			Initially, he structured it under a tree navigation system, before switching to a pure custom-made JSON
+			editor.
+		</p>
+		<p>
+			He then realized how terrible JSON is to write and read, so he modified the editor, removing clutter. One of
+			the first big changes,
+			the root of what was changed in what would later become LXON, was the removal of trailing quotation marks
+			for string values.
+		</p>
+		<p>
+			As he developped the editor, he decided to remake it due to its bugs, switching from a text based editor
+			similar to Visual Studio Code,
+			to something node based with seamless editing, the best of both worlds.
+		</p>
+		<p>
+			With this came the realization of the limitations of JSON, where it's missing many crucial value types and
+			container types.
+			This realization is what gave birth to LXON.
+		</p>
 	</div>
 
 

@@ -30,7 +30,7 @@ const __dirname = path.dirname(__filename);
 
 class LxonError extends Error {
     constructor(message) {
-        const stop = new Set(["\n","\r","\t"]);
+        const stop = new Set(["\n", "\r", "\t"]);
         let start = i;
         let end = i;
         for (let k = 0; k < 20 && start > 0; k++) {
@@ -49,26 +49,26 @@ class LxonError extends Error {
 
 
 class ColorSRGB {
-    constructor(r, g, b, a = 1){
+    constructor(r, g, b, a = 1) {
         this.r = r;
         this.g = g;
         this.b = b;
         this.a = a;
     }
 
-    static fromHex(hex){
-        const r = parseInt(hex.slice(0,2), 16);
-        const g = parseInt(hex.slice(2,4), 16);
-        const b = parseInt(hex.slice(4,6), 16);
-        const a = hex.length >= 8 ? parseInt(hex.slice(6,8), 16) : 255;
+    static fromHex(hex) {
+        const r = parseInt(hex.slice(0, 2), 16);
+        const g = parseInt(hex.slice(2, 4), 16);
+        const b = parseInt(hex.slice(4, 6), 16);
+        const a = hex.length >= 8 ? parseInt(hex.slice(6, 8), 16) : 255;
         return new ColorSRGB(r / 255, g / 255, b / 255, a / 255);
     }
 
-    static from8bit(r, g, b, a = 255){
+    static from8bit(r, g, b, a = 255) {
         return new ColorSRGB(r / 255, g / 255, b / 255, a / 255);
     }
 
-    toHex(){
+    toHex() {
         const r = Math.round(this.r * 255).toString(16).padStart(2, "0");
         const g = Math.round(this.g * 255).toString(16).padStart(2, "0");
         const b = Math.round(this.b * 255).toString(16).padStart(2, "0");
@@ -76,11 +76,11 @@ class ColorSRGB {
         return this.a === 1 ? r + g + b : r + g + b + a;
     }
 
-    toString(){ return `#${this.toHex()}`; }
+    toString() { return `#${this.toHex()}`; }
 
     [inspect.custom]() { return `#${this.toHex()} (srgb)`; }
 
-    toLinear(){
+    toLinear() {
         return new LinearColor(
             Math.pow(this.r, 2.2),
             Math.pow(this.g, 2.2),
@@ -91,8 +91,8 @@ class ColorSRGB {
 }
 
 
-class LinearColor{
-    constructor(r, g, b, a = 1, bit16 = false){
+class LinearColor {
+    constructor(r, g, b, a = 1, bit16 = false) {
         this.r = r;
         this.g = g;
         this.b = b;
@@ -100,57 +100,57 @@ class LinearColor{
         this.bit16 = bit16;
     }
 
-    static fromHex(hex){
-        const r = parseInt(hex.slice(0,2), 16);
-        const g = parseInt(hex.slice(2,4), 16);
-        const b = parseInt(hex.slice(4,6), 16);
-        const a = hex.length >= 8 ? parseInt(hex.slice(6,8), 16) : 255;
+    static fromHex(hex) {
+        const r = parseInt(hex.slice(0, 2), 16);
+        const g = parseInt(hex.slice(2, 4), 16);
+        const b = parseInt(hex.slice(4, 6), 16);
+        const a = hex.length >= 8 ? parseInt(hex.slice(6, 8), 16) : 255;
         return new LinearColor(r / 255, g / 255, b / 255, a / 255, false);
     }
 
-    static from16bit(r, g, b, a = 65535){
+    static from16bit(r, g, b, a = 65535) {
         return new LinearColor(r / 65535, g / 65535, b / 65535, a / 65535, true);
     }
 
-    static from8bit(r, g, b, a = 255){
+    static from8bit(r, g, b, a = 255) {
         return new LinearColor(r / 255, g / 255, b / 255, a / 255);
     }
 
-    static fromString(str){
+    static fromString(str) {
         let index = 0;
         let char = str[0];
         const len = str.length;
-        while(char >= "0" && char <= "9" && index < len){
+        while (char >= "0" && char <= "9" && index < len) {
             index++;
             char = str[index];
         }
-        if(char === ","){
+        if (char === ",") {
             const re = index;
-            if(0 === re) return LinearColor.from16bit(0, 0, 0);
+            if (0 === re) return LinearColor.from16bit(0, 0, 0);
             index++; char = str[index];
-            while(char === " "){ index++; char = str[index]; }
+            while (char === " ") { index++; char = str[index]; }
             const g = index;
-            while(char >= "0" && char <= "9" && char !== null){ index++; char = str[index]; }
+            while (char >= "0" && char <= "9" && char !== null) { index++; char = str[index]; }
             const ge = index
-            if(g === ge) return LinearColor.from16bit(Number(str.slice(0, re)), 0, 0);
-            if(char === ","){ index++; char = str[index]; }
+            if (g === ge) return LinearColor.from16bit(Number(str.slice(0, re)), 0, 0);
+            if (char === ",") { index++; char = str[index]; }
             else return LinearColor.from16bit(Number(str.slice(0, re)), Number(str.slice(g, ge)), 0);
-            while(char === " "){ index++; char = str[index]; }
+            while (char === " ") { index++; char = str[index]; }
             const b = index;
-            while(char >= "0" && char <= "9" && char !== null){ index++; char = str[index]; };
+            while (char >= "0" && char <= "9" && char !== null) { index++; char = str[index]; };
             const be = index;
-            if(g === ge) return LinearColor.from16bit(Number(str.slice(0, re)), 0, 0);
-            if(char === ","){ index++; char = str[index]; }
+            if (g === ge) return LinearColor.from16bit(Number(str.slice(0, re)), 0, 0);
+            if (char === ",") { index++; char = str[index]; }
             else return LinearColor.from16bit(Number(str.slice(0, re)), Number(str.slice(g, ge)), Number(str.slice(b, be)));
-            while(char === " "){ index++; char = str[index]; }
+            while (char === " ") { index++; char = str[index]; }
             const a = index;
-            while(char >= "0" && char <= "9" && char !== null){ index++; char = str[index]; }
+            while (char >= "0" && char <= "9" && char !== null) { index++; char = str[index]; }
             return LinearColor.from16bit(Number(str.slice(0, re)), Number(str.slice(g, ge)), Number(str.slice(b, be)), Number(str.slice(a, index)));
         }
         return LinearColor.fromHex(str);
     }
 
-    toHex(){
+    toHex() {
         const r = Math.round(this.r * 255).toString(16).padStart(2, "0");
         const g = Math.round(this.g * 255).toString(16).padStart(2, "0");
         const b = Math.round(this.b * 255).toString(16).padStart(2, "0");
@@ -158,8 +158,8 @@ class LinearColor{
         return this.a === 1 ? r + g + b : r + g + b + a;
     }
 
-    toString(){
-        if(this.bit16){
+    toString() {
+        if (this.bit16) {
             const r = Math.round(this.r * 65535);
             const g = Math.round(this.g * 65535);
             const b = Math.round(this.b * 65535);
@@ -169,8 +169,8 @@ class LinearColor{
         return `=${this.toHex()}`;
     }
 
-    toStringRaw(){
-        if(this.bit16){
+    toStringRaw() {
+        if (this.bit16) {
             const r = Math.round(this.r * 65535);
             const g = Math.round(this.g * 65535);
             const b = Math.round(this.b * 65535);
@@ -181,28 +181,28 @@ class LinearColor{
     }
 
     [inspect.custom]() {
-        if(this.bit16) return `#${this.toHex()} (16bit linear)`;
+        if (this.bit16) return `#${this.toHex()} (16bit linear)`;
         return `#${this.toHex()} (linear)`;
     }
 
-    toSRGB(){
+    toSRGB() {
         return new ColorSRGB(
-            Math.pow(Math.max(0, this.r), 1 / 2.2), 
-            Math.pow(Math.max(0, this.g), 1 / 2.2), 
-            Math.pow(Math.max(0, this.b), 1 / 2.2), 
+            Math.pow(Math.max(0, this.r), 1 / 2.2),
+            Math.pow(Math.max(0, this.g), 1 / 2.2),
+            Math.pow(Math.max(0, this.b), 1 / 2.2),
             this.a
         );
     }
 }
 
 
-class Enum{
-    constructor(type, mem){
-        this.type = type;
-        this.member = mem;
+class Enum {
+    constructor(type, mem) {
+        this.type = type.trim();
+        this.member = mem.trim();
     }
 
-    toString(){ return `${this.type}:${this.member}`; }
+    toString() { return `${this.type.replace(/[:\n]/g, '')}:${this.member}`; }
 
     [inspect.custom](depth, options, inspectFn) {
         const label = options.stylize('Enum', 'special');
@@ -213,14 +213,14 @@ class Enum{
 }
 
 
-class Doodad{
-    constructor(obj){
+class Doodad {
+    constructor(obj) {
         this.obj = obj;
     }
 
-    toObj(){ return this.obj; }
+    toObj() { return this.obj; }
 
-    toString(){ return this.obj.toString(); }
+    toString() { return this.obj.toString(); }
 
     [inspect.custom](depth, options, inspectFn) {
         const formatted = inspectFn(this.obj, options);
@@ -247,15 +247,15 @@ let wasNewline;
 // -------------------- Parse Functions --------------------
 
 
-function parseFile(fileName){
+function parseFile(fileName) {
     file = fs.readFileSync(fileName, "utf8");
     i = 0;
     depth = -1;
     ch = file[0];
-    if(file.length < 1) return undefined;
+    if (file.length < 1) return undefined;
     ln = 1;
     col = 1;
-    switch(ch){
+    switch (ch) {
         case "{": nextChar(); return parseObject();
         case "[": nextChar(); return parseArray();
         case "(": nextChar(); return parseMap();
@@ -264,15 +264,15 @@ function parseFile(fileName){
 }
 
 
-function parse(str){
+function parse(str) {
     file = str;
     i = 0;
     depth = -1;
     ch = file[0];
-    if(file.length < 1) return undefined;
+    if (file.length < 1) return undefined;
     ln = 1;
     col = 1;
-    switch(ch){
+    switch (ch) {
         case "{": nextChar(); return parseObject();
         case "[": nextChar(); return parseArray();
         case "(": nextChar(); return parseMap();
@@ -283,64 +283,64 @@ function parse(str){
 
 // -------------------- Parse Object --------------------
 
-function parseObject(){
+function parseObject() {
     depth++;
     let temp;
     let finalObj = {};
     temp = parseObjectPair();
-    while(temp[0]){
+    while (temp[0]) {
         finalObj[temp[1]] = temp[2];
-        if(wasNewline) temp = parseObjectPairWasNewline();
+        if (wasNewline) temp = parseObjectPairWasNewline();
         else temp = parseObjectPair();
     }
     depth--; return finalObj;
 }
 
 
-function parseObjectPair(){
+function parseObjectPair() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === "}"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    if (tempCh === "}") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
     let start = i + thisDepth;
-    while(ch !== ":" && ch !== null)nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     let end = i;
     nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, file.slice(start, end), parseValue("Object")];
 }
 
 
-function parseObjectPairWasNewline(){
+function parseObjectPairWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === "}"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) { return [false]; } // Checks depth if on a new line
+    if (tempCh === "}") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) { return [false]; } // Checks depth if on a new line
     wasNewline = false;
     let start = i + thisDepth;
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     let end = i;
     nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, file.slice(start, end), parseValue("Object")];
 }
 
@@ -348,57 +348,57 @@ function parseObjectPairWasNewline(){
 
 // -------------------- Parse Doodad --------------------
 
-function parseDoodad(){
+function parseDoodad() {
     depth++;
     let temp;
     let finalObj = {};
     temp = parseDoodadPair();
-    while(temp[0]){
+    while (temp[0]) {
         finalObj[temp[1]] = temp[2];
-        if(wasNewline) temp = parseDoodadPairWasNewline();
+        if (wasNewline) temp = parseDoodadPairWasNewline();
         else temp = parseDoodadPair();
     }
     depth--; return new Doodad(finalObj);
 }
 
 
-function parseDoodadPair(){
+function parseDoodadPair() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false]; // End of file test
+        if (tempI > file.length - 1) return [false]; // End of file test
         tempCh = file[tempI];
     }
-    if(tempCh === "|"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
-    while(i < tempI) nextChar();
+    if (tempCh === "|") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    while (i < tempI) nextChar();
     nextChar();
     return [true, tempCh, parseValue(`Doodad (key is ${tempCh})`)];
 }
 
 
-function parseDoodadPairWasNewline(){
+function parseDoodadPairWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false]; // End of file test
+        if (tempI > file.length - 1) return [false]; // End of file test
         tempCh = file[tempI];
     }
-    if(tempCh === "|"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) { return [false]; } // Checks depth if on a new line
+    if (tempCh === "|") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) { return [false]; } // Checks depth if on a new line
     wasNewline = false;
-    while(i < tempI) nextChar();
+    while (i < tempI) nextChar();
     nextChar();
     return [true, tempCh, parseValue(`Doodad (key is ${tempCh})`)];
 }
@@ -407,56 +407,56 @@ function parseDoodadPairWasNewline(){
 
 // -------------------- Parse Array --------------------
 
-function parseArray(){
+function parseArray() {
     depth++;
     let temp;
     let finalArray = [];
     temp = parseArrayItem();
-    while(temp[0]){
+    while (temp[0]) {
         finalArray.push(temp[1]);
-        if(wasNewline) temp = parseArrayItemWasNewline();
+        if (wasNewline) temp = parseArrayItemWasNewline();
         else temp = parseArrayItem();
     }
     depth--; return finalArray;
 }
 
 
-function parseArrayItem(){ //
+function parseArrayItem() { //
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false]; // End of file test
+        if (tempI > file.length - 1) return [false]; // End of file test
         tempCh = file[tempI];
     }
-    if(tempCh === "]"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
-    while(i < tempI) nextChar();
+    if (tempCh === "]") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    while (i < tempI) nextChar();
     return [true, parseValue("Array Item")];
 }
 
 
-function parseArrayItemWasNewline(){ //
+function parseArrayItemWasNewline() { //
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false]; // End of file test
+        if (tempI > file.length - 1) return [false]; // End of file test
         tempCh = file[tempI];
     }
-    if(tempCh === "]"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) { return [false]; } // Checks depth if on a new line
+    if (tempCh === "]") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) { return [false]; } // Checks depth if on a new line
     wasNewline = false;
-    while(i < tempI) nextChar();
+    while (i < tempI) nextChar();
     return [true, parseValue("Array Item")];
 }
 
@@ -464,90 +464,104 @@ function parseArrayItemWasNewline(){ //
 
 // -------------------- Parse Map --------------------
 
-function parseMap(){
+function parseMap() {
     depth++;
     let temp;
     let finalMap = new Map();
-    while(ch === "\n" || ch === "\t" || ch === " ") nextChar();
-    switch(ch){
+    while (ch === "\n" || ch === "\t" || ch === " ") nextChar();
+    switch (ch) {
         case null: return undefined;
-        case ")": 
-            nextChar(); 
-            depth--; 
+        case ")":
+            nextChar();
+            depth--;
             return finalMap;
         case '"':
+        case '`':
             nextChar();
             temp = parseMapPairStr();
-            while(temp[0]){
+            while (temp[0]) {
                 finalMap.set(temp[1], temp[2]);
-                if(wasNewline) temp = parseMapPairStrWasNewline();
+                if (wasNewline) temp = parseMapPairStrWasNewline();
                 else temp = parseMapPairStr();
             } break;
         case "'":
             nextChar();
             temp = parseMapPairChar();
-            while(temp[0]){
+            while (temp[0]) {
                 finalMap.set(temp[1], temp[2]);
-                if(wasNewline) temp = parseMapPairCharWasNewline();
+                if (wasNewline) temp = parseMapPairCharWasNewline();
                 else temp = parseMapPairChar();
             } break;
         case "$":
         case "!":
             temp = parseMapPairBool();
-            while(temp[0]){
+            while (temp[0]) {
                 finalMap.set(temp[1], temp[2]);
-                if(wasNewline) temp = parseMapPairBoolWasNewline();
+                if (wasNewline) temp = parseMapPairBoolWasNewline();
                 else temp = parseMapPairBool();
             } break;
         case "&":
             nextChar();
             temp = parseMapPairDate();
-            while(temp[0]){
+            while (temp[0]) {
                 finalMap.set(temp[1], temp[2]);
-                if(wasNewline) temp = parseMapPairDateWasNewline();
+                if (wasNewline) temp = parseMapPairDateWasNewline();
                 else temp = parseMapPairDate();
             } break;
-        case "@": 
+        case "@":
             nextChar();
             temp = parseMapPairKeybind();
-            while(temp[0]){
+            while (temp[0]) {
                 finalMap.set(temp[1], temp[2]);
-                if(wasNewline) temp = parseMapPairKeybindWasNewline();
+                if (wasNewline) temp = parseMapPairKeybindWasNewline();
                 else temp = parseMapPairKeybind();
             } break;
         case "#":
             nextChar();
             temp = parseMapPairColor();
-            while(temp[0]){
+            while (temp[0]) {
                 finalMap.set(temp[1], temp[2]);
-                if(wasNewline) temp = parseMapPairColorWasNewline();
+                if (wasNewline) temp = parseMapPairColorWasNewline();
                 else temp = parseMapPairColor();
             } break;
         case "=":
         case "/":
             nextChar();
             temp = parseMapPairLinCol();
-            while(temp[0]){
+            while (temp[0]) {
                 finalMap.set(temp[1], temp[2]);
-                if(wasNewline) temp = parseMapPairLinColWasNewline();
+                if (wasNewline) temp = parseMapPairLinColWasNewline();
                 else temp = parseMapPairLinCol();
+            } break;
+        case "*":
+            nextChar();
+            const start = i;
+            while (ch !== null && ch !== ":" && ch !== "\n" && ch !== "\t") nextChar();
+            if (ch === null) return undefined;
+            const enumType = file.slice(start, i);
+            nextChar();
+            temp = parseMapPairEnum(enumType);
+            while (temp[0]) {
+                finalMap.set(temp[1], temp[2]);
+                if (wasNewline) temp = parseMapPairEnumWasNewline(enumType);
+                else temp = parseMapPairEnum(enumType);
             } break;
         case ".":
         case "+":
-        case "~":
+        case "%":
         case "-":
             temp = parseMapPairNum();
-            while(temp[0]){
+            while (temp[0]) {
                 finalMap.set(temp[1], temp[2]);
-                if(wasNewline) temp = parseMapPairNumWasNewline();
+                if (wasNewline) temp = parseMapPairNumWasNewline();
                 else temp = parseMapPairNum();
             } break;
         default:
-            if(ch >= "0" && ch <= "9"){
+            if (ch >= "0" && ch <= "9") {
                 temp = parseMapPairNum();
-                while(temp[0]){
+                while (temp[0]) {
                     finalMap.set(temp[1], temp[2]);
-                    if(wasNewline) temp = parseMapPairNumWasNewline();
+                    if (wasNewline) temp = parseMapPairNumWasNewline();
                     else temp = parseMapPairNum();
                 }
             }
@@ -562,50 +576,50 @@ function parseMap(){
 // -------------------- Parse Map String --------------------
 
 
-function parseMapPairStr(){
+function parseMapPairStr() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
     const str = parseStringKey();
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     nextChar()
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, str, parseValue("String Map")];
 }
 
 
-function parseMapPairStrWasNewline(){
+function parseMapPairStrWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) { return [false]; } // Checks depth if on a new line
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) { return [false]; } // Checks depth if on a new line
     wasNewline = false;
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
     const str = parseStringKey();
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     nextChar()
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, str, parseValue("String Map")];
 }
 
@@ -614,48 +628,48 @@ function parseMapPairStrWasNewline(){
 // -------------------- Parse Map Character --------------------
 
 
-function parseMapPairChar(){
+function parseMapPairChar() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
     const char = ch;
     nextChar();
-    while(ch === " " || ch === ":"){ nextChar(); }
+    while (ch === " " || ch === ":") { nextChar(); }
     return [true, char, parseValue(`Char (${char}) Map`)];
 }
 
 
-function parseMapPairCharWasNewline(){
+function parseMapPairCharWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) { return [false]; } // Checks depth if on a new line
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) { return [false]; } // Checks depth if on a new line
     wasNewline = false;
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
     const char = ch;
     nextChar();
-    while(ch === " " || ch === ":"){ nextChar(); }
+    while (ch === " " || ch === ":") { nextChar(); }
     return [true, char, parseValue(`Char (${char}) Map`)];
 }
 
@@ -663,54 +677,86 @@ function parseMapPairCharWasNewline(){
 
 // -------------------- Parse Map Number --------------------
 
-function parseMapPairNum(){
+function parseMapPairNum() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
-    if(tempCh === "+") { nextChar(); nextChar(); return [true, Infinity, parseValue("Number (+) Map")]; } // Positive infinity
-    if(tempCh === "~") { nextChar(); nextChar(); return [true, -Infinity, parseValue("Number (~) Map")]; } // Negative infinity
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    if (tempCh === "%") { // Infinity
+        while (ch !== ":" && ch !== null) nextChar();
+        nextChar();
+        while (ch === " ") nextChar();
+        return [true, Infinity, parseValue("Number (%) Map")];
+    }
+    if (tempCh === "+" && file[tempI + 1] === "%") { // Positive infinity
+        while (ch !== ":" && ch !== null) nextChar();
+        nextChar();
+        while (ch === " ") nextChar();
+        return [true, Infinity, parseValue("Number (+%) Map")];
+    }
+    if (tempCh === "-" && file[tempI + 1] === "%") { // Negative infinity
+        while (ch !== ":" && ch !== null) nextChar();
+        nextChar();
+        while (ch === " ") nextChar();
+        return [true, -Infinity, parseValue("Number (-%) Map")];
+    }
     let start = i + thisDepth;
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     let end = i;
     nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") nextChar();
     return [true, Number(file.slice(start, end)), parseValue("Number Map")];
 }
 
 
-function parseMapPairNumWasNewline(){
+function parseMapPairNumWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) return [false]; // Checks depth if on a new line
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) return [false]; // Checks depth if on a new line
     wasNewline = false;
-    if(tempCh === "+") { nextChar(); nextChar(); return [true, Infinity, parseValue("Number (+) Map")]; } // Positive infinity
-    if(tempCh === "~") { nextChar(); nextChar(); return [true, -Infinity, parseValue("Number (~) Map")]; } // Negative infinity
+    if (tempCh === "%") { // Infinity
+        while (ch !== ":" && ch !== null) nextChar();
+        nextChar();
+        while (ch === " ") nextChar();
+        return [true, Infinity, parseValue("Number (%) Map")];
+    }
+    if (tempCh === "+" && file[tempI + 1] === "%") { // Positive infinity
+        while (ch !== ":" && ch !== null) nextChar();
+        nextChar();
+        while (ch === " ") nextChar();
+        return [true, Infinity, parseValue("Number (+%) Map")];
+    }
+    if (tempCh === "-" && file[tempI + 1] === "%") { // Negative infinity
+        while (ch !== ":" && ch !== null) nextChar();
+        nextChar();
+        while (ch === " ") nextChar();
+        return [true, -Infinity, parseValue("Number (-%) Map")];
+    }
     let start = i + thisDepth;
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     let end = i;
     nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, Number(file.slice(start, end)), parseValue(`Number Map`)];
 }
 
@@ -718,50 +764,50 @@ function parseMapPairNumWasNewline(){
 
 // -------------------- Parse Map Color SRGB --------------------
 
-function parseMapPairColor(){
+function parseMapPairColor() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
     let start = i + thisDepth;
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     let end = i;
     nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, ColorSRGB.fromHex(file.slice(start, end)), parseValue("SRGB Color Map")];
 }
 
 
-function parseMapPairColorWasNewline(){
+function parseMapPairColorWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) return [false]; // Checks depth if on a new line
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) return [false]; // Checks depth if on a new line
     wasNewline = false;
     let start = i + thisDepth;
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     let end = i;
     nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, ColorSRGB.fromHex(file.slice(start, end)), parseValue("SRGB Color Map")];
 }
 
@@ -769,50 +815,50 @@ function parseMapPairColorWasNewline(){
 
 // -------------------- Parse Map Linear Color --------------------
 
-function parseMapPairLinCol(){
+function parseMapPairLinCol() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
     let start = i + thisDepth;
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     let end = i;
     nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, LinearColor.fromString(file.slice(start, end)), parseValue("Linear Color Map")];
 }
 
 
-function parseMapPairLinColWasNewline(){
+function parseMapPairLinColWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) return [false]; // Checks depth if on a new line
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) return [false]; // Checks depth if on a new line
     wasNewline = false;
     let start = i + thisDepth;
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     let end = i;
     nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, LinearColor.fromString(file.slice(start, end)), parseValue("Linear Color Map")];
 }
 
@@ -820,112 +866,112 @@ function parseMapPairLinColWasNewline(){
 
 // -------------------- Parse Map Boolean --------------------
 
-function parseMapPairBool(){
+function parseMapPairBool() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
-    if(ch === "$") { // True
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
+    if (ch === "$") { // True
         nextChar();
-        while(ch === " " || ch === ":") nextChar();
-        return [true, true, parseValue("Bool ($) Map")]; 
+        while (ch === " " || ch === ":") nextChar();
+        return [true, true, parseValue("Bool ($) Map")];
     }
-    if(ch === "!") { // False
+    if (ch === "!") { // False
         nextChar();
-        while(ch === " " || ch === ":") nextChar();
-        return [true, false, parseValue("Bool (!) Map")]; 
+        while (ch === " " || ch === ":") nextChar();
+        return [true, false, parseValue("Bool (!) Map")];
     }
-    if(ch === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(ch === null) return [false]; // End of file test again (necessary)
+    if (ch === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (ch === null) return [false]; // End of file test again (necessary)
     throw new LxonError("Invalid boolean key for Map, expecting either '$' or '!'.");
 }
 
 
-function parseMapPairBoolWasNewline(){
+function parseMapPairBoolWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(thisDepth < depth) { return [false]; } // Checks depth if on a new line
+    if (thisDepth < depth) { return [false]; } // Checks depth if on a new line
     wasNewline = false;
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
-    if(ch === "$") { // True
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
+    if (ch === "$") { // True
         nextChar();
-        while(ch === " " || ch === ":") nextChar(); 
-        return [true, true, parseValue("Bool ($) Map")]; 
+        while (ch === " " || ch === ":") nextChar();
+        return [true, true, parseValue("Bool ($) Map")];
     }
-    if(ch === "!") { // False
+    if (ch === "!") { // False
         nextChar();
-        while(ch === " " || ch === ":") nextChar(); 
-        return [true, false, parseValue("Bool (!) Map")]; 
+        while (ch === " " || ch === ":") nextChar();
+        return [true, false, parseValue("Bool (!) Map")];
     }
-    if(ch === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(ch === null) return [false]; // End of file test again (necessary)
+    if (ch === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (ch === null) return [false]; // End of file test again (necessary)
     throw new LxonError("Invalid boolean key for Map, expecting either '$' or '!'.");
 }
 
 
 // -------------------- Parse Map Date --------------------
 
-function parseMapPairDate(){
+function parseMapPairDate() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " "){ nextChar(); } // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") { nextChar(); } // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
     const date = parseDate();
-    while(ch !== ":" && ch !== null) nextChar();
-    while(ch === ":") nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch !== ":" && ch !== null) nextChar();
+    while (ch === ":") nextChar();
+    while (ch === " ") { nextChar(); }
     return [true, date, parseValue("Date Map")];
 }
 
 
-function parseMapPairDateWasNewline(){
+function parseMapPairDateWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) { return [false]; } // Checks depth if on a new line
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) { return [false]; } // Checks depth if on a new line
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
     wasNewline = false;
     const date = parseDate();
-    while(ch !== ":" && ch !== null) nextChar();
-    while(ch === ":") nextChar();
-    while(ch === " "){ nextChar(); }
+    while (ch !== ":" && ch !== null) nextChar();
+    while (ch === ":") nextChar();
+    while (ch === " ") { nextChar(); }
     return [true, date, parseValue("Date Map")];
 }
 
@@ -933,51 +979,102 @@ function parseMapPairDateWasNewline(){
 
 // -------------------- Parse Map Keybind --------------------
 
-function parseMapPairKeybind(){
+function parseMapPairKeybind() {
     let thisDepth = 0;
     let newline = false;
-    while(ch === " ") nextChar();  // Skips all spaces
-    while(ch === "\n"){ nextChar(); newline = true; } // Skips all newlines
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
     const str = parseStringKey();
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     nextChar()
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, Symbol.for(str), parseValue("Keybind Map")];
 }
 
 
-function parseMapPairKeybindWasNewline(){
+function parseMapPairKeybindWasNewline() {
     let thisDepth = 0;
     let tempI = i;
     let tempCh = ch;
-    while(tempCh === "\t" || tempCh === " "){ // Determines depth
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
         thisDepth++;
         tempI++;
-        if(tempI > file.length - 1) return [false];
+        if (tempI > file.length - 1) return [false];
         tempCh = file[tempI];
     }
-    if(tempCh === ")"){ nextChar(); return [false]; } // Checks for terminator symbol
-    if(tempCh === null) return [false]; // End of file test again (necessary)
-    if(thisDepth < depth) { return [false]; } // Checks depth if on a new line
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) { return [false]; } // Checks depth if on a new line
     wasNewline = false;
-    while(ch === "\t" || ch === " ") nextChar();  // Skips empty
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
     const str = parseStringKey();
-    while(ch !== ":" && ch !== null) nextChar();
+    while (ch !== ":" && ch !== null) nextChar();
     nextChar()
-    while(ch === " "){ nextChar(); }
+    while (ch === " ") { nextChar(); }
     return [true, Symbol.for(str), parseValue("Keybind Map")];
+}
+
+
+
+// -------------------- Parse Map Enum --------------------
+
+function parseMapPairEnum(enumType) {
+    let thisDepth = 0;
+    let newline = false;
+    while (ch === " ") nextChar();  // Skips all spaces
+    while (ch === "\n") { nextChar(); newline = true; } // Skips all newlines
+    let tempI = i;
+    let tempCh = ch;
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
+        thisDepth++;
+        tempI++;
+        if (tempI > file.length - 1) return [false];
+        tempCh = file[tempI];
+    }
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth && newline) { wasNewline = true; return [false]; } // Checks depth if on a new line
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
+    const str = parseStringKey();
+    while (ch !== ":" && ch !== null) nextChar();
+    nextChar()
+    while (ch === " ") { nextChar(); }
+    return [true, new Enum(enumType, str), parseValue("Enum Map")];
+}
+
+
+function parseMapPairEnumWasNewline(enumType) {
+    let thisDepth = 0;
+    let tempI = i;
+    let tempCh = ch;
+    while (tempCh === "\t" || tempCh === " ") { // Determines depth
+        thisDepth++;
+        tempI++;
+        if (tempI > file.length - 1) return [false];
+        tempCh = file[tempI];
+    }
+    if (tempCh === ")") { nextChar(); return [false]; } // Checks for terminator symbol
+    if (tempCh === null) return [false]; // End of file test again (necessary)
+    if (thisDepth < depth) { return [false]; } // Checks depth if on a new line
+    wasNewline = false;
+    while (ch === "\t" || ch === " ") nextChar();  // Skips empty
+    const str = parseStringKey();
+    while (ch !== ":" && ch !== null) nextChar();
+    nextChar()
+    while (ch === " ") { nextChar(); }
+    return [true, new Enum(enumType, str), parseValue("Enum Map")];
 }
 
 
@@ -985,8 +1082,8 @@ function parseMapPairKeybindWasNewline(){
 // -------------------- Parse Value Switch --------------------
 
 
-function parseValue(container){
-    switch(ch){
+function parseValue(container) {
+    switch (ch) {
         case null:
             return undefined;
         case '"':
@@ -996,29 +1093,29 @@ function parseValue(container){
         case '^':
             nextChar(); return parseString();
         case "'":
-            nextChar(); if(ch === null) return undefined; const char = ch; nextChar(); return char;
+            nextChar(); if (ch === null) return undefined; const char = ch; nextChar(); return char;
         case "$":
             nextChar(); return true;
         case "!":
             nextChar(); return false;
-        case "_":
-            nextChar(); return null;
-        case "%":
-            nextChar(); return undefined;
-        case "+":
-            nextChar(); return Infinity;
         case "~":
-            nextChar(); return -Infinity;
+            nextChar(); return null;
+        case "_":
+            nextChar(); return undefined;
         case "?":
             nextChar(); return parseBinary();
         case "&":
             nextChar(); return parseDate();
         case "@":
-            nextChar(); return parseKeybind();
+            nextChar(); return Symbol.for(parseText());
         case "*":
             nextChar(); return parseEnum();
+        case "+":
+            nextChar(); return parseNumber();
         case "-":
-            nextChar(); return parseNegNumber();
+            nextChar(); return -parseNumber();
+        case "%":
+            nextChar(); return Infinity;
         case "{":
             nextChar(); return parseObject();
         case "\n":
@@ -1034,10 +1131,10 @@ function parseValue(container){
         case "/":
             nextChar(); return parseColorLinear16bit();
         default:
-            if(ch >= "0" && ch <= "9") return parsePosNumber();
-            if(ch === ".") return parsePosNumber();
+            if (ch >= "0" && ch <= "9") return parseNumber();
+            if (ch === ".") return parseNumber();
             const code = file.charCodeAt(i) | 32; // forces uppercase -> lowercase range
-            if(code >= 97 && code <= 122) return parseDoodad(); // tests if a-z or A-Z
+            if (code >= 97 && code <= 122) return parseDoodad(); // tests if a-z or A-Z
             throw new LxonError(`Unknown value type definition '${ch}'.\nValue for: ${container}`);
     }
 }
@@ -1046,13 +1143,13 @@ function parseValue(container){
 
 // -------------------- Parse Values --------------------
 
-function parseStringFull(){
+function parseStringFull() {
     const out = [];
-    while(ch !== "\n" && ch !== null){
-        if(ch === "\\"){
+    while (ch !== "\n" && ch !== null) {
+        if (ch === "\\") {
             nextChar();
-            if(ch === null) return out.join("");
-            switch(ch){
+            if (ch === null) return out.join("");
+            switch (ch) {
                 case "n": out.push("\n"); break;
                 case "r": out.push("\r"); break;
                 case "t": out.push("\t"); break;
@@ -1069,13 +1166,13 @@ function parseStringFull(){
 }
 
 
-function parseString(){
+function parseString() {
     const out = [];
-    while(ch !== "`" && ch !== "^" && ch !== null && ch !== "\n"){
-        if(ch === "\\"){
+    while (ch !== "`" && ch !== "^" && ch !== null && ch !== "\n") {
+        if (ch === "\\") {
             nextChar();
-            if(ch === null || ch === "\n") return out.join("");
-            switch(ch){
+            if (ch === null || ch === "\n") return out.join("");
+            switch (ch) {
                 case "n": out.push("\n"); break;
                 case "r": out.push("\r"); break;
                 case "t": out.push("\t"); break;
@@ -1088,18 +1185,18 @@ function parseString(){
             nextChar();
         }
     }
-    if(ch !== "^") nextChar();
+    if (ch !== "^") nextChar();
     return out.join("");
 }
 
 
-function parseStringKey(){
+function parseStringKey() {
     const out = [];
-    while(ch !== ":" && ch !== null){
-        if(ch === "\\"){
+    while (ch !== ":" && ch !== null) {
+        if (ch === "\\") {
             nextChar();
-            if(ch === null) return out.join("");
-            switch(ch){
+            if (ch === null) return out.join("");
+            switch (ch) {
                 case "n": out.push("\n"); break;
                 case "r": out.push("\r"); break;
                 case "t": out.push("\t"); break;
@@ -1116,49 +1213,46 @@ function parseStringKey(){
 }
 
 
-function parsePosNumber(){
+function parseNumber() {
     const start = i;
-    if(ch === null) return NaN;
-    while(ch >= "0" && ch <= "9" && ch !== null){ nextChar(); }
-    if(ch === "."){
+    if (ch === null) return NaN;
+    if (ch === "%") { nextChar(); return Infinity; }
+    while (ch >= "0" && ch <= "9" && ch !== null) { nextChar(); }
+    if (ch === ".") {
         nextChar();
-        while(ch >= "0" && ch <= "9" && ch !== null){ nextChar(); }
+        while (ch >= "0" && ch <= "9" && ch !== null) { nextChar(); }
     }
-    if(ch === "e" || ch === "E"){
+    if (ch === "e" || ch === "E") {
         const eStart = i;
         nextChar();
-        if(ch === "+" || ch === "-") nextChar();
+        if (ch === "+" || ch === "-") nextChar();
         const digitsStart = i;
-        while(ch >= "0" && ch <= "9" && ch !== null){ nextChar(); }
-        if(i === digitsStart){
+        while (ch >= "0" && ch <= "9" && ch !== null) { nextChar(); }
+        if (i === digitsStart) {
             i = eStart;
             ch = file[i] ?? null;
         }
     }
-    if(start === i) return NaN;
+    if (start === i) return NaN;
     return Number(file.slice(start, i));
 }
 
 
-function parseNegNumber(){
-    return -parsePosNumber();
-}
 
-
-function parseBinary(){
+function parseBinary() {
     let out = [];
     let byte = 0;
     let high = true;
     let c = file.charCodeAt(i);
-    while(true){
-        while(ch === " "){ nextChar(); c = file.charCodeAt(i); }
-        if(ch === "`"){ nextChar(); return new Uint8Array(out); }
-        if(!((c >= 48 && c <= 57) || (c >= 97 && c <= 102))) break;
+    while (true) {
+        while (ch === " ") { nextChar(); c = file.charCodeAt(i); }
+        if (ch === "`") { nextChar(); return new Uint8Array(out); }
+        if (!((c >= 48 && c <= 57) || (c >= 97 && c <= 102))) break;
         let v = c - 48 - ((c > 57) * 39);
-        if(high){
+        if (high) {
             byte = v << 4;
             high = false;
-        }else{
+        } else {
             out.push(byte | v);
             high = true;
         }
@@ -1169,13 +1263,13 @@ function parseBinary(){
 }
 
 
-function parseKeybind(){
+function parseText() {
     const out = [];
-    while(ch !== "`" && ch !== "^" && ch !== "@" && ch !== "*" && ch !== "?" && ch !== "\n" && ch !== null){
-        if(ch === "\\"){
+    while (ch !== "`" && ch !== "^" && ch !== "@" && ch !== "*" && ch !== "?" && ch !== "\n" && ch !== null) {
+        if (ch === "\\") {
             nextChar();
-            if(ch === null) return Symbol.for(out.join(""));
-            switch(ch){
+            if (ch === null) return out.join("");
+            switch (ch) {
                 case "n": out.push("\n"); break;
                 case "r": out.push("\r"); break;
                 case "t": out.push("\t"); break;
@@ -1188,66 +1282,66 @@ function parseKeybind(){
             nextChar();
         }
     }
-    if(ch === "`") nextChar();
-    return Symbol.for(out.join(""));
+    if (ch === "`") nextChar();
+    return out.join("");
 }
 
 
-function parseEnum(){
+function parseEnum() {
     const start = i;
-    while(ch !== null && ch !== ":" && ch !== "\n" && ch !== "\t") nextChar();
-    if(ch === null || ch === "\n" || ch === "\t") return undefined;
+    while (ch !== null && ch !== ":" && ch !== "\n" && ch !== "\t") nextChar();
+    if (ch === null || ch === "\n" || ch === "\t") return undefined;
     const end = i;
     nextChar();
-    if(ch === null) return undefined;
-    const member = parseKeybind();
+    if (ch === null) return undefined;
+    const member = parseText();
     return new Enum(file.slice(start, end), member);
 }
 
 
-function parseColorHex(){
+function parseColorHex() {
     const start = i;
-    while(ch !== null && ((ch >= "0" && ch <= "9") || (ch >= "a" && ch <= "f"))) nextChar();
+    while (ch !== null && ((ch >= "0" && ch <= "9") || (ch >= "a" && ch <= "f"))) nextChar();
     return ColorSRGB.fromHex(file.slice(start, i));
 }
 
 
-function parseColorLinearHex(){
+function parseColorLinearHex() {
     const start = i;
-    while(ch !== null && ((ch >= "0" && ch <= "9") || (ch >= "a" && ch <= "f"))) nextChar();
+    while (ch !== null && ((ch >= "0" && ch <= "9") || (ch >= "a" && ch <= "f"))) nextChar();
     return LinearColor.fromHex(file.slice(start, i));
 }
 
 
-function parseColorLinear16bit(){
+function parseColorLinear16bit() {
     const r = i;
-    while(ch >= "0" && ch <= "9" && ch !== null) nextChar();
+    while (ch >= "0" && ch <= "9" && ch !== null) nextChar();
     const re = i;
-    if(r === re) return LinearColor.from16bit(0, 0, 0);
-    if(ch === ",") nextChar();
+    if (r === re) return LinearColor.from16bit(0, 0, 0);
+    if (ch === ",") nextChar();
     else return LinearColor.from16bit(Number(file.slice(r, re)), 0, 0);
-    while(ch === " ") nextChar();
+    while (ch === " ") nextChar();
     const g = i;
-    while(ch >= "0" && ch <= "9" && ch !== null) nextChar();
+    while (ch >= "0" && ch <= "9" && ch !== null) nextChar();
     const ge = i
-    if(g === ge) return LinearColor.from16bit(Number(file.slice(r, re)), 0, 0);
-    if(ch === ",") nextChar();
+    if (g === ge) return LinearColor.from16bit(Number(file.slice(r, re)), 0, 0);
+    if (ch === ",") nextChar();
     else return LinearColor.from16bit(Number(file.slice(r, re)), Number(file.slice(g, ge)), 0);
-    while(ch === " ") nextChar();
+    while (ch === " ") nextChar();
     const b = i;
-    while(ch >= "0" && ch <= "9" && ch !== null) nextChar();
+    while (ch >= "0" && ch <= "9" && ch !== null) nextChar();
     const be = i;
-    if(g === ge) return LinearColor.from16bit(Number(file.slice(r, re)), 0, 0);
-    if(ch === ",") nextChar();
+    if (g === ge) return LinearColor.from16bit(Number(file.slice(r, re)), 0, 0);
+    if (ch === ",") nextChar();
     else return LinearColor.from16bit(Number(file.slice(r, re)), Number(file.slice(g, ge)), Number(file.slice(b, be)));
-    while(ch === " ") nextChar();
+    while (ch === " ") nextChar();
     const a = i;
-    while(ch >= "0" && ch <= "9" && ch !== null) nextChar();
+    while (ch >= "0" && ch <= "9" && ch !== null) nextChar();
     return LinearColor.from16bit(Number(file.slice(r, re)), Number(file.slice(g, ge)), Number(file.slice(b, be)), Number(file.slice(a, i)));
 }
 
 
-function parseDate(){
+function parseDate() {
     let year = 1000;
     let month = 1;
     let day = 1;
@@ -1256,32 +1350,32 @@ function parseDate(){
     let sec = 0;
     let ms = 0;
 
-    if(ch >= "0" && ch <= "9"){
+    if (ch >= "0" && ch <= "9") {
         year = 0;
         let len = 0;
-        while(ch >= "0" && ch <= "9" && ch !== null){
+        while (ch >= "0" && ch <= "9" && ch !== null) {
             year = Number(ch) + year * 10;
             nextChar();
             len++;
         }
-        if(len > 11) return new Date(year);
-        if(len > 7) return new Date(year * 1000);
-        if(len < 3) year += 2000;
-        if(ch === "-" || ch === "W"){
-            if(ch === "-") nextChar();
-            if(ch === "W"){
+        if (len > 11) return new Date(year);
+        if (len > 7) return new Date(year * 1000);
+        if (len < 3) year += 2000;
+        if (ch === "-" || ch === "W") {
+            if (ch === "-") nextChar();
+            if (ch === "W") {
                 nextChar();
-                if(ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the week when reading Date value.");
+                if (ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the week when reading Date value.");
                 let week = Number(ch);
                 nextChar();
-                if(ch >= "0" && ch <= "9" && ch !== null){
+                if (ch >= "0" && ch <= "9" && ch !== null) {
                     week = Number(ch) + week * 10;
                     nextChar();
                 }
                 let dayOf = 1;
-                if(ch === "-"){
+                if (ch === "-") {
                     nextChar();
-                    if(ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid day of the week when reading Date value.");
+                    if (ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid day of the week when reading Date value.");
                     dayOf = Number(ch);
                 }
                 const jan4 = new Date(Date.UTC(year, 0, 4));
@@ -1290,20 +1384,20 @@ function parseDate(){
                 day = 4 + days;
                 nextChar();
             }
-            else{
-                if(ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the month when reading Date value.");
+            else {
+                if (ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the month when reading Date value.");
                 month = Number(ch);
                 nextChar();
-                if(ch >= "0" && ch <= "9" && ch !== null){
+                if (ch >= "0" && ch <= "9" && ch !== null) {
                     month = Number(ch) + month * 10;
                     nextChar();
                 }
-                if(ch === "-"){
+                if (ch === "-") {
                     nextChar();
-                    if(ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the day when reading Date value.");
+                    if (ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the day when reading Date value.");
                     day = Number(ch);
                     nextChar();
-                    if(ch >= "0" && ch <= "9" && ch !== null){
+                    if (ch >= "0" && ch <= "9" && ch !== null) {
                         day = Number(ch) + day * 10;
                         nextChar();
                     }
@@ -1311,46 +1405,46 @@ function parseDate(){
             }
         }
     }
-    if(ch === "T"){
+    if (ch === "T") {
         // Hour
         nextChar();
-        if(ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the hour when reading Date value.");
+        if (ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the hour when reading Date value.");
         hour += Number(ch);
         nextChar();
-        if(ch >= "0" && ch <= "9" && ch !== null){
+        if (ch >= "0" && ch <= "9" && ch !== null) {
             hour = Number(ch) + hour * 10;
             nextChar();
         }
-        if(ch === ":"){
+        if (ch === ":") {
             // Minute
             nextChar();
-            if(ch < "0" || ch > "9" || ch === null) return new Date(Date.UTC(year, month - 1, day, hour, 0, 0, 0))
+            if (ch < "0" || ch > "9" || ch === null) return new Date(Date.UTC(year, month - 1, day, hour, 0, 0, 0))
             min += Number(ch);
             nextChar();
-            if(ch >= "0" && ch <= "9" && ch !== null){
+            if (ch >= "0" && ch <= "9" && ch !== null) {
                 min = Number(ch) + min * 10;
                 nextChar();
             }
-            if(ch === ":"){
+            if (ch === ":") {
                 // Second
                 nextChar();
-                if(ch < "0" || ch > "9" || ch === null) return new Date(Date.UTC(year, month - 1, day, hour, min, 0, 0))
+                if (ch < "0" || ch > "9" || ch === null) return new Date(Date.UTC(year, month - 1, day, hour, min, 0, 0))
                 sec += Number(ch);
                 nextChar();
-                if(ch >= "0" && ch <= "9" && ch !== null){
+                if (ch >= "0" && ch <= "9" && ch !== null) {
                     sec = Number(ch) + sec * 10;
                     nextChar();
                 }
-                if(ch === "."){
+                if (ch === ".") {
                     // Millisecond
                     nextChar();
-                    if(ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the milliseconds when reading Date value.");
+                    if (ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the milliseconds when reading Date value.");
                     ms += Number(ch) * 100;
                     nextChar();
-                    if(ch >= "0" && ch <= "9" && ch !== null){
+                    if (ch >= "0" && ch <= "9" && ch !== null) {
                         ms += Number(ch) * 10;
                         nextChar();
-                        if(ch >= "0" && ch <= "9" && ch !== null){
+                        if (ch >= "0" && ch <= "9" && ch !== null) {
                             ms += Number(ch);
                             nextChar();
                         }
@@ -1359,24 +1453,24 @@ function parseDate(){
             }
         }
     }
-    if(ch === "+" || ch === "-"){
+    if (ch === "+" || ch === "-") {
         let offsetMultiplier = 1;
         let offsetMin = 0;
-        if(ch === "-") offsetMultiplier = -1;
+        if (ch === "-") offsetMultiplier = -1;
         nextChar();
-        if(ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the hour offset when reading Date value.");
+        if (ch < "0" || ch > "9" || ch === null) throw new LxonError("Invalid first digit for the hour offset when reading Date value.");
         let offsetHour = Number(ch);
         nextChar();
-        if(ch >= "0" && ch <= "9" && ch !== null){
+        if (ch >= "0" && ch <= "9" && ch !== null) {
             offsetHour = Number(ch) + offsetHour * 10;
             nextChar();
         }
-        if(ch === ":"){
+        if (ch === ":") {
             nextChar();
-            if(ch >= "0" && ch <= "9" && ch !== null){
+            if (ch >= "0" && ch <= "9" && ch !== null) {
                 offsetMin += Number(ch) * 10;
                 nextChar();
-                if(ch >= "0" && ch <= "9" && ch !== null){
+                if (ch >= "0" && ch <= "9" && ch !== null) {
                     offsetMin += Number(ch);
                     nextChar();
                 }
@@ -1385,7 +1479,7 @@ function parseDate(){
         hour += offsetHour * offsetMultiplier;
         min += offsetMin * offsetMultiplier;
     }
-    else if(ch === "Z"){
+    else if (ch === "Z") {
         nextChar();
     }
     return new Date(Date.UTC(year, month - 1, day, hour, min, sec, ms));
@@ -1395,57 +1489,57 @@ function parseDate(){
 
 // -------------------- Next Character --------------------
 
-function nextChar(){
+function nextChar() {
     i++;
     col++;
-    if(i >= file.length){ ch = null; return; }
+    if (i >= file.length) { ch = null; return; }
     ch = file[i];
-    if(ch === "\n" || ch === "\r") {
+    if (ch === "\n" || ch === "\r") {
         let tempI = i;
         let tempCh = "\n";
         let tempTempI;
         let tempTempCh;
-        while(true){
+        while (true) {
             col = 1; ln++;
-            while(tempCh === "\n" || tempCh === "\r"){ // Skips empty newlines
+            while (tempCh === "\n" || tempCh === "\r") { // Skips empty newlines
                 tempI++;
                 tempCh = file[tempI];
             }
             tempTempI = tempI;
             tempTempCh = tempCh;
-            while(tempTempCh === "\t"){ // Tests skipping tabs on newline
+            while (tempTempCh === "\t") { // Tests skipping tabs on newline
                 tempTempI++;
                 tempTempCh = file[tempTempI];
             }
-            if(tempTempCh === "\n" || tempTempCh === "\r"){ // If a line has only tabs, skips the line
+            if (tempTempCh === "\n" || tempTempCh === "\r") { // If a line has only tabs, skips the line
                 tempCh = tempTempCh;
                 tempI = tempTempI;
                 continue;
             }
-            if(tempTempI >= file.length){ // Deal with end of file
+            if (tempTempI >= file.length) { // Deal with end of file
                 i = tempI;
                 ch = null;
                 return;
             }
-            if(tempTempCh === "#"){ // If a line's first non-tab character is a #, then it's a comment
+            if (tempTempCh === "#") { // If a line's first non-tab character is a #, then it's a comment
                 tempCh = tempTempCh;
                 tempI = tempTempI;
-                while(tempCh !== "\n" && tempCh !== "\r"){
+                while (tempCh !== "\n" && tempCh !== "\r") {
                     tempI++;
-                    if(tempI < file.length) tempCh = file[tempI];
-                    else{ // Deal with end of file
+                    if (tempI < file.length) tempCh = file[tempI];
+                    else { // Deal with end of file
                         i = tempI;
                         ch = null;
                         return;
                     }
                 }
             }
-            if(tempTempCh === " "){ // If a line's first non-tab character is a space
+            if (tempTempCh === " ") { // If a line's first non-tab character is a space
                 ch = tempTempCh;
                 i = tempTempI;
                 throw new LxonError("Space indentation not supported, use real tab characters instead.");
             }
-            else{ // Exit loop when new non-empty non-comment line is found
+            else { // Exit loop when new non-empty non-comment line is found
                 i = tempI - 1;
                 ch = "\n";
                 return;
@@ -1460,7 +1554,7 @@ function nextChar(){
 
 let trailContainers = true;
 
-function stringify(obj, newlineAfterContainers = true, newlineAtEnd = true){
+function stringify(obj, newlineAfterContainers = true, newlineAtEnd = true) {
     trailContainers = newlineAfterContainers;
     depth = -1;
     if (obj instanceof Map) {
@@ -1478,8 +1572,8 @@ function stringify(obj, newlineAfterContainers = true, newlineAtEnd = true){
     } else {
         throw new Error("Invalid root container. Must be of type Object, Array, Map or lxon.Doodad")
     }
-    if(newlineAtEnd){
-        if(file.at(-1) !== "\n") file.push("\n");
+    if (newlineAtEnd) {
+        if (file.at(-1) !== "\n") file.push("\n");
     }
     return file.join("");
 }
@@ -1499,7 +1593,7 @@ function writeFile(obj, dest, newlineAfterContainers = true, newlineAtEnd = true
 
 // -------------------- Stringify Object --------------------
 
-function writeObject(obj, wasArray){
+function writeObject(obj, wasArray) {
     wasNewline = false;
     depth++;
     const entries = Object.entries(obj)
@@ -1510,11 +1604,11 @@ function writeObject(obj, wasArray){
         return;
     }
     const inline = len < 3;
-    if(!inline) {
-        if(wasArray) file.push("{\n");
+    if (!inline) {
+        if (wasArray) file.push("{\n");
         else file.push("\n");
     }
-    else if(depth > 0) file.push("{ ")
+    else if (depth > 0) file.push("{ ")
     let i = 0;
     for (const [key, value] of entries) {
         i++;
@@ -1523,7 +1617,7 @@ function writeObject(obj, wasArray){
         writeValue(value, inline, i === len);
     }
     depth--;
-    if(trailContainers && !inline && !wasNewline) {
+    if (trailContainers && !inline && !wasNewline) {
         file.push("\n");
         wasNewline = true;
     }
@@ -1533,7 +1627,7 @@ function writeObject(obj, wasArray){
 
 // -------------------- Stringify Array --------------------
 
-function writeArray(arr){
+function writeArray(arr) {
     wasNewline = false;
     depth++;
     const len = arr.length;
@@ -1544,19 +1638,19 @@ function writeArray(arr){
         return;
     }
     for (const value of arr) {
-        if(typeof value === "object"){
-            if(value instanceof Date) continue;
-            else if(value === null) continue;
-            else if(value instanceof LinearColor) continue;
-            else if(value instanceof Uint8Array) continue;
-            else if(value instanceof ColorSRGB) continue;
-            else if(value instanceof Enum) continue;
+        if (typeof value === "object") {
+            if (value instanceof Date) continue;
+            else if (value === null) continue;
+            else if (value instanceof LinearColor) continue;
+            else if (value instanceof Uint8Array) continue;
+            else if (value instanceof ColorSRGB) continue;
+            else if (value instanceof Enum) continue;
             inline = false;
             break;
         }
     }
-    if(!inline) file.push("[\n")
-    else if(depth > 0) file.push("[ ")
+    if (!inline) file.push("[\n")
+    else if (depth > 0) file.push("[ ")
     let i = 0;
     for (const value of arr) {
         i++;
@@ -1564,7 +1658,7 @@ function writeArray(arr){
         writeValue(value, inline, i === len, true);
     }
     depth--;
-    if(trailContainers && !inline && !wasNewline) {
+    if (trailContainers && !inline && !wasNewline) {
         file.push("\n");
         wasNewline = true;
     }
@@ -1574,7 +1668,7 @@ function writeArray(arr){
 
 // -------------------- Stringify Doodad --------------------
 
-function writeDoodad(obj, wasDoodad){
+function writeDoodad(obj, wasDoodad) {
     wasNewline = false;
     depth++;
     const entries = Object.entries(obj.obj)
@@ -1586,20 +1680,20 @@ function writeDoodad(obj, wasDoodad){
     }
     let inline = len < 5;
     for (const [key, value] of entries) {
-        if(typeof value === "object"){
-            if(value instanceof Date) continue;
-            else if(value === null) continue;
-            else if(value instanceof LinearColor) continue;
-            else if(value instanceof Uint8Array) continue;
-            else if(value instanceof ColorSRGB) continue;
+        if (typeof value === "object") {
+            if (value instanceof Date) continue;
+            else if (value === null) continue;
+            else if (value instanceof LinearColor) continue;
+            else if (value instanceof Uint8Array) continue;
+            else if (value instanceof ColorSRGB) continue;
             inline = false;
             break;
         }
     }
-    if(!wasDoodad) file.push(" ");
+    if (!wasDoodad) file.push(" ");
     let i = 0;
     if (len > 0) {
-    const [firstKey, firstValue] = entries[0];
+        const [firstKey, firstValue] = entries[0];
         file.push(cleanKey(firstKey));
         writeValue(firstValue, inline, len === 1, false, true);
         for (let i = 1; i < len; i++) {
@@ -1609,7 +1703,7 @@ function writeDoodad(obj, wasDoodad){
         }
     }
     depth--;
-    if(trailContainers && !inline && !wasNewline) {
+    if (trailContainers && !inline && !wasNewline) {
         file.push("\n");
         wasNewline = true;
     }
@@ -1636,7 +1730,7 @@ function getKeyType(key) {
     if (typeof key === 'number') return 0;
     if (key instanceof Date) return 1;
     if (typeof key === 'string') {
-        if(key.length === 1) return 7;
+        if (key.length === 1) return 7;
         return 8;
     }
     if (typeof key === 'symbol') return 2;
@@ -1648,7 +1742,7 @@ function getKeyType(key) {
 }
 
 
-function writeMap(obj){
+function writeMap(obj) {
     wasNewline = false;
     depth++;
     // Test key type
@@ -1661,15 +1755,21 @@ function writeMap(obj){
     let type = getKeyType(keys[0]);
     for (let i = 1; i < keys.length; i++) {
         if (getKeyType(keys[i]) !== type) {
-            type = '7';
+            type = '8';
             break;
         }
     }
     const entries = [...obj.entries()];
     const len = entries.length;
     const inline = len < 3;
-    if(!inline) file.push("(", keyTypes[type], "\n")
-    else if(depth > 0) file.push("(", keyTypes[type], " ")
+    if (!inline) {
+        if(type === 6) file.push("(*", keys[0].type, "\n");
+        else file.push("(", keyTypes[type], "\n");
+    }
+    else if (depth > 0) {
+        if(type === 6) file.push("(*", keys[0].type, ":");
+        else file.push("(", keyTypes[type], " ");
+    }
     let i = 0;
     for (const [key, value] of entries) {
         i++;
@@ -1678,15 +1778,15 @@ function writeMap(obj){
         writeValue(value, inline, i === len);
     }
     depth--;
-    if(trailContainers && !inline && !wasNewline) {
+    if (trailContainers && !inline && !wasNewline) {
         file.push("\n");
         wasNewline = true;
     }
 }
 
 
-function writeMapKey(key, inline, type){
-    switch(type){
+function writeMapKey(key, inline, type) {
+    switch (type) {
         case 0: // Number
             file.push(inline ? "" : "\t".repeat(depth), cleanNumber(key));
             break;
@@ -1700,14 +1800,14 @@ function writeMapKey(key, inline, type){
             file.push(inline ? "" : "\t".repeat(depth), key.toStringRaw());
             break;
         case 4: // Boolean
-            if(key) file.push(inline ? "" : "\t".repeat(depth), "$");
+            if (key) file.push(inline ? "" : "\t".repeat(depth), "$");
             else file.push(inline ? "" : "\t".repeat(depth), "!");
             break;
         case 5: // Color SRGB
             file.push(inline ? "" : "\t".repeat(depth), key.toHex());
             break;
         case 6: // Enum
-            file.push(inline ? "" : "\t".repeat(depth), key.toString());
+            file.push(inline ? "" : "\t".repeat(depth), key.member);
             break;
         case 7: // String char
         case 8: // String
@@ -1748,7 +1848,7 @@ function cleanStringKey(key) {
             case 58: escaped = '\\:'; break; // :
             case 10: escaped = '\\n'; break; // \n
             case 13: escaped = '\\r'; break; // \r
-            case 9:  escaped = '\\t'; break; // \t
+            case 9: escaped = '\\t'; break; // \t
         }
         if (escaped !== null) {
             result += key.slice(chunkStart, i) + escaped;
@@ -1763,14 +1863,14 @@ function cleanStringKey(key) {
 
 // -------------------- Key Write Things --------------------
 
-function writeColon(value, inline){
-    if(typeof value === "object"){
-        if(value instanceof Date){ file.push(": "); }
-        else if(value instanceof Uint8Array){ file.push(": "); }
-        else if(value === null){ file.push(": "); }
-        else if(value instanceof LinearColor){ file.push(": "); }
-        else if(value instanceof ColorSRGB){ file.push(": "); }
-        else if(value instanceof Enum){ file.push(": "); }
+function writeColon(value, inline) {
+    if (typeof value === "object") {
+        if (value instanceof Date) { file.push(": "); }
+        else if (value instanceof Uint8Array) { file.push(": "); }
+        else if (value === null) { file.push(": "); }
+        else if (value instanceof LinearColor) { file.push(": "); }
+        else if (value instanceof ColorSRGB) { file.push(": "); }
+        else if (value instanceof Enum) { file.push(": "); }
         else file.push(":");
         return;
     }
@@ -1778,67 +1878,64 @@ function writeColon(value, inline){
 }
 
 
-function writeValue(value, inline, last, wasArray = false, wasDoodad = false){
+function writeValue(value, inline, last, wasArray = false, wasDoodad = false) {
     const end = last ? "" : (inline ? " " : "\n");
-    switch(typeof value){
+    switch (typeof value) {
         case "string":
-            if(value.length === 1) file.push("'", cleanStringFull(value), end); // Char
-            else if(inline && !last) file.push('`', cleanString(value), "` "); // Inline String
+            if (value.length === 1) file.push("'", cleanStringFull(value), end); // Char
+            else if (inline && !last) file.push('`', cleanString(value), "` "); // Inline String
             else file.push('"', cleanStringFull(value), end); // Multiline String
             break;
         case "boolean":
-            if(value) file.push("$", end); // True
+            if (value) file.push("$", end); // True
             else file.push("!", end); // False
             break;
         case "undefined":
-            file.push("%", end); // Undefined
+            file.push("_", end); // Undefined
             break;
         case "symbol":
-            if(inline && !last) file.push("@", cleanKeybind(value), "` "); // Inline Keybind
+            if (inline && !last) file.push("@", cleanKeybind(value), "` "); // Inline Keybind
             else file.push('@', cleanKeybindFull(value), end); // Multiline Keybind
             break;
         case "number":
-            if(Number.isNaN(value)) file.push("-", end); // NaN
-            else if(value === Infinity) file.push("+", end); // +Infinity
-            else if(value === -Infinity) file.push("~", end); // -Infinity
-            else file.push(cleanNumber(value), end); // Number
+            file.push(cleanNumber(value), end); // Number
             break;
         case "object":
-            if(value === null){
-                file.push("_", end); // Null
+            if (value === null) {
+                file.push("~", end); // Null
             }
-            else if(value instanceof Uint8Array){
-                if(inline && !last) file.push("?", cleanBinary(value), "` "); // Inline Binary
+            else if (value instanceof Uint8Array) {
+                if (inline && !last) file.push("?", cleanBinary(value), "` "); // Inline Binary
                 else file.push("?", cleanBinary(value), end); // Multiline Binary
             }
-            else if(value instanceof Date){
+            else if (value instanceof Date) {
                 file.push("&", cleanDate(value), end); // Date
             }
-            else if(value instanceof ColorSRGB){
+            else if (value instanceof ColorSRGB) {
                 file.push(value.toString(), end); // Color SRGB
             }
-            else if(value instanceof LinearColor){
+            else if (value instanceof LinearColor) {
                 file.push(value.toString(), end); // Linear Color
             }
-            else if(value instanceof Enum){
-                if(inline && !last) file.push("*", value.toString(), "`", end); // Inline Enum
+            else if (value instanceof Enum) {
+                if (inline && !last) file.push("*", value.toString(), "`", end); // Inline Enum
                 else file.push("*", value.toString(), end); // Multiline Enum
             }
-            else if(Array.isArray(value)){ // Array
+            else if (Array.isArray(value)) { // Array
                 writeArray(value);
-                if(end.length > 0) file.push(end);
+                if (end.length > 0) file.push(end);
             }
-            else if(value instanceof Map){ // Map
+            else if (value instanceof Map) { // Map
                 writeMap(value);
-                if(end.length > 0) file.push(end);
+                if (end.length > 0) file.push(end);
             }
-            else if(value instanceof Doodad){ // Doodad
+            else if (value instanceof Doodad) { // Doodad
                 writeDoodad(value, wasDoodad);
-                if(end.length > 0) file.push(end);
+                if (end.length > 0) file.push(end);
             }
-            else{
+            else {
                 writeObject(value, wasArray); // Object
-                if(end.length > 0) file.push(end);
+                if (end.length > 0) file.push(end);
             }
             break;
     }
@@ -1848,100 +1945,103 @@ function writeValue(value, inline, last, wasArray = false, wasDoodad = false){
 
 // -------------------- Clean for Stringify --------------------
 
-function cleanKey(key){
+function cleanKey(key) {
     const out = [];
     const c0 = key.charCodeAt(0);
-    if(c0 !== 9 && c0 !== 10 && c0 !== 13 && c0 !== 58 && c0 !== 32) out.push(key[0]);;
-    for(let i = 1; i < key.length; i++){
+    if (c0 !== 9 && c0 !== 10 && c0 !== 13 && c0 !== 58 && c0 !== 32) out.push(key[0]);;
+    for (let i = 1; i < key.length; i++) {
         const c = key.charCodeAt(i);
-        if(c === 9 || c === 10 || c === 13 || c === 58) continue;
+        if (c === 9 || c === 10 || c === 13 || c === 58) continue;
         out.push(key[i]);
     }
     return out.join("");
 }
 
 
-function cleanStringFull(str){
+function cleanStringFull(str) {
     const out = [];
-    for(let i = 0; i < str.length; i++){
+    for (let i = 0; i < str.length; i++) {
         const c = str.charCodeAt(i);
-        if(c === 10){ out.push("\\n"); continue; }
-        if(c === 13){ out.push("\\r"); continue; }
-        if(c === 9){ out.push("\\t"); continue; }
+        if (c === 10) { out.push("\\n"); continue; }
+        if (c === 13) { out.push("\\r"); continue; }
+        if (c === 9) { out.push("\\t"); continue; }
         out.push(str[i]);
     }
-    if(out[out.length - 1] === " ") out[out.length - 1] = "\\s";
+    if (out[out.length - 1] === " ") out[out.length - 1] = "\\s";
     return out.join("");
 }
 
 
-function cleanString(str){
+function cleanString(str) {
     const out = [];
-    for(let i = 0; i < str.length; i++){
+    for (let i = 0; i < str.length; i++) {
         const c = str.charCodeAt(i);
-        if(c === 10){ out.push("\\n"); continue; }
-        if(c === 13){ out.push("\\r"); continue; }
-        if(c === 9){ out.push("\\t"); continue; }
-        if(c === 96){ out.push("\\`"); continue; }
-        if(c === 94){ out.push("\\^"); continue; }
+        if (c === 10) { out.push("\\n"); continue; }
+        if (c === 13) { out.push("\\r"); continue; }
+        if (c === 9) { out.push("\\t"); continue; }
+        if (c === 96) { out.push("\\`"); continue; }
+        if (c === 94) { out.push("\\^"); continue; }
         out.push(str[i]);
     }
     return out.join("");
 }
 
 
-function cleanKeybindFull(sym){
+function cleanKeybindFull(sym) {
     const str = Symbol.keyFor(sym);
     const out = [];
-    for(let i = 0; i < str.length; i++){
+    for (let i = 0; i < str.length; i++) {
         const c = str.charCodeAt(i);
-        if(c === 10){ out.push("\\n"); continue; }
-        if(c === 13){ out.push("\\r"); continue; }
-        if(c === 9){ out.push("\\t"); continue; }
-        if(c === 96){ out.push("\\`"); continue; }
-        if(c === 94){ out.push("\\^"); continue; }
+        if (c === 10) { out.push("\\n"); continue; }
+        if (c === 13) { out.push("\\r"); continue; }
+        if (c === 9) { out.push("\\t"); continue; }
+        if (c === 96) { out.push("\\`"); continue; }
+        if (c === 94) { out.push("\\^"); continue; }
         out.push(str[i]);
     }
-    if(out[out.length - 1] === " ") out[out.length - 1] = "\\s";
+    if (out[out.length - 1] === " ") out[out.length - 1] = "\\s";
     return out.join("");
 }
 
 
-function cleanKeybind(sym){
+function cleanKeybind(sym) {
     const str = Symbol.keyFor(sym);
     const out = [];
-    for(let i = 0; i < str.length; i++){
+    for (let i = 0; i < str.length; i++) {
         const c = str.charCodeAt(i);
-        if(c === 10){ out.push("\\n"); continue; }
-        if(c === 13){ out.push("\\r"); continue; }
-        if(c === 9){ out.push("\\t"); continue; }
-        if(c === 96){ out.push("\\`"); continue; }
-        if(c === 94){ out.push("\\^"); continue; }
+        if (c === 10) { out.push("\\n"); continue; }
+        if (c === 13) { out.push("\\r"); continue; }
+        if (c === 9) { out.push("\\t"); continue; }
+        if (c === 96) { out.push("\\`"); continue; }
+        if (c === 94) { out.push("\\^"); continue; }
         out.push(str[i]);
     }
     return out.join("");
 }
 
 
-function cleanNumber(number){
+function cleanNumber(number) {
+    if (Number.isNaN(number)) return "+";
+    if (number === Infinity) return "%";
+    if (number === -Infinity) return "-%";
     const str = number.toString();
-    if(str.includes("e") || str.includes("E")) return str;
+    if (str.includes("e") || str.includes("E")) return str;
     const num = Math.abs(number);
-    if(num > 0 && num < 1) return number < 0 ? "-" + str.slice(2) : str.slice(1);
+    if (num > 0 && num < 1) return number < 0 ? "-" + str.slice(2) : str.slice(1);
     return str;
 }
 
 
-function cleanBinary(arr){
+function cleanBinary(arr) {
     const out = [];
-    for(let i = 0; i < arr.length; i++){
+    for (let i = 0; i < arr.length; i++) {
         out.push(arr[i].toString(16).padStart(2, "0"));
     }
     return out.join("");
 }
 
 
-function cleanDate(date){
+function cleanDate(date) {
     const out = [];
     const year = date.getUTCFullYear();
     const month = date.getUTCMonth() + 1;
@@ -1951,22 +2051,22 @@ function cleanDate(date){
     const sec = date.getUTCSeconds();
     const ms = date.getUTCMilliseconds();
 
-    if(year >= 2000 && year <= 2099) out.push((year - 2000).toString().padStart(2, "0"));
+    if (year >= 2000 && year <= 2099) out.push((year - 2000).toString().padStart(2, "0"));
     else out.push(year.toString().padStart(4, "0"));
 
-    if(month !== 1 || day !== 1){
+    if (month !== 1 || day !== 1) {
         out.push("-", month.toString().padStart(2, "0"));
-        if(day !== 1){
+        if (day !== 1) {
             out.push("-", day.toString().padStart(2, "0"));
         }
     }
-    if(hour !== 0 || min !== 0 || sec !== 0 || ms !== 0){
+    if (hour !== 0 || min !== 0 || sec !== 0 || ms !== 0) {
         out.push("T", hour.toString().padStart(2, "0"));
-        if(min !== 0 || sec !== 0 || ms !== 0){
+        if (min !== 0 || sec !== 0 || ms !== 0) {
             out.push(":", min.toString().padStart(2, "0"));
-            if(sec !== 0 || ms !== 0){
+            if (sec !== 0 || ms !== 0) {
                 out.push(":", sec.toString().padStart(2, "0"));
-                if(ms !== 0) out.push(".", ms.toString());
+                if (ms !== 0) out.push(".", ms.toString());
             }
         }
     }
@@ -1978,7 +2078,7 @@ function cleanDate(date){
 
 // -------------------- Stringify Functions Inline --------------------
 
-function stringifyInline(obj){
+function stringifyInline(obj) {
     depth = -1;
     file = [];
     if (obj instanceof Map) {
@@ -2010,7 +2110,7 @@ function writeFileInline(obj, dest) {
 
 // -------------------- Stringify Object Inline --------------------
 
-function writeObjectInline(obj){
+function writeObjectInline(obj) {
     depth++;
     const entries = Object.entries(obj)
     const len = entries.length;
@@ -2032,7 +2132,7 @@ function writeObjectInline(obj){
 
 // -------------------- Stringify Array --------------------
 
-function writeArrayInline(arr){
+function writeArrayInline(arr) {
     depth++;
     const len = arr.length;
     if (len === 0) {
@@ -2056,7 +2156,7 @@ function writeArrayInline(arr){
 
 // -------------------- Stringify Doodad --------------------
 
-function writeDoodadInline(obj){
+function writeDoodadInline(obj) {
     depth++;
     const entries = Object.entries(obj.obj)
     const len = entries.length;
@@ -2078,7 +2178,7 @@ function writeDoodadInline(obj){
 
 // -------------------- Stringify Map Inline --------------------
 
-function writeMapInline(obj){
+function writeMapInline(obj) {
     depth++;
     // Test key type
     const keys = [...obj.keys()];
@@ -2107,8 +2207,8 @@ function writeMapInline(obj){
 }
 
 
-function writeMapKeyInline(key, type){
-    switch(type){
+function writeMapKeyInline(key, type) {
+    switch (type) {
         case 0: // Number
             file.push(cleanNumber(key));
             break;
@@ -2122,7 +2222,7 @@ function writeMapKeyInline(key, type){
             file.push(key.toStringRaw());
             break;
         case 4: // Boolean
-            if(key) file.push("$");
+            if (key) file.push("$");
             else file.push("!");
             break;
         case 5: // Color SRGB
@@ -2139,54 +2239,51 @@ function writeMapKeyInline(key, type){
 
 // -------------------- Key Write Things Inline --------------------
 
-function writeValueInline(value, wasString = false, willString = false){
-    switch(typeof value){
+function writeValueInline(value, wasString = false, willString = false) {
+    switch (typeof value) {
         case "string":
-            if(value.length === 1) file.push("'", cleanStringFull(value), end); // Char
+            if (value.length === 1) file.push("'", cleanStringFull(value), end); // Char
             else file.push(wasString ? "" : '`', cleanString(value), willString ? "^" : "`"); // String
             break;
         case "boolean":
-            if(value) file.push("$"); // True
+            if (value) file.push("$"); // True
             else file.push("!"); // False
             break;
         case "undefined":
-            file.push("%"); // Undefined
+            file.push("_"); // Undefined
             break;
         case "symbol":
             file.push("@", cleanKeybind(value), "`"); // Keybind
             break;
         case "number":
-            if(Number.isNaN(value)) file.push("-"); // NaN
-            else if(value === Infinity) file.push("+"); // +Infinity
-            else if(value === -Infinity) file.push("~"); // -Infinity
-            else file.push(cleanNumber(value)); // Number
+            file.push(cleanNumber(value)); // Number
             break;
         case "object":
-            if(value === null){
-                file.push("_"); // Null
+            if (value === null) {
+                file.push("~"); // Null
             }
-            else if(value instanceof Uint8Array){
+            else if (value instanceof Uint8Array) {
                 file.push("?", cleanBinary(value), "`"); // Binary
             }
-            else if(value instanceof Date){
+            else if (value instanceof Date) {
                 file.push("&", cleanDate(value), " "); // Date
             }
-            else if(value instanceof ColorSRGB){
+            else if (value instanceof ColorSRGB) {
                 file.push(value.toString(), " "); // Color SRGB
             }
-            else if(value instanceof LinearColor){
+            else if (value instanceof LinearColor) {
                 file.push(value.toString(), " "); // Linear Color
             }
-            else if(Array.isArray(value)){ // Array
+            else if (Array.isArray(value)) { // Array
                 writeArrayInline(value);
             }
-            else if(value instanceof Map){ // Map
+            else if (value instanceof Map) { // Map
                 writeMapInline(value);
             }
-            else if(value instanceof Doodad){ // Doodad
+            else if (value instanceof Doodad) { // Doodad
                 writeDoodadInline(value);
             }
-            else{
+            else {
                 writeObjectInline(value); // Object
             }
             break;

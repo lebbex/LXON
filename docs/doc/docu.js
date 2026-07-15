@@ -10,9 +10,9 @@ window.docnav = {
 	Overview: [
 		"",
 		["Outline", "outline"],
+		["Supported Types", "types"],
 		["Goals", "goals"],
-		["Backstory", "backstory"],
-		["Supported Types", "types"]
+		["Backstory", "backstory"]
 	],
 	Containers: {
 		_: "/containers",
