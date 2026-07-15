@@ -160,14 +160,14 @@ window.docu = {
 		const content = document.getElementById('content');
 
 		const contentWrapper = document.createElement('div');
-        contentWrapper.id = 'content-wrapper';
+		contentWrapper.id = 'content-wrapper';
 
-        content.parentNode.insertBefore(contentWrapper, content);
-        contentWrapper.appendChild(content);
+		content.parentNode.insertBefore(contentWrapper, content);
+		contentWrapper.appendChild(content);
 
 		docu.lenis = new Lenis({
 			wrapper: contentWrapper,
-            content: content,
+			content: content,
 			lerp: 0.1,
 			wheelMultiplier: 0.75,
 			touchMultiplier: 1.0,
@@ -182,21 +182,46 @@ window.docu = {
 			let lastY = 0;
 			let lastTime = 0;
 			let rafId = null;
-			let virtualScroll = 0; // our own float-precision position, never rounded
+			let trackerRafId = null; // <-- Tracks the active finger's state
+			let virtualScroll = 0;
 
-			const friction = 0.97;
+			const friction = 0.96;
 			const stopThreshold = 0.005;
 			const velocitySamples = [];
-			const maxSamples = 10;
+			const maxSamples = 5; // Kept slightly smaller for snappy response
+
+			// A flag to check if touchmove updated our position in the current frame
+			let movedThisFrame = false;
+
+			// This loop runs continuously while the finger is holding down
+			function trackFingerVelocity() {
+				if (!touching) return;
+
+				// If a frame passed and touchmove didn't fire, the finger is stationary
+				if (!movedThisFrame) {
+					velocitySamples.push(0); // Decay momentum dynamically
+					if (velocitySamples.length > maxSamples) velocitySamples.shift();
+				}
+
+				movedThisFrame = false; // Reset for the next frame tick
+				trackerRafId = requestAnimationFrame(trackFingerVelocity);
+			}
 
 			function onTouchStart(e) {
-				if (e.target.closest('[data-lenis-prevent]')) return; // ignore touches that belong to nested scrollers
+				if (e.target.closest('[data-lenis-prevent]')) return;
 				touching = true;
+				movedThisFrame = true;
+
 				cancelAnimationFrame(rafId);
+				cancelAnimationFrame(trackerRafId);
+
 				velocity = 0;
 				velocitySamples.length = 0;
 				lastY = e.touches[0].clientY;
 				lastTime = performance.now();
+
+				// Start the stationary finger monitoring loop
+				trackerRafId = requestAnimationFrame(trackFingerVelocity);
 			}
 
 			function onTouchMove(e) {
@@ -206,6 +231,7 @@ window.docu = {
 				const dt = Math.max(now - lastTime, 1);
 				const v = (lastY - y) / dt;
 
+				movedThisFrame = true; // Mark that we had real movement this frame
 				velocitySamples.push(v);
 				if (velocitySamples.length > maxSamples) velocitySamples.shift();
 
@@ -217,6 +243,9 @@ window.docu = {
 				if (!touching) return;
 				touching = false;
 
+				cancelAnimationFrame(trackerRafId); // Stop tracking the finger
+
+				// Calculate average. If you held still, the array is full of 0s!
 				velocity = velocitySamples.length
 					? velocitySamples.reduce((a, b) => a + b, 0) / velocitySamples.length
 					: 0;
@@ -224,7 +253,7 @@ window.docu = {
 				cancelAnimationFrame(rafId);
 				lenis.scrollTo(lenis.animatedScroll, { immediate: true });
 
-				virtualScroll = lenis.animatedScroll; // seed our float tracker from real position
+				virtualScroll = lenis.animatedScroll;
 				lastFrameTime = 0;
 				rafId = requestAnimationFrame(glide);
 			}
@@ -240,10 +269,9 @@ window.docu = {
 					return;
 				}
 
-				const limit = lenis.limit; // max scrollable distance
+				const limit = lenis.limit;
 				const next = virtualScroll + velocity * dt;
 
-				// stop only on a REAL boundary hit, not rounding
 				if (next <= 0 || next >= limit) {
 					virtualScroll = Math.max(0, Math.min(limit, next));
 					lenis.scrollTo(virtualScroll, { immediate: true });
@@ -266,7 +294,7 @@ window.docu = {
 
 
 
-		fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, 0.015, 1);
+		fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, 0.015, 1, 0.11, -1.2);
 
 
 

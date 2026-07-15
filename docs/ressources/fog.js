@@ -1,7 +1,7 @@
 let wasHome = true;
 
 window.fog = {
-	init: function (colorDark, color, lenis, grain, scale) {
+	init: function (colorDark, color, lenis, grain, scale, speed, fall) {
 		document.documentElement.style.background = `rgb(${color[0] * 100}, ${color[1] * 100}, ${color[2] * 100})`;
 		window.scrollTo(0, 0);
 		if (history.scrollRestoration) {
@@ -18,11 +18,11 @@ window.fog = {
 
 		// ---- tweakables -----------------------------------------------------
 		const NOISE_SCALE = scale;
-		const TIME_SPEED = 0.08;
+		const TIME_SPEED = speed;
 		const PARALLAX_FACTOR = -0.5;
 		const GRAIN_AMOUNT = grain;
 		const GRAIN_SIZE = 1.0;
-		const FALL_SPEED = -1;
+		const FALL_SPEED = fall;
 		const COLOR_DARK = colorDark;
 		const COLOR_LIGHT = color;
 		// -----------------------------------------------------------------------
