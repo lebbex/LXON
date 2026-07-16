@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			A string value is the more versatile alternative to !! Values / Text / Full String ! full string ! values.
+			It requires a backtick<dfn>`</dfn> or caret<dfn>^</dfn> at the start, as type declaration. 
+			Every following character is treated as the contents of the string, until the first instance either one of those characters.
+			This means you start and end string characters with either of the same two characters.
+		</p>
+		<p>
+			Like with full strings, the string also ends at the end of the line, so trailing backticks aren't strictly required.
+			Strings support !! Other / Escaped Characters ! escape characters !. 
+			They also support trailing whitespace such as tabs or space characters.
+		</p>
+		<h2> Important </h2>
+		<p>
+			Although newline termination is supported, it is highly reccomended to refrain from doing so,
+			as it is standardized to always include a trailing backtick. Certain parsers might break without the usage of one.
+			You can always use a full string in the event that you want to skip on a trailing backtick.
+		</p>
+		<p>
+			Also, although trailing whitespace is supported, if there's no trailing backtick,
+			it is standardized to replace the last character with a<dfn>\s</dfn>if it's a space, or a<dfn>\t</dfn>if it's a tab.
+			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
+			For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing mistake.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of string values as reference:
+		</p>
+		<pre><code>{
+key: `string`
+ehh: `string
+
+array:[ `str1` `str2`
+	`str3
+	`str4^str5`
+	`str6^str7
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Values", "Text", "Char"]);
+	</script>
+
+</body>
+
+</html>

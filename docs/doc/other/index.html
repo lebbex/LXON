@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="content"></h1>
+		<h2 id="comments"> !! Other / Comments ! Comments ! </h2>
+		<p>
+			One thing you'll see a bit in this documentation is comments inside code blocks.
+			You should always read these comments as they sometimes distinguish what's valid syntax
+			and what isn't.
+		</p>
+		<p>
+			Comments are officially supported, but should rarely be used, and especially not in published projects.
+		</p>
+		<p>
+			To write a comment, include<dfn>#</dfn> as the first character of a newline. The parser will then ignore that entire line.
+		</p>
+		<h2 id="escape"> !! Other / Escape Sequences ! Escape Sequences ! </h2>
+		<p>
+			One thing you'll see a bit in this documentation is comments inside code blocks.
+			You should always read these comments as they sometimes distinguish what's valid syntax
+			and what isn't.
+		</p>
+		<p>
+			Comments are officially supported, but should rarely be used, and especially not in published projects.
+		</p>
+		<p>
+			To write a comment, include<dfn>#</dfn> as the first character of a newline. The parser will then ignore that entire line.
+		</p>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Other"]);
+	</script>
+
+</body>
+
+</html>

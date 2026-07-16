@@ -18,6 +18,16 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
+		<h1 id="outline"> Outline </h1>
+		<p>
+			Keys are labels attatched to chunks of data (values) that allow for identifying, organizing and recuperating them.
+		</p>
+		<p>
+			They're used by !! Containers / Object ! objects !, !! Containers / Map ! maps !
+			and !! Containers / Doodad ! doodads !, although doodad keys are only a single
+			character, so no further documentation is required. 
+			Doodad keys are the only keys that do not require a colon following the key.
+		</p>
 		<h1 id="regular"> Regular Keys </h1>
 		<p>
 			Regular keys are used by !! Containers / Object ! objects !. 
@@ -27,7 +37,8 @@
 		</p>
 		<h2 id="regular-usage"> Usage </h2>
 		<p>
-			To use a regular key, simply create a !! Containers / Object ! object ! and write your key as is. Here's some example usage as reference:
+			To use a regular key, simply create a !! Containers / Object ! object ! and write your key as is. 
+			Terminate the key using a colon. Here's some example usage as reference:
 		</p>
 		<pre><code>{
 key1: "string
@@ -65,7 +76,13 @@ key3:
 		<h2 id="typed-usage"> Usage </h2>
 		<p>
 			To use a key, simply create a !! Containers / Map ! map ! and declare the key type using a respective declaration character (see above).
-
+			Terminate the key using a colon.
+		</p>
+		<p>
+			For dates, it is reccomended to use double colons following the key. 
+			This is because dates themselves use colons to seperate the time components,
+			and those colons take priority when parsing.
+			Double colons also help with readability for date keys.
 		</p>
 		<p>
 			Here's some example usage of various values as inspiration:

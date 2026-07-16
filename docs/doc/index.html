@@ -18,7 +18,7 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
-		<h1 id="outline"> Outline </h1>
+		<h1 id="analogy"> Analogy </h1>
 		<p>
 			The best way to picture LXON is as follows:
 		</p>
@@ -41,11 +41,19 @@
 				while the indexes are invisible keys used internally by !! Containers / Array ! arrays !.
 			</li>
 		</ol>
+		<h1 id="features"> Supported Features </h1>
+		<p>
+			LXON supports a few useful features.
+		</p>
+		<ul>
+			<li>Comments<dfn>#</dfn></li>
+			<li>Escaped Characters<dfn>\</dfn></li>
+		</ul>
 		<h1 id="types"> Supported Types </h1>
 		<p>
 			LXON supports 4 container types, 9 key types and 12 value types.
 		</p>
-		<h2>
+		<h2 id="containers">
 			Containers
 		</h2>
 		<ul>
@@ -54,7 +62,7 @@
 			<li>Map<dfn>(a)</dfn></li>
 			<li>Doodad<dfn></dfn></li>
 		</ul>
-		<h2>
+		<h2 id="keys">
 			Keys
 		</h2>
 		<ul>
@@ -74,7 +82,7 @@
 			<li>Linear Color<dfn>=</dfn></li>
 			<li>Enum<dfn>*</dfn></li>
 		</ul>
-		<h2>
+		<h2 id="values">
 			Values
 		</h2>
 		<ul>
@@ -102,20 +110,6 @@
 				</ul>
 			</li>
 		</ul>
-		<h1 id="goals"> Goals </h1>
-		<p>
-			LXON was created with the following principles in mind:
-			</ol>
-		<ol>
-			<li>Fast parsing with minimal overhead.</li>
-			<li>Easy implementation, just download once and have it do what it should with no complications.</li>
-			<li>Human-readable syntax suitable for fast reading and manual editing.</li>
-			<li>Compact with as little verbosity as possible.</li>
-			<li>Simple and intuitive enough to be something you can do with minimal research.</li>
-			<li>Extremely dynamic, supporting pracically all necessary container and value types.</li>
-			<li>Extensible syntax that can evolve while still being able of parsing LXON written in previous versions.
-			</li>
-		</ol>
 		<h1 id="backstory"> Backstory </h1>
 		<p>
 			Originally, Nick Jasper was creating a way to automatically set up email redirect on Cloudflare for the

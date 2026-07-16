@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			A full string is the simplest way of representing a string in LXON.
+			It requires only a double quote<dfn>"</dfn>at the start, as a type declaration.
+			The entire rest of the line will be read as the string. 
+			Therefore, the only way to end a full string is with a newline or end of file.
+		</p>
+		<p>
+			Full strings support !! Other / Escape Characters ! escape characters !. 
+			They also support trailing whitespace such as tabs or space characters.
+		</p>
+		<h2> Important </h2>
+		<p>
+			Although trailing whitespace is supported, 
+			it is standardized to replace the last character with a<dfn>\s</dfn>if it's a space, or a<dfn>\t</dfn>if it's a tab.
+			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
+			For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing mistake.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of full string values as reference:
+		</p>
+		<pre><code>{
+name: "Heather Mason
+
+residence:
+	street: "Bergen
+	apartment: "Daisy Villa
+	room: "102
+
+aliases:[
+	"Cheryl Mason
+	"Alessa Gillespie
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Values", "Text", "Full String"]);
+	</script>
+
+</body>
+
+</html>

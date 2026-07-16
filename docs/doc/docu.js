@@ -9,9 +9,11 @@
 window.docnav = {
 	Overview: [
 		"",
-		["Outline", "outline"],
-		["Supported Types", "types"],
-		["Goals", "goals"],
+		["Analogy", "analogy"],
+		["Supported Features", "features"],
+		["Supported Containers", "containers"],
+		["Supported Keys", "keys"],
+		["Supported Values", "values"],
 		["Backstory", "backstory"]
 	],
 	Containers: {
@@ -87,13 +89,19 @@ window.docnav = {
 		Text: {
 			_: "/text",
 			Full_String: [
-				"/fullstring"
+				"/fullstring",
+				["Syntax", "syntax"],
+				["Usage", "usage"]
 			],
 			String: [
-				"/string"
+				"/string",
+				["Syntax", "syntax"],
+				["Usage", "usage"]
 			],
 			Char: [
-				"/char"
+				"/char",
+				["Syntax", "syntax"],
+				["Usage", "usage"]
 			],
 		},
 		Boolean: [
@@ -136,6 +144,21 @@ window.docnav = {
 		Special: [
 			"/special"
 		]
+	},
+	Other: {
+		_: "/other",
+		Comments: [
+			"/comments",
+			["Justification", "why"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
+		],
+		Escape_Sequences: [
+			"/escape",
+			["Justification", "why"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
+		]
 	}
 }
 
@@ -153,6 +176,8 @@ window.docu = {
 	isScrollingToHash: false,
 
 	visibleEntries: new Set(),
+
+	failedLinkConversions: [],
 
 	init: function (path) {
 		const canvas = document.getElementById('noise-canvas');
@@ -185,7 +210,7 @@ window.docu = {
 			let trackerRafId = null; // <-- Tracks the active finger's state
 			let virtualScroll = 0;
 
-			const friction = 0.96;
+			const friction = 0.97;
 			const stopThreshold = 0.005;
 			const velocitySamples = [];
 			const maxSamples = 5; // Kept slightly smaller for snappy response
@@ -510,22 +535,22 @@ window.docu = {
 
 
 
-		// -------------------- Wrap content with div --------------------
+		// -------------------- Wrap content with divs --------------------
 
 		function wrapH1Sections(container, path, { moveIdToDiv = true } = {}) {
 			let inner = [];
 			switch (path.length) {
 				case 1:
-					inner = docnav[path[0]];
+					inner = docnav[path[0].replaceAll(" ", "_")];
 					break;
 				case 2:
-					inner = docnav[path[0]][path[1]];
+					inner = docnav[path[0].replaceAll(" ", "_")][path[1].replaceAll(" ", "_")];
 					break;
 				case 3:
-					inner = docnav[path[0]][path[1]][path[2]];
+					inner = docnav[path[0].replaceAll(" ", "_")][path[1].replaceAll(" ", "_")][path[2].replaceAll(" ", "_")];
 					break;
 				case 4:
-					inner = docnav[path[0]][path[1]][path[2]][path[3]];
+					inner = docnav[path[0].replaceAll(" ", "_")][path[1].replaceAll(" ", "_")][path[2].replaceAll(" ", "_")][path[3].replaceAll(" ", "_")];
 					break;
 			}
 
@@ -544,25 +569,38 @@ window.docu = {
 
 			const h1s = Array.from(container.children).filter(el => (el.tagName === 'H1' || el.tagName === 'H2') && targets.has(el.id));
 
-			for (let i = 0; i < h1s.length - 1; i++) {
+			console.log(h1s);
+
+			for (let i = 0; i < h1s.length; i++) {
 				const currentH1 = h1s[i];
 				const nextH1 = h1s[i + 1];
 
-				const wrapper = document.createElement('div');
-				if (nextH1) {
-					wrapper.id = "div-" + currentH1.id;
-					docu.observer.observe(wrapper);
+				if (i < h1s.length - 1) {
+					const wrapper = document.createElement('div');
+					if (nextH1) {
+						wrapper.id = "div-" + currentH1.id;
+						docu.observer.observe(wrapper);
+					}
+
+					const toMove = [];
+					let node = currentH1.nextSibling;
+					while (node && node !== nextH1) {
+						toMove.push(node);
+						node = node.nextSibling;
+					}
+
+					container.insertBefore(wrapper, nextH1);
+					toMove.forEach(n => wrapper.appendChild(n));
 				}
 
-				const toMove = [];
-				let node = currentH1.nextSibling;
-				while (node && node !== nextH1) {
-					toMove.push(node);
-					node = node.nextSibling;
-				}
+				const hWrapper = document.createElement("div");
+				hWrapper.className = "h-wrapper";
+				content.insertBefore(hWrapper, currentH1);
+				hWrapper.appendChild(currentH1);
+				hWrapper.id = currentH1.id;
+    			currentH1.removeAttribute('id');
 
-				container.insertBefore(wrapper, nextH1);
-				toMove.forEach(n => wrapper.appendChild(n));
+				docu.observer.observe(currentH1);
 			}
 
 			return container;
@@ -610,17 +648,23 @@ window.docu = {
 				let i = 0;
 				const linkTemp = link.split("/");
 				linkTemp.forEach(key => {
-					if (key.includes("#")) {
-						const split = key.split("#");
-						obj = obj[split[0].trim()]
-						if (Array.isArray(obj)) href = obj[0] + "/#" + split[1].trim();
-						else href = obj._ + "/#" + split[1].trim();
+					try {
+						if (key.includes("#")) {
+							const split = key.split("#");
+							obj = obj[split[0].trim().replaceAll(" ", "_")]
+							if (Array.isArray(obj)) href = obj[0] + "/#" + split[1].trim();
+							else href = obj._ + "/#" + split[1].trim();
+						}
+						else {
+							obj = obj[key.trim().replaceAll(" ", "_")];
+							i++;
+							if (Array.isArray(obj)) href = obj[0];
+							else if (i >= linkTemp.length) href = obj._;
+						}
 					}
-					else {
-						obj = obj[key.trim()];
-						i++;
-						if (Array.isArray(obj)) href = obj[0];
-						else if (i >= linkTemp.length) href = obj._;
+					catch {
+						console.log("Unable to convert '" + link + "' to link.\nFailed at key: '" + key.trim() + "'");
+						docu.failedLinkConversions.push("Failed to create link for '!!" + link + "!' - Failed at: '" + key.trim() + "'")
 					}
 				})
 				a.href = "/doc" + href;
@@ -632,6 +676,20 @@ window.docu = {
 				frag.appendChild(document.createTextNode(text.slice(lastIndex)));
 			}
 			textNode.parentNode.replaceChild(frag, textNode);
+			if (docu.failedLinkConversions.length > 0) {
+				content.style.opacity = 0.3;
+				nav.style.opacity = 0.3;
+				const errorWrapper = document.createElement("div");
+				errorWrapper.className = "error-wrapper";
+				docu.failedLinkConversions.forEach(error => {
+					const errorMessage = document.createElement("div")
+					errorMessage.textContent = error;
+					errorMessage.className = "error-message";
+					errorWrapper.append(errorMessage);
+				})
+				body.append(errorWrapper);
+				throw Error("FAILED TO CONVERT DOUBLE EXCLAMATION POINTS TO LINKS");
+			}
 		});
 
 
@@ -723,6 +781,11 @@ window.docu = {
 
 
 	writeItem: function (index, path, query, q, object, navInner) {
+		function getPathKey(key) {
+			const val = path[key];
+			if (typeof val === "string") return path[key].replaceAll(" ", "_");
+			else return undefined;
+		}
 		const keys = Object.keys(object);
 		for (const key of keys) {
 			if (key === "_") continue;
@@ -731,12 +794,12 @@ window.docu = {
 			let item = document.createElement('a');
 			item.textContent = key.replaceAll("_", " ");
 			item.className = 'nav' + index.toString();
-			if (path[index - 1] === key) item.classList.add("selected");
-			if (path[path.length - 1] === key) item.classList.add("open");
+			if (getPathKey(index - 1) === key) item.classList.add("selected");
+			if (getPathKey(path.length - 1) === key) item.classList.add("open");
 			if (Array.isArray(value)) {
 				item.href = "/doc" + value[0];
 				navInner.appendChild(item);
-				if (path[path.length - 1] !== key && query === "") continue;
+				if (getPathKey(path.length - 1) !== key && query === "") continue;
 				for (let i = 1; i < value.length; i++) {
 					if (!docu.matches(value[i][0], q)) continue;
 					let sub = document.createElement('a');
@@ -756,17 +819,14 @@ window.docu = {
 					sub.id = "sub-nav-" + value[i][1];
 					navInner.appendChild(sub);
 					docu.subNavs[value[i][1]] = sub;
-					if (document.getElementById(value[i][1])) {
-						docu.observer.observe(document.getElementById(value[i][1]));
-					}
 				}
 			}
 			// Go deeper
 			else {
 				item.href = "/doc" + value._;
 				navInner.appendChild(item);
-				if (path[0] !== key && query === "" && index === 1) continue;
-				if (path.length > 1 && query === "" && index === 2) { if (path[1] !== key) continue; }
+				if (getPathKey(0) !== key && query === "" && index === 1) continue;
+				if (path.length > 1 && query === "" && index === 2) { if (getPathKey(1) !== key) continue; }
 				docu.writeItem(index + 1, path, query, q, value, navInner);
 			}
 		}

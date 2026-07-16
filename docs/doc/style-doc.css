@@ -177,15 +177,40 @@
 
 h1 {
     margin-right: 10%;
-    padding: 40px 0px 10px 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
     font-size: 200%;
     font-weight: bold;
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
+div.h-wrapper h1 {
+    padding-bottom: 10px;
+}
+
+div.h-wrapper:has(h1) {
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+
 h2 {
-    padding: 20px 0px 0px 60px;
+    padding: 20px 0px 10px 60px;
     font-size: 160%;
+    font-weight: bold;
+}
+
+div.h-wrapper h2 {
+    margin-top: -20px;
+    padding: 0px 0px 10px 60px;
+}
+
+div.h-wrapper:has(h2) {
+    padding-top: 40px;
+}
+
+h3 {
+    padding: 20px 0px 10px 60px;
+    font-size: 125%;
     font-weight: bold;
 }
 
@@ -196,7 +221,7 @@ h2 {
 }
 
 p {
-    padding: 0px 0px 10px 60px;
+    padding: 0px 0px 20px 60px;
     margin-right: 20%;
     font-size: 100%;
     line-height: 1.6;
@@ -228,6 +253,16 @@ span.a {
     color: rgba(255, 255, 255, 0.267);
 }
 
+li>ul,
+li>ol {
+    margin-top: 20px;
+}
+
+li ul>li:last-child,
+li ol>li:last-child {
+    margin-bottom: -40px;
+}
+
 li {
     padding: 0px 0px 10px 10px;
     margin-right: 20%;
@@ -244,12 +279,12 @@ li:last-child {
 }
 
 ol {
-    padding: 0px 0px 10px 100px;
+    padding: 0px 0px 20px 100px;
     gap: 20px;
 }
 
 ul {
-    padding: 10px 0px 0px 100px;
+    padding: 0px 0px 30px 100px;
 }
 
 @media (max-width: 1100px) {
@@ -269,16 +304,24 @@ ul {
 
 pre {
     padding: 20px 0px 25px 20px;
-    margin-left: 40px;
-    margin-right: 20%;
+    margin-top: -10px;
+    margin-bottom: 50px;
+    margin-left: 60px;
+    margin-right: calc(10% + 10px);
     font-size: 130%;
     text-align: justify;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.733);
-    background-color: rgba(4, 4, 6, 0.6);
+    background-color: rgba(10, 5, 3, 0.6);
     border-radius: 20px;
     tab-size: 4;
     -moz-tab-size: 4;
+}
+
+@media (max-width: 1100px) {
+    pre {
+        margin-left: 20px;
+    }
 }
 
 button.symbol {
@@ -287,7 +330,7 @@ button.symbol {
     align-items: center;
     font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
     margin: -2px 8px;
-    background-color: rgba(4, 4, 6, 0.6);
+    background-color: rgba(10, 5, 3, 0.6);
     border-radius: 5px;
     border-width: 0;
 }
@@ -329,6 +372,9 @@ button.symbol {
     pointer-events: none;
     z-index: 10000;
     transition: opacity 0.2s ease, transform 2.4s cubic-bezier(0, 1, 0.8, 1);
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .copy-tooltip.visible {
@@ -544,4 +590,33 @@ button.symbol {
 
 .nav-sub.depth3 {
     padding: 5px 0px 5px 124px;
+}
+
+.error-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    gap: 10px;
+}
+
+.error-message {
+    color: red;
+    font-size: 120%;
+    text-align: center;
+    transform: translateX(0px);
+    transition: transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+}
+
+.error-message:hover {
+    transform: translateX(4px);
 }

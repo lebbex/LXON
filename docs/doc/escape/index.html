@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="why"> Justification </h1>
+		<p>
+			In many cases, data can't be represented as is because the parser is expecting a certain character.
+			This is the reality in a lot of examples in programming.
+		</p>
+		<p>
+			To combat this, escape sequences were invented from the very surfacing of this problem. 
+			This problem is also faced in LXON, and the solution is the same implementation as everywhere.
+		</p>
+		<p>
+			Escape sequences are used when you want to include a character that would otherwise be impossible to include,
+			whether it be as a typed key or as a value. For example, if you want to write a string with a newline,
+			you would get this:
+		</p>
+		<pre><code>{
+text: "hello
+world
+</code></pre>
+		<p>
+			However, this would simple parse into the following object (read !! Other / Comments ! comment !):
+		</p>
+		<pre><code>{
+text: "hello
+world: _
+# This ^ symbol means undefined
+</code></pre>
+		<p>
+			In order to parse "hello" and "world", seperated by a newline, you would need to use the escape character<dfn>\n</dfn>.
+		</p>
+		<pre><code>{
+text: "hello\nworld
+</code></pre>
+		<p>
+			This is incredibly useful in countless instances. Sroll to the bottom of the page to see all examples,
+			including less obvious ones.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			A comment is very straightforward to write. 
+			Simply begin a new line with<dfn>#</dfn>and the rest of the line in full will be skipped by the parser.
+		</p>
+		<h2> Important </h2>
+		<p>
+			You cannot write inline comments, that means comments on the same line with data. 
+			Some friendly parsers will understand and keep the comment as a comment, however, 
+			to simplify the workload of most parsers, the standard is to only allow full-line comments.
+			Writing inline comments would go against this standard and will likely break on many parsers,
+			including the officially released ones.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of comments as reference (read comments):
+		</p>
+		<pre><code>{
+# Below is a key and value
+key: "value
+#Above is a key and value
+
+# This is a comment, so this doesn't get parsed-> key2: "value2
+ # This wants to be a comment, but the first character is a space
+	# This also wants to be a comment, but the first char is a tab
+
+key3: "full string # This wants to be a comment, but ends up being part of the string
+key4: `string`     # This also wants to be a comment, but ends up being a new key
+
+
+#        This is a comment block
+# ---------------------------------------
+# You can use it to write a block of text
+#     and not have it break the data
+
+array:[
+	"value1
+	"value2
+	"value3
+# ALWAYS keep the hashtag on the first line
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Other", "Escape Sequences"]);
+	</script>
+
+</body>
+
+</html>

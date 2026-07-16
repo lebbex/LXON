@@ -27,8 +27,10 @@ body {
     padding: 0;
     color: var(--ink);
     font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
-    overflow-x: hidden;
     width: 100%;
+    overflow: hidden;
+    height: 100%;
+    overscroll-behavior: none;
 }
 
 /* The noise canvas stays completely fixed behind everything */
@@ -71,7 +73,7 @@ body {
     opacity: 0.5;
 }
 
-.site-home{
+.site-home {
     padding: 10px 12.5px 15px 12.5px;
 }
 
