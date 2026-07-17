@@ -1,169 +1,5 @@
-// Every array indicates the sections of the page.
-// These arrays have nested arrays, the first item
-// reprensenting the section title, and the second,
-// the header's id (for href and IntersectionObserver)
-// Pages with children cannot have sections,
-// it would be impossible to represent those sections
-// as well as child pages all in once in the UI.
-
-window.docnav = {
-	Overview: [
-		"",
-		["Analogy", "analogy"],
-		["Supported Features", "features"],
-		["Supported Containers", "containers"],
-		["Supported Keys", "keys"],
-		["Supported Values", "values"],
-		["Backstory", "backstory"]
-	],
-	Containers: {
-		_: "/containers",
-		Object: [
-			"/object",
-			["Definition", "def"],
-			["Syntax", "syntax"]
-		],
-		Array: [
-			"/array",
-			["title", "id"]
-		],
-		Map: [
-			"/map",
-			["title", "id"]
-		],
-		Doodad: [
-			"/doodad",
-			["title", "id"]
-		],
-	},
-	Keys: {
-		_: "/keys",
-		Text: {
-			_: "/keys/text",
-			String: [
-				"/keys/string",
-				["title", "id"]
-			],
-			Char: [
-				"/keys/char",
-				["title", "id"]
-			],
-		},
-		Boolean: [
-			"/keys/bool"
-		],
-		Number: [
-			"/keys/number",
-			["Regular Number", "regular"],
-			["Decimal Number", "decimal"],
-			["Scientific Notation", "sci"],
-			["Static Number", "static"]
-		],
-		Date: [
-			"/keys/date",
-			["Year / Unix", "year-unix"],
-			["Week", "week"],
-			["Month", "month"],
-			["Time", "time"]
-		],
-		Keybind: [
-			"/keys/keybind"
-		],
-		Color: {
-			_: "/keys/color",
-			SRGB_Color: [
-				"/keys/srgb"
-			],
-			Linear_Color: [
-				"/keys/linear",
-				["8 Bit", "8bit"],
-				["16 Bit", "16bit"]
-			]
-		},
-		Enum: [
-			"/keys/enum"
-		]
-	},
-	Values: {
-		_: "/values",
-		Text: {
-			_: "/text",
-			Full_String: [
-				"/fullstring",
-				["Syntax", "syntax"],
-				["Usage", "usage"]
-			],
-			String: [
-				"/string",
-				["Syntax", "syntax"],
-				["Usage", "usage"]
-			],
-			Char: [
-				"/char",
-				["Syntax", "syntax"],
-				["Usage", "usage"]
-			],
-		},
-		Boolean: [
-			"/bool"
-		],
-		Number: [
-			"/number",
-			["Regular Number", "regular"],
-			["Decimal Number", "decimal"],
-			["Scientific Notation", "sci"],
-			["Static Number", "static"]
-		],
-		Date: [
-			"/date",
-			["Year / Unix", "year-unix"],
-			["Week", "week"],
-			["Month", "month"],
-			["Time", "time"]
-		],
-		Keybind: [
-			"/keybind"
-		],
-		Color: {
-			_: "/color",
-			SRGB_Color: [
-				"/srgb"
-			],
-			Linear_Color: [
-				"/linear",
-				["8 Bit", "8bit"],
-				["16 Bit", "16bit"]
-			]
-		},
-		Enum: [
-			"/enum"
-		],
-		Binary: [
-			"/binary"
-		],
-		Special: [
-			"/special"
-		]
-	},
-	Other: {
-		_: "/other",
-		Comments: [
-			"/comments",
-			["Justification", "why"],
-			["Syntax", "syntax"],
-			["Usage", "usage"]
-		],
-		Escape_Sequences: [
-			"/escape",
-			["Justification", "why"],
-			["Syntax", "syntax"],
-			["Usage", "usage"]
-		]
-	}
-}
 
 window.docu = {
-	// -------------------- INITIATION FUNCTION --------------------
 
 	applyObservers: true,
 
@@ -207,11 +43,12 @@ window.docu = {
 			let lastY = 0;
 			let lastTime = 0;
 			let rafId = null;
-			let trackerRafId = null; // <-- Tracks the active finger's state
+			let trackerRafId = null;
 			let virtualScroll = 0;
 
-			const friction = 0.97;
+			const friction = 0.98;
 			const stopThreshold = 0.005;
+			const minVelocityToGlide = 0.1;
 			const velocitySamples = [];
 			const maxSamples = 5; // Kept slightly smaller for snappy response
 
@@ -276,6 +113,12 @@ window.docu = {
 					: 0;
 
 				cancelAnimationFrame(rafId);
+
+				if (Math.abs(velocity) < minVelocityToGlide) {
+					lenis.scrollTo(lenis.animatedScroll, { immediate: true });
+					return;
+				}
+
 				lenis.scrollTo(lenis.animatedScroll, { immediate: true });
 
 				virtualScroll = lenis.animatedScroll;
@@ -435,7 +278,7 @@ window.docu = {
 		title.style.color = depthColors[path.length - 1];
 
 		let i = 0;
-		let obj = docnav;
+		let obj = navTree;
 		path.forEach(item => {
 			obj = obj[path[i]];
 			const t = document.createElement("a");
@@ -541,16 +384,16 @@ window.docu = {
 			let inner = [];
 			switch (path.length) {
 				case 1:
-					inner = docnav[path[0].replaceAll(" ", "_")];
+					inner = navTree[path[0].replaceAll(" ", "_")];
 					break;
 				case 2:
-					inner = docnav[path[0].replaceAll(" ", "_")][path[1].replaceAll(" ", "_")];
+					inner = navTree[path[0].replaceAll(" ", "_")][path[1].replaceAll(" ", "_")];
 					break;
 				case 3:
-					inner = docnav[path[0].replaceAll(" ", "_")][path[1].replaceAll(" ", "_")][path[2].replaceAll(" ", "_")];
+					inner = navTree[path[0].replaceAll(" ", "_")][path[1].replaceAll(" ", "_")][path[2].replaceAll(" ", "_")];
 					break;
 				case 4:
-					inner = docnav[path[0].replaceAll(" ", "_")][path[1].replaceAll(" ", "_")][path[2].replaceAll(" ", "_")][path[3].replaceAll(" ", "_")];
+					inner = navTree[path[0].replaceAll(" ", "_")][path[1].replaceAll(" ", "_")][path[2].replaceAll(" ", "_")][path[3].replaceAll(" ", "_")];
 					break;
 			}
 
@@ -598,7 +441,7 @@ window.docu = {
 				content.insertBefore(hWrapper, currentH1);
 				hWrapper.appendChild(currentH1);
 				hWrapper.id = currentH1.id;
-    			currentH1.removeAttribute('id');
+				currentH1.removeAttribute('id');
 
 				docu.observer.observe(currentH1);
 			}
@@ -644,30 +487,13 @@ window.docu = {
 				}
 				const a = document.createElement('a');
 				let href = "";
-				let obj = docnav;
 				let i = 0;
-				const linkTemp = link.split("/");
-				linkTemp.forEach(key => {
-					try {
-						if (key.includes("#")) {
-							const split = key.split("#");
-							obj = obj[split[0].trim().replaceAll(" ", "_")]
-							if (Array.isArray(obj)) href = obj[0] + "/#" + split[1].trim();
-							else href = obj._ + "/#" + split[1].trim();
-						}
-						else {
-							obj = obj[key.trim().replaceAll(" ", "_")];
-							i++;
-							if (Array.isArray(obj)) href = obj[0];
-							else if (i >= linkTemp.length) href = obj._;
-						}
-					}
-					catch {
-						console.log("Unable to convert '" + link + "' to link.\nFailed at key: '" + key.trim() + "'");
-						docu.failedLinkConversions.push("Failed to create link for '!!" + link + "!' - Failed at: '" + key.trim() + "'")
-					}
-				})
-				a.href = "/doc" + href;
+				const finalLink = linkReg.get(link);
+				if (Array.isArray(finalLink)) {
+					docu.failedLinkConversions.push("Failed to create link for '!!" + link + "!' - Failed at key: '" + finalLink[0] + "'")
+					a.href = "/doc";
+				}
+				else a.href = "/doc" + finalLink;
 				a.textContent = label.trim();
 				frag.appendChild(a);
 				lastIndex = match.index + full.length;
@@ -775,7 +601,7 @@ window.docu = {
 		navInner.innerHTML = null;
 
 		// Nav content
-		docu.writeItem(1, path, query, q, docnav, navInner)
+		docu.writeItem(1, path, query, q, navTree, navInner)
 		docu.renderSubNavs();
 	},
 

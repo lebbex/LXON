@@ -37,7 +37,7 @@ text: "hello
 world
 </code></pre>
 		<p>
-			However, this would simple parse into the following object (read !! Other / Comments ! comment !):
+			However, this would simple parse into the following object (read !! other.comment ! comment !):
 		</p>
 		<pre><code>{
 text: "hello
@@ -101,6 +101,8 @@ array:[
 
 	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
 	<script src="/ressources/fog.js"></script>
+	<script src="/doc/link-registry.js"></script>
+	<script src="/doc/nav-tree.js"></script>
 	<script src="/doc/docu.js"></script>
 	<script>
 		docu.init(["Other", "Escape Sequences"]);

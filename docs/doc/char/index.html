@@ -20,40 +20,33 @@
 	<div class="content" id="content">
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			A string value is the more versatile alternative to !! Values / Text / Full String ! full string ! values.
-			It requires a backtick<dfn>`</dfn> or caret<dfn>^</dfn> at the start, as type declaration. 
-			Every following character is treated as the contents of the string, until the first instance either one of those characters.
-			This means you start and end string characters with either of the same two characters.
+			A char value is the single character alternative to !! val.text.full ! full string ! values.
+			It requires a single quote<dfn>'</dfn>at the start, as type declaration. 
+			The following character is treated as the full contents of the value (or char if the language supports it).
 		</p>
 		<p>
-			Like with full strings, the string also ends at the end of the line, so trailing backticks aren't strictly required.
-			Strings support !! Other / Escaped Characters ! escape characters !. 
-			They also support trailing whitespace such as tabs or space characters.
+			Chars support !! other.escape ! escape characters !. 
+			Although this creates a value that appears to have two charactes, the<dfn>\</dfn>suffix gets skipped 
+			and is used for parsing the following character specially. 
+			As such, the value gets reduced to a single character and becomes a valid char value.
 		</p>
 		<h2> Important </h2>
 		<p>
-			Although newline termination is supported, it is highly reccomended to refrain from doing so,
-			as it is standardized to always include a trailing backtick. Certain parsers might break without the usage of one.
-			You can always use a full string in the event that you want to skip on a trailing backtick.
+			The char value ends after the first character, so trailing single quotes don't acctually close the string, 
+			they announces the start of a new string character, similarly to the caret symbol<dfn>^</dfn>for !! values.text.string ! string ! values.
 		</p>
 		<p>
-			Also, although trailing whitespace is supported, if there's no trailing backtick,
-			it is standardized to replace the last character with a<dfn>\s</dfn>if it's a space, or a<dfn>\t</dfn>if it's a tab.
-			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
-			For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing mistake.
+			Although it's supported to type a litteral space or tab character following the single quote to set the value to such,
+			it is standardized to use the !! other.escape ! escape character ! alternative of the whitespace 
+			(such as<dfn>\s</dfn>and<dfn>\t</dfn> respectively).
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
-			Here's some example usage of string values as reference:
+			Here's some example usage of char values as reference:
 		</p>
 		<pre><code>{
-key: `string`
-ehh: `string
+letterA: 'A
 
-array:[ `str1` `str2`
-	`str3
-	`str4^str5`
-	`str6^str7
 </code></pre>
 	</div>
 
@@ -61,6 +54,8 @@ array:[ `str1` `str2`
 
 	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
 	<script src="/ressources/fog.js"></script>
+	<script src="/doc/link-registry.js"></script>
+	<script src="/doc/nav-tree.js"></script>
 	<script src="/doc/docu.js"></script>
 	<script>
 		docu.init(["Values", "Text", "Char"]);

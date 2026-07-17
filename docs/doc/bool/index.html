@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			A boolean is a value with two states, hence binary. It can be either true of false.
+			This true/false combination can be used in many instances to store any binary state, such as:
+		</p>
+		<ul>
+			<li>Yes / No</li>
+			<li>On / Off</li>
+			<li>Positive / Negative</li>
+			<li>Enabled / Disabled</li>
+			<li>Online / Offline</li>
+			<li>DarkMode / LightMode</li>
+			<li>Male / Female
+				<span class="a">(No political comments being made)</span>
+			</li>
+		</ul>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			A boolean is a !! val.static ! static value !. This means it doesn't acctually require any data to be stored.
+			It only requires the declaration character, that is either<dfn>$</dfn>for true or<dfn>!</dfn>for false.
+			Once the parser reads this declaration character, it instantly completes the value.
+		</p>
+		<h1 id="visualization"> Visualization </h1>
+		<p>
+			A simple trick to remember the characters for booleans is to think of money.
+		</p>
+		<p>
+			The value true is generally regarded as the presence of something, such as, litterally, the presence of a reality.
+			"online = true" means the presence of the online status. Even "offline = true" means the presence of the offline status.
+			No matter how you look at it, true means the presence of something.
+		</p>
+		<p>
+			Hence, when thinking of money, true is the presence of money. And what character best symbolizes that?
+			The dollar sign<dfn>$</dfn>.
+		</p>
+		<p>
+			The value false, by consequence, is generally regarded as the lack of something, the lack of truth in a statement.
+			The lack of a status. "online = false" means the absence of the online status, and the same thing applies to "offline = false".
+		</p>
+		<p>
+			Hence, when thinking of money, false is the absence of money. And when lacking money, you yell. You scream.
+			You feel this terrible feeling, that best gets incapsulated by the exclamation symbol<dfn>!</dfn>.
+		</p>
+		<p>
+			When worded out, it seems complex, but when you think about it, it becomes really obvious.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<ul>
+			<li>If the value has only two states, use a boolean.</li>
+			<li>If the value has more then two states (Low, Medium, High), use !! val.enum ! enums ! instead.</li>
+			<li>
+				If the value has two main states and alternative states, you can use different value types
+				and select a value based off the value type. This however requires a bit more code on the
+				interpreter side of things.
+			</li>
+		</ul>
+		<p>
+			Here's some example usage of booleans alongside custom values to represent stored gender information:
+		</p>
+		<pre><code>{
+male: $
+female: !
+other: "custom gender
+secret: _
+# This  ^  means undefined, which is very 
+# appropriate to use in the case where the
+# user wishes not to disclose their gender
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/link-registry.js"></script>
+	<script src="/doc/nav-tree.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Values", "Boolean"]);
+	</script>
+
+</body>
+
+</html>

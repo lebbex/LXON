@@ -20,17 +20,23 @@
 	<div class="content" id="content">
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			A string value is the more versatile alternative to !! Values / Text / Full String ! full string ! values.
+			A string value is the more versatile alternative to !! values.text.full ! full string ! values.
 			It requires a backtick<dfn>`</dfn> or caret<dfn>^</dfn> at the start, as type declaration. 
 			Every following character is treated as the contents of the string, until the first instance either one of those characters.
 			This means you start and end string characters with either of the same two characters.
 		</p>
 		<p>
 			Like with full strings, the string also ends at the end of the line, so trailing backticks aren't strictly required.
-			Strings support !! Other / Escape Characters ! escape characters !. 
+			Strings support !! other.escape ! escape characters !. 
 			They also support trailing whitespace such as tabs or space characters.
 		</p>
-		<h2> Important </h2>
+		<h2 id="chain"> Chaining </h2>
+		<p>
+			Strings can be chained easily with the caret symbol<dfn>^</dfn>. When a caret is used to terminate a string, or even a
+			!! values.keybind ! keybind !, a !! values.enum ! enum ! or a !! values.binary ! binary value,
+			it will not only mark the end of the current value but also the start of a new string.
+		</p>
+		<h2 id="important"> Important </h2>
 		<p>
 			Although newline termination is supported, it is highly reccomended to refrain from doing so,
 			as it is standardized to always include a trailing backtick. Certain parsers might break without the usage of one.
@@ -61,6 +67,8 @@ array:[ `str1` `str2`
 
 	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
 	<script src="/ressources/fog.js"></script>
+	<script src="/doc/link-registry.js"></script>
+	<script src="/doc/nav-tree.js"></script>
 	<script src="/doc/docu.js"></script>
 	<script>
 		docu.init(["Values", "Text", "String"]);
