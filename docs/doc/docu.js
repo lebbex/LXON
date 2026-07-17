@@ -46,26 +46,26 @@ window.docu = {
 			let trackerRafId = null;
 			let virtualScroll = 0;
 
-			const friction = 0.98;
-			const stopThreshold = 0.005;
 			const minVelocityToGlide = 0.1;
 			const velocitySamples = [];
-			const maxSamples = 5; // Kept slightly smaller for snappy response
+			const maxSamples = 5;
 
-			// A flag to check if touchmove updated our position in the current frame
+			// dv/dt = -k * v^p, with p < 1
+			// LOWER p = decay rate increases MORE sharply as velocity drops (bigger cliff at the end)
+			// HIGHER p (toward 1) = behaves closer to old constant-% decay (long tail)
+			const glideExponent = 0.5;
+			// higher glideRate = shorter glides overall, doesn't change the curve's shape
+			const glideRate = 0.0033;
+
 			let movedThisFrame = false;
 
-			// This loop runs continuously while the finger is holding down
 			function trackFingerVelocity() {
 				if (!touching) return;
-
-				// If a frame passed and touchmove didn't fire, the finger is stationary
 				if (!movedThisFrame) {
-					velocitySamples.push(0); // Decay momentum dynamically
+					velocitySamples.push(0);
 					if (velocitySamples.length > maxSamples) velocitySamples.shift();
 				}
-
-				movedThisFrame = false; // Reset for the next frame tick
+				movedThisFrame = false;
 				trackerRafId = requestAnimationFrame(trackFingerVelocity);
 			}
 
@@ -82,7 +82,6 @@ window.docu = {
 				lastY = e.touches[0].clientY;
 				lastTime = performance.now();
 
-				// Start the stationary finger monitoring loop
 				trackerRafId = requestAnimationFrame(trackFingerVelocity);
 			}
 
@@ -93,7 +92,7 @@ window.docu = {
 				const dt = Math.max(now - lastTime, 1);
 				const v = (lastY - y) / dt;
 
-				movedThisFrame = true; // Mark that we had real movement this frame
+				movedThisFrame = true;
 				velocitySamples.push(v);
 				if (velocitySamples.length > maxSamples) velocitySamples.shift();
 
@@ -101,27 +100,35 @@ window.docu = {
 				lastTime = now;
 			}
 
+			let glideStartVelocity = 0;
+			let glideStartTime = 0;
+			let glideStopTime = 0;
+
 			function onTouchEnd() {
 				if (!touching) return;
 				touching = false;
 
-				cancelAnimationFrame(trackerRafId); // Stop tracking the finger
+				cancelAnimationFrame(trackerRafId);
 
-				// Calculate average. If you held still, the array is full of 0s!
 				velocity = velocitySamples.length
 					? velocitySamples.reduce((a, b) => a + b, 0) / velocitySamples.length
 					: 0;
 
 				cancelAnimationFrame(rafId);
-
-				if (Math.abs(velocity) < minVelocityToGlide) {
-					lenis.scrollTo(lenis.animatedScroll, { immediate: true });
-					return;
-				}
-
 				lenis.scrollTo(lenis.animatedScroll, { immediate: true });
 
+				if (Math.abs(velocity) < minVelocityToGlide) return;
+
 				virtualScroll = lenis.animatedScroll;
+				glideStartVelocity = velocity;
+				glideStartTime = performance.now();
+
+				// exact stop time, derived from v0 — not a constant, so hard flicks
+				// naturally glide longer than soft ones without you setting that up manually
+				const v0 = Math.abs(glideStartVelocity);
+				glideStopTime = glideStartTime +
+					Math.pow(v0, 1 - glideExponent) / (glideRate * (1 - glideExponent));
+
 				lastFrameTime = 0;
 				rafId = requestAnimationFrame(glide);
 			}
@@ -132,10 +139,18 @@ window.docu = {
 				const dt = lastFrameTime ? now - lastFrameTime : 16;
 				lastFrameTime = now;
 
-				if (Math.abs(velocity) < stopThreshold) {
+				if (now >= glideStopTime) {
 					lastFrameTime = 0;
+					velocity = 0;
 					return;
 				}
+
+				const elapsed = now - glideStartTime;
+				const sign = Math.sign(glideStartVelocity);
+				const v0 = Math.abs(glideStartVelocity);
+
+				const remaining = Math.pow(v0, 1 - glideExponent) - glideRate * (1 - glideExponent) * elapsed;
+				velocity = sign * Math.pow(Math.max(remaining, 0), 1 / (1 - glideExponent));
 
 				const limit = lenis.limit;
 				const next = virtualScroll + velocity * dt;
@@ -150,7 +165,6 @@ window.docu = {
 				virtualScroll = next;
 				lenis.scrollTo(virtualScroll, { immediate: true });
 
-				velocity *= Math.pow(friction, dt / 16);
 				rafId = requestAnimationFrame(glide);
 			}
 
@@ -326,6 +340,15 @@ window.docu = {
 
 		nav.appendChild(searchInput);
 
+		// Blur the searchbar on any page interaction that isn't targeting it directly
+		function blurSearchOnInteraction(e) {
+			if (e.target === searchInput) return;
+			if (document.activeElement === searchInput) searchInput.blur();
+		}
+
+		document.addEventListener('pointerdown', blurSearchOnInteraction, { passive: true, capture: true });
+		document.addEventListener('touchstart', blurSearchOnInteraction, { passive: true, capture: true });
+
 
 		// Create the nav scroll
 		const navScroll = document.createElement('nav');
@@ -345,8 +368,7 @@ window.docu = {
 			lerp: 0.1,
 			wheelMultiplier: 0.5,
 			touchMultiplier: 1.0,
-			syncTouch: true,
-			touchInertiaExponent: 1,
+			syncTouch: false,
 		});
 
 		function raf(time) {
