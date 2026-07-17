@@ -138,7 +138,7 @@
     opacity: 0.4;
 }
 
-.nav-title{
+.nav-title {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -348,6 +348,16 @@ ul {
     ul {
         padding: 10px 0px 0px 40px;
     }
+
+    li>ul,
+    li>ol {
+        margin-top: 10px;
+    }
+
+    li ul>li:last-child,
+    li ol>li:last-child {
+        margin-bottom: 0px;
+    }
 }
 
 pre {
@@ -373,14 +383,17 @@ pre {
 pre::-webkit-scrollbar {
     height: 8px;
 }
+
 pre::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 20px;
 }
+
 pre::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 20px;
 }
+
 pre::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.35);
 }

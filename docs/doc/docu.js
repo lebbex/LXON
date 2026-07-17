@@ -37,6 +37,12 @@ window.docu = {
 			touchInertiaExponent: 1,
 		});
 
+		function docuRaf(time) {
+			docu.lenis.raf(time);
+			requestAnimationFrame(docuRaf);
+		}
+		requestAnimationFrame(docuRaf);
+
 		(function setupCustomTouchMomentum(lenis, target = window) {
 			let touching = false;
 			let velocity = 0;
@@ -53,9 +59,11 @@ window.docu = {
 			// dv/dt = -k * v^p, with p < 1
 			// LOWER p = decay rate increases MORE sharply as velocity drops (bigger cliff at the end)
 			// HIGHER p (toward 1) = behaves closer to old constant-% decay (long tail)
-			const glideExponent = 0.4;
+			const glideExponent = 0.5;
 			// higher glideRate = shorter glides overall, doesn't change the curve's shape
-			const glideRate = 0.003;
+			const glideRate = 0.005;
+			// extra kick applied to the release velocity (0 = no kick, 1 = alotta kick) makes the user feel more powerful
+			const glideInitialMultiplier = 0.1;
 
 			let movedThisFrame = false;
 
@@ -120,7 +128,8 @@ window.docu = {
 				if (Math.abs(velocity) < minVelocityToGlide) return;
 
 				virtualScroll = lenis.animatedScroll;
-				glideStartVelocity = velocity;
+				if(velocity > 0) glideStartVelocity = velocity + (velocity * velocity * glideInitialMultiplier);
+				else glideStartVelocity = velocity - (velocity * velocity * glideInitialMultiplier);
 				glideStartTime = performance.now();
 
 				// exact stop time, derived from v0 — not a constant, so hard flicks
@@ -190,15 +199,15 @@ window.docu = {
 		}, { threshold: 0.0001 })
 
 		if (path[0] === "Overview") document.title = "LXON Documentation";
-		else{
+		else {
 			let obj = navTree;
-			for(let i = 0; i < path.length; i++){
+			for (let i = 0; i < path.length; i++) {
 				obj = obj[path[i].replaceAll(" ", "_")];
 			}
 			let append = "THIS IS A BUG";
-			if(Array.isArray(obj)) append = obj[1];
+			if (Array.isArray(obj)) append = obj[1];
 			else append = obj.__;
-			if(path.length > 1) document.title = "LXON // " + append;
+			if (path.length > 1) document.title = "LXON // " + append;
 			else document.title = "LXON Documentation // " + append;
 		}
 

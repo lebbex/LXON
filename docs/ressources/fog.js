@@ -205,7 +205,6 @@ window.fog = {
 		function render(now) {
 			const deltaTime = (now - lastTime) / 1000;
 			lastTime = now;
-			lenis.raf(now);
 
 			const elapsed = (now - startTime) / 1000;
 
