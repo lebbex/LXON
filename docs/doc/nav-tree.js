@@ -8,7 +8,7 @@
 
 window.navTree = {
 	Overview: [
-		"",
+		"", null,
 		["Analogy", "analogy"],
 		["Supported Features", "features"],
 		["Supported Containers", "containers"],
@@ -18,42 +18,45 @@ window.navTree = {
 	],
 	Containers: {
 		_: "/containers",
+		__: "Containers",
 		Object: [
-			"/object",
+			"/object", "Objects",
 			["Definition", "def"],
 			["Syntax", "syntax"]
 		],
 		Array: [
-			"/array",
+			"/array", "Arrays",
 			["title", "id"]
 		],
 		Map: [
-			"/map",
+			"/map", "Maps",
 			["title", "id"]
 		],
 		Doodad: [
-			"/doodad",
+			"/doodad", "Doodads",
 			["title", "id"]
 		],
 	},
 	Keys: {
 		_: "/keys",
+		__: "Keys",
 		Text: {
 			_: "/keys/text",
+			__: "Text Keys",
 			String: [
-				"/keys/string",
+				"/keys/string", "String Keys",
 				["title", "id"]
 			],
 			Char: [
-				"/keys/char",
+				"/keys/char", "Char Keys",
 				["title", "id"]
 			],
 		},
 		Boolean: [
-			"/keys/bool"
+			"/keys/bool", "Bool Keys",
 		],
 		Number: [
-			"/keys/number",
+			"/keys/number", "Num. Keys",
 			["Definition", "def"],
 			["Regular Number", "regular"],
 			["Decimal Number", "decimal"],
@@ -61,59 +64,62 @@ window.navTree = {
 			["Static Number", "static"]
 		],
 		Date: [
-			"/keys/date",
+			"/keys/date", "Date Keys",
 			["Year / Unix", "year-unix"],
 			["Week", "week"],
 			["Month", "month"],
 			["Time", "time"]
 		],
 		Keybind: [
-			"/keys/keybind"
+			"/keys/keybind", "Keybind Keys",
 		],
 		Color: {
 			_: "/keys/color",
+			__: "Color Keys",
 			SRGB_Color: [
-				"/keys/srgb"
+				"/keys/srgb", "SRGB Keys",
 			],
 			Linear_Color: [
-				"/keys/linear",
+				"/keys/linear", "L. Color Keys",
 				["8 Bit", "8bit"],
 				["16 Bit", "16bit"]
 			]
 		},
 		Enum: [
-			"/keys/enum"
+			"/keys/enum", "Enum Keys",
 		]
 	},
 	Values: {
 		_: "/values",
+		__: "Values",
 		Text: {
 			_: "/text",
+			__: "Text Values",
 			Full_String: [
-				"/fullstring",
+				"/fullstring", "Full Strings",
 				["Syntax", "syntax"],
 				["Usage", "usage"]
 			],
 			String: [
-				"/string",
+				"/string", "Strings",
 				["Syntax", "syntax"],
 				["Usage", "usage"]
 			],
 			Char: [
-				"/char",
+				"/char", "Chars",
 				["Syntax", "syntax"],
 				["Usage", "usage"]
 			],
 		},
 		Boolean: [
-			"/bool",
+			"/bool", "Booleans",
 			["Definition", "def"],
 			["Syntax", "syntax"],
 			["Visualization", "visualization"],
 			["Usage", "usage"]
 		],
 		Number: [
-			"/number",
+			"/number", "Numbers",
 			["Definition", "def"],
 			["Regular Number", "regular"],
 			["Decimal Number", "decimal"],
@@ -121,48 +127,58 @@ window.navTree = {
 			["Static Number", "static"]
 		],
 		Date: [
-			"/date",
+			"/date", "Dates",
+			["Definition", "def"],
 			["Year / Unix", "year-unix"],
 			["Week", "week"],
 			["Month", "month"],
 			["Time", "time"]
 		],
 		Keybind: [
-			"/keybind"
+			"/keybind", "Keybinds",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		],
 		Color: {
 			_: "/color",
+			__: "Color Values",
 			SRGB_Color: [
-				"/srgb"
+				"/srgb", "SRGB Colors",
+				["Syntax", "syntax"],
+				["Usage", "usage"]
 			],
 			Linear_Color: [
-				"/linear",
+				"/linear", "Linear Colors",
 				["8 Bit", "8bit"],
 				["16 Bit", "16bit"]
 			]
 		},
 		Enum: [
-			"/enum"
+			"/enum", "Enums",
 		],
 		Binary: [
-			"/binary"
+			"/binary", "Binary Values",
 		],
 		Special: [
-			"/special"
+			"/special", "Special Values",
 		]
 	},
 	Other: {
 		_: "/other",
+		__: "Other",
 		Comments: [
-			"/comments",
+			"/comments", "Comments",
 			["Justification", "why"],
 			["Syntax", "syntax"],
 			["Usage", "usage"]
 		],
 		Escape_Sequences: [
-			"/escape",
+			"/escape", "Escape Sequences",
 			["Justification", "why"],
 			["Syntax", "syntax"],
+			["Supported Characters", "characters"],
+			["Supported Environments", "environments"],
 			["Usage", "usage"]
 		]
 	}

@@ -316,8 +316,15 @@ window.linkReg = {
                     case "keybinds":
                         if (len == 2) return "/keybind";
                         switch (split[2]) {
-                            case "cat":
-                                return "/meow";
+                            case "def":
+                            case "definition":
+                                return "/keybind/#def";
+                            case "syntax":
+                                return "/keybind/#syntax";
+                            case "chain":
+                            case "chains":
+                            case "chaining":
+                                return "/keybind/#chain";
                             default: return [split[2]];
                         }
                     case "col":
@@ -375,7 +382,27 @@ window.linkReg = {
                         return "/comments";
                     case "escape":
                     case "escaped":
-                        return "/escape";
+                        if (len == 2) return "/escape";
+                        switch (split[2]) {
+                            case "why":
+                            case "just":
+                            case "justification":
+                                return "/escape/#why";
+                            case "syntax":
+                                return "/escape/#syntax";
+                            case "char":
+                            case "chars":
+                            case "character":
+                            case "chararacters":
+                                return "/escape/#characters";
+                            case "env":
+                            case "environment":
+                            case "environments":
+                                return "/escape/#environments";
+                            case "usage":
+                                return "/escape/#usage"
+                            default: return [split[2]];
+                        }
                     default: return [split[1]];
                 }
             default: return [split[0]];

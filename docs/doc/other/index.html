@@ -27,21 +27,22 @@
 		</p>
 		<p>
 			Comments are officially supported, but should rarely be used, and especially not in published projects.
+			They can be thought of as a novelty item.
 		</p>
 		<p>
-			To write a comment, include<dfn>#</dfn> as the first character of a newline. The parser will then ignore that entire line.
+			To write a comment, include<dfn>#</dfn> as the first character of a newline. The parser will then skip that entire line.
 		</p>
 		<h2 id="escape"> !! other.escape ! Escape Sequences ! </h2>
 		<p>
-			One thing you'll see a bit in this documentation is comments inside code blocks.
-			You should always read these comments as they sometimes distinguish what's valid syntax
-			and what isn't.
+			An escape sequence is a way to represent a character in an environment where,
+			in order to follow the syntax rules, the character itself cannot be used.
 		</p>
 		<p>
-			Comments are officially supported, but should rarely be used, and especially not in published projects.
-		</p>
-		<p>
-			To write a comment, include<dfn>#</dfn> as the first character of a newline. The parser will then ignore that entire line.
+			To escape a character, prepend it with<dfn>\</dfn>. 
+			The parser will ignore the backslash and read only the character following it. 
+			If it's a code character, it will replace the pair with the represented character 
+			(\n -> newline, \s -> space, etc.), otherwise it will read the second character litterally
+			(\" -> ").
 		</p>
 	</div>
 

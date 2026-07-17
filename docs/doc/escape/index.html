@@ -24,76 +24,115 @@
 			This is the reality in a lot of examples in programming.
 		</p>
 		<p>
-			To combat this, escape sequences were invented from the very surfacing of this problem. 
+			To combat this, escape sequences were invented.
 			This problem is also faced in LXON, and the solution is the same implementation as everywhere.
 		</p>
 		<p>
-			Escape sequences are used when you want to include a character that would otherwise be impossible to include,
+			Escape sequences are used when you want to include a character that would otherwise be impossible to
+			include,
 			whether it be as a typed key or as a value. For example, if you want to write a string with a newline,
 			you would get this:
 		</p>
 		<pre><code>{
-text: "hello
-world
+text: "Hello
+World
 </code></pre>
 		<p>
 			However, this would simple parse into the following object (read !! other.comment ! comment !):
 		</p>
 		<pre><code>{
-text: "hello
-world: _
+text: "Hello
+World: _
 # This ^ symbol means undefined
 </code></pre>
 		<p>
-			In order to parse "hello" and "world", seperated by a newline, you would need to use the escape character<dfn>\n</dfn>.
+			In order to parse "Hello" and "World", seperated by a newline, you would need to use the escape
+			character<dfn>\n</dfn>.
 		</p>
 		<pre><code>{
-text: "hello\nworld
+text: "Hello\nWorld
 </code></pre>
 		<p>
-			This is incredibly useful in countless instances. Sroll to the bottom of the page to see all examples,
-			including less obvious ones.
+			This is incredibly useful in countless instances. Scroll to the bottom of the page to see all
+			!! other.escape.usage ! examples !, including less obvious ones.
 		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			A comment is very straightforward to write. 
-			Simply begin a new line with<dfn>#</dfn>and the rest of the line in full will be skipped by the parser.
+			To escape a character, prepend it with<dfn>\</dfn>. 
+			The parser will ignore the backslash and read only the character following it. 
+			If it's a code character, it will replace the pair with the represented character (\n -> newline, \s -> space, etc.), 
+			otherwise it will read the second character litterally (\" -> ").
 		</p>
-		<h2> Important </h2>
+		<h2 id="characters"> Supported Characters </h1>
 		<p>
-			You cannot write inline comments, that means comments on the same line with data. 
-			Some friendly parsers will understand and keep the comment as a comment, however, 
-			to simplify the workload of most parsers, the standard is to only allow full-line comments.
-			Writing inline comments would go against this standard and will likely break on many parsers,
-			including the officially released ones.
+			LXON offers support for many of the conventional escape characters, as well as a select assembly of custom ones.
+			Here's all supported escape sequence codes:
 		</p>
+		<ul>
+			<li>Newline<dfn>\n</dfn></li>
+			<li>Carriage Return<dfn>\r</dfn></li>
+			<li>Tabulator (tab)<dfn>\t</dfn></li>
+			<li>Space<dfn>\s</dfn></li>
+		</ul>
+		<p>
+			If a escape sequence isn't a valid code, it will parse into the character after the backslash<dfn>\</dfn>, 
+			completely ignoring the backslash as is. 
+			By consequence, many commonly used escape characters aren't explicit implementations and merely an intended consequence.
+			Here's all of the commonly used, and arguably the only other useful escape sequences:
+		</p>
+		<ul>
+			<li>Backslash<dfn>\\</dfn></li>
+			<li>Colon<dfn>\:</dfn></li>
+			<li>Backtick<dfn>\`</dfn></li>
+			<li>Caret<dfn>\^</dfn></li>
+			<li>At<dfn>\@</dfn></li>
+			<li>Asterisk<dfn>\*</dfn></li>
+			<li>Question Mark<dfn>\?</dfn></li>
+		</ul>
+		<h2 id="environments"> Supported Environments </h1>
+		<p>
+			Before escaping a character, first ensure escaped characters are even supported in the current environment.
+			For example, !! keys.regular ! regular keys ! used in !! containers.obj ! objects !
+			do not support escape characters at all. In the event where you wish to include unsupported characters
+			(such as newline, colon, etc.) in the key<span class="a">(*see syntax rules)</span>,
+			you must use !! cont.maps ! maps ! with string keys instead.
+		</p>
+		<p>
+			Here below is a full list of supported environments for escape sequences:
+		</p>
+		<ul>
+			<li>!! val.text ! Text Values !
+				<ul>
+					<li>!! val.text.full ! Full String !</li>
+					<li>!! val.text.str ! String !</li>
+					<li>!! val.text.char ! Char !</li>
+				</ul>
+			</li>
+			<li>!! keys.text ! Text Keys !
+				<ul>
+					<li>!! keys.text.str ! String Key !</li>
+					<li>!! keys.text.char ! Char Key !</li>
+				</ul>
+			</li>
+		</ul>
 		<h1 id="usage"> Usage </h1>
 		<p>
-			Here's some example usage of comments as reference (read comments):
+			Here's some example usage of escape sequences as reference (read all comments, keys and values):
 		</p>
 		<pre><code>{
-# Below is a key and value
-key: "value
-#Above is a key and value
+newline: '\n
+multiline: "Hello\nWorld
 
-# This is a comment, so this doesn't get parsed-> key2: "value2
- # This wants to be a comment, but the first character is a space
-	# This also wants to be a comment, but the first char is a tab
+backtick inside: `\``
 
-key3: "full string # This wants to be a comment, but ends up being part of the string
-key4: `string`     # This also wants to be a comment, but ends up being a new key
-
-
-#        This is a comment block
-# ---------------------------------------
-# You can use it to write a block of text
-#     and not have it break the data
+map:("
+	1 colon \: inside: "val
+	2 spaces at end  : "val
+	\s-space at start: "val
 
 array:[
-	"value1
-	"value2
-	"value3
-# ALWAYS keep the hashtag on the first line
+	`caret(\^)caret^dot(.)dot
+# See ^ string chaining ^
 </code></pre>
 	</div>
 

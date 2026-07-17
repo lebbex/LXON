@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			A date is a value type which can hold any date/time combination value.
+			For the date part of the date, it can store years, including negative ones, or unix timestamps.
+			If year is chosen, it can store as well month/day of the month pairs or week/day of the week pairs, 
+			although the latter is much less used.
+		</p>
+		<p>
+			For the time part of the date, you can precise an hour, minute and second, 
+			as well as fractions of seconds going up to millisecond precision.
+			You can also chose to skip precising a date, which results in a date of January 1st, year 0.
+			It is reccomended to recognize that date as the lack of a date, 
+			although it is to the developper's discretion how they chose to interpret it.
+		</p>
+		<h2 id="year-unix"> Year / Unix Timestamp </h2>
+		<p>
+			If the first number is over 11 digits long (12+), 
+			it assumes it's looking at a millisecond timestamp and returns the date as a Unix Timestamp.
+			If the first number is over 7 digits long (8+), it assumes it's looking at a seconds timestamp and returns the date as such.
+		</p>
+		<p>
+			Otherwise, it reads the first number as a year. 
+			However, if the year is less then 3 digits long (1 or 2), it assumes a 21st century abbreviation and adds 2000. 
+			So, in the rare case you may want to represent, for instance, the year 50, 
+			you would have to type it out as 050 otherwise it would read 50 as 2050.
+		</p>
+		<p>
+			If it had read the number as a year, it then moves onto looking for the week or month, 
+			and if that fails, it looks for the time instead.
+		</p>
+		<p>
+			Here's an example of year and unix timestamp usage. It is the same example as below,
+			representing January 1st, 2026 (UTC):
+		</p>
+		<pre><code>{
+unix milsec: &1767225600000
+unix second: &1767225600
+simple year: &2026
+21cent year: &26
+</code></pre>
+		<h2 id="week"> Week </h2>
+		<p>
+			If, following the year, is the character<dfn>W</dfn>(with or without a dash in front), 
+			then it will read the number as the week of the year. 
+			If, after that number, is a<dfn>-</dfn>, then it will read the number following that as the day of the week, 
+			starting from 1 being Monday.
+		</p>
+		<p>
+			Here's an example of a date made up of a year, a week and day of the week. 
+			It is the same example as above and below, representing Januay 1st 2026 (1st week of the year on a thursday):
+		</p>
+		<pre><code>{
+date: &2026-W1-4
+</code></pre>
+		<h2 id="month"> Month </h2>
+		<p>
+			If, following the year, is the character<dfn>-</dfn> and no<dfn>W</dfn>following, 
+			then it will read the number following as the month of the year, 
+			starting from 1 being December. If after that number is another<dfn>-</dfn>, 
+			then it reads the following number as the day of the month, where 1 is the first day of the month.
+		</p>
+		<p>
+			Here's an example of a date made up of a year, a month and a day of the month. 
+			It is the same example as all above, representing January 1st, 2026:
+		</p>
+		<pre><code>{
+date: &2026-01-01
+</code></pre>
+		<h2 id="time"> Time </h2>
+		<p>
+			If the first character is a T, then it will read the number following as the hour of the day, 
+			where 0 is 12am, 1 is 1am and 16 is 4pm of the same day. 24 is 12am of the next day.
+		</p>
+		<p>
+			If, following this number, which can be either 1 or 2 digits long, is a<dfn>:</dfn>, 
+			then it will read the following number as the minutes of the hour.
+		</p>
+		<p>
+			If, following this number, which can also be either 1 or 2 digits long, is another<dfn>:</dfn>, 
+			then it will read the following number as the seconds of the minute.
+		</p>
+		<p>
+			If, following this number, which can also be either 1 or 2 digits long, is a<dfn>.</dfn>, 
+			then it will read the following number as the milliseconds of the second. 
+			It reads it as the decimals to the second, so .5 doesn't mean 5 milliseconds, it means half a second.
+		</p>
+		<p>
+			Here's some example usage of the time segment of a date (read comment):
+		</p>
+		<pre><code>{
+date1: &2026-07-01T12:30:05
+date2: &T12:30:05.025
+
+# These all represent 1:05am and 3.5 seconds
+time1: &T01:05:03.5
+time2: &T1:05:03.5
+time3: &T01:5:3.50
+time4: &T01:05:03.500
+</code></pre>
+	</div>
+
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/link-registry.js"></script>
+	<script src="/doc/nav-tree.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Values", "Date"]);
+	</script>
+
+</body>
+
+</html>

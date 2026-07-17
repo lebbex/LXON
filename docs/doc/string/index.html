@@ -27,20 +27,31 @@
 		</p>
 		<p>
 			Like with full strings, the string also ends at the end of the line, so trailing backticks aren't strictly required.
-			Strings support !! other.escape ! escape characters !. 
 			They also support trailing whitespace such as tabs or space characters.
 		</p>
+		<p>
+			As a consequence of its increase in complexity, strings require escape sequences for the following characters:
+		</p>
+		<ul>
+			<li>Newline<dfn>\n</dfn></li>
+			<li>Carriage Return<dfn>\r</dfn></li>
+			<li>Backslash<dfn>\\</dfn></li>
+			<li>Backtick<dfn>\`</dfn></li>
+			<li>Caret<dfn>\^</dfn></li>
+		</ul>
 		<h2 id="chain"> Chaining </h2>
 		<p>
-			Strings can be chained easily with the caret symbol<dfn>^</dfn>. When a caret is used to terminate a string, or even a
-			!! values.keybind ! keybind !, a !! values.enum ! enum ! or a !! values.binary ! binary value,
+			Strings can be chained easily with the caret symbol<dfn>^</dfn>. When a caret is used to terminate a string,
 			it will not only mark the end of the current value but also the start of a new string.
+			This should only ever be done inside an !! containers.arr ! array !.
+			It allows for string chaining, which is also supported by
+			!! values.keybind ! keybinds !, !! values.enum ! enums ! and even !! values.binary ! binary ! values,
 		</p>
 		<h2 id="important"> Important </h2>
 		<p>
-			Although newline termination is supported, it is highly reccomended to refrain from doing so,
-			as it is standardized to always include a trailing backtick. Certain parsers might break without the usage of one.
-			You can always use a full string in the event that you want to skip on a trailing backtick.
+			Although tab representation is supported, it is standardized to replace them with<dfn>\t</dfn>. 
+			This allows for better visualization as well as a shortening of the visual length of the string.
+			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
 		</p>
 		<p>
 			Also, although trailing whitespace is supported, if there's no trailing backtick,

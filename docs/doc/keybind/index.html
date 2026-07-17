@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			A keybind is a value type which can hold any string. The only difference is its slightly more complex syntax,
+			and the fact it doesn't get parsed into a string. 
+		</p>
+		<p>
+			Its primary use, as the name implies, is to store keybinds.
+			In any development environment that supports keybinds, it will get parsed into one, such as in Unreal Engine 5.
+			However, in languages that don't, such as JavaScript, it will get parsed into an alternative.
+			To continue with the JavaScript example, in that language, it gets parsed into a Symbol.
+			In other languages or development environments that have no support for anything but string,
+			it will get parsed into a custom object, allowing it to be distinguished to regular string.
+		</p>
+		<p>
+			If the project doesn't require keybind parsing, you can either chose to ignore this feature or use it for something else,
+			such as codes. It is generally useful to have a string alternative that doesn't parse into string.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			A keybind requires the at symbol<dfn>@</dfn>as type declaration.
+			Every following character is treated as the contents of the keybind, 
+			until the first instance of either one of these characters:
+		</p>
+		<ul>
+			<li>Backtick<dfn>`</dfn></li>
+			<li>Caret<dfn>^</dfn></li>
+			<li>At Symbol<dfn>@</dfn></li>
+			<li>Asterisk<dfn>*</dfn></li>
+			<li>Question Mark<dfn>?</dfn></li>
+		</ul>
+		<p>
+			It is standardized however to use the backtick, and only use the other characters for !! val.bind.chain ! chaining !
+			other values after it.
+			Like with full strings, keybinds also ends at the end of the line, so trailing backticks aren't strictly required.
+			Keybinds also support trailing whitespace such as tabs or space characters.
+		</p>
+		<p>
+			As a consequence of its increase in complexity, keybinds require escape sequences for the following characters:
+		</p>
+		<ul>
+			<li>Newline<dfn>\n</dfn></li>
+			<li>Carriage Return<dfn>\r</dfn></li>
+			<li>Backslash<dfn>\\</dfn></li>
+			<li>Backtick<dfn>\`</dfn></li>
+			<li>Caret<dfn>\^</dfn></li>
+			<li>At Symbol<dfn>\@</dfn></li>
+			<li>Asterisk<dfn>\*</dfn></li>
+			<li>Question Mark<dfn>\?</dfn></li>
+		</ul>
+		<h2 id="chain"> Chaining </h2>
+		<p>
+			Keybinds can be chained easily. However, these chains should only ever be done inside an !! containers.arr ! array !.
+			Here's all the possible chained values:
+		</p>
+		<ul>
+			<li>
+				When a caret<dfn>^</dfn>is used to terminate a keybind, 
+				it will not only mark the end of the current keybind but also the start of a new !! val.text.str ! string !.
+			</li>
+			<li>
+				When a at symbol<dfn>@</dfn>is used to terminate a keybind, 
+				it will mark the end of the current keybind and the start of a new one.
+			</li>
+			<li>
+				When a asterik<dfn>*</dfn>is used to terminate a keybind, 
+				it will mark the end of the current keybind and the start of a !! val.enum ! enum !.
+			</li>
+			<li>
+				When a question mark<dfn>?</dfn>is used to terminate a keybind, 
+				it will mark the end of the current keybind and the start of a !! val.binary ! binary ! value.
+			</li>
+		</ul>
+		<h2 id="important"> Important </h2>
+		<p>
+			Although tab representation is supported, it is standardized to replace them with<dfn>\t</dfn>. 
+			This allows for better visualization as well as a shortening of the visual length of the keybind.
+			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
+		</p>
+		<p>
+			Also, although trailing whitespace is supported, if there's no trailing backtick,
+			it is standardized to replace the last character with a<dfn>\s</dfn>if it's a space, or a<dfn>\t</dfn>if it's a tab.
+			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
+			For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing mistake.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of keybind values as reference:
+		</p>
+		<pre><code>{
+left: @A Key
+right: @D Key
+
+jump: @spacebar` crouch: @left shift
+
+movement:[ @up_arrow@down_arrow^string`
+
+bind-enum:[ @keybind*enum:member
+
+k-binary:[ @keybind?32e5 fa24
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/link-registry.js"></script>
+	<script src="/doc/nav-tree.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Values", "Keybind"]);
+	</script>
+
+</body>
+
+</html>

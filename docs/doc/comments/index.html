@@ -50,27 +50,19 @@
 		</p>
 		<pre><code>{
 # Below is a key and value
-key: "value
-#Above is a key and value
+key1: "value1
 
-# This is a comment, so this doesn't get parsed-> key2: "value2
- # This wants to be a comment, but the first character is a space
-	# This also wants to be a comment, but the first char is a tab
+# key2: "value2
+# ^^^^^^^^^^^^^
+#Doesn't get parsed
 
-key3: "full string # This wants to be a comment, but ends up being part of the string
-key4: `string`     # This also wants to be a comment, but ends up being a new key
+#Neither this-> key3: 4
 
+ # Not a comment cause the
+	# first char isnt a "#"
 
-#        This is a comment block
-# ---------------------------------------
-# You can use it to write a block of text
-#     and not have it break the data
-
-array:[
-	"value1
-	"value2
-	"value3
-# ALWAYS keep the hashtag on the first line
+key4: "str  #still a string
+key5: `str`  #this is a key
 </code></pre>
 	</div>
 

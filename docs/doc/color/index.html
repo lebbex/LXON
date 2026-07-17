@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/doc/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			In LXON, "text" is a way to group all string-like types into one. 
+			Text values encapsulate three distinct yet similar values types:
+		</p>
+		<ul>
+			<li>Full String<dfn>"</dfn></li>
+			<li>Regular String<dfn>`</dfn></li>
+			<li>String Character<dfn>'</dfn></li>
+		</ul>
+		<p>
+			Text values are values that get turned into string by default. 
+			Certain languages support a dinstinct single-character string value type (char),
+			however most don't, which is why the default behavior is for everything to be simplified to string.
+		</p>
+		<p>
+			When serializing the data, the string automatically choses the correct text type
+			based on whether it's the last value on the line, and, 
+			in the case of a language that doesn't support char,
+			if the length of the string is of 1.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of text values as reference:
+		</p>
+		<pre><code>{
+name: "Scott
+last: `Cawthon`
+char: 'S
+cha2: '4'
+
+array:[ "Full string 1
+	"Full string 2
+	`string1` `string2`
+	`string3` `string4
+	`string3^string4`
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/doc/link-registry.js"></script>
+	<script src="/doc/nav-tree.js"></script>
+	<script src="/doc/docu.js"></script>
+	<script>
+		docu.init(["Values", "Color"]);
+	</script>
+
+</body>
+
+</html>

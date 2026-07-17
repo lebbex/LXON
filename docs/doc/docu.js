@@ -175,7 +175,6 @@ window.docu = {
 		})(docu.lenis, contentWrapper);
 
 
-
 		fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, 0.015, 1, 0.11, -1.2);
 
 
@@ -191,7 +190,17 @@ window.docu = {
 		}, { threshold: 0.0001 })
 
 		if (path[0] === "Overview") document.title = "LXON Documentation";
-		else document.title = "LXON Documentation | " + path[path.length - 1];
+		else{
+			let obj = navTree;
+			for(let i = 0; i < path.length; i++){
+				obj = obj[path[i].replaceAll(" ", "_")];
+			}
+			let append = "THIS IS A BUG";
+			if(Array.isArray(obj)) append = obj[1];
+			else append = obj.__;
+			if(path.length > 1) document.title = "LXON // " + append;
+			else document.title = "LXON Documentation // " + append;
+		}
 
 
 
@@ -434,8 +443,6 @@ window.docu = {
 
 			const h1s = Array.from(container.children).filter(el => (el.tagName === 'H1' || el.tagName === 'H2') && targets.has(el.id));
 
-			console.log(h1s);
-
 			for (let i = 0; i < h1s.length; i++) {
 				const currentH1 = h1s[i];
 				const nextH1 = h1s[i + 1];
@@ -463,7 +470,7 @@ window.docu = {
 				content.insertBefore(hWrapper, currentH1);
 				hWrapper.appendChild(currentH1);
 				hWrapper.id = currentH1.id;
-				currentH1.removeAttribute('id');
+				currentH1.id = "h-" + hWrapper.id;
 
 				docu.observer.observe(currentH1);
 			}
@@ -637,6 +644,7 @@ window.docu = {
 		const keys = Object.keys(object);
 		for (const key of keys) {
 			if (key === "_") continue;
+			if (key === "__") continue;
 			const value = object[key];
 			if (!docu.matchesQuery(value, query, q) && !docu.matches(key, q)) continue;
 			let item = document.createElement('a');
@@ -648,7 +656,7 @@ window.docu = {
 				item.href = "/doc" + value[0];
 				navInner.appendChild(item);
 				if (getPathKey(path.length - 1) !== key && query === "") continue;
-				for (let i = 1; i < value.length; i++) {
+				for (let i = 2; i < value.length; i++) {
 					if (!docu.matches(value[i][0], q)) continue;
 					let sub = document.createElement('a');
 					sub.textContent = value[i][0].replaceAll("_", " ");
@@ -729,7 +737,7 @@ window.docu = {
 		let wasSet = false;
 		for (let i = 0; i < keys.length; i++) {
 			const key = keys[i];
-			if (docu.visibleEntries.has(key)) {
+			if (docu.visibleEntries.has("h-" + key)) {
 				docu.subNavs[key].classList.add("inter");
 				i = 10000;
 				wasSet = true;
