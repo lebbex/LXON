@@ -40,11 +40,24 @@
         background: rgba(0, 0, 0, 0.6);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
-        padding-right: 20px;
+        padding-right: 10px;
+        padding-left: 105px;
         width: 100%;
         height: 60px;
         display: flex;
         align-items: center;
+    }
+}
+
+@media (max-height: 400px) {
+    .site-mini-nav {
+        visibility: collapse;
+    }
+
+    .site-home {
+        position: fixed;
+        top: 12px;
+        left: 285px;
     }
 }
 
@@ -75,6 +88,13 @@
     .site-tab {
         visibility: visible;
         touch-action: none;
+    }
+}
+
+@media (max-height: 400px) {
+    .site-tab {
+        top: 50px;
+        left: 7px;
     }
 }
 
@@ -116,6 +136,18 @@
     font-size: 300%;
     font-weight: lighter;
     opacity: 0.4;
+}
+
+.nav-title{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    min-width: 0;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 50px);
+    mask-image: linear-gradient(to right, transparent 0%, black 50px);
 }
 
 .title-mini {
@@ -173,6 +205,21 @@
 
     .title-mini-slash {
         visibility: visible;
+    }
+}
+
+@media (max-height: 400px) {
+    .title {
+        padding: 50px 0px 10px 20px;
+        visibility: visible;
+    }
+
+    .title-mini {
+        visibility: collapse;
+    }
+
+    .title-mini-slash {
+        visibility: collapse;
     }
 }
 
@@ -408,6 +455,7 @@ button.symbol {
     top: 80px;
     left: 25px;
     width: 280px;
+    max-width: calc(100dvw - 50px);
     height: calc(100dvh - 100px);
     background: rgba(0, 0, 0, 0.6);
     border-radius: 20px;
@@ -426,6 +474,25 @@ button.symbol {
         background: rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
+    }
+}
+
+@media (max-height: 500px) {
+    #nav {
+        top: 75px;
+        border-radius: 0px;
+        border-top-right-radius: 20px;
+        left: 0px;
+        height: calc(100dvh - 75px);
+    }
+}
+
+@media (max-height: 400px) {
+    #nav {
+        top: 0px;
+        border-radius: 0px;
+        left: 0px;
+        height: calc(100dvh);
     }
 }
 

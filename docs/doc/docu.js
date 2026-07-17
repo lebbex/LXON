@@ -53,9 +53,9 @@ window.docu = {
 			// dv/dt = -k * v^p, with p < 1
 			// LOWER p = decay rate increases MORE sharply as velocity drops (bigger cliff at the end)
 			// HIGHER p (toward 1) = behaves closer to old constant-% decay (long tail)
-			const glideExponent = 0.5;
+			const glideExponent = 0.4;
 			// higher glideRate = shorter glides overall, doesn't change the curve's shape
-			const glideRate = 0.0033;
+			const glideRate = 0.003;
 
 			let movedThisFrame = false;
 
@@ -302,6 +302,8 @@ window.docu = {
 
 		let i = 0;
 		let obj = navTree;
+		const miniNavTitle = document.createElement("div");
+		miniNavTitle.classList.add("nav-title");
 		path.forEach(item => {
 			obj = obj[path[i]];
 			const t = document.createElement("a");
@@ -312,15 +314,16 @@ window.docu = {
 			}
 			t.style.color = depthColors[i];
 			t.textContent = path[i];
-			miniNav.append(t);
+			miniNavTitle.append(t);
 			i++;
 			if (i < path.length) {
 				const s = document.createElement("a");
 				s.classList.add("title-mini-slash");
 				s.textContent = "/";
-				miniNav.append(s);
+				miniNavTitle.append(s);
 			}
 		});
+		miniNav.append(miniNavTitle);
 		content.prepend(title);
 
 
@@ -603,7 +606,7 @@ window.docu = {
 			if (len !== 0) {
 				const tooltip = document.createElement('div');
 				tooltip.className = 'copy-tooltip';
-				tooltip.textContent = 'Copied to Clipboard';
+				tooltip.textContent = 'Copied to clipboard.';
 				button.appendChild(tooltip);
 
 				let hideTimeout;
