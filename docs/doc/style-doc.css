@@ -1,3 +1,8 @@
+html, body {
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
 .nav-scroll {
     position: fixed;
 }
@@ -525,6 +530,7 @@ button.symbol {
 /* Style the text input inside our sidebar */
 #search {
     margin: 15px;
+    margin-bottom: 5px;
     font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
     width: calc(100% - 30px);
     padding: 10px 15px;
@@ -547,10 +553,17 @@ button.symbol {
     flex-grow: 1;
     overflow-y: auto;
     overscroll-behavior: contain;
+    -webkit-mask-image: linear-gradient(to bottom,
+        transparent 0%, black 20px,
+        black calc(100% - 20px), transparent 100%);
+    mask-image: linear-gradient(to bottom,
+        transparent 0%, black 20px,
+        black calc(100% - 20px), transparent 100%);
 }
 
+
 #nav-inner {
-    padding: 0 20px 20px 20px;
+    padding: 10px 20px 20px 20px;
     overscroll-behavior: contain;
 }
 

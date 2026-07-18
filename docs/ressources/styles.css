@@ -28,9 +28,7 @@ body {
     color: var(--ink);
     font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
     width: 100%;
-    overflow: hidden;
     height: 100%;
-    overscroll-behavior: none;
 }
 
 /* The noise canvas stays completely fixed behind everything */
@@ -42,6 +40,7 @@ body {
     height: 100vh;
     z-index: -1;
     display: block;
+    pointer-events: none;
 }
 
 

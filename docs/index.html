@@ -87,9 +87,6 @@
 		const lenis = new Lenis({
 			lerp: 0.1,
 			wheelMultiplier: 0.5,
-			touchMultiplier: 1.0,
-			syncTouch: true,
-			touchInertiaExponent: 10000,
 		});
 
 		function docuRaf(time) {
@@ -98,7 +95,7 @@
 		}
 		requestAnimationFrame(docuRaf);
 
-		fog.init([0.0, 0.0, 0.0], [0.45, 0.5, 0.65], lenis, 0.02, 2, 0.08, -1);
+		fog.init([0.0, 0.0, 0.0], [0.45, 0.5, 0.65], lenis, document.scrollingElement, 0.02, 2, 0.08, -1);
 
 		const navBox = document.getElementById('nav-box');
 		const navWrapperEl = document.querySelector('.nav-wrapper');
