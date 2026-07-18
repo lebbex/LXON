@@ -1,4 +1,3 @@
-
 window.docu = {
 
 	applyObservers: true,
@@ -18,17 +17,8 @@ window.docu = {
 	init: function (path) {
 		const canvas = document.getElementById('noise-canvas');
 		const body = document.body;
-		const content = document.getElementById('content');
-
-		const contentWrapper = document.createElement('div');
-		contentWrapper.id = 'content-wrapper';
-
-		content.parentNode.insertBefore(contentWrapper, content);
-		contentWrapper.appendChild(content);
 
 		docu.lenis = new Lenis({
-			wrapper: contentWrapper,
-			content: content,
 			lerp: 0.1,
 			wheelMultiplier: 0.75,
 		});
@@ -40,7 +30,7 @@ window.docu = {
 		requestAnimationFrame(docuRaf);
 
 
-		fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, contentWrapper, 0.015, 1, 0.11, -1.2);
+		fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, body, 0.015, 1, 0.11, -1.2);
 
 
 
@@ -150,17 +140,14 @@ window.docu = {
 		body.append(tabButton);
 		body.append(miniNav);
 
-		contentWrapper.addEventListener('click', () => {
-            if (!nav.classList.contains("hidden")) {
-                tabButtonClick();
-            }
-        });
+		function closeNavOnOutsideInteraction(e) {
+			if (nav.classList.contains("hidden")) return;
+			if (nav.contains(e.target) || tabButton.contains(e.target) || home.contains(e.target) || miniNav.contains(e.target)) return;
+			tabButtonClick();
+		}
 
-        contentWrapper.addEventListener('touchmove', () => {
-            if (!nav.classList.contains("hidden")) {
-                tabButtonClick();
-            }
-        }, { passive: true });
+		body.addEventListener('click', closeNavOnOutsideInteraction);
+		body.addEventListener('touchmove', closeNavOnOutsideInteraction, { passive: true });
 
 
 		const depthColors = ["#ffff99", "#ff99ff", "#99ffff", "#ffff99", "#ff99ff", "#99ffff"]
@@ -195,7 +182,7 @@ window.docu = {
 			}
 		});
 		miniNav.append(miniNavTitle);
-		content.prepend(title);
+		body.prepend(title);
 
 
 		// Create the nav
@@ -262,7 +249,7 @@ window.docu = {
 
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
-				content.classList.add('loaded');
+				body.classList.add('loaded');
 				docu.search(path, "");
 				docu.applyObservers = false;
 			});
@@ -341,7 +328,7 @@ window.docu = {
 
 				const hWrapper = document.createElement("div");
 				hWrapper.className = "h-wrapper";
-				content.insertBefore(hWrapper, currentH1);
+				container.insertBefore(hWrapper, currentH1);
 				hWrapper.appendChild(currentH1);
 				hWrapper.id = currentH1.id;
 				currentH1.id = "h-" + hWrapper.id;
@@ -352,7 +339,7 @@ window.docu = {
 			return container;
 		}
 
-		wrapH1Sections(document.getElementById('content'), path);
+		wrapH1Sections(body, path);
 
 
 
@@ -406,8 +393,6 @@ window.docu = {
 			}
 			textNode.parentNode.replaceChild(frag, textNode);
 			if (docu.failedLinkConversions.length > 0) {
-				content.style.opacity = 0.3;
-				nav.style.opacity = 0.3;
 				const errorWrapper = document.createElement("div");
 				errorWrapper.className = "error-wrapper";
 				docu.failedLinkConversions.forEach(error => {
@@ -417,6 +402,9 @@ window.docu = {
 					errorWrapper.append(errorMessage);
 				})
 				body.append(errorWrapper);
+				Array.from(body.children).forEach(el => {
+					if (el !== errorWrapper) el.style.opacity = 0.3;
+				});
 				throw Error("FAILED TO CONVERT DOUBLE EXCLAMATION POINTS TO LINKS");
 			}
 		});
