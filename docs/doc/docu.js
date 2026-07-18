@@ -250,7 +250,7 @@ window.docu = {
 
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
-				body.classList.add('loaded');
+				content.classList.add('loaded');
 				docu.search(path, "");
 				docu.applyObservers = false;
 			});

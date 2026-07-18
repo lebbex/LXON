@@ -24,7 +24,6 @@
     display: flex;
     align-items: stretch;
     padding: 0.4rem;
-    border: 1px solid var(--line);
     border-radius: 8px;
     background: rgba(10, 12, 16, 0.4);
     backdrop-filter: blur(8px);
@@ -130,11 +129,11 @@
     z-index: 100;
     border-radius: 8px;
     padding: 0.4rem;
-    border: 1px solid var(--line);
     background: rgba(10, 12, 16, 0.4);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.8s ease;
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.02);
 }
 
 .dropdown-content-box.visible {
@@ -196,12 +195,12 @@
     align-items: stretch;
     flex-direction: column;
     padding: 0.4rem;
-    border: 1px solid var(--line);
     border-radius: 8px;
     background: rgba(10, 12, 16, 0.4);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.8s ease;
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.02);
 }
 
 .subdown-content-box.visible {
