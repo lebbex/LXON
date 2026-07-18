@@ -7,7 +7,8 @@
 	<title>LXON</title>
 	<link rel="icon" href="ressources/icon.png" type="image/x-icon">
 	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
 	<link rel="stylesheet" href="/ressources/styles.css">
 	<link rel="stylesheet" href="style-home.css">
 </head>
@@ -26,12 +27,12 @@
 				<span class="short-text-git">Git.</span>
 			</a>
 
-			<a href="/doc" class="nav-link nav-doc" id="nav-doc">
+			<a class="nav-link nav-doc" id="nav-doc">
 				<span class="full-text-doc">Documentation</span>
 				<span class="short-text-doc">Doc.</span>
 			</a>
 
-			<a href="/editor" class="nav-link nav-editor">Editor</a>
+			<a class="nav-link nav-editor" id="nav-editor">Editor</a>
 		</nav>
 	</nav>
 
@@ -39,9 +40,9 @@
 		<div class="dropdown-content" id="dropdown-content">
 			<div class="dropdown-blur" id="dropdown-blur"></div>
 			<div class="dropdown-content-box" id="dropdown-box">
-				<a href="/doc/containers" class="nav-link" id="nav-containers">Containers</a>
-				<a href="/doc/keys" class="nav-link" id="nav-keys">Keys</a>
-				<a href="/doc/values" class="nav-link" id="nav-values">Values</a>
+				<a class="nav-link" id="nav-containers">Containers</a>
+				<a class="nav-link" id="nav-keys">Keys</a>
+				<a class="nav-link" id="nav-values">Values</a>
 			</div>
 		</div>
 		<div class="subdown" id="subdown">
@@ -120,6 +121,32 @@
 				navBox.classList.remove('nav-hidden');
 			});
 		});
+
+
+		// Create Hrefs
+
+		function createHref(path, anchor = "") {
+			const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+			if (path === "") {
+				if (anchor === "") return "/";
+				else return "/#" + anchor;
+			}
+
+			if (isLocal) {
+				if (anchor === "") return path + ".html";
+				else return path + ".html/#" + anchor;
+			}
+
+			if (anchor === "") return path;
+			else return path + "/#" + anchor;
+		}
+
+		document.getElementById("nav-doc").href = createHref("/doc");
+		document.getElementById("nav-editor").href = createHref("/editor");
+		document.getElementById("nav-containers").href = createHref("/doc/containers");
+		document.getElementById("nav-keys").href = createHref("/doc/keys");
+		document.getElementById("nav-values").href = createHref("/doc/values");
 
 
 
@@ -353,7 +380,7 @@
 			subdownBoxEl.innerHTML = null;
 			for (const value of subDropOptions[key]) {
 				const link = document.createElement("a");
-				link.href = "/doc" + value[1];
+				link.href = createHref("/doc" + value[1]);
 				link.className = "nav-link";
 				link.textContent = value[0];
 				subdownBoxEl.appendChild(link);

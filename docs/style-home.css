@@ -159,7 +159,7 @@
 }
 
 .subdown-wrapper {
-    margin-left: 0.7rem;
+    margin-left: 0.75rem;
     transform: translateX(-0.25rem);
     transition: transform 1.6s cubic-bezier(0, 1, 0.8, 1);
 }

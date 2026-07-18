@@ -168,8 +168,8 @@ window.docu = {
 			const t = document.createElement("a");
 			t.classList.add("title-mini");
 			if (i < path.length - 1) {
-				if (Array.isArray(obj)) t.href = "/doc" + obj[0];
-				else t.href = "/doc" + obj._;
+				if (Array.isArray(obj)) t.href = docu.createHref("/doc" + obj[0]);
+				else t.href = docu.createHref("/doc" + obj._);
 			}
 			t.style.color = depthColors[i];
 			t.textContent = path[i];
@@ -382,9 +382,9 @@ window.docu = {
 				const finalLink = linkReg.get(link);
 				if (Array.isArray(finalLink)) {
 					docu.failedLinkConversions.push("Failed to create link for '!!" + link + "!' - Failed at key: '" + finalLink[0] + "'")
-					a.href = "/doc";
+					a.href = docu.createHref("/doc");
 				}
-				else a.href = "/doc" + finalLink;
+				else a.href = docu.createHref("/doc" + finalLink);
 				a.textContent = label.trim();
 				frag.appendChild(a);
 				lastIndex = match.index + full.length;
@@ -516,7 +516,7 @@ window.docu = {
 			if (getPathKey(index - 1) === key) item.classList.add("selected");
 			if (getPathKey(path.length - 1) === key) item.classList.add("open");
 			if (Array.isArray(value)) {
-				item.href = "/doc" + value[0];
+				item.href = docu.createHref("/doc" + value[0]);
 				navInner.appendChild(item);
 				if (getPathKey(path.length - 1) !== key && query === "") continue;
 				for (let i = 2; i < value.length; i++) {
@@ -525,7 +525,7 @@ window.docu = {
 					sub.textContent = value[i][0].replaceAll("_", " ");
 					sub.className = 'nav-sub';
 					sub.classList.add("depth" + index.toString())
-					sub.href = "/doc" + value[0] + "/#" + value[i][1];
+					sub.href = docu.createHref("/doc" + value[0], value[i][1]);
 					sub.onclick = event => {
 						const subs = docu.subNavs;
 						const keys = Object.keys(subs);
@@ -542,7 +542,7 @@ window.docu = {
 			}
 			// Go deeper
 			else {
-				item.href = "/doc" + value._;
+				item.href = docu.createHref("/doc" + value._);
 				navInner.appendChild(item);
 				if (getPathKey(0) !== key && query === "" && index === 1) continue;
 				if (path.length > 1 && query === "" && index === 2) { if (getPathKey(1) !== key) continue; }
@@ -619,5 +619,22 @@ window.docu = {
 		if (!wasSet) {
 			docu.subNavs[keys[keys.length - 1]].classList.add("inter");
 		}
+	},
+
+	createHref: function(path, anchor = "") {
+		const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+		if(path === ""){
+			if(anchor === "") return "/";
+			else return "/#" + anchor;
+		}
+
+		if(isLocal){
+			if(anchor === "") return path + ".html";
+			else return path + ".html/#" + anchor;
+		}
+
+		if(anchor === "") return path;
+		else return path + "/#" + anchor;
 	}
 }
