@@ -17,125 +17,127 @@
 
 	<canvas id="noise-canvas"></canvas>
 
-	<h1 id="analogy"> Analogy </h1>
-	<p>
-		The best way to picture LXON is as follows:
-	</p>
-	<ol>
-		<li>
-			The root object (the serialized data) is a store.
-		</li>
-		<li>
-			Inside the store, we want to fit items that clients can purchase or browse.
-			Those items are !! vals ! values !.
-		</li>
-		<li>
-			We also want to organize those items using boxes, shelves, or rooms.
-			Those are !! containers ! containers !.
-		</li>
-		<li>
-			In order to find those items or boxes, we either index them by number or assign them labels.
-			The labels are the !! keys ! keys ! used by
-			!! containers.objects ! objects !, !! containers.maps ! maps ! and !! containers.doodads ! doodads !,
-			while the indexes are invisible keys used internally by !! containers.arrays ! arrays !.
-		</li>
-	</ol>
-	<h1 id="features"> Supported Features </h1>
-	<p>
-		LXON supports a few useful features.
-	</p>
-	<ul>
-		<li>!! other.comments ! Comments !<dfn>#</dfn></li>
-		<li>!! other.escape ! Escaped Characters !<dfn>\</dfn></li>
-	</ul>
-	<h1 id="types"> Supported Types </h1>
-	<p>
-		LXON supports 4 container types, 9 key types and 12 value types.
-	</p>
-	<h2 id="containers">
-		Containers
-	</h2>
-	<ul>
-		<li>!! conts.obj ! Object !<dfn>{a}</dfn></li>
-		<li>!! conts.arr ! Array !<dfn>[a]</dfn></li>
-		<li>!! conts.map ! Map !<dfn>(a)</dfn></li>
-		<li>!! conts.doo ! Doodad !<dfn></dfn></li>
-	</ul>
-	<h2 id="keys">
-		Keys
-	</h2>
-	<ul>
-		<li>!! keys.text.str ! String !<dfn>" `</dfn></li>
-		<li>!! keys.text.char ! Char !<dfn>'</dfn></li>
-		<li>!! keys.bool ! Boolean !<dfn></dfn></li>
-		<li>!! keys.num ! Number !<dfn></dfn>
-			<ul>
-				<li>NaN<dfn>+ -</dfn></li>
-				<li>+Infinity<dfn>% +%</dfn></li>
-				<li>-Infinity<dfn>-%</dfn></li>
-			</ul>
-		</li>
-		<li>!! keys.date ! Date !<dfn>&</dfn></li>
-		<li>!! keys.bind ! Keybind !<dfn>@</dfn></li>
-		<li>!! keys.col.srgb ! SRGB Color !<dfn>#</dfn></li>
-		<li>!! keys.col.lin ! Linear Color !<dfn>=</dfn></li>
-		<li>!! keys.enum ! Enum !<dfn>*</dfn></li>
-	</ul>
-	<h2 id="values">
-		Values
-	</h2>
-	<ul>
-		<li>!! vals.text.full ! Full String !<dfn>"</dfn></li>
-		<li>!! vals.text.str ! String !<dfn>`</dfn></li>
-		<li>!! vals.text.char ! Char !<dfn>'</dfn></li>
-		<li>!! vals.bool ! Boolean !<dfn>$ !</dfn></li>
-		<li>!! vals.num ! Number !<dfn></dfn>
-			<ul>
-				<li>NaN<dfn>+ -</dfn></li>
-				<li>+Infinity<dfn>% +%</dfn></li>
-				<li>-Infinity<dfn>-%</dfn></li>
-			</ul>
-		</li>
-		<li>!! vals.date ! Date !<dfn>&</dfn></li>
-		<li>!! vals.bind ! Keybind !<dfn>@</dfn></li>
-		<li>!! vals.col.srgb ! SRGB Color !<dfn>#</dfn></li>
-		<li>!! vals.col.lin ! Linear Color !<dfn>= /</dfn></li>
-		<li>!! vals.enum ! Enum !<dfn>*</dfn></li>
-		<li>!! vals.bin ! Binary !<dfn>?</dfn></li>
-		<li>!! vals.special ! Special !
-			<ul>
-				<li>Null<dfn>~</dfn></li>
-				<li>Undefined<dfn>_</dfn></li>
-			</ul>
-		</li>
-	</ul>
-	<h1 id="backstory"> Backstory </h1>
-	<p>
-		Originally, Nick Jasper was creating a way to automatically set up email redirect on Cloudflare for the
-		@lebbex.com domain
-		(and all its TLD alternatives).
-		The redirect editor script had a HTML user interface that would allow him to add email addresses and where
-		they redirect to
-		and sync up these changes across the different domain extensions automatically.
-		Initially, he structured it under a tree navigation system, before switching to a pure custom-made JSON
-		editor.
-	</p>
-	<p>
-		He then realized how terrible JSON is to write and read, so he modified the editor, removing clutter. One of
-		the first big changes,
-		the root of what was changed in what would later become LXON, was the removal of trailing quotation marks
-		for string values.
-	</p>
-	<p>
-		As he developped the editor, he decided to remake it due to its bugs, switching from a text based editor
-		similar to Visual Studio Code,
-		to something node based with seamless editing, the best of both worlds.
-	</p>
-	<p>
-		With this came the realization of the limitations of JSON, where it's missing many crucial value types and
-		container types.
-		This realization is what gave birth to LXON.
-	</p>
+	<div class="content" id="content">
+		<h1 id="analogy"> Analogy </h1>
+		<p>
+			The best way to picture LXON is as follows:
+		</p>
+		<ol>
+			<li>
+				The root object (the serialized data) is a store.
+			</li>
+			<li>
+				Inside the store, we want to fit items that clients can purchase or browse.
+				Those items are !! vals ! values !.
+			</li>
+			<li>
+				We also want to organize those items using boxes, shelves, or rooms.
+				Those are !! containers ! containers !.
+			</li>
+			<li>
+				In order to find those items or boxes, we either index them by number or assign them labels.
+				The labels are the !! keys ! keys ! used by
+				!! containers.objects ! objects !, !! containers.maps ! maps ! and !! containers.doodads ! doodads !,
+				while the indexes are invisible keys used internally by !! containers.arrays ! arrays !.
+			</li>
+		</ol>
+		<h1 id="features"> Supported Features </h1>
+		<p>
+			LXON supports a few useful features.
+		</p>
+		<ul>
+			<li>!! other.comments ! Comments !<dfn>#</dfn></li>
+			<li>!! other.escape ! Escaped Characters !<dfn>\</dfn></li>
+		</ul>
+		<h1 id="types"> Supported Types </h1>
+		<p>
+			LXON supports 4 container types, 9 key types and 12 value types.
+		</p>
+		<h2 id="containers">
+			Containers
+		</h2>
+		<ul>
+			<li>!! conts.obj ! Object !<dfn>{a}</dfn></li>
+			<li>!! conts.arr ! Array !<dfn>[a]</dfn></li>
+			<li>!! conts.map ! Map !<dfn>(a)</dfn></li>
+			<li>!! conts.doo ! Doodad !<dfn></dfn></li>
+		</ul>
+		<h2 id="keys">
+			Keys
+		</h2>
+		<ul>
+			<li>!! keys.text.str ! String !<dfn>" `</dfn></li>
+			<li>!! keys.text.char ! Char !<dfn>'</dfn></li>
+			<li>!! keys.bool ! Boolean !<dfn></dfn></li>
+			<li>!! keys.num ! Number !<dfn></dfn>
+				<ul>
+					<li>NaN<dfn>+ -</dfn></li>
+					<li>+Infinity<dfn>% +%</dfn></li>
+					<li>-Infinity<dfn>-%</dfn></li>
+				</ul>
+			</li>
+			<li>!! keys.date ! Date !<dfn>&</dfn></li>
+			<li>!! keys.bind ! Keybind !<dfn>@</dfn></li>
+			<li>!! keys.col.srgb ! SRGB Color !<dfn>#</dfn></li>
+			<li>!! keys.col.lin ! Linear Color !<dfn>=</dfn></li>
+			<li>!! keys.enum ! Enum !<dfn>*</dfn></li>
+		</ul>
+		<h2 id="values">
+			Values
+		</h2>
+		<ul>
+			<li>!! vals.text.full ! Full String !<dfn>"</dfn></li>
+			<li>!! vals.text.str ! String !<dfn>`</dfn></li>
+			<li>!! vals.text.char ! Char !<dfn>'</dfn></li>
+			<li>!! vals.bool ! Boolean !<dfn>$ !</dfn></li>
+			<li>!! vals.num ! Number !<dfn></dfn>
+				<ul>
+					<li>NaN<dfn>+ -</dfn></li>
+					<li>+Infinity<dfn>% +%</dfn></li>
+					<li>-Infinity<dfn>-%</dfn></li>
+				</ul>
+			</li>
+			<li>!! vals.date ! Date !<dfn>&</dfn></li>
+			<li>!! vals.bind ! Keybind !<dfn>@</dfn></li>
+			<li>!! vals.col.srgb ! SRGB Color !<dfn>#</dfn></li>
+			<li>!! vals.col.lin ! Linear Color !<dfn>= /</dfn></li>
+			<li>!! vals.enum ! Enum !<dfn>*</dfn></li>
+			<li>!! vals.bin ! Binary !<dfn>?</dfn></li>
+			<li>!! vals.special ! Special !
+				<ul>
+					<li>Null<dfn>~</dfn></li>
+					<li>Undefined<dfn>_</dfn></li>
+				</ul>
+			</li>
+		</ul>
+		<h1 id="backstory"> Backstory </h1>
+		<p>
+			Originally, Nick Jasper was creating a way to automatically set up email redirect on Cloudflare for the
+			@lebbex.com domain
+			(and all its TLD alternatives).
+			The redirect editor script had a HTML user interface that would allow him to add email addresses and where
+			they redirect to
+			and sync up these changes across the different domain extensions automatically.
+			Initially, he structured it under a tree navigation system, before switching to a pure custom-made JSON
+			editor.
+		</p>
+		<p>
+			He then realized how terrible JSON is to write and read, so he modified the editor, removing clutter. One of
+			the first big changes,
+			the root of what was changed in what would later become LXON, was the removal of trailing quotation marks
+			for string values.
+		</p>
+		<p>
+			As he developped the editor, he decided to remake it due to its bugs, switching from a text based editor
+			similar to Visual Studio Code,
+			to something node based with seamless editing, the best of both worlds.
+		</p>
+		<p>
+			With this came the realization of the limitations of JSON, where it's missing many crucial value types and
+			container types.
+			This realization is what gave birth to LXON.
+		</p>
+	</div>
 
 
 

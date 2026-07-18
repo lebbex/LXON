@@ -52,9 +52,11 @@
     white-space: nowrap;
 }
 
-.nav-link:hover {
-    opacity: 1;
-    background: rgba(231, 235, 241, 0.08);
+@media(hover: hover) {
+    .nav-link:hover {
+        opacity: 1;
+        background: rgba(231, 235, 241, 0.08);
+    }
 }
 
 .nav-link .short-text-doc {
@@ -103,7 +105,7 @@
     }
 }
 
-.dropdown{
+.dropdown {
     position: fixed;
     top: 3.9rem;
     left: 50%;
@@ -112,7 +114,7 @@
     visibility: collapse;
 }
 
-.dropdown-content{
+.dropdown-content {
     display: flex;
     align-items: stretch;
     margin-top: 0.7rem;
@@ -120,11 +122,11 @@
     transition: transform 0.8s ease-out;
 }
 
-.dropdown-content.visible{
+.dropdown-content.visible {
     transform: translateY(0);
 }
 
-.dropdown-content-box{
+.dropdown-content-box {
     z-index: 100;
     border-radius: 8px;
     padding: 0.4rem;
@@ -135,39 +137,39 @@
     transition: opacity 0.8s ease;
 }
 
-.dropdown-content-box.visible{
+.dropdown-content-box.visible {
     opacity: 1;
     pointer-events: auto;
 }
 
-.dropdown-blur{
+.dropdown-blur {
     position: fixed;
     width: 100%;
     height: 100%;
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
     border-radius: 8px;
-    pointer-events: none; /* it's full-screen, so it must not eat hover/clicks */
+    pointer-events: none;
 }
 
-.subdown{
+.subdown {
     position: fixed;
     top: 0.7rem;
     left: calc(100% - 0.45rem);
     visibility: collapse;
 }
 
-.subdown-wrapper{
+.subdown-wrapper {
     margin-left: 0.7rem;
     transform: translateX(-0.25rem);
     transition: transform 1.6s cubic-bezier(0, 1, 0.8, 1);
 }
 
-.subdown-wrapper.visible{
+.subdown-wrapper.visible {
     transform: translateX(0);
 }
 
-.subdown-content{
+.subdown-content {
     display: flex;
     align-items: stretch;
     flex-direction: column;
@@ -177,11 +179,19 @@
     transform: translateY(0);
 }
 
-.subdown-content.containers{ transform: translateY(0); }
-.subdown-content.keys{       transform: translateY(2.3rem); }
-.subdown-content.values{     transform: translateY(4.6rem); }
+.subdown-content.containers {
+    transform: translateY(0);
+}
 
-.subdown-content-box{
+.subdown-content.keys {
+    transform: translateY(2.3rem);
+}
+
+.subdown-content.values {
+    transform: translateY(4.6rem);
+}
+
+.subdown-content-box {
     display: flex;
     align-items: stretch;
     flex-direction: column;
@@ -194,7 +204,7 @@
     transition: opacity 0.8s ease;
 }
 
-.subdown-content-box.visible{
+.subdown-content-box.visible {
     opacity: 1;
     pointer-events: auto;
 }

@@ -17,6 +17,7 @@ window.docu = {
 	init: function (path) {
 		const canvas = document.getElementById('noise-canvas');
 		const body = document.body;
+		const content = document.getElementById("content");
 
 		docu.lenis = new Lenis({
 			lerp: 0.1,
@@ -182,7 +183,7 @@ window.docu = {
 			}
 		});
 		miniNav.append(miniNavTitle);
-		body.prepend(title);
+		content.prepend(title);
 
 
 		// Create the nav
@@ -339,7 +340,7 @@ window.docu = {
 			return container;
 		}
 
-		wrapH1Sections(body, path);
+		wrapH1Sections(content, path);
 
 
 

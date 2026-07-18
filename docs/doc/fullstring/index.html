@@ -17,33 +17,35 @@
 
 	<canvas id="noise-canvas"></canvas>
 
-	<div class="content" id="content">
-		<h1 id="syntax"> Syntax </h1>
-		<p>
-			A full string is the simplest way of representing a string in LXON.
-			It requires only a double quote<dfn>"</dfn>at the start, as a type declaration.
-			The entire rest of the line will be read as the string.
-			Therefore, the only way to end a full string is with a newline or end of file.
-		</p>
-		<p>
-			Full strings support !! other.escape ! escape characters !. 
-			As a consequence of its simplicity however, the only characters needing escaping are 
-			newlines<dfn>\n</dfn>, carriage returns<dfn>\r</dfn> and backslashes<dfn>\\</dfn>.
-			This makes them very desireable for string representation.
-			Full strings also support trailing whitespace such as tabs or space characters.
-		</p>
-		<h2 id="important"> Important </h2>
-		<p>
-			Although trailing whitespace is supported, 
-			it is standardized to replace the last character with a<dfn>\s</dfn>if it's a space, or a<dfn>\t</dfn>if it's a tab.
-			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
-			For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing mistake.
-		</p>
-		<h1 id="usage"> Usage </h1>
-		<p>
-			Here's some example usage of full string values as reference:
-		</p>
-		<pre><code>{
+	<h1 id="syntax"> Syntax </h1>
+	<p>
+		A full string is the simplest way of representing a string in LXON.
+		It requires only a double quote<dfn>"</dfn>at the start, as a type declaration.
+		The entire rest of the line will be read as the string.
+		Therefore, the only way to end a full string is with a newline or end of file.
+	</p>
+	<p>
+		Full strings support !! other.escape ! escape characters !.
+		As a consequence of its simplicity however, the only characters needing escaping are
+		newlines<dfn>\n</dfn>, carriage returns<dfn>\r</dfn> and backslashes<dfn>\\</dfn>.
+		This makes them very desireable for string representation.
+		Full strings also support trailing whitespace such as tabs or space characters.
+	</p>
+	<h2 id="important"> Important </h2>
+	<p>
+		Although trailing whitespace is supported,
+		it is standardized to replace the last character with a<dfn>\s</dfn>if it's a space, or a<dfn>\t</dfn>if it's a
+		tab.
+		Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or
+		not.
+		For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing
+		mistake.
+	</p>
+	<h1 id="usage"> Usage </h1>
+	<p>
+		Here's some example usage of full string values as reference:
+	</p>
+	<pre><code>{
 name: "Heather Mason
 
 residence:
@@ -55,7 +57,6 @@ aliases:[
 	"Cheryl Mason
 	"Alessa Gillespie
 </code></pre>
-	</div>
 
 
 

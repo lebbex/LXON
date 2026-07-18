@@ -9,24 +9,24 @@ body {
     overflow-y: auto;
     box-sizing: border-box;
     overscroll-behavior: contain;
-    padding-left: 380px;
     padding-bottom: 50px;
 }
 
+.content {
+    overflow-x: hidden;
+    padding-left: 380px;
+}
+
 @media (max-width: 1100px) {
-    body {
+    .content {
         padding-left: 340px;
     }
 }
 
 @media (max-width: 700px) {
-    body {
+    .content {
         padding-left: 10%;
     }
-}
-
-.content.loaded {
-    opacity: 1;
 }
 
 @media (max-width: 700px) {
@@ -44,6 +44,7 @@ body {
         display: flex;
         align-items: center;
         overflow-x: hidden;
+        touch-action: none;
     }
 
     .site-mini-nav::before {
@@ -60,7 +61,7 @@ body {
     }
 }
 
-@media (max-height: 400px) {
+@media (max-height: 450px) {
     .site-mini-nav {
         visibility: collapse;
     }
@@ -102,7 +103,7 @@ body {
     }
 }
 
-@media (max-height: 400px) {
+@media (max-height: 450px) {
     .site-tab {
         top: 50px;
         left: 7px;
@@ -122,8 +123,10 @@ body {
     user-select: none;
 }
 
-.site-tab:hover img {
-    opacity: 0.5;
+@media (hover: hover) {
+    .site-tab:hover img {
+        opacity: 0.5;
+    }
 }
 
 .title {
@@ -171,8 +174,10 @@ body {
     padding: 10px 10px;
 }
 
-.title-mini:hover {
-    opacity: 0.4;
+@media (hover: hover) {
+    .title-mini:hover {
+        opacity: 0.4;
+    }
 }
 
 .title-mini-slash {
@@ -207,7 +212,7 @@ body {
     }
 }
 
-@media (max-height: 400px) {
+@media (max-height: 450px) {
     .title {
         padding: 50px 0px 10px 20px;
         visibility: visible;
@@ -322,7 +327,6 @@ li {
     text-align: justify;
     font-weight: lighter;
     color: rgba(255, 255, 255, 0.7);
-    overflow-x: hidden;
     overflow-wrap: anywhere;
 }
 
@@ -414,9 +418,9 @@ button.symbol {
     flex-direction: row;
     align-items: center;
     font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
-    margin: -2px 8px;
+    margin: 0px 8px;
     background-color: rgba(10, 5, 3, 0.6);
-    border-radius: 5px;
+    border-radius: 10px;
     border-width: 0;
 }
 
@@ -435,7 +439,6 @@ div.symbol-text {
 
 button.symbol {
     position: relative;
-    /* anchors the tooltip to just this button */
 }
 
 .copy-tooltip {
@@ -509,38 +512,19 @@ button.symbol {
     }
 }
 
-@media (max-width: 400px) {
-    #nav {
-        top: 75px;
-        border-radius: 0px;
-        border-top-right-radius: 20px;
-        left: 0px;
-        height: calc(100dvh - 75px);
-    }
-}
-
 @media (max-width: 250px) {
     #nav {
         top: 75px;
         border-radius: 0px;
         border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
         left: 0px;
-        width: calc(100dvw - 25px);
-        height: calc(100vh - 75px);
+        width: calc(100dvw - 15px);
+        height: calc(100vh - 85px);
     }
 }
 
-@media (max-height: 500px) {
-    #nav {
-        top: 75px;
-        border-radius: 0px;
-        border-top-right-radius: 20px;
-        left: 0px;
-        height: calc(100vh - 75px);
-    }
-}
-
-@media (max-height: 400px) {
+@media (max-height: 450px) {
     #nav {
         top: 0px;
         border-radius: 0px;
@@ -578,7 +562,7 @@ button.symbol {
     box-sizing: border-box;
 }
 
-@media(max-height: 250px){
+@media(max-height: 250px) {
     #search {
         visibility: hidden;
         height: 0px;
@@ -600,8 +584,22 @@ button.symbol {
 
     /* Keep your original masks */
     -webkit-mask-image: linear-gradient(to bottom,
-            transparent 0%, rgba(0, 0, 0, 0.1) 100px,
-            black calc(-800000%), transparent 100%);
+            transparent 0px,
+            rgba(0, 0, 0, 0.02) 2px,
+            rgba(0, 0, 0, 0.1) 5px,
+            rgba(0, 0, 0, 0.2) 8px,
+            rgba(0, 0, 0, 0.4) 10px,
+            rgba(0, 0, 0, 0.7) 13px,
+            black 15px,
+            black calc(100% - 70px),
+            rgba(0, 0, 0, 0.4) calc(100% - 55px),
+            rgba(0, 0, 0, 0.2) calc(100% - 42px),
+            rgba(0, 0, 0, 0.1) calc(100% - 30px),
+            rgba(0, 0, 0, 0.04) calc(100% - 20px),
+            rgba(0, 0, 0, 0.02) calc(100% - 13px),
+            rgba(0, 0, 0, 0.01) calc(100% - 8px),
+            rgba(0, 0, 0, 0.003) calc(100% - 5px),
+            transparent 100%);
 
     mask-image: linear-gradient(to bottom,
             transparent 0px,
@@ -623,6 +621,34 @@ button.symbol {
     isolation: isolate;
 }
 
+@media(max-height: 450px) {
+    #nav-scroll {
+        -webkit-mask-image: none;
+        mask-image: linear-gradient(to bottom,
+            transparent 0px,
+            rgba(0, 0, 0, 0.02) 2px,
+            rgba(0, 0, 0, 0.1) 5px,
+            rgba(0, 0, 0, 0.2) 8px,
+            rgba(0, 0, 0, 0.4) 10px,
+            rgba(0, 0, 0, 0.7) 13px,
+            black 15px,
+            black calc(100% - 70px),
+            rgba(0, 0, 0, 0.7) calc(100% - 13px),
+            rgba(0, 0, 0, 0.4) calc(100% - 10px),
+            rgba(0, 0, 0, 0.2) calc(100% - 8px),
+            rgba(0, 0, 0, 0.1) calc(100% - 5px),
+            rgba(0, 0, 0, 0.02) calc(100% - 2px),
+            transparent 100%);
+    }
+}
+
+@media(max-height: 250px) {
+    #nav-scroll {
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+}
+
 #nav-inner {
     padding: 10px 20px 60px 20px;
     overscroll-behavior: contain;
@@ -639,11 +665,14 @@ button.symbol {
     text-decoration: none;
     cursor: default;
     transition: color 0.1s ease, transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+    min-width: min-content;
 }
 
-.nav1:hover {
-    color: rgba(255, 255, 0, 1);
-    transform: translateX(4px);
+@media (hover: hover) {
+    .nav1:hover {
+        color: rgba(255, 255, 0, 1);
+        transform: translateX(4px);
+    }
 }
 
 .nav1.selected {
@@ -660,18 +689,26 @@ button.symbol {
 
 .nav2 {
     display: block;
-    padding: 5px 0px 5px 48px;
+    padding: 5px 30px 5px 48px;
     color: rgba(255, 150, 255, 0.5);
     transform: translateX(0px);
     text-decoration: none;
     cursor: default;
     transition: color 0.1s ease, transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+    min-width: min-content;
 }
 
-.nav2:hover {
-    color: rgba(255, 0, 255, 1);
-    transform: translateX(4px);
+@media(max-width: 350px) {
+    .nav2 {
+        padding: 5px 30px 5px 30px;
+    }
+}
 
+@media (hover: hover) {
+    .nav2:hover {
+        color: rgba(255, 0, 255, 1);
+        transform: translateX(4px);
+    }
 }
 
 .nav2.selected {
@@ -688,17 +725,26 @@ button.symbol {
 
 .nav3 {
     display: block;
-    padding: 5px 0px 5px 86px;
+    padding: 5px 30px 5px 86px;
     color: rgba(150, 255, 255, 0.5);
     transform: translateX(0px);
     text-decoration: none;
     cursor: default;
     transition: color 0.1s ease, transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+    min-width: min-content;
 }
 
-.nav3:hover {
-    color: rgba(0, 255, 255, 1);
-    transform: translateX(4px);
+@media(max-width: 350px) {
+    .nav3 {
+        padding: 5px 30px 5px 48px;
+    }
+}
+
+@media (hover: hover) {
+    .nav3:hover {
+        color: rgba(0, 255, 255, 1);
+        transform: translateX(4px);
+    }
 }
 
 .nav3.selected {
@@ -715,18 +761,27 @@ button.symbol {
 
 .nav4 {
     display: block;
-    padding: 5px 0px 5px 124px;
+    padding: 5px 30px 5px 124px;
     margin-top: 5px;
     color: rgba(255, 255, 150, 0.5);
     transform: translateX(0px);
     text-decoration: none;
     cursor: default;
     transition: color 0.1s ease, transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+    min-width: min-content;
 }
 
-.nav4:hover {
-    color: rgba(255, 255, 0, 1);
-    transform: translateX(4px);
+@media(max-width: 350px) {
+    .nav4 {
+        padding: 5px 30px 5px 66px;
+    }
+}
+
+@media (hover: hover) {
+    .nav4:hover {
+        color: rgba(255, 255, 0, 1);
+        transform: translateX(4px);
+    }
 }
 
 .nav4.selected {
@@ -749,11 +804,14 @@ button.symbol {
     text-decoration: none;
     cursor: default;
     transition: color 0.1s ease, transform 0.8s cubic-bezier(0, 1, 0.8, 1);
+    min-width: min-content;
 }
 
-.nav-sub:hover {
-    color: rgb(255, 255, 255, 0.7);
-    transform: translateX(4px);
+@media (hover: hover) {
+    .nav-sub:hover {
+        color: rgb(255, 255, 255, 0.7);
+        transform: translateX(4px);
+    }
 }
 
 .nav-sub.inter {
@@ -761,15 +819,29 @@ button.symbol {
 }
 
 .nav-sub.depth1 {
-    padding: 5px 0px 5px 48px;
+    padding: 5px 30px 5px 48px;
 }
 
 .nav-sub.depth2 {
-    padding: 5px 0px 5px 86px;
+    padding: 5px 30px 5px 86px;
 }
 
 .nav-sub.depth3 {
-    padding: 5px 0px 5px 124px;
+    padding: 5px 30px 5px 124px;
+}
+
+@media(max-width: 350px) {
+    .nav-sub.depth1 {
+        padding: 5px 30px 5px 30px;
+    }
+
+    .nav-sub.depth2 {
+        padding: 5px 30px 5px 48px;
+    }
+
+    .nav-sub.depth3 {
+        padding: 5px 30px 5px 66px;
+    }
 }
 
 .error-wrapper {
@@ -802,6 +874,8 @@ button.symbol {
     transition: transform 0.8s cubic-bezier(0, 1, 0.8, 1);
 }
 
-.error-message:hover {
-    transform: translateX(4px);
+@media (hover: hover) {
+    .error-message:hover {
+        transform: translateX(4px);
+    }
 }
