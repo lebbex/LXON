@@ -150,13 +150,13 @@ window.docu = {
 		body.append(tabButton);
 		body.append(miniNav);
 
-		content.addEventListener('click', () => {
+		contentWrapper.addEventListener('click', () => {
             if (!nav.classList.contains("hidden")) {
                 tabButtonClick();
             }
         });
 
-        content.addEventListener('touchmove', () => {
+        contentWrapper.addEventListener('touchmove', () => {
             if (!nav.classList.contains("hidden")) {
                 tabButtonClick();
             }
