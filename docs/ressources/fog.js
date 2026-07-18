@@ -1,7 +1,7 @@
 let wasHome = true;
 
 window.fog = {
-	init: function (colorDark, color, lenis, grain, scale, speed, fall) {
+	init: function (colorDark, color, lenis, scrollEl, grain, scale, speed, fall) {
 		document.documentElement.style.background = `rgb(${color[0] * 100}, ${color[1] * 100}, ${color[2] * 100})`;
 		window.scrollTo(0, 0);
 		if (history.scrollRestoration) {
@@ -15,6 +15,11 @@ window.fog = {
 			console.warn('WebGL unavailable — background falls back to flat color.');
 			return;
 		}
+
+		// Primary input is touch → read raw scrollTop every frame (zero-latency,
+		// no eased proxy). Otherwise → read lenis.scroll (keeps desktop's smoothed
+		// wheel-scroll look, since Lenis is still driving scrollTop there).
+		const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
 		// ---- tweakables -----------------------------------------------------
 		const NOISE_SCALE = scale;
@@ -41,7 +46,7 @@ window.fog = {
     uniform float u_time;
     uniform float u_scrollY;
     uniform float u_grainScrollY;
-    uniform float u_noiseScroll; // CHANGED THIS: Added uniform
+    uniform float u_noiseScroll;
     uniform float u_scale;
     uniform vec3  u_colorDark;
     uniform vec3  u_colorLight;
@@ -103,7 +108,6 @@ window.fog = {
         vec2 fragCoord = gl_FragCoord.xy;
         float sampledY = fragCoord.y + u_scrollY;
 
-        // CHANGED THIS: Added u_noiseScroll after u_scale multiplication
         vec3 p = vec3(fragCoord.x * u_scale, (sampledY * u_scale) + u_noiseScroll, u_time);
         float n = fbm(p) * 0.5 + 0.5;
 
@@ -162,7 +166,7 @@ window.fog = {
 			time: gl.getUniformLocation(program, 'u_time'),
 			scrollY: gl.getUniformLocation(program, 'u_scrollY'),
 			grainScrollY: gl.getUniformLocation(program, 'u_grainScrollY'),
-			noiseScroll: gl.getUniformLocation(program, 'u_noiseScroll'), // CHANGED THIS: Linked new uniform
+			noiseScroll: gl.getUniformLocation(program, 'u_noiseScroll'),
 			scale: gl.getUniformLocation(program, 'u_scale'),
 			colorDark: gl.getUniformLocation(program, 'u_colorDark'),
 			colorLight: gl.getUniformLocation(program, 'u_colorLight'),
@@ -197,7 +201,6 @@ window.fog = {
 
 		const startTime = performance.now();
 
-		// CHANGED THIS: Smaller random offset because it's no longer being multiplied by scale
 		let noiseScroll = Math.random() * 100;
 
 		let lastTime = 0;
@@ -208,15 +211,12 @@ window.fog = {
 
 			const elapsed = (now - startTime) / 1000;
 
+			const scrollY = isTouch ? scrollEl.scrollTop : lenis.scroll;
 
-			// layered on top of it here.
-			const scrollY = lenis.scroll;
 			gl.uniform1f(loc.time, elapsed * TIME_SPEED);
 
-			// CHANGED THIS: Replaced Math.sqrt hack with a flat multiplier (0.05) to keep your exact original speed
 			noiseScroll += deltaTime * FALL_SPEED * 0.05;
 
-			// CHANGED THIS: Sent Lenis scroll and Noise scroll separately
 			gl.uniform1f(loc.scrollY, scrollY * dpr * PARALLAX_FACTOR);
 			gl.uniform1f(loc.noiseScroll, noiseScroll);
 
