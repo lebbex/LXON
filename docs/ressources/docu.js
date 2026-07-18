@@ -626,15 +626,15 @@ window.docu = {
 
 		if(path === ""){
 			if(anchor === "") return "/";
-			else return "/#" + anchor;
+			else return "#" + anchor;
 		}
 
 		if(isLocal){
 			if(anchor === "") return path + ".html";
-			else return path + ".html/#" + anchor;
+			else return path + ".html#" + anchor;
 		}
 
 		if(anchor === "") return path;
-		else return path + "/#" + anchor;
+		else return path + "#" + anchor;
 	}
 }
