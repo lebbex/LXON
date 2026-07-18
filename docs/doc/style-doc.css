@@ -121,22 +121,6 @@ html, body {
     opacity: 0.5;
 }
 
-.tab-background {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    visibility: collapse;
-    background-color: transparent;
-    border: none;
-}
-
-.tab-background.show {
-    visibility: visible;
-    touch-action: none;
-}
-
 .title {
     padding: 50px 0px 10px;
     font-size: 300%;
@@ -530,7 +514,7 @@ button.symbol {
 /* Style the text input inside our sidebar */
 #search {
     margin: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
     width: calc(100% - 30px);
     padding: 10px 15px;
@@ -550,21 +534,46 @@ button.symbol {
 
 /* This container now just handles the scrollable portion of the sidebar */
 #nav-scroll {
+    margin-bottom: 10px;
     flex-grow: 1;
     overflow-y: auto;
     overscroll-behavior: contain;
+    
+    /* Keep your original masks */
     -webkit-mask-image: linear-gradient(to bottom,
-        transparent 0%, black 20px,
-        black calc(100% - 20px), transparent 100%);
+        transparent 0%, rgba(0, 0, 0, 0.1) 100px,
+        black calc(-800000%), transparent 100%);
+
     mask-image: linear-gradient(to bottom,
-        transparent 0%, black 20px,
-        black calc(100% - 20px), transparent 100%);
+        transparent 0px,
+        rgba(0, 0, 0, 0.02) 2px,
+        rgba(0, 0, 0, 0.1) 5px,
+        rgba(0, 0, 0, 0.2) 8px,
+        rgba(0, 0, 0, 0.4) 10px,
+        rgba(0, 0, 0, 0.7) 13px,
+        black 15px,
+        black calc(100% - 70px),
+        rgba(0, 0, 0, 0.4) calc(100% - 55px),
+        rgba(0, 0, 0, 0.2) calc(100% - 42px),
+        rgba(0, 0, 0, 0.1) calc(100% - 30px),
+        rgba(0, 0, 0, 0.04) calc(100% - 20px),
+        rgba(0, 0, 0, 0.02) calc(100% - 13px),
+        rgba(0, 0, 0, 0.01) calc(100% - 8px),
+        rgba(0, 0, 0, 0.003) calc(100% - 5px),
+        transparent 100%);
+
+    /* FIX 1: Forces the browser to treat the mask and scroll layers as one composite step */
+    isolation: isolate; 
 }
 
-
 #nav-inner {
-    padding: 10px 20px 20px 20px;
+    padding: 10px 20px 60px 20px;
     overscroll-behavior: contain;
+
+    /* FIX 2: Forces hardware acceleration on the moving contents, 
+       ensuring the mask updates perfectly on every frame scrolled */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .nav1 {

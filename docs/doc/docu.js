@@ -143,18 +143,24 @@ window.docu = {
 
 		function tabButtonClick() {
 			nav.classList.toggle("hidden");
-			tabBackground.classList.toggle("show");
 		}
 		tabButton.addEventListener('click', tabButtonClick);
-
-		const tabBackground = document.createElement("button");
-		tabBackground.classList.add("tab-background");
-		tabBackground.addEventListener('click', tabButtonClick);
 
 		body.append(home);
 		body.append(tabButton);
 		body.append(miniNav);
-		body.append(tabBackground);
+
+		content.addEventListener('click', () => {
+            if (!nav.classList.contains("hidden")) {
+                tabButtonClick();
+            }
+        });
+
+        content.addEventListener('touchmove', () => {
+            if (!nav.classList.contains("hidden")) {
+                tabButtonClick();
+            }
+        }, { passive: true });
 
 
 		const depthColors = ["#ffff99", "#ff99ff", "#99ffff", "#ffff99", "#ff99ff", "#99ffff"]
