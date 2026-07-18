@@ -184,7 +184,7 @@ window.docu = {
 		})(docu.lenis, contentWrapper);
 
 
-		fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, 0.015, 1, 0.11, -1.2);
+		//fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, 0.015, 1, 0.11, -1.2);
 
 
 
