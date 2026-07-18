@@ -39,10 +39,11 @@ body {
         -webkit-backdrop-filter: blur(14px);
         padding-right: 10px;
         padding-left: 105px;
-        width: 100%;
+        width: 100vw;
         height: 60px;
         display: flex;
         align-items: center;
+        overflow-x: hidden;
     }
 
     .site-mini-nav::before {
@@ -190,7 +191,11 @@ body {
 @media (max-width: 700px) {
     .title {
         padding: 0px 0px 0px 140px;
-        visibility: hidden;
+        visibility: visible;
+        width: 0px;
+        max-width: 0px;
+        overflow-x: hidden;
+        overflow-wrap: none;
     }
 
     .title-mini {
@@ -224,6 +229,7 @@ h1 {
     font-size: 200%;
     font-weight: bold;
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    overflow-wrap: anywhere;
 }
 
 div.h-wrapper h1 {
@@ -239,6 +245,7 @@ h2 {
     padding: 20px 0px 10px 60px;
     font-size: 160%;
     font-weight: bold;
+    overflow-wrap: anywhere;
 }
 
 div.h-wrapper h2 {
@@ -254,6 +261,7 @@ h3 {
     padding: 20px 0px 10px 60px;
     font-size: 125%;
     font-weight: bold;
+    overflow-wrap: anywhere;
 }
 
 @media (max-width: 1100px) {
@@ -270,6 +278,7 @@ p {
     text-align: justify;
     font-weight: lighter;
     color: rgba(255, 255, 255, 0.7);
+    overflow-wrap: anywhere;
 }
 
 @media (max-width: 1100px) {
@@ -313,6 +322,8 @@ li {
     text-align: justify;
     font-weight: lighter;
     color: rgba(255, 255, 255, 0.7);
+    overflow-x: hidden;
+    overflow-wrap: anywhere;
 }
 
 li:last-child,
@@ -462,8 +473,8 @@ button.symbol {
     top: 80px;
     left: 25px;
     max-width: 280px;
-    width: calc(100dvw - 50px);
-    height: calc(100dvh - 100px);
+    width: calc(100vw - 50px);
+    height: calc(100vh - 100px);
     background: rgba(0, 0, 0, 0.6);
     border-radius: 20px;
     z-index: 50;
@@ -508,13 +519,24 @@ button.symbol {
     }
 }
 
+@media (max-width: 250px) {
+    #nav {
+        top: 75px;
+        border-radius: 0px;
+        border-top-right-radius: 20px;
+        left: 0px;
+        width: calc(100dvw - 25px);
+        height: calc(100vh - 75px);
+    }
+}
+
 @media (max-height: 500px) {
     #nav {
         top: 75px;
         border-radius: 0px;
         border-top-right-radius: 20px;
         left: 0px;
-        height: calc(100dvh - 75px);
+        height: calc(100vh - 75px);
     }
 }
 
@@ -523,7 +545,7 @@ button.symbol {
         top: 0px;
         border-radius: 0px;
         left: 0px;
-        height: calc(100dvh);
+        height: 100vh;
     }
 }
 
@@ -556,13 +578,22 @@ button.symbol {
     box-sizing: border-box;
 }
 
+@media(max-height: 250px){
+    #search {
+        visibility: hidden;
+        height: 0px;
+        padding: 0px;
+        margin: 0px;
+    }
+}
+
 #search::placeholder {
     color: rgba(255, 255, 255, 0.15);
 }
 
 /* This container now just handles the scrollable portion of the sidebar */
 #nav-scroll {
-    margin-bottom: 10px;
+    margin-bottom: calc(vh - dvh + 10px);
     flex-grow: 1;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -589,17 +620,12 @@ button.symbol {
             rgba(0, 0, 0, 0.01) calc(100% - 8px),
             rgba(0, 0, 0, 0.003) calc(100% - 5px),
             transparent 100%);
-
-    /* FIX 1: Forces the browser to treat the mask and scroll layers as one composite step */
     isolation: isolate;
 }
 
 #nav-inner {
     padding: 10px 20px 60px 20px;
     overscroll-behavior: contain;
-
-    /* FIX 2: Forces hardware acceleration on the moving contents, 
-       ensuring the mask updates perfectly on every frame scrolled */
     transform: translateZ(0);
     will-change: transform;
 }
