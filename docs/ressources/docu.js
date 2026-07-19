@@ -156,7 +156,7 @@ window.docu = {
 		// Create titles
 		const title = document.createElement("div");
 		title.classList.add("title");
-		title.textContent = path[path.length - 1];
+		title.textContent = path[path.length - 1].replaceAll("_", " ");
 		title.style.color = depthColors[path.length - 1];
 
 		let i = 0;
@@ -384,7 +384,10 @@ window.docu = {
 					docu.failedLinkConversions.push("Failed to create link for '!!" + link + "!' - Failed at key: '" + finalLink[0] + "'")
 					a.href = docu.createHref("/doc");
 				}
-				else a.href = docu.createHref("/doc" + finalLink);
+				else {
+					const finalLinkSplit = finalLink.split("/#")
+					a.href = docu.createHref("/doc" + finalLinkSplit[0], finalLinkSplit[1]);
+				}
 				a.textContent = label.trim();
 				frag.appendChild(a);
 				lastIndex = match.index + full.length;

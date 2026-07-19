@@ -17,6 +17,38 @@
 
 	<canvas id="noise-canvas"></canvas>
 
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			A special value is a !! val.static ! static value ! that does not fit into any other value type. 
+			Both instances are values that, ironically, indicate a lack of value.
+			Special values are one of the few types that don't have a !! keys.typed ! typed key ! alternative.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			Being a !! val.static ! static value !, special values don't acctually require any data to be stored.
+			They only require the declaration character, that is either<dfn>~</dfn>for null or<dfn>_</dfn>for undefined.
+			Once the parser reads this declaration character, it instantly completes the value.
+		</p>
+		<h2 id="important"> Important </h2>
+		<p>
+			Many languages, environments and parsers do not support an undefined value type.
+			If wishing to make use of "undefined", make sure your context supports the value, 
+			and if it does, make sure to understand it's exact implementation as it can differ depending on parser
+			(custom "undefined" object, specific value, wildcard, etc.)
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of special values as reference:
+		</p>
+		<pre><code>{
+null: ~
+undf: _
+
+array: [ ~ _ ~__~~_~
+	~~~~_ _~_~~
+</code></pre>
+	</div>
 
 
 

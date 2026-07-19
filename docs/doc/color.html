@@ -20,40 +20,56 @@
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
 		<p>
-			In LXON, "text" is a way to group all string-like types into one. 
-			Text values encapsulate three distinct yet similar values types:
+			In LXON, "color" is a way to group all color types into one.
+			Color values encapsulate two distinct yet similar values types, as well as a subdivision in one:
 		</p>
 		<ul>
-			<li>Full String<dfn>"</dfn></li>
-			<li>Regular String<dfn>`</dfn></li>
-			<li>String Character<dfn>'</dfn></li>
+			<li>!! val.color.srgb ! SRGB Color !<dfn>#</dfn></li>
+			<li>
+				!! val.color.linear ! Linear Color !:
+				<ul>
+					<li>!! val.color.linear.bit8 ! 8 Bit !<dfn>=</dfn></li>
+					<li>!! val.color.linear.bit16 ! 16 Bit !<dfn>/</dfn></li>
+				</ul>
+			</li>
 		</ul>
 		<p>
-			Text values are values that get turned into string by default. 
-			Certain languages support a dinstinct single-character string value type (char),
-			however most don't, which is why the default behavior is for everything to be simplified to string.
+			Most languages and environments support both individual color types, however many don't.
+			Many don't have an implementation at all, such as JavaScript.
+			In those cases, both custom color objects are made. 
+			You can use then use those objects as a middleman for converting the LXON color value into a more fleshed out implementation
+			from an external library (or other implementations).
+		</p>
+		<h1 id="distinction"> Distinction </h1>
+		<p>
+			SRGB Colors and Linear Colors aren't just made up concepts by LXON.
+			They're distinct and used in different situations.
 		</p>
 		<p>
-			When serializing the data, the string automatically choses the correct text type
-			based on whether it's the last value on the line, and, 
-			in the case of a language that doesn't support char,
-			if the length of the string is of 1.
+			This documentation won't go into depth on the difference between them, there are far better tutorials for that 
+			(although I personally couldn't find any good general use case ones). Feel free to search up a tutorial on
+			the difference between both color spaces for your respective language/engine/environment.
+		</p>
+		<p>
+			If you never had to ask yourself which colorspace you're using, then you're most likely using SRGB.
+			SRGB is used for web, photography, user interfaces, and countless other usecases and industries.
+			If you're using Linear Color, you're most likely aware of it, although it is safe to make the verification.
+		</p>
+		<p>
+			As to the difference between 8 bit and 16 bit linear color, the difference is only a question of precision and limitation.
+			If you're using linear color, use 8 bit unless you specifically need the extra color capacity.
+			Same as with the question of SRGB to Linear, if you need 16 bit rather then 8 bit, you're likely aware of the difference already.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
-			Here's some example usage of text values as reference:
+			Here's some example usage of color values as reference (all colors are the same after conversion):
 		</p>
 		<pre><code>{
-name: "Scott
-last: `Cawthon`
-char: 'S
-cha2: '4'
+srgb: #92c6f280 
 
-array:[ "Full string 1
-	"Full string 2
-	`string1` `string2`
-	`string3` `string4
-	`string3^string4`
+linear 8bit: =4a90e280 
+
+linear 16bit: /18944,36864,57856
 </code></pre>
 	</div>
 

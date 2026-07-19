@@ -1,13 +1,14 @@
-// All links implemented through double exclamation points are references to this link registry
-// Like that, the Nav Tree can be adjusted without requiring an edit of the link references
-// on all pages using that link
-
-// In most cases it should support singular and plural forms of the same key, QOL feature
-
-// IT IS IMPERATIVE THAT YOU NEVER CHANGE/REMOVE EXISTING LINK REGISTRY PATHS HERE
-// UNLESS YOU'RE WILLING TO GO THROUGH THE EFFORT OF MANUALLY FIXING THEM ON EACH PAGE
-
 window.linkReg = {
+
+    // All links implemented through double exclamation points are references to this link registry
+    // Like that, the Nav Tree can be adjusted without requiring an edit of the link references
+    // on all pages using that link
+
+    // In most cases it should support singular and plural forms of the same key, QOL feature
+
+    // IT IS IMPERATIVE THAT YOU NEVER CHANGE/REMOVE EXISTING LINK REGISTRY PATHS HERE
+    // UNLESS YOU'RE WILLING TO GO THROUGH THE EFFORT OF MANUALLY FIXING THEM ON EACH PAGE
+
     get: function (path) {
         const split = path.split(".");
         const len = split.length;
@@ -334,10 +335,48 @@ window.linkReg = {
                         if (len == 2) return "/color";
                         switch (split[2]) {
                             case "srgb":
-                                return "/meow";
+                                if (len == 3) return "/srgb";
+                                switch (split[3]) {
+                                    case "syntax":
+                                        return "/keys/char/#syntax";
+                                    case "important":
+                                        return "/keys/char/#important";
+                                    case "usage":
+                                        return "/keys/char/#usage";
+                                    default: return [split[3]];
+                                }
                             case "lin":
                             case "linear":
-                                return "/meow";
+                                if (len == 3) return "/linear";
+                                switch (split[3]) {
+                                    case "8":
+                                    case "8bit":
+                                    case "bit8":
+                                        if (len == 4) return "/linear";
+                                        switch (split[4]) {
+                                            case "syntax":
+                                                return "/keys/char/#syntax";
+                                            case "important":
+                                                return "/keys/char/#important";
+                                            case "usage":
+                                                return "/keys/char/#usage";
+                                            default: return [split[4]];
+                                        }
+                                    case "16":
+                                    case "16bit":
+                                    case "bit16":
+                                        if (len == 4) return "/keys/char";
+                                        switch (split[4]) {
+                                            case "syntax":
+                                                return "/keys/char/#syntax";
+                                            case "important":
+                                                return "/keys/char/#important";
+                                            case "usage":
+                                                return "/keys/char/#usage";
+                                            default: return [split[4]];
+                                        }
+                                    default: return [split[3]];
+                                }
                             default: return [split[2]];
                         }
                     case "enum":

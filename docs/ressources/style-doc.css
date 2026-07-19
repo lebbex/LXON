@@ -704,7 +704,7 @@ button.symbol {
     min-width: min-content;
 }
 
-@media(max-width: 350px) {
+@media(max-width: 420px) {
     .nav2 {
         padding: 5px 30px 5px 30px;
     }
@@ -740,7 +740,7 @@ button.symbol {
     min-width: min-content;
 }
 
-@media(max-width: 350px) {
+@media(max-width: 420px) {
     .nav3 {
         padding: 5px 30px 5px 48px;
     }
@@ -777,7 +777,7 @@ button.symbol {
     min-width: min-content;
 }
 
-@media(max-width: 350px) {
+@media(max-width: 420px) {
     .nav4 {
         padding: 5px 30px 5px 66px;
     }
@@ -825,18 +825,32 @@ button.symbol {
 }
 
 .nav-sub.depth1 {
-    padding: 5px 30px 5px 48px;
+    padding: 5px 0px 5px 48px;
 }
 
 .nav-sub.depth2 {
-    padding: 5px 30px 5px 86px;
+    padding: 5px 0px 5px 86px;
 }
 
 .nav-sub.depth3 {
-    padding: 5px 30px 5px 124px;
+    padding: 5px 0px 5px 124px;
 }
 
-@media(max-width: 350px) {
+@media(max-width: 420px) {
+    .nav-sub.depth1 {
+        padding: 5px 0px 5px 30px;
+    }
+
+    .nav-sub.depth2 {
+        padding: 5px 0px 5px 48px;
+    }
+
+    .nav-sub.depth3 {
+        padding: 5px 0px 5px 66px;
+    }
+}
+
+@media(max-width: 200px) {
     .nav-sub.depth1 {
         padding: 5px 30px 5px 30px;
     }
