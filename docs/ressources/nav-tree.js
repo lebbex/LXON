@@ -67,29 +67,29 @@ window.navTree = {
 			_nav: "Text",
 			_tit: "Text Key Types",
 			_url: "/keys/text",
-			_page: "Text Keys",
+			_page: "Keys // Text Types",
 			_min: "Text",
 			String: [
 				"String", "String Key",
-				"/keys/string", "String Keys",
+				"/keys/string", "Keys // Strings",
 				"Str",
 				["title", "id"]
 			],
 			Char: [
 				"Char", "Char Key",
-				"/keys/char", "Char Keys",
+				"/keys/char", "Keys // Chars",
 				"Char",
 				["title", "id"]
 			],
 		},
 		Boolean: [
 			"Boolean", "Boolean Key",
-			"/keys/bool", "Bool Keys",
+			"/keys/bool", "Keys // Booleans",
 			"Bool"
 		],
 		Number: [
 			"Number", "Number Key",
-			"/keys/number", "Num. Keys",
+			"/keys/number", "Keys // Numbers",
 			"Num",
 			["Definition", "def"],
 			["Regular Number", "regular"],
@@ -99,7 +99,7 @@ window.navTree = {
 		],
 		Date: [
 			"Date", "Date Key",
-			"/keys/date", "Date Keys",
+			"/keys/date", "Keys // Dates",
 			"Date",
 			["Year / Unix", "year-unix"],
 			["Week", "week"],
@@ -108,30 +108,30 @@ window.navTree = {
 		],
 		Keybind: [
 			"Keybind", "Keybind Key",
-			"/keys/keybind", "Keybind Keys",
+			"/keys/keybind", "Keys // Keybinds",
 			"KBind"
 		],
 		Color: {
 			_nav: "Color",
 			_tit: "Color Key Types",
 			_url: "/keys/color",
-			_page: "Color Keys",
+			_page: "Keys // Color Types",
 			_min: "Color",
 			SRGB_Color: [
 				"SRGB Color", "SRGB Color Key",
-				"/keys/srgb", "SRGB Keys",
+				"/keys/srgb", "Keys // SRGB Colors",
 				"SRGB",
 			],
 			Linear_8: [
 				"Linear Color (8\u00A0Bit)", "Linear Color Key (8\u00A0Bit)",
-				"/keys/linear8", "8bit Color Keys (Linear)",
+				"/keys/linear8", "Keys // 8 Bit Linear Colors",
 				"Lin. 8 Bit",
 				["8 Bit", "8bit"],
 				["16 Bit", "16bit"]
 			],
 			Linear_16: [
 				"Linear Color (16\u00A0Bit)", "Linear Color Key (16\u00A0Bit)",
-				"/keys/linear16", "16bit Color Keys (Linear)",
+				"/keys/linear16", "Keys // 16 Bit Linear Colors",
 				"Lin. 16 Bit",
 				["8 Bit", "8bit"],
 				["16 Bit", "16bit"]
@@ -139,7 +139,7 @@ window.navTree = {
 		},
 		Enum: [
 			"Enum", "Enum Key",
-			"/keys/enum", "Enum Keys",
+			"/keys/enum", "Keys // Enums",
 			"Enum",
 		]
 	},
