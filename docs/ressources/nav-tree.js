@@ -15,8 +15,9 @@
 
 window.navTree = {
 	Overview: [
-		"Overview", "LXON Documentation",
+		"Overview", "Documentation",
 		"", null, // <- null because it gets set through code
+		"Documentation",
 		["Analogy", "analogy"],
 		["Supported Features", "features"],
 		["Supported Containers", "containers"],
@@ -26,59 +27,70 @@ window.navTree = {
 	],
 	Containers: {
 		_nav: "Containers",
-		_tit: "LXON Containers",
+		_tit: "Containers",
 		_url: "/containers",
 		_page: "Containers",
+		_min: "Containers",
 		Object: [
 			"Object", "Object",
 			"/object", "Objects",
+			"Obj",
 			["Definition", "def"],
 			["Syntax", "syntax"]
 		],
 		Array: [
 			"Array", "Array",
 			"/array", "Arrays",
+			"Array",
 			["title", "id"]
 		],
 		Map: [
 			"Map", "Map",
 			"/map", "Maps",
+			"Map",
 			["title", "id"]
 		],
 		Doodad: [
 			"Doodad", "Doodad",
 			"/doodad", "Doodads",
+			"Doodad",
 			["title", "id"]
 		],
 	},
 	Keys: {
 		_nav: "Keys",
-		_tit: "LXON Keys",
+		_tit: "(Typed) Keys",
 		_url: "/keys",
 		_page: "Keys",
+		_min: "Keys",
 		Text: {
 			_nav: "Text",
 			_tit: "Text Key Types",
 			_url: "/keys/text",
 			_page: "Text Keys",
+			_min: "Text",
 			String: [
 				"String", "String Key",
 				"/keys/string", "String Keys",
+				"Str",
 				["title", "id"]
 			],
 			Char: [
 				"Char", "Char Key",
 				"/keys/char", "Char Keys",
+				"Char",
 				["title", "id"]
 			],
 		},
 		Boolean: [
 			"Boolean", "Boolean Key",
 			"/keys/bool", "Bool Keys",
+			"Bool"
 		],
 		Number: [
 			"Number", "Number Key",
 			"/keys/number", "Num. Keys",
+			"Num",
 			["Definition", "def"],
 			["Regular Number", "regular"],
 			["Decimal Number", "decimal"],
@@ -88,6 +100,7 @@ window.navTree = {
 		Date: [
 			"Date", "Date Key",
 			"/keys/date", "Date Keys",
+			"Date",
 			["Year / Unix", "year-unix"],
 			["Week", "week"],
 			["Month", "month"],
@@ -96,25 +109,30 @@ window.navTree = {
 		Keybind: [
 			"Keybind", "Keybind Key",
 			"/keys/keybind", "Keybind Keys",
+			"KBind"
 		],
 		Color: {
 			_nav: "Color",
 			_tit: "Color Key Types",
 			_url: "/keys/color",
 			_page: "Color Keys",
+			_min: "Color",
 			SRGB_Color: [
 				"SRGB Color", "SRGB Color Key",
 				"/keys/srgb", "SRGB Keys",
+				"SRGB",
 			],
 			Linear_8: [
 				"Linear Color (8\u00A0Bit)", "Linear Color Key (8\u00A0Bit)",
 				"/keys/linear8", "8bit Color Keys (Linear)",
+				"Lin. 8 Bit",
 				["8 Bit", "8bit"],
 				["16 Bit", "16bit"]
 			],
 			Linear_16: [
 				"Linear Color (16\u00A0Bit)", "Linear Color Key (16\u00A0Bit)",
 				"/keys/linear16", "16bit Color Keys (Linear)",
+				"Lin. 16 Bit",
 				["8 Bit", "8bit"],
 				["16 Bit", "16bit"]
 			]
@@ -122,33 +140,39 @@ window.navTree = {
 		Enum: [
 			"Enum", "Enum Key",
 			"/keys/enum", "Enum Keys",
+			"Enum",
 		]
 	},
 	Values: {
 		_nav: "Values",
-		_tit: "LXON Values",
+		_tit: "Values",
 		_url: "/values",
 		_page: "Values",
+		_min: "Values",
 		Text: {
 			_nav: "Text",
 			_tit: "Text Value Types",
 			_url: "/text",
 			_page: "Text Values",
+			_min: "Text",
 			Full_String: [
 				"Full String", "Full String",
 				"/fullstring", "Full Strings",
+				"Full",
 				["Syntax", "syntax"],
 				["Usage", "usage"]
 			],
 			String: [
 				"String", "String",
 				"/string", "Strings",
+				"Str",
 				["Syntax", "syntax"],
 				["Usage", "usage"]
 			],
 			Char: [
 				"Char", "Char",
 				"/char", "Chars",
+				"Char",
 				["Syntax", "syntax"],
 				["Usage", "usage"]
 			],
@@ -156,6 +180,7 @@ window.navTree = {
 		Boolean: [
 			"Boolean", "Boolean",
 			"/bool", "Booleans",
+			"Bool",
 			["Definition", "def"],
 			["Syntax", "syntax"],
 			["Visualization", "visualization"],
@@ -164,6 +189,7 @@ window.navTree = {
 		Number: [
 			"Number", "Number",
 			"/number", "Numbers",
+			"Num",
 			["Definition", "def"],
 			["Regular Number", "regular"],
 			["Decimal Number", "decimal"],
@@ -173,6 +199,7 @@ window.navTree = {
 		Date: [
 			"Date", "Date",
 			"/date", "Dates",
+			"Date",
 			["Definition", "def"],
 			["Year / Unix", "year-unix"],
 			["Week", "week"],
@@ -182,6 +209,7 @@ window.navTree = {
 		Keybind: [
 			"Keybind", "Keybind",
 			"/keybind", "Keybinds",
+			"KBind",
 			["Definition", "def"],
 			["Syntax", "syntax"],
 			["Usage", "usage"]
@@ -191,9 +219,11 @@ window.navTree = {
 			_tit: "Color Value Types",
 			_url: "/color",
 			_page: "Color Values",
+			_min: "Color",
 			SRGB_Color: [
 				"SRGB Color", "SRGB Color",
 				"/srgb", "SRGB Colors",
+				"SRGB",
 				["Syntax", "syntax"],
 				["Termination", "termination"],
 				["Channel Skipping", "skip"]
@@ -201,12 +231,14 @@ window.navTree = {
 			Linear_8: [
 				"Linear Color (8\u00A0Bit)", "Linear Color (8\u00A0Bit)",
 				"/keys/linear8", "8 Bit Linear Colors",
+				"Lin. 8 Bit",
 				["8 Bit", "8bit"],
 				["16 Bit", "16bit"]
 			],
 			Linear_16: [
 				"Linear Color (16\u00A0Bit)", "Linear Color (16\u00A0Bit)",
-				"/linear", "16 Bit Linear Colors"
+				"/linear", "16 Bit Linear Colors",
+				"Lin. 16 Bit",
 				["Syntax", "syntax"],
 				["Termination", "termination"],
 				["Channel Skipping", "skip"]
@@ -215,14 +247,17 @@ window.navTree = {
 		Enum: [
 			"Enum", "Enum",
 			"/enum", "Enums",
+			"Enum",
 		],
 		Binary: [
 			"Binary", "Binary",
 			"/binary", "Binary Values",
+			"Binary",
 		],
 		Special: [
 			"Special", "Special Value Types",
 			"/special", "Special Values",
+			"Special",
 		]
 	},
 	Other: {
@@ -230,16 +265,19 @@ window.navTree = {
 		_tit: "Other Features",
 		_url: "/other",
 		_page: "Other",
+		_min: "Other",
 		Comments: [
-			"Comments", "LXON Comments",
+			"Comments", "Comments",
 			"/comments", "Comments",
+			"Comments",
 			["Justification", "why"],
 			["Syntax", "syntax"],
 			["Usage", "usage"]
 		],
-		Escape_Sequences: [
+		Escape: [
 			"Escape Sequences", "Escape Sequences",
 			"/escape", "Escape Sequences",
+			"Escape",
 			["Justification", "why"],
 			["Syntax", "syntax"],
 			["Supported Characters", "characters"],

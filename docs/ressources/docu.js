@@ -45,19 +45,6 @@ window.docu = {
 			if (!docu.isScrollingToHash) docu.renderSubNavs();
 		}, { threshold: 0.0001 })
 
-		if (path[0] === "Overview") document.title = "LXON Documentation";
-		else {
-			let obj = navTree;
-			for (let i = 0; i < path.length; i++) {
-				obj = obj[path[i].replaceAll(" ", "_")];
-			}
-			let append = "THIS IS A BUG";
-			if (Array.isArray(obj)) append = obj[1];
-			else append = obj.__;
-			if (path.length > 1) document.title = "LXON // " + append;
-			else document.title = "LXON Documentation // " + append;
-		}
-
 
 
 		// Scroll to hash
@@ -153,26 +140,51 @@ window.docu = {
 
 		const depthColors = ["#ffff99", "#ff99ff", "#99ffff", "#ffff99", "#ff99ff", "#99ffff"]
 
+
+		
 		// Create titles
 		const title = document.createElement("div");
 		title.classList.add("title");
-		title.textContent = path[path.length - 1].replaceAll("_", " ");
 		title.style.color = depthColors[path.length - 1];
-
 		let i = 0;
 		let obj = navTree;
 		const miniNavTitle = document.createElement("div");
 		miniNavTitle.classList.add("nav-title");
 		path.forEach(item => {
-			obj = obj[path[i]];
+			obj = obj[path[i].replaceAll(" ", "_")];
+			console.log(obj, path[i]);
 			const t = document.createElement("a");
 			t.classList.add("title-mini");
 			if (i < path.length - 1) {
-				if (Array.isArray(obj)) t.href = docu.createHref("/doc" + obj[0]);
-				else t.href = docu.createHref("/doc" + obj._);
+				if (Array.isArray(obj)){
+					t.href = docu.createHref("/doc" + obj[2]);
+					t.textContent = obj[4];
+				}
+				else {
+					t.href = docu.createHref("/doc" + obj._url);
+					t.textContent = obj._min;
+				}
+			}
+			else if(i === path.length - 1) {
+				let append = "THIS IS A BUG";
+				if (Array.isArray(obj)){
+					title.textContent = obj[1];
+					append = obj[3];
+					if (item !== "Overview") t.textContent = obj[4];
+				}
+				else {
+					title.textContent = obj._tit;
+					t.textContent = obj._min;
+					append = obj._page;
+				}
+				if (item === "Overview") document.title = "LXON Documentation";
+				else{
+					if (path.length > 1) document.title = "LXON // " + append;
+					else document.title = "LXON Documentation // " + append;
+				}
 			}
 			t.style.color = depthColors[i];
-			t.textContent = path[i];
+			
 			miniNavTitle.append(t);
 			i++;
 			if (i < path.length) {
@@ -184,6 +196,8 @@ window.docu = {
 		});
 		miniNav.append(miniNavTitle);
 		content.prepend(title);
+
+
 
 
 		// Create the nav
@@ -508,27 +522,27 @@ window.docu = {
 			else return undefined;
 		}
 		const keys = Object.keys(object);
+		const skippableKeys = new Set(["_nav", "_tit", "_url", "_page", "_min"])
 		for (const key of keys) {
-			if (key === "_") continue;
-			if (key === "__") continue;
+			if (skippableKeys.has(key)) continue;
 			const value = object[key];
 			if (!docu.matchesQuery(value, query, q) && !docu.matches(key, q)) continue;
 			let item = document.createElement('a');
-			item.textContent = key.replaceAll("_", " ");
 			item.className = 'nav' + index.toString();
 			if (getPathKey(index - 1) === key) item.classList.add("selected");
 			if (getPathKey(path.length - 1) === key) item.classList.add("open");
 			if (Array.isArray(value)) {
-				item.href = docu.createHref("/doc" + value[0]);
+				item.href = docu.createHref("/doc" + value[2]);
+				item.textContent = value[0];
 				navInner.appendChild(item);
 				if (getPathKey(path.length - 1) !== key && query === "") continue;
-				for (let i = 2; i < value.length; i++) {
+				for (let i = 5; i < value.length; i++) {
 					if (!docu.matches(value[i][0], q)) continue;
 					let sub = document.createElement('a');
 					sub.textContent = value[i][0].replaceAll("_", " ");
 					sub.className = 'nav-sub';
 					sub.classList.add("depth" + index.toString())
-					sub.href = docu.createHref("/doc" + value[0], value[i][1]);
+					sub.href = docu.createHref("/doc" + value[2], value[i][1]);
 					sub.onclick = event => {
 						const subs = docu.subNavs;
 						const keys = Object.keys(subs);
@@ -545,7 +559,8 @@ window.docu = {
 			}
 			// Go deeper
 			else {
-				item.href = docu.createHref("/doc" + value._);
+				item.href = docu.createHref("/doc" + value._url);
+				item.textContent = value._nav;
 				navInner.appendChild(item);
 				if (getPathKey(0) !== key && query === "" && index === 1) continue;
 				if (path.length > 1 && query === "" && index === 2) { if (getPathKey(1) !== key) continue; }
