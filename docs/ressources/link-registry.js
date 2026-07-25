@@ -334,47 +334,139 @@ window.linkReg = {
                     case "colors":
                         if (len == 2) return "/color";
                         switch (split[2]) {
-                            case "srgb":
-                                if (len == 3) return "/srgb";
+                            case "space":
+                            case "spaces":
+                                if (len == 3) return "/color/spaces";
                                 switch (split[3]) {
-                                    case "syntax":
-                                        return "/keys/char/#syntax";
-                                    case "important":
-                                        return "/keys/char/#important";
-                                    case "usage":
-                                        return "/keys/char/#usage";
+                                    case "srgb":
+                                        return "/color/spaces/#srgb";
+                                    case "lin":
+                                    case "linear":
+                                        return "/color/spaces/#linear";
+                                    case "preset":
+                                    case "presets":
+                                        return "/color/spaces/#presets";
+                                    case "linpre":
+                                    case "linpreset":
+                                    case "linpresets":
+                                    case "linearpre":
+                                    case "linearpreset":
+                                    case "linearpresets":
+                                        return "/color/spaces/#linear-presets";
                                     default: return [split[3]];
                                 }
-                            case "lin":
-                            case "linear":
-                                if (len == 3) return "/linear";
+                            case "precision":
+                            case "precisions":
+                                if (len == 3) return "/color/precisions";
                                 switch (split[3]) {
-                                    case "8":
-                                    case "8bit":
-                                    case "bit8":
-                                        if (len == 4) return "/linear";
-                                        switch (split[4]) {
-                                            case "syntax":
-                                                return "/keys/char/#syntax";
-                                            case "important":
-                                                return "/keys/char/#important";
-                                            case "usage":
-                                                return "/keys/char/#usage";
-                                            default: return [split[4]];
-                                        }
-                                    case "16":
-                                    case "16bit":
-                                    case "bit16":
-                                        if (len == 4) return "/keys/char";
-                                        switch (split[4]) {
-                                            case "syntax":
-                                                return "/keys/char/#syntax";
-                                            case "important":
-                                                return "/keys/char/#important";
-                                            case "usage":
-                                                return "/keys/char/#usage";
-                                            default: return [split[4]];
-                                        }
+                                    case "srgb":
+                                        return "/color/spaces/#srgb";
+                                    case "linear":
+                                        return "/color/spaces/#linear";
+                                    case "presets":
+                                        return "/color/spaces/#presets";
+                                    case "linpre":
+                                    case "linpresets":
+                                    case "linearpre":
+                                    case "linearpresets":
+                                        return "/color/spaces/#linear-presets";
+                                    default: return [split[3]];
+                                }
+                            case "8":
+                            case "8bit":
+                            case "bit8":
+                                if (len == 3) return "/color/8bit";
+                                switch (split[3]) {
+                                    case "def":
+                                    case "types":
+                                        return "/color/8bit/#types";
+                                    case "syntax":
+                                        return "/color/8bit/#syntax";
+                                    case "termination":
+                                        return "/color/8bit/#termination";
+                                    case "channelskip":
+                                    case "channel":
+                                    case "ch":
+                                    case "chskip":
+                                    case "skip":
+                                        return "/color/8bit/#skip";
+                                    default: return [split[3]];
+                                }
+                            case "10":
+                            case "10bit":
+                            case "bit10":
+                                if (len == 3) return "/color/10bit";
+                                switch (split[3]) {
+                                    case "def":
+                                    case "types":
+                                        return "/color/10bit/#types";
+                                    case "syntax":
+                                        return "/color/10bit/#syntax";
+                                    case "termination":
+                                        return "/color/10bit/#termination";
+                                    case "channelskip":
+                                    case "channel":
+                                    case "ch":
+                                    case "chskip":
+                                    case "skip":
+                                        return "/color/10bit/#skip";
+                                    default: return [split[3]];
+                                }
+                            case "12":
+                            case "12bit":
+                            case "bit12":
+                                if (len == 3) return "/color/12bit";
+                                switch (split[3]) {
+                                    case "def":
+                                    case "types":
+                                        return "/color/12bit/#types";
+                                    case "syntax":
+                                        return "/color/12bit/#syntax";
+                                    case "termination":
+                                        return "/color/12bit/#termination";
+                                    case "channelskip":
+                                    case "channel":
+                                    case "ch":
+                                    case "chskip":
+                                    case "skip":
+                                        return "/color/12bit/#skip";
+                                    default: return [split[3]];
+                                }
+                            case "16":
+                            case "16bit":
+                            case "bit16":
+                                if (len == 3) return "/color/16bit";
+                                switch (split[3]) {
+                                    case "def":
+                                    case "types":
+                                        return "/color/16bit/#types";
+                                    case "syntax":
+                                        return "/color/16bit/#syntax";
+                                    case "channelskip":
+                                    case "channel":
+                                    case "ch":
+                                    case "chskip":
+                                    case "skip":
+                                        return "/color/16bit/#skip";
+                                    default: return [split[3]];
+                                }
+                            case "float":
+                            case "floating":
+                            case "floatpoint":
+                            case "floatingpoint":
+                                if (len == 3) return "/color/float";
+                                switch (split[3]) {
+                                    case "def":
+                                    case "types":
+                                        return "/color/float/#types";
+                                    case "syntax":
+                                        return "/color/float/#syntax";
+                                    case "channelskip":
+                                    case "channel":
+                                    case "ch":
+                                    case "chskip":
+                                    case "skip":
+                                        return "/color/float/#skip";
                                     default: return [split[3]];
                                 }
                             default: return [split[2]];

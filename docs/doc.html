@@ -46,8 +46,8 @@
 			LXON supports a few useful features.
 		</p>
 		<ul>
-			<li>!! other.comments ! Comments !<dfn>#</dfn></li>
-			<li>!! other.escape ! Escaped Characters !<dfn>\</dfn></li>
+			<li>!! other.comments ! Comments ! <dfn>#</dfn></li>
+			<li>!! other.escape ! Escaped Characters ! <dfn>\</dfn></li>
 		</ul>
 		<h1 id="types"> Supported Types </h1>
 		<p>
@@ -57,56 +57,64 @@
 			Containers
 		</h2>
 		<ul>
-			<li>!! conts.obj ! Object !<dfn>{a}</dfn></li>
-			<li>!! conts.arr ! Array !<dfn>[a]</dfn></li>
-			<li>!! conts.map ! Map !<dfn>(a)</dfn></li>
-			<li>!! conts.doo ! Doodad !<dfn></dfn></li>
+			<li>!! conts.obj ! Object ! <dfn>{a}</dfn></li>
+			<li>!! conts.arr ! Array ! <dfn>[a]</dfn></li>
+			<li>!! conts.map ! Map ! <dfn>(a)</dfn></li>
+			<li>!! conts.doo ! Doodad ! <dfn></dfn></li>
 		</ul>
 		<h2 id="keys">
 			Keys
 		</h2>
 		<ul>
-			<li>!! keys.text.str ! String !<dfn>" `</dfn></li>
-			<li>!! keys.text.char ! Char !<dfn>'</dfn></li>
-			<li>!! keys.bool ! Boolean !<dfn></dfn></li>
-			<li>!! keys.num ! Number !<dfn></dfn>
+			<li>!! keys.text.str ! String ! <dfn>" or `</dfn></li>
+			<li>!! keys.text.char ! Char ! <dfn>'</dfn></li>
+			<li>!! keys.bool ! Boolean ! <dfn></dfn></li>
+			<li>!! keys.num ! Number ! <dfn></dfn>
+			</li>
+			<li>!! keys.date ! Date ! <dfn>&</dfn></li>
+			<li>!! keys.bind ! Keybind ! <dfn>@</dfn></li>
+			<li>!! keys.col ! Color !
 				<ul>
-					<li>NaN<dfn>+ -</dfn></li>
-					<li>+Infinity<dfn>% +%</dfn></li>
-					<li>-Infinity<dfn>-%</dfn></li>
+					<li>SRGB Color <dfn># or ;</dfn></li>
+					<li>Linear Color <dfn>= or ;=</dfn></li>
+					<li>Preset Color <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+					<li>Linear Preset Color <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
 				</ul>
 			</li>
-			<li>!! keys.date ! Date !<dfn>&</dfn></li>
-			<li>!! keys.bind ! Keybind !<dfn>@</dfn></li>
-			<li>!! keys.col.srgb ! SRGB Color !<dfn>#</dfn></li>
-			<li>!! keys.col.lin ! Linear Color !<dfn>=</dfn></li>
-			<li>!! keys.enum ! Enum !<dfn>*</dfn></li>
+			<li>!! keys.enum ! Enum ! <dfn>*</dfn></li>
 		</ul>
 		<h2 id="values">
 			Values
 		</h2>
 		<ul>
-			<li>!! vals.text.full ! Full String !<dfn>"</dfn></li>
-			<li>!! vals.text.str ! String !<dfn>`</dfn></li>
-			<li>!! vals.text.char ! Char !<dfn>'</dfn></li>
-			<li>!! vals.bool ! Boolean !<dfn>$ !</dfn></li>
-			<li>!! vals.num ! Number !<dfn></dfn>
+			<li>!! vals.text.full ! Full String ! <dfn>"</dfn></li>
+			<li>!! vals.text.str ! String ! <dfn>`</dfn></li>
+			<li>!! vals.text.char ! Char ! <dfn>'</dfn></li>
+			<li>!! vals.bool ! Boolean ! <dfn>$ !</dfn></li>
+			<li>!! vals.num ! Number ! <dfn></dfn>
 				<ul>
-					<li>NaN<dfn>+ -</dfn></li>
-					<li>+Infinity<dfn>% +%</dfn></li>
+					<li>NaN <dfn>-</dfn></li>
+					<li>+Infinity <dfn>% +%</dfn></li>
 					<li>-Infinity<dfn>-%</dfn></li>
 				</ul>
 			</li>
-			<li>!! vals.date ! Date !<dfn>&</dfn></li>
-			<li>!! vals.bind ! Keybind !<dfn>@</dfn></li>
-			<li>!! vals.col.srgb ! SRGB Color !<dfn>#</dfn></li>
-			<li>!! vals.col.lin ! Linear Color !<dfn>= /</dfn></li>
-			<li>!! vals.enum ! Enum !<dfn>*</dfn></li>
-			<li>!! vals.bin ! Binary !<dfn>?</dfn></li>
+			<li>!! vals.date ! Date ! <dfn>&</dfn></li>
+			<li>!! vals.bind ! Keybind ! <dfn>@</dfn></li>
+			<li>!! keys.col ! Color !
+				<ul>
+					<li>!! vals.col.spaces.srgb ! SRGB Color ! <dfn># or ;</dfn></li>
+					<li>!! vals.col.spaces.lin ! Linear Color ! <dfn>= or ;=</dfn></li>
+					<li>!! vals.col.spaces.preset ! Preset Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+					<li>!! vals.col.spaces.linpreset ! Linear Preset Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+				</ul>
+			</li>
+
+			<li>!! vals.enum ! Enum ! <dfn>*</dfn></li>
+			<li>!! vals.bin ! Binary ! <dfn>?</dfn></li>
 			<li>!! vals.special ! Special !
 				<ul>
-					<li>Null<dfn>~</dfn></li>
-					<li>Undefined<dfn>_</dfn></li>
+					<li>Null <dfn>~</dfn></li>
+					<li>Undefined <dfn>_</dfn></li>
 				</ul>
 			</li>
 		</ul>

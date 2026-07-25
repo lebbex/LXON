@@ -24,10 +24,14 @@
 			Both instances are values that, ironically, indicate a lack of value.
 			Special values are one of the few types that don't have a !! keys.typed ! typed key ! alternative.
 		</p>
+		<ul>
+			<li>Null <dfn>~</dfn></li>
+			<li>Undefined <dfn>_</dfn><span class="a">*Not supported in all environments</span></li>
+		</ul>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
 			Being a !! val.static ! static value !, special values don't acctually require any data to be stored.
-			They only require the declaration character, that is either<dfn>~</dfn>for null or<dfn>_</dfn>for undefined.
+			They only require the declaration character (see above).
 			Once the parser reads this declaration character, it instantly completes the value.
 		</p>
 		<h2 id="important"> Important </h2>
@@ -35,7 +39,7 @@
 			Many languages, environments and parsers do not support an undefined value type.
 			If wishing to make use of "undefined", make sure your context supports the value, 
 			and if it does, make sure to understand it's exact implementation as it can differ depending on parser
-			(custom "undefined" object, specific value, wildcard, etc.)
+			(custom "undefined" object, simplified to a specific value like Null or NaN, wildcard value type, etc.)
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>

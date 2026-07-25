@@ -31,7 +31,7 @@ window.docu = {
 		requestAnimationFrame(docuRaf);
 
 
-		fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, body, 0.015, 1, 0.11, -1.2);
+		fog.init([-0.05, -0.06, -0.05], [0.25, 0.32, 0.42], docu.lenis, document.scrollingElement, 0.015, 1, 0.11, -1.2);
 
 
 
@@ -67,13 +67,20 @@ window.docu = {
 		}
 
 		const interruptScroll = () => {
+			if (docu.isScrollingToHash) {
+				docu.isScrollingToHash = false;
+				docu.renderSubNavs();
+			}
+		};
+
+		const interruptScrollForce = () => {
 			docu.isScrollingToHash = false;
 			docu.renderSubNavs();
 		};
 
-		window.addEventListener('wheel', interruptScroll, { passive: true });
-		window.addEventListener('touchstart', interruptScroll, { passive: true });
-		window.addEventListener('mousedown', interruptScroll, { passive: true });
+		content.addEventListener('wheel', interruptScrollForce, { passive: true });
+		content.addEventListener('touchstart', interruptScrollForce, { passive: true });
+		content.addEventListener('mousedown', interruptScroll, { passive: true });
 		window.addEventListener('keydown', (e) => {
 			// Arrow keys or spacebar also interrupt scrolling
 			if (['ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown'].includes(e.key)) {
@@ -141,7 +148,7 @@ window.docu = {
 		const depthColors = ["#ffff99", "#ff99ff", "#99ffff", "#ffff99", "#ff99ff", "#99ffff"]
 
 
-		
+
 		// Create titles
 		const title = document.createElement("div");
 		title.classList.add("title");
@@ -152,11 +159,10 @@ window.docu = {
 		miniNavTitle.classList.add("nav-title");
 		path.forEach(item => {
 			obj = obj[path[i].replaceAll(" ", "_")];
-			console.log(obj, path[i]);
 			const t = document.createElement("a");
 			t.classList.add("title-mini");
 			if (i < path.length - 1) {
-				if (Array.isArray(obj)){
+				if (Array.isArray(obj)) {
 					t.href = docu.createHref("/doc" + obj[2]);
 					t.textContent = obj[4];
 				}
@@ -165,9 +171,9 @@ window.docu = {
 					t.textContent = obj._min;
 				}
 			}
-			else if(i === path.length - 1) {
+			else if (i === path.length - 1) {
 				let append = "THIS IS A BUG";
-				if (Array.isArray(obj)){
+				if (Array.isArray(obj)) {
 					title.textContent = obj[1];
 					append = obj[3];
 					if (item !== "Overview") t.textContent = obj[4];
@@ -178,13 +184,13 @@ window.docu = {
 					append = obj._page;
 				}
 				if (item === "Overview") document.title = "LXON Documentation";
-				else{
+				else {
 					if (path.length > 1) document.title = "LXON // " + append;
 					else document.title = "LXON Documentation // " + append;
 				}
 			}
 			t.style.color = depthColors[i];
-			
+
 			miniNavTitle.append(t);
 			i++;
 			if (i < path.length) {
@@ -314,10 +320,21 @@ window.docu = {
 				})
 			}
 			catch {
-				return;
+
 			}
 
-			const h1s = Array.from(container.children).filter(el => (el.tagName === 'H1' || el.tagName === 'H2') && targets.has(el.id));
+			const allHeadings = Array.from(container.children).filter(el => el.tagName === 'H1' || el.tagName === 'H2');
+			const h1s = allHeadings.filter(el => targets.has(el.id));
+
+			// headings that won't be picked up by the loop below still get a bare wrapper
+			allHeadings
+				.filter(el => !targets.has(el.id))
+				.forEach(el => {
+					const plainWrapper = document.createElement("div");
+					plainWrapper.className = "h-wrapper";
+					container.insertBefore(plainWrapper, el);
+					plainWrapper.appendChild(el);
+				});
 
 			for (let i = 0; i < h1s.length; i++) {
 				const currentH1 = h1s[i];
@@ -437,14 +454,32 @@ window.docu = {
 			dfn.replaceWith(button);
 
 			let useAnd = false;
+			let useWith = false;
+			let useThen = false;
 
-			let text = dfn.textContent.split(" ");
+			let text = dfn.textContent.split(" or ");
 			let len = text.length;
 			if (text[0] === "") len = 0;
 			else if (len === 1) {
-				text = dfn.textContent.split("a");
+				text = dfn.textContent.split(" with ");
 				len = text.length;
-				useAnd = true;
+				if (text[0] === "") len = 0;
+				else if (len === 1) {
+					text = dfn.textContent.split(" then ");
+					len = text.length;
+					if (text[0] === "") len = 0;
+					else if (len === 1) {
+						text = dfn.textContent.split(" and ");
+						len = text.length;
+						useAnd = true;
+					}
+					else {
+						useThen = true;
+					}
+				}
+				else {
+					useWith = true;
+				}
 			}
 
 			let divs = [];
@@ -469,7 +504,7 @@ window.docu = {
 					divs.push(div1);
 					const div2 = document.createElement('div');
 					div2.className = 'symbol-text';
-					div2.innerHTML = useAnd ? "and" : "or";
+					div2.innerHTML = useAnd ? "and" : useWith ? "with" : useThen ? "then" : "or";
 					divs.push(div2);
 					const div3 = document.createElement('div');
 					div3.className = 'symbol';
@@ -562,7 +597,10 @@ window.docu = {
 				item.href = docu.createHref("/doc" + value._url);
 				item.textContent = value._nav;
 				navInner.appendChild(item);
+				// I'll be completely honest I have no idea how these if statements work but they do and that's all that matters
+				// Godspeed to anyone who ever needs to tweak what dropdown levels are visible when
 				if (getPathKey(0) !== key && query === "" && index === 1) continue;
+				if (path.length === 1 && getPathKey(1) !== key && query === "" && index === 3) continue;
 				if (path.length > 1 && query === "" && index === 2) { if (getPathKey(1) !== key) continue; }
 				docu.writeItem(index + 1, path, query, q, value, navInner);
 			}
@@ -639,20 +677,20 @@ window.docu = {
 		}
 	},
 
-	createHref: function(path, anchor = "") {
+	createHref: function (path, anchor = "") {
 		const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 
-		if(path === ""){
-			if(anchor === "") return "/";
+		if (path === "") {
+			if (anchor === "") return "/";
 			else return "#" + anchor;
 		}
 
-		if(isLocal){
-			if(anchor === "") return path + ".html";
+		if (isLocal) {
+			if (anchor === "") return path + ".html";
 			else return path + ".html#" + anchor;
 		}
 
-		if(anchor === "") return path;
+		if (anchor === "") return path;
 		else return path + "#" + anchor;
 	}
 }

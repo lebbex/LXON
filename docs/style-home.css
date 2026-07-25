@@ -223,18 +223,18 @@
 }
 
 section {
-    min-height: 50dvh;
+    min-height: 50lvh;
     display: flex;
     flex-direction: column;
     justify-content: top;
-    padding: 8dvh 8dvw;
+    padding: 8lvh 8lvw;
     align-items: center;
     text-align: center;
 }
 
 .landing {
-    min-height: 100dvh;
-    height: 100dvh;
+    min-height: 90lvh;
+    height: 90lvh;
     justify-content: center;
 }
 

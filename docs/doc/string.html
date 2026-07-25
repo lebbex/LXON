@@ -21,7 +21,7 @@
 		<h1 id="syntax"> Syntax </h1>
 		<p>
 			A string value is the more versatile alternative to !! values.text.full ! full string ! values.
-			It requires a backtick<dfn>`</dfn> or caret<dfn>^</dfn> at the start, as type declaration. 
+			It requires a backtick <dfn>`</dfn> or caret <dfn>^</dfn> at the start, as type declaration. 
 			Every following character is treated as the contents of the string, until the first instance either one of those characters.
 			This means you start and end string characters with either of the same two characters.
 		</p>
@@ -33,15 +33,15 @@
 			As a consequence of its increase in complexity, strings require escape sequences for the following characters:
 		</p>
 		<ul>
-			<li>Newline<dfn>\n</dfn></li>
-			<li>Carriage Return<dfn>\r</dfn></li>
-			<li>Backslash<dfn>\\</dfn></li>
-			<li>Backtick<dfn>\`</dfn></li>
-			<li>Caret<dfn>\^</dfn></li>
+			<li>Newline <dfn>\n</dfn></li>
+			<li>Carriage Return <dfn>\r</dfn></li>
+			<li>Backslash <dfn>\\</dfn></li>
+			<li>Backtick <dfn>\`</dfn></li>
+			<li>Caret <dfn>\^</dfn></li>
 		</ul>
 		<h2 id="chain"> Chaining </h2>
 		<p>
-			Strings can be chained easily with the caret symbol<dfn>^</dfn>. When a caret is used to terminate a string,
+			Strings can be chained easily with the caret symbol <dfn>^</dfn>. When a caret is used to terminate a string,
 			it will not only mark the end of the current value but also the start of a new string.
 			This should only ever be done inside an !! containers.arr ! array !.
 			It allows for string chaining, which is also supported by
@@ -49,13 +49,13 @@
 		</p>
 		<h2 id="important"> Important </h2>
 		<p>
-			Although tab representation is supported, it is standardized to replace them with<dfn>\t</dfn>. 
+			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
 			This allows for better visualization as well as a shortening of the visual length of the string.
 			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
 		</p>
 		<p>
 			Also, although trailing whitespace is supported, if there's no trailing backtick,
-			it is standardized to replace the last character with a<dfn>\s</dfn>if it's a space, or a<dfn>\t</dfn>if it's a tab.
+			it is standardized to replace the last character with a <dfn>\s</dfn> if it's a space, or a <dfn>\t</dfn> if it's a tab.
 			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
 			For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing mistake.
 		</p>

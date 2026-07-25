@@ -31,9 +31,9 @@
 		</p>
 		<h2 id="regular"> Regular Numbers </h2>
 		<p>
-			To write a number, you just write the number as is, with a negative sign<dfn>-</dfn>in the case of a
-			negative number,
-			or a optional plus sign<dfn>+</dfn>in the case of a positive number.
+			To write a number, you just write the number as is, 
+			with a negative sign <dfn>-</dfn> in the case of a negative number,
+			or a optional plus sign <dfn>+</dfn> in the case of a positive number.
 		</p>
 		<pre><code>{
 pos: 500
@@ -42,10 +42,10 @@ dec: +3.1416
 </code></pre>
 		<h2 id="decimal"> Decimal Numbers </h2>
 		<p>
-			If a decimal number begins with a zero (it's only decimals), you can skip writing the zero and write the
-			number with a period before.
-			Obviously, only one period is allowed in a number; a second period terminates the value and
-			returns it.
+			If a decimal number begins with a zero (it's only decimals), 
+			you can skip writing the zero and write the number with a period before.
+			Obviously, only one period is allowed in a number; 
+			a second period terminates the value and returns it.
 		</p>
 		<pre><code>{
 valid: .592
@@ -55,8 +55,8 @@ wrong: .623.59
 </code></pre>
 		<h2 id="sci"> Scientific Notation </h2>
 		<p>
-			Scientific notation is also supported for numbers, and is simply written by appending<dfn>e</dfn>right
-			after the number,
+			Scientific notation is also supported for numbers, 
+			and is simply written by appending <dfn>e</dfn> right after the number,
 			as well as a optional sign and the exponent number.
 		</p>
 		<pre><code>{
@@ -69,17 +69,35 @@ num3: .5e+10
 			There are three static values for numbers, each of which self-declared and requiring no type definition:
 		</p>
 		<ul>
-			<li>NaN<dfn>+ -</dfn>
-				<h0></h0><span class="a">*Must be followed by a non-numerical character</span>
-			</li>
-			<li>Positive (+) Infinity<dfn>% +%</dfn></li>
-			<li>Negative (-) Infinity<dfn>-%</dfn></li>
+			<li>NaN <dfn>-</dfn><span class="a">*Must be followed by a non-numerical character</span></li>
+			<li>Positive (+) Infinity <dfn>% or +%</dfn></li>
+			<li>Negative (-) Infinity <dfn>-%</dfn></li>
 		</ul>
 		<pre><code>{
-not a number: +
+not a number: -
 pos infinity: %
 neg infinity: -%
 </code></pre>
+		<h3 id="important"> Important Precision for NaN </h3>
+		<p>
+			The <dfn>+</dfn> and <dfn>-</dfn> symbols are technically type declarators, 
+			where the minus symbol also acts as a modifier on the number following it.
+			However, if there is no number following the symbol,
+			the parser attempts to multiply a undefined value by "-1",
+			which, in the case of JavaScript (the native implementation of LXON), returns NaN.
+		</p>
+		<p>
+			NaN's syntax was an unintended side effect that ended up becomming part of the LXON standard.
+			Some parsers might support <dfn>+</dfn> as a declaration of NaN, 
+			however it is highly reccomended to refrain from doing so.
+		</p>
+		<p>
+			To be sure that the value is properly interpreted, 
+			it is standardized to follow the minus symbol with either a space
+			character or a newline. 
+			It will work however as long as what follows it cannot be interpreted as a number
+			(see regular/decimal number syntax above).
+		</p>
 	</div>
 
 

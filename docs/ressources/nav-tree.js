@@ -111,32 +111,11 @@ window.navTree = {
 			"/keys/keybind", "Keys // Keybinds",
 			"KBind"
 		],
-		Color: {
-			_nav: "Color",
-			_tit: "Color Key Types",
-			_url: "/keys/color",
-			_page: "Keys // Color Types",
-			_min: "Color",
-			SRGB_Color: [
-				"SRGB Color", "SRGB Color Key",
-				"/keys/srgb", "Keys // SRGB Colors",
-				"SRGB",
-			],
-			Linear_8: [
-				"Linear Color (8\u00A0Bit)", "Linear Color Key (8\u00A0Bit)",
-				"/keys/linear8", "Keys // 8 Bit Linear Colors",
-				"Lin. 8 Bit",
-				["8 Bit", "8bit"],
-				["16 Bit", "16bit"]
-			],
-			Linear_16: [
-				"Linear Color (16\u00A0Bit)", "Linear Color Key (16\u00A0Bit)",
-				"/keys/linear16", "Keys // 16 Bit Linear Colors",
-				"Lin. 16 Bit",
-				["8 Bit", "8bit"],
-				["16 Bit", "16bit"]
-			]
-		},
+		Color: [
+			"Color", "Color Key Types",
+			"/keys/color", "Keys // Color Types",
+			"Color"
+		],
 		Enum: [
 			"Enum", "Enum Key",
 			"/keys/enum", "Keys // Enums",
@@ -151,7 +130,7 @@ window.navTree = {
 		_min: "Values",
 		Text: {
 			_nav: "Text",
-			_tit: "Text Value Types",
+			_tit: "Text",
 			_url: "/text",
 			_page: "Text Values",
 			_min: "Text",
@@ -216,48 +195,88 @@ window.navTree = {
 		],
 		Color: {
 			_nav: "Color",
-			_tit: "Color Value Types",
+			_tit: "Color",
 			_url: "/color",
-			_page: "Color Values",
+			_page: "Colors",
 			_min: "Color",
-			SRGB_Color: [
-				"SRGB Color", "SRGB Color",
-				"/srgb", "SRGB Colors",
-				"SRGB",
-				["Syntax", "syntax"],
-				["Termination", "termination"],
-				["Channel Skipping", "skip"]
+			Spaces: [
+				"Spaces", "Color Spaces",
+				"/color/spaces", "Color Spaces",
+				"Spaces",
+				["SRGB", "srgb"],
+				["Linear SRGB", "linear"],
+				["Presets", "presets"],
+				["Linear Presets", "linear-presets"]
 			],
-			Linear_8: [
-				"Linear Color (8\u00A0Bit)", "Linear Color (8\u00A0Bit)",
-				"/keys/linear8", "8 Bit Linear Colors",
-				"Lin. 8 Bit",
-				["8 Bit", "8bit"],
-				["16 Bit", "16bit"]
-			],
-			Linear_16: [
-				"Linear Color (16\u00A0Bit)", "Linear Color (16\u00A0Bit)",
-				"/linear", "16 Bit Linear Colors",
-				"Lin. 16 Bit",
-				["Syntax", "syntax"],
-				["Termination", "termination"],
-				["Channel Skipping", "skip"]
-			]
+			Precisions: {
+				_nav: "Precisions",
+				_tit: "Color Precisions",
+				_url: "/color/precisions",
+				_page: "Color Precisions",
+				_min: "Precisions",
+				Bit_8: [
+					"8 Bit", "8 Bit Color",
+					"/color/8bit", "8 Bit Colors",
+					"8 Bit",
+					["Syntax", "syntax"],
+					["Termination", "termination"],
+					["Channel Skipping", "skip"]
+				],
+				Bit_10: [
+					"10 Bit", "10 Bit Color",
+					"/color/10bit", "10 Bit Colors",
+					"10 Bit",
+					["Syntax", "syntax"],
+					["Termination", "termination"],
+					["Channel Skipping", "skip"]
+				],
+				Bit_12: [
+					"12 Bit", "12 Bit Color",
+					"/color/12bit", "12 Bit Colors",
+					"16 Bit",
+					["Syntax", "syntax"],
+					["Channel Skipping", "skip"]
+				],
+				Bit_16: [
+					"16 Bit", "16 Bit Color",
+					"/color/16bit", "16 Bit Colors",
+					"16 Bit",
+					["Syntax", "syntax"],
+					["Channel Skipping", "skip"]
+				],
+				Float: [
+					"Infinite (Float)", "Float. Point Color",
+					"/color/float", "Float. Point Colors",
+					"Float",
+					["Syntax", "syntax"],
+					["Termination", "termination"],
+					["Channel Skipping", "skip"]
+				]
+			}
 		},
 		Enum: [
 			"Enum", "Enum",
 			"/enum", "Enums",
 			"Enum",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		],
 		Binary: [
 			"Binary", "Binary",
 			"/binary", "Binary Values",
 			"Binary",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		],
 		Special: [
-			"Special", "Special Value Types",
+			"Special", "Special Values",
 			"/special", "Special Values",
 			"Special",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		]
 	},
 	Other: {

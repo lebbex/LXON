@@ -47,7 +47,7 @@ World: _
 </code></pre>
 		<p>
 			In order to parse "Hello" and "World", seperated by a newline, you would need to use the escape
-			character<dfn>\n</dfn>.
+			character <dfn>\n</dfn>.
 		</p>
 		<pre><code>{
 text: "Hello\nWorld
@@ -58,7 +58,7 @@ text: "Hello\nWorld
 		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			To escape a character, prepend it with<dfn>\</dfn>. 
+			To escape a character, prepend it with <dfn>\</dfn>. 
 			The parser will ignore the backslash and read only the character following it. 
 			If it's a code character, it will replace the pair with the represented character (\n -> newline, \s -> space, etc.), 
 			otherwise it will read the second character litterally (\" -> ").
@@ -69,25 +69,25 @@ text: "Hello\nWorld
 			Here's all supported escape sequence codes:
 		</p>
 		<ul>
-			<li>Newline<dfn>\n</dfn></li>
-			<li>Carriage Return<dfn>\r</dfn></li>
-			<li>Tabulator (tab)<dfn>\t</dfn></li>
-			<li>Space<dfn>\s</dfn></li>
+			<li>Newline <dfn>\n</dfn></li>
+			<li>Carriage Return <dfn>\r</dfn></li>
+			<li>Tabulator (tab) <dfn>\t</dfn></li>
+			<li>Space <dfn>\s</dfn></li>
 		</ul>
 		<p>
-			If a escape sequence isn't a valid code, it will parse into the character after the backslash<dfn>\</dfn>, 
+			If a escape sequence isn't a valid code, it will parse into the character after the backslash <dfn>\</dfn>, 
 			completely ignoring the backslash as is. 
 			By consequence, many commonly used escape characters aren't explicit implementations and merely an intended consequence.
 			Here's all of the commonly used, and arguably the only other useful escape sequences:
 		</p>
 		<ul>
-			<li>Backslash<dfn>\\</dfn></li>
-			<li>Colon<dfn>\:</dfn></li>
-			<li>Backtick<dfn>\`</dfn></li>
-			<li>Caret<dfn>\^</dfn></li>
-			<li>At<dfn>\@</dfn></li>
-			<li>Asterisk<dfn>\*</dfn></li>
-			<li>Question Mark<dfn>\?</dfn></li>
+			<li>Backslash <dfn>\\</dfn></li>
+			<li>Colon <dfn>\:</dfn></li>
+			<li>Backtick <dfn>\`</dfn></li>
+			<li>Caret <dfn>\^</dfn></li>
+			<li>At <dfn>\@</dfn></li>
+			<li>Asterisk <dfn>\*</dfn></li>
+			<li>Question Mark <dfn>\?</dfn></li>
 		</ul>
 		<h2 id="environments"> Supported Environments </h1>
 		<p>

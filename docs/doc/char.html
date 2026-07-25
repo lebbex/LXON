@@ -21,24 +21,24 @@
 		<h1 id="syntax"> Syntax </h1>
 		<p>
 			A char value is the single character alternative to !! val.text.full ! full string ! values.
-			It requires a single quote<dfn>'</dfn>at the start, as type declaration. 
+			It requires a single quote <dfn>'</dfn> at the start, as type declaration. 
 			The following character is treated as the full contents of the value (or char if the language supports it).
 		</p>
 		<p>
 			Chars support !! other.escape ! escape characters !. 
-			Although this creates a value that appears to have two charactes, the<dfn>\</dfn>suffix gets skipped 
+			Although this creates a value that appears to have two charactes, the <dfn>\</dfn> suffix gets skipped 
 			and is used for parsing the following character specially. 
 			As such, the value gets reduced to a single character and becomes a valid char value.
 		</p>
 		<h2> Important </h2>
 		<p>
 			The char value ends after the first character, so trailing single quotes don't acctually close the string, 
-			they announces the start of a new string character, similarly to the caret symbol<dfn>^</dfn>for !! values.text.string ! string ! values.
+			they announces the start of a new string character, similarly to the caret symbol <dfn>^</dfn> for !! values.text.string ! string ! values.
 		</p>
 		<p>
 			Although it's supported to type a litteral space or tab character following the single quote to set the value to such,
 			it is standardized to use the !! other.escape ! escape character ! alternative of the whitespace 
-			(such as<dfn>\s</dfn>and<dfn>\t</dfn> respectively).
+			(such as <dfn>\s</dfn> and <dfn>\t</dfn> respectively).
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>

@@ -14,7 +14,7 @@ body {
 
 .content {
     overflow-x: hidden;
-    padding-left: 380px;
+    padding-left: 440px;
     opacity: 0;
     transition: opacity 1s ease;
 }
@@ -25,7 +25,13 @@ body {
 
 @media (max-width: 1100px) {
     .content {
-        padding-left: 340px;
+        padding-left: 390px;
+    }
+}
+
+@media (max-width: 900px) {
+    .content {
+        padding-left: 320px;
     }
 }
 
@@ -75,7 +81,7 @@ body {
     .site-home {
         position: fixed;
         top: 12px;
-        left: 285px;
+        left: 325px;
     }
 }
 
@@ -136,10 +142,11 @@ body {
 }
 
 .title {
-    padding: 50px 0px 10px;
+    padding: 50px 20px 10px 0px;
     font-size: 300%;
     font-weight: lighter;
     opacity: 0.4;
+    user-select: none;
 }
 
 .nav-title {
@@ -199,14 +206,17 @@ body {
     user-select: none;
 }
 
+@media (max-width: 900px) {
+    .title {
+        padding: 50px 20px 0px 15px;
+        font-size: 200%;
+    }
+}
+
 @media (max-width: 700px) {
     .title {
-        padding: 0px 0px 0px 140px;
-        visibility: visible;
-        width: 0px;
-        max-width: 0px;
-        overflow-x: hidden;
-        overflow-wrap: none;
+        padding: 0px 0px 50px 0px;
+        font-size: 0%;
     }
 
     .title-mini {
@@ -220,8 +230,8 @@ body {
 
 @media (max-height: 450px) {
     .title {
-        padding: 50px 0px 10px 20px;
-        visibility: visible;
+        padding: 0px 0px 0px 0px;
+        font-size: 0%;
     }
 
     .title-mini {
@@ -424,10 +434,11 @@ button.symbol {
     flex-direction: row;
     align-items: center;
     font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
-    margin: 0px 8px;
+    margin: 0px 1px;
     background-color: rgba(10, 5, 3, 0.6);
     border-radius: 10px;
     border-width: 0;
+    position: relative;
 }
 
 div.symbol {
@@ -443,10 +454,6 @@ div.symbol-text {
     font-style: italic;
 }
 
-button.symbol {
-    position: relative;
-}
-
 .copy-tooltip {
     position: absolute;
     left: 50%;
@@ -456,7 +463,6 @@ button.symbol {
     padding: 4px 10px;
     font-size: 100%;
     font-weight: bolder;
-    font-style: italic;
     color: rgb(10, 6, 6);
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.2);
@@ -481,9 +487,9 @@ button.symbol {
     position: fixed;
     top: 80px;
     left: 25px;
-    max-width: 280px;
-    width: calc(100vw - 50px);
-    height: calc(100vh - 100px);
+    max-width: 320px;
+    width: calc(100dvw - 50px);
+    height: calc(100dvh - 100px);
     background: rgba(0, 0, 0, 0.6);
     border-radius: 20px;
     z-index: 50;
@@ -495,6 +501,12 @@ button.symbol {
     -ms-user-select: none;
     user-select: none;
     box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.02);
+}
+
+@media (max-width: 900px) {
+    #nav {
+        max-width: 260px;
+    }
 }
 
 @media (max-width: 700px) {
@@ -526,7 +538,7 @@ button.symbol {
         border-bottom-right-radius: 20px;
         left: 0px;
         width: calc(100dvw - 15px);
-        height: calc(100vh - 85px);
+        height: calc(100dvh - 85px);
     }
 }
 
@@ -535,7 +547,7 @@ button.symbol {
         top: 0px;
         border-radius: 0px;
         left: 0px;
-        height: 100vh;
+        height: 100dvh;
     }
 }
 
@@ -583,7 +595,7 @@ button.symbol {
 
 /* This container now just handles the scrollable portion of the sidebar */
 #nav-scroll {
-    margin-bottom: calc(vh - dvh + 10px);
+    margin-bottom: 10px;
     flex-grow: 1;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -836,6 +848,10 @@ button.symbol {
     padding: 5px 0px 5px 124px;
 }
 
+.nav-sub.depth4 {
+    padding: 5px 0px 5px 162px;
+}
+
 @media(max-width: 420px) {
     .nav-sub.depth1 {
         padding: 5px 0px 5px 30px;
@@ -847,6 +863,10 @@ button.symbol {
 
     .nav-sub.depth3 {
         padding: 5px 0px 5px 66px;
+    }
+
+    .nav-sub.depth4 {
+        padding: 5px 0px 5px 84px;
     }
 }
 
@@ -861,6 +881,10 @@ button.symbol {
 
     .nav-sub.depth3 {
         padding: 5px 30px 5px 66px;
+    }
+
+    .nav-sub.depth3 {
+        padding: 5px 30px 5px 84px;
     }
 }
 

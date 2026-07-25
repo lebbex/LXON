@@ -18,11 +18,24 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
+		<h1 id="types"> Definition and Types </h1>
+		<p>
+			An 8 bit color value is the simplest and most common way of storing a color.
+			It allows for storing colors with an 8 bit depth per channel, 
+			totalling 4 bytes (32 bits) over 4 channels (red, green, blue, alpha/opacity).
+		</p>
+		<p>
+			This group supports 3 color spaces:
+		</p>
+		<ul>
+			<li>sRGB Color<dfn>#</dfn></li>
+			<li>Linear Color<dfn>=</dfn></li>
+			<li>P3 Color<dfn>/</dfn></li>
+		</ul>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			An sRGB color value is the most common way of representing a color in LXON.
-			It requires only a hashtag<dfn>#</dfn>at the start, as a type declaration.
-			All succeeding hexadecimal characters (0-9 / a-f) are used to store the color data.
+			Following the type declaration (see above), all succeeding hexadecimal characters 
+			(0 to 9 and "a" through "f") are used to store the color data.
 		</p>
 		<p>
 			The first two characters converge into the red channel, where "00" gets read as the full lack of red
@@ -40,24 +53,26 @@
 			Examples of proper and improper color termination (read comments):
 		</p>
 		<pre><code>{
-# Color bleeding into key (bad)
-# (here the color is acctually #ffffaaa2)
-aaa1: #ffffaaa2: "value
+sRGB: #00112233
+Linear: =00112233
+P3: /00112233
+
+# Color bleeding into key (bad) -- here the color is acctually =ffffaaa2
+aaa1: =ffffaaa2: "value
 
 # Color terminated by the next key (okay)
-rrr1: #2e57rrr2: "value
+rrr1: =2e57rrr2: "value
 
 # Color not bleeding into key (recommended)
-aaa3: #ffff aaa4: "value
+aaa3: =ffff aaa4: "value
 
 # Color terminated by the next string
-array:[ #0000`string`
+array:[ =0000`string`
 </code></pre>
-		<h2 id="skip"> Channel Skipping</h2>
+		<h1 id="skip"> Channel Skipping</h1>
 		<p>
 			If a certain channel's hexadecimal pair isn't present, the parsing of the color ceases and the current color returns,
-			defaulting the remaining channels. 
-			By default, all color channels are empty, except for the alpha channel which holds 100% opacity.
+			setting the remaining channels to their default values (red: 0%, green: 0%, blue: 0%, alpha: 100%).
 		</p>
 		<p>
 			As consequence, if a color happens to have an empty color channel, writing of that data can be skipped.
@@ -69,9 +84,9 @@ array:[ #0000`string`
 		<pre><code>{
 black: #
 red: #ff
-orange: #ff70
-yellow: #ffff
-green: #00ff
+orange: =ff70
+yellow: =ffff
+green: /00ff
 </code></pre>
 	</div>
 
@@ -83,7 +98,7 @@ green: #00ff
 	<script src="/ressources/nav-tree.js"></script>
 	<script src="/ressources/docu.js"></script>
 	<script>
-		docu.init(["Values", "Color", "SRGB_Color"]);
+		docu.init(["Values", "Color", "Precisions", "Bit_8"]);
 	</script>
 
 </body>

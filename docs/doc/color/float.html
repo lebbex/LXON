@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="types"> Definition and Types </h1>
+		<p>
+			A 16 bit color value allows for storing color values with 256x more precision and depth than an !! val.color.8 ! 8 bit color !.
+			It allows for storing colors with a 16 bit depth per channel, 
+			totalling 8 bytes (64 bits) over 4 channels (red, green, blue, alpha/opacity).
+		</p>
+		<p>
+			This group supports 4 color spaces:
+		</p>
+		<ul>
+			<li>RGB Color<dfn>##</dfn></li>
+			<li>Linear Color<dfn>==</dfn></li>
+			<li>P3 Color<dfn>//</dfn></li>
+			<li>ProPhoto<dfn>///</dfn></li>
+		</ul>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			All 16 bit colors use the same syntax rules as !! val.color.8 ! 8 bit colors !, with a few crucial differenc.
+		</p>
+		<p>
+			Following the type declaration (see above), all succeeding hexadecimal characters 
+			(0 to 9 and "a" through "f") are used to store the color data.
+		</p>
+		<p>
+			Unlike 8 bit, which requires each hex character to be one after the other, uninterrupted, 
+			16 bit color allows and even encourages seperating each channel with a space, 
+			forming hex clusters. All 16 bit colors are formed of 4 hex clusters. 
+			The clusters are assigned to the red, green, blue and alpha/opacity channels respectively.
+		</p>
+		<p>
+			The best way to end a color is using a backtick<dfn>`</dfn> or newline, 
+			although the color ends when all hex clusters are read.
+			The first backtick following a 16 bit color is always skipped, 
+			regardless if it was used to terminate the color or not.
+		</p>
+		<p>
+			Examples of 16 bit color usage:
+		</p>
+		<pre><code>{
+yellow RGB: ##ffffeeee0000ffff
+
+magenta Linear: ==ffff 0 ffff
+
+blue P3 color: //0 0 ffff
+
+black ProPhoto: ///0 0 0
+
+array:[ ##ffff` ==0 0 0 0` //f23e 192b 900e
+</code></pre>
+		<h1 id="skip"> Channel Skipping</h1>
+		<p>
+			If a color ends prematurely, the color still constructs itself based on the data it managed to parse,
+			setting the remaining channels to their default values (red: 0%, green: 0%, blue: 0%, alpha: 100%).
+		</p>
+		<p>
+			As consequence, if a color happens to have an empty color channel, writing of that data can be skipped.
+			This can be very useful to save characters, especially for skipping the alpha channel which is usually 100% opaque either way.
+		</p>
+		<p>
+			Also, after a space, the parser expects to begin reading the next channel. 
+			If, however, that hex cluster is missing, and a second space is found instead, then the channel gets skipped altogether,
+			using it's default value (0% for all except alpha which is 100%). 
+			You can therefore skip channels by doing a double or tripple space between clusters.
+		</p>
+		<p>
+			As a consequence of the strict spacing rules, it is easy to get mixed up. 
+			The best way to think about it is that every space means "end the current cluster and begin the next",
+			similarly to what<dfn>^</dfn>is to a !! val.text.str ! string !.
+		</p>
+		<p>
+			Channel skipping examples (the keys are named after the colors, read comment):
+		</p>
+		<pre><code>{
+black: ##
+red: ##ffff
+orange: ==ffff 7000
+yellow: ==ffff eeee
+green: // ffff
+blue: //  ffff
+void: //   0
+# ^^ black and 0% opacity
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Values", "Color", "Precisions", "Float"]);
+	</script>
+
+</body>
+
+</html>
