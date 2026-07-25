@@ -19,7 +19,13 @@ window.linkReg = {
         switch (split[0]) {
             // Home
             case "home":
-                return "";
+                if (len == 1) return "";
+                switch (split[1]) {
+                    case "anal":
+                    case "analogy":
+                        return "/#analogy";
+                    default: return [split[1]];
+                }
             // -------------------- Containers --------------------
             case "cont":
             case "conts":

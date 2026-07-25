@@ -55,17 +55,24 @@
 			Here is a cheat sheet list of all dynamic values and their respective declaration characters:
 		</p>
 		<ul>
-			<li>Full String <dfn>"</dfn></li>
-			<li>String <dfn>`</dfn></li>
-			<li>Char <dfn>'</dfn></li>
-			<li>Number <dfn></dfn></li>
-			<li>Date <dfn>&</dfn></li>
-			<li>Keybind <dfn>@</dfn></li>
-			<li>SRGB Color <dfn>#</dfn></li>
-			<li>Linear Color (8bit) <dfn>=</dfn></li>
-			<li>Linear Color (16bit) <dfn>/</dfn></li>
-			<li>Enum <dfn>*</dfn></li>
-			<li>Binary <dfn>?</dfn></li>
+			<li>!! vals.text.full ! Full String ! <dfn>"</dfn></li>
+			<li>!! vals.text.str ! String ! <dfn>` or ^</dfn></li>
+			<li>!! vals.text.char ! Char ! <dfn>'</dfn></li>
+			<li>!! vals.num ! Number ! <dfn></dfn>
+			</li>
+			<li>!! vals.date ! Date ! <dfn>&</dfn></li>
+			<li>!! vals.bind ! Keybind ! <dfn>@</dfn></li>
+			<li>!! keys.col ! Color !
+				<ul>
+					<li>!! vals.col.spaces.srgb ! SRGB Color ! <dfn># or ;</dfn></li>
+					<li>!! vals.col.spaces.lin ! Linear Color ! <dfn>= or ;=</dfn></li>
+					<li>!! vals.col.spaces.preset ! Preset Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+					<li>!! vals.col.spaces.linpreset ! Linear Preset Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+				</ul>
+			</li>
+
+			<li>!! vals.enum ! Enum ! <dfn>*</dfn></li>
+			<li>!! vals.bin ! Binary ! <dfn>?</dfn></li>
 		</ul>
 
 		<h1 id="usage"> Usage </h1>
