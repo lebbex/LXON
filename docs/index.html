@@ -90,6 +90,8 @@
 			wheelMultiplier: 0.5,
 		});
 
+		const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
 		function docuRaf(time) {
 			lenis.raf(time);
 			requestAnimationFrame(docuRaf);
@@ -227,6 +229,8 @@
 		}
 
 		function updateDropdownVisibility() {
+			if (isTouch) return;
+			
 			const shouldShow = hoveringDoc || hoveringDropdown;
 			dropdownEl.style.visibility = `visible`;
 			if (shouldShow === showingDropdown) return;

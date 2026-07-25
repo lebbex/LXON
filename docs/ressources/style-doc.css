@@ -512,8 +512,8 @@ div.symbol-text {
 @media (max-width: 700px) {
     #nav {
         background: rgba(2, 2, 3, 0.7);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
     }
 
     #nav::before {

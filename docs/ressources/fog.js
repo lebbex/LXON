@@ -185,17 +185,21 @@ window.fog = {
 
 		function resize() {
 			dpr = Math.min(window.devicePixelRatio || 1, 2);
-			canvas.width = Math.floor(window.innerWidth * dpr);
-			canvas.height = Math.floor(window.innerHeight * dpr);
+
+			const rect = canvas.getBoundingClientRect();
+			winWidth = rect.width;
+			winHeight = rect.height;
+
+			canvas.width = Math.floor(winWidth * dpr);
+			canvas.height = Math.floor(winHeight * dpr);
 			gl.viewport(0, 0, canvas.width, canvas.height);
 
-			const diagonal = Math.hypot(window.innerWidth, window.innerHeight);
-			winWidth = window.innerWidth;
-			winHeight = window.innerHeight;
 			gl.uniform1f(loc.scale, NOISE_SCALE / Math.max(winWidth, winHeight));
+
+			gl.drawArrays(gl.TRIANGLES, 0, 3);
 		}
 
-		window.addEventListener('resize', resize);
+		new ResizeObserver(resize).observe(canvas);
 		resize();
 
 
