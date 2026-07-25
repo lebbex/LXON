@@ -200,18 +200,31 @@ window.navTree = {
 			_url: "/color",
 			_page: "Colors",
 			_min: "Color",
-			Spaces: [
-				"Spaces", "Color Spaces",
-				"/color/spaces", "Color Spaces",
-				"Spaces",
-				["SRGB", "srgb"],
-				["Linear SRGB", "linear"],
-				["Presets", "presets"],
-				["Linear Presets", "linear-presets"]
-			],
+			Spaces: {
+				_nav: "Spaces",
+				_tit: "Color Spaces",
+				_url: "/color/spaces",
+				_page: "Color Spaces",
+				_min: "Spaces",
+				SRGB: [
+					"SRGB", "SRGB Color",
+					"/color/srgb", "SRGB Colors",
+					"SRGB",
+				],
+				Linear: [
+					"Linear SRGB", "Linear SRGB Color",
+					"/color/linear", "Linear SRGB Colors",
+					"Linear",
+				],
+				Profiles: [
+					"Profiles", "Color Profiles",
+					"/color/profiles", "Color Profiles",
+					"Profiles",
+				]
+			},
 			Precisions: {
 				_nav: "Precisions",
-				_tit: "Color Precisions",
+				_tit: "Color Precision Levels",
 				_url: "/color/precisions",
 				_page: "Color Precisions",
 				_min: "Precisions",

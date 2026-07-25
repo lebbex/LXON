@@ -602,6 +602,7 @@ window.docu = {
 				if (getPathKey(0) !== key && query === "" && index === 1) continue;
 				if (path.length === 1 && getPathKey(1) !== key && query === "" && index === 3) continue;
 				if (path.length > 1 && query === "" && index === 2) { if (getPathKey(1) !== key) continue; }
+				if (path.length > 2 && getPathKey(2) !== key && query === "" && index === 3) continue;
 				docu.writeItem(index + 1, path, query, q, value, navInner);
 			}
 		}

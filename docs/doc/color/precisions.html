@@ -20,7 +20,58 @@
 	<div class="content" id="content">
 		<h1 id="distinction"> Distinction </h1>
 		<p>
-			TODO
+			Colors have 5 different levels of precision. 
+			Each level allows for more color depth and detail, however at the cost of more storage being taken.
+			Another use of using a different level of color precision is to store the acctual precision used.
+		</p>
+		<p>
+			When serializing a number in LXON, the original type gets lost (int, float, double, etc.).
+			In most cases, this is perfectly acceptable, as the number itself is what matters.
+			However, in the case of color, it is sometimes necessary to store the color space AND precision.
+			Having different explicit precision syntaxes solves this need.
+		</p>
+		<h1 id="precisions"> Precisions </h1>
+		<h2 id="8bit"> !! val.col.prec.bit8 ! 8 Bit !</h2>
+		<p>
+			Allows for storing each channel using 2 hex characters, without the need of delimiters.
+			Spaces between channels are not allowed.
+			Channels can be skipped with a simple <dfn>_</dfn> character.
+		</p>
+		<p>
+			8 bit color is the most commonly used color precision.
+			You can very comfortably only be familiar with 8 bit color and 
+			completely ignore the other precisions in the vast majority of cases.
+		</p>
+		<h2 id="10bit"> !! val.col.prec.bit10 ! 10 Bit !</h2>
+		<p>
+			Allows for storing each channel using 3 hex characters, without the need of delimiters.
+			Allows for an optional space between channels for cleaner formatting. Spaces get skipped in parsing.
+			Channels can be skipped with a simple <dfn>_</dfn> character.
+		</p>
+		<p>
+			10 bit color takes up the same amount of storage as 12 bit, but with a quarter of the precision.
+			This makes 10 bit seem worthless, which it is in a optimal sense, but in a practical sense,
+			it gets its utility from storing the color's precision without the need of an external identifier key/value pair.
+		</p>
+		<p>
+			You should never chose 10 bit over 12 bit unless requiring precision preservation.
+		</p>
+		<h2 id="12bit"> !! val.col.prec.bit12 ! 12 Bit !</h2>
+		<p>
+			Allows for storing each channel using 3 hex characters, without the need of delimiters.
+			Allows for an optional space between channels for cleaner formatting. Spaces get skipped in parsing.
+			Channels can be skipped with a simple <dfn>_</dfn> character.
+		</p>
+		<h2 id="16bit"> !! val.col.prec.bit16 ! 16 Bit !</h2>
+		<p>
+			Allows for storing each channel using 4 hex characters, without the need of delimiters.
+			Allows for an optional space between channels for cleaner formatting. Spaces get skipped in parsing.
+			Channels can be skipped with a simple <dfn>_</dfn> character.
+		</p>
+		<h2 id="float"> !! val.col.prec.float ! Infinite (Floating Point) !</h2>
+		<p>
+			Allows for storing each channel using unlimited precision by supporting positive numbers for the individual channels.
+			Requires a space between channel. Channels can be skipped with a simple <dfn>_</dfn> character.
 		</p>
 	</div>
 
