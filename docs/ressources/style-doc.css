@@ -83,6 +83,14 @@ body {
         top: 12px;
         left: 325px;
     }
+
+    @media (max-width: 900px) {
+        .site-home {
+            position: fixed;
+            top: 12px;
+            left: 265px;
+        }
+    }
 }
 
 @media (max-width: 700px) {
@@ -288,6 +296,18 @@ h3 {
 @media (max-width: 1100px) {
     h2 {
         padding: 20px 0px 0px 20px;
+    }
+
+    div.h-wrapper h2 {
+        padding: 0px 0px 10px 20px;
+    }
+
+    h3 {
+        padding: 20px 0px 0px 20px;
+    }
+
+    div.h-wrapper h3 {
+        padding: 0px 0px 10px 20px;
     }
 }
 
@@ -547,7 +567,7 @@ div.symbol-text {
         top: 0px;
         border-radius: 0px;
         left: 0px;
-        height: 100dvh;
+        height: 100lvh;
     }
 }
 
@@ -599,6 +619,7 @@ div.symbol-text {
     flex-grow: 1;
     overflow-y: auto;
     overscroll-behavior: contain;
+    touch-action: pan-y;
 
     /* Keep your original masks */
     -webkit-mask-image: linear-gradient(to bottom,
@@ -643,20 +664,20 @@ div.symbol-text {
     #nav-scroll {
         -webkit-mask-image: none;
         mask-image: linear-gradient(to bottom,
-            transparent 0px,
-            rgba(0, 0, 0, 0.02) 2px,
-            rgba(0, 0, 0, 0.1) 5px,
-            rgba(0, 0, 0, 0.2) 8px,
-            rgba(0, 0, 0, 0.4) 10px,
-            rgba(0, 0, 0, 0.7) 13px,
-            black 15px,
-            black calc(100% - 70px),
-            rgba(0, 0, 0, 0.7) calc(100% - 13px),
-            rgba(0, 0, 0, 0.4) calc(100% - 10px),
-            rgba(0, 0, 0, 0.2) calc(100% - 8px),
-            rgba(0, 0, 0, 0.1) calc(100% - 5px),
-            rgba(0, 0, 0, 0.02) calc(100% - 2px),
-            transparent 100%);
+                transparent 0px,
+                rgba(0, 0, 0, 0.02) 2px,
+                rgba(0, 0, 0, 0.1) 5px,
+                rgba(0, 0, 0, 0.2) 8px,
+                rgba(0, 0, 0, 0.4) 10px,
+                rgba(0, 0, 0, 0.7) 13px,
+                black 15px,
+                black calc(100% - 70px),
+                rgba(0, 0, 0, 0.7) calc(100% - 13px),
+                rgba(0, 0, 0, 0.4) calc(100% - 10px),
+                rgba(0, 0, 0, 0.2) calc(100% - 8px),
+                rgba(0, 0, 0, 0.1) calc(100% - 5px),
+                rgba(0, 0, 0, 0.02) calc(100% - 2px),
+                transparent 100%);
     }
 }
 
