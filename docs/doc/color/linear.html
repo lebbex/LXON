@@ -18,75 +18,35 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
-		<h1 id="types"> Definition and Types </h1>
+		<h1 id="def"> Definition </h1>
 		<p>
-			An 8 bit color value is the simplest and most common way of storing a color.
-			It allows for storing colors with an 8 bit depth per channel, 
-			totalling 4 bytes (32 bits) over 4 channels (red, green, blue, alpha/opacity).
+			Color is percieved by the human eye with a curve, 
+			where it's very sensitive to dark colors but brighter colors not so much. 
+			To make up for it, most color spaces store color modified with a curve.
+			Linear color stores color linearly, without the curve, 
+			which cannot be displayed as is but is very practical for math operations.
 		</p>
-		<p>
-			This group supports 3 color spaces:
-		</p>
-		<ul>
-			<li>sRGB Color<dfn>#</dfn></li>
-			<li>Linear Color<dfn>=</dfn></li>
-			<li>P3 Color<dfn>/</dfn></li>
-		</ul>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			Following the type declaration (see above), all succeeding hexadecimal characters 
-			(0 to 9 and "a" through "f") are used to store the color data.
+			SRGB color is supported in two different precision levels, using two different type declarators:
+		</p>
+		<ul>
+			<li>!! val.col.prec.bit8 ! Regular (8 bit) ! <dfn>=</dfn></li>
+			<li>!! val.col.prec.bit16 ! Deep (16 bit) ! <dfn>;=</dfn></li>
+		</ul>
+		<p>
+			View !! val.col.prec.bit8.syntax ! 8 bit syntax ! to write basic linear sRGB color.<span class="a">(Recommended)</span>
 		</p>
 		<p>
-			The first two characters converge into the red channel, where "00" gets read as the full lack of red
-			and "ff" reads as the full presence of red. The next two characters converge into the green channel,
-			following the same rules as the red, and the next two become the blue channel. 
-			The final character pair converge into the alpha channel, also known as opacity.
+			View !! val.col.prec.bit16.syntax ! 16 bit syntax ! to write deep linear sRGB color.
 		</p>
+		<h1 id="usage"> Usage </h1>
 		<p>
-			The best way to end a color is using a space, although any other non-hexadecimal character would do the trick as well.
-		</p>
-		<h2 id="termination"> Termination </h2>
-		<p>
-			The terminating symbol of a color isn't skipped and is parsed as the start of a new key or value.
-			It is generally good practice to always end a color value by either a space or a newline.
-			Examples of proper and improper color termination (read comments):
+			Here's some examples of linear sRGB color usage:
 		</p>
 		<pre><code>{
-sRGB: #00112233
-Linear: =00112233
-P3: /00112233
-
-# Color bleeding into key (bad) -- here the color is acctually =ffffaaa2
-aaa1: =ffffaaa2: "value
-
-# Color terminated by the next key (okay)
-rrr1: =2e57rrr2: "value
-
-# Color not bleeding into key (recommended)
-aaa3: =ffff aaa4: "value
-
-# Color terminated by the next string
-array:[ =0000`string`
-</code></pre>
-		<h1 id="skip"> Channel Skipping</h1>
-		<p>
-			If a certain channel's hexadecimal pair isn't present, the parsing of the color ceases and the current color returns,
-			setting the remaining channels to their default values (red: 0%, green: 0%, blue: 0%, alpha: 100%).
-		</p>
-		<p>
-			As consequence, if a color happens to have an empty color channel, writing of that data can be skipped.
-			This can be very useful to save characters, especially for skipping the alpha channel which is usually 100% opaque either way.
-		</p>
-		<p>
-			Channel skipping examples (the keys are named after the colors):
-		</p>
-		<pre><code>{
-black: #
-red: #ff
-orange: =ff70
-yellow: =ffff
-green: /00ff
+8 bit: =4a90e280
+16bit: ;=398a f9ff 2039 8000
 </code></pre>
 	</div>
 

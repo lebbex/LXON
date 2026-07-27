@@ -20,26 +20,21 @@
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
 		<p>
-			A keybind is a value type which can hold any string. The only difference is its slightly more complex syntax,
-			and the fact it doesn't get parsed into a string. 
-		</p>
-		<p>
-			Its primary use, as the name implies, is to store keybinds.
-			In any development environment that supports keybinds, it will get parsed into one, such as in Unreal Engine 5.
-			However, in languages that don't, such as JavaScript, it will get parsed into an alternative.
-			To continue with the JavaScript example, in that language, it gets parsed into a Symbol.
-			In other languages or development environments that have no support for anything but string,
-			it will get parsed into a custom object, allowing it to be distinguished to regular string.
-		</p>
-		<p>
-			If the project doesn't require keybind parsing, you can either chose to ignore this feature or use it for something else,
-			such as codes. It is generally useful to have a string alternative that doesn't parse into string.
+			A enum is a value type which can hold an optional enum type and a required enum member.
+			This allows for storing enums under text, which can be read and understood
+			(as opposed to storing them under numbers), and can be distinguished from regular string.
 		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			A keybind requires the at symbol <dfn>@</dfn> as type declaration.
-			Every following character is treated as the contents of the keybind, 
-			until the first instance of either one of these characters:
+			A enum requires the asterisk symbol <dfn>*</dfn> as type declaration.
+			If the first character following that is another asterisk,
+			then the enum type becomes undefined.
+			Otherwise, everything until the first colon gets parsed into the enum type.
+		</p>
+		<p>
+			After reading or skipping the enum type, the enum member is parsed.
+			Everything until the end of the line or the first terminator symbol gets parsed into the enum member.
+			Here's a list of all terminator symbols for the enum member:
 		</p>
 		<ul>
 			<li>Backtick <dfn>`</dfn></li>
@@ -49,13 +44,14 @@
 			<li>Question Mark <dfn>?</dfn></li>
 		</ul>
 		<p>
-			It is standardized however to use the backtick, and only use the other characters for !! val.bind.chain ! chaining !
-			other values after it.
-			Like with full strings, keybinds also ends at the end of the line, so trailing backticks aren't strictly required.
-			Keybinds also support trailing whitespace such as tabs or space characters.
+			It is standardized however to use the backtick, and only use the other characters for 
+			!! val.enum.chain ! chaining ! other values after it.
+			Like with full strings, enum members also ends at the end of the line, 
+			so trailing backticks aren't strictly required.
+			Enum members also support trailing whitespace such as tabs or space characters.
 		</p>
 		<p>
-			As a consequence of its increase in complexity, keybinds require escape sequences for the following characters:
+			As a consequence of its increase in complexity, enum members require escape sequences for the following characters:
 		</p>
 		<ul>
 			<li>Newline <dfn>\n</dfn></li>
@@ -69,25 +65,25 @@
 		</ul>
 		<h2 id="chain"> Chaining </h2>
 		<p>
-			Keybinds can be chained easily. However, these chains should only ever be done inside an !! containers.arr ! array !.
+			Enums can be chained easily. However, these chains should only ever be done inside an !! containers.arr ! array !.
 			Here's all the possible chained values:
 		</p>
 		<ul>
 			<li>
-				When a caret <dfn>^</dfn> is used to terminate a keybind, 
-				it will not only mark the end of the current keybind but also the start of a new !! val.text.str ! string !.
+				When a caret <dfn>^</dfn> is used to terminate an enum member, 
+				it will not only mark the end of the current enum but also the start of a new !! val.text.str ! string !.
 			</li>
 			<li>
-				When a at symbol <dfn>@</dfn> is used to terminate a keybind, 
-				it will mark the end of the current keybind and the start of a new one.
+				When a at symbol <dfn>@</dfn> is used to terminate an enum member, 
+				it will mark the end of the current enum and the start of a !! val.keybind ! keybind !.
 			</li>
 			<li>
-				When a asterik <dfn>*</dfn> is used to terminate a keybind, 
-				it will mark the end of the current keybind and the start of a !! val.enum ! enum !.
+				When a asterik <dfn>*</dfn> is used to terminate an enum member, 
+				it will mark the end of the current enum and the start of a new one.
 			</li>
 			<li>
-				When a question mark <dfn>?</dfn> is used to terminate a keybind, 
-				it will mark the end of the current keybind and the start of a !! val.binary ! binary ! value.
+				When a question mark <dfn>?</dfn> is used to terminate an enum member, 
+				it will mark the end of the current enum and the start of a !! val.binary ! binary ! value.
 			</li>
 		</ul>
 		<h2 id="important"> Important </h2>
@@ -104,19 +100,19 @@
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
-			Here's some example usage of keybind values as reference:
+			Here's some example usage of enum values as reference:
 		</p>
 		<pre><code>{
-left: @A Key
-right: @D Key
+perms: *perm:admin
+theme: **dark
 
-jump: @spacebar` crouch: @left shift
+inventory:[ *weapon:sword` *weapon:gun*food:bread
 
-movement:[ @up_arrow@down_arrow^string`
+enum-keybind:[ *enum:member@left_key
 
-bind-enum:[ @keybind*enum:member
+enum-binary:[ *type:bin?32e5 fa24
 
-k-binary:[ @keybind?32e5 fa24
+enum-string:[ **dev^Nick Jasper
 </code></pre>
 	</div>
 

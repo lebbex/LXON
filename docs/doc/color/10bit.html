@@ -18,61 +18,74 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
-		<h1 id="types"> Definition and Types </h1>
+		<h1 id="def"> Definition </h1>
 		<p>
-			An 8 bit color value is the simplest and most common way of storing a color.
-			It allows for storing colors with an 8 bit depth per channel, 
-			totalling 4 bytes (32 bits) over 4 channels (red, green, blue, alpha/opacity).
+			A 10 bit color value allows for storing colors with an 10 bit depth per channel, 
+			totalling 5 bytes (40 bits) over 4 channels (red, green, blue, alpha/opacity).
+			Each channel is serialized into 3 hexadecimal characters.
 		</p>
 		<p>
-			This group supports 3 color spaces:
+			This group supports only profiled colors.
+			In the rare event where you want to use sRGB color in 10 bit,
+			use the alternative sRGB code <dfn>s#</dfn>.
 		</p>
 		<ul>
-			<li>sRGB Color<dfn>#</dfn></li>
-			<li>Linear Color<dfn>=</dfn></li>
-			<li>P3 Color<dfn>/</dfn></li>
+			<li>Profiled Color (Regular) <dfn>/ with ,</dfn></li>
+			<li>Profiled Color (Linear) <dfn>/ with <</dfn></li>
 		</ul>
+		<h2 id="important"> Important </h2>
+		<p>
+			10 bit color takes up the same amount of storage as 12 bit, but with a quarter of the precision.
+			This makes 10 bit seem worthless, which it is in a optimal sense, but in a practical sense,
+			it gets its utility from storing the color's precision without the need of an external identifier key/value pair.
+		</p>
+		<p>
+			You should never chose 10 bit over 12 bit unless requiring precision preservation.
+		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
 			Following the type declaration (see above), all succeeding hexadecimal characters 
 			(0 to 9 and "a" through "f") are used to store the color data.
 		</p>
 		<p>
-			The first two characters converge into the red channel, where "00" gets read as the full lack of red
-			and "ff" reads as the full presence of red. The next two characters converge into the green channel,
-			following the same rules as the red, and the next two become the blue channel. 
-			The final character pair converge into the alpha channel, also known as opacity.
+			The first three characters converge into the red channel, where "000" gets read as the full lack of red
+			and "fff" reads as the full presence of red. The next three characters converge into the green channel,
+			following the same rules as the red, and the next three become the blue channel. 
+			The final character trio converges into the alpha channel, also known as opacity.
 		</p>
 		<p>
-			The best way to end a color is using a space, although any other non-hexadecimal character would do the trick as well.
+			A single space between channels is allowed. Multiple spaces between channels however isn't,
+			as this would complicate parsing and make formatting uglier with no gain.
 		</p>
-		<h2 id="termination"> Termination </h2>
 		<p>
-			The terminating symbol of a color isn't skipped and is parsed as the start of a new key or value.
-			It is generally good practice to always end a color value by either a space or a newline.
-			Examples of proper and improper color termination (read comments):
+			Also, channels can be skipped using underscores <dfn>_</dfn>. !! val.col.prec.10bit.skip ! View channel skipping. !
 		</p>
-		<pre><code>{
-sRGB: #00112233
-Linear: =00112233
-P3: /00112233
-
-# Color bleeding into key (bad) -- here the color is acctually =ffffaaa2
-aaa1: =ffffaaa2: "value
-
-# Color terminated by the next key (okay)
-rrr1: =2e57rrr2: "value
-
-# Color not bleeding into key (recommended)
-aaa3: =ffff aaa4: "value
-
-# Color terminated by the next string
-array:[ =0000`string`
-</code></pre>
+		<h1 id="termination"> Termination </h1>
+		<p>
+			The color is terminated at the first non-hexadecimal character following a channel. 
+			The first space after a channel doesn't terminate a color, however the second one does.
+		</p>
+		<p>
+			It is standardized to terminate 10 bit colors using a backtick <dfn>`</dfn> or a newline, 
+			as any other character isn't skipped by the parser and is read as the start of the next key or value.
+			This standard makes parsing predictable.
+			It can however be useful for chaining other inline values after the color in a compressed format.
+		</p>
+		<p>
+			Termination cannot happen within a channel. Once you begin writing a channel, 
+			you must write the full channel or face a potential parsing error.
+		</p>
 		<h1 id="skip"> Channel Skipping</h1>
 		<p>
-			If a certain channel's hexadecimal pair isn't present, the parsing of the color ceases and the current color returns,
+			If a certain channel's first hexadecimal character isn't present, 
+			the parsing of the color ceases and the current color returns,
 			setting the remaining channels to their default values (red: 0%, green: 0%, blue: 0%, alpha: 100%).
+		</p>
+		<p>
+			Also, if a certain channel's first character is an underscore, 
+			the parsing of that channel gets skipped, 
+			setting the channel's value to it's default value (see above), 
+			and the parsing of the next begins.
 		</p>
 		<p>
 			As consequence, if a color happens to have an empty color channel, writing of that data can be skipped.
@@ -82,11 +95,11 @@ array:[ =0000`string`
 			Channel skipping examples (the keys are named after the colors):
 		</p>
 		<pre><code>{
-black: #
-red: #ff
-orange: =ff70
-yellow: =ffff
-green: /00ff
+black: /#,
+red: /s#, fff
+orange: /0< fff 700
+yellow: /vg,ffffff
+green: /aw, _ fff
 </code></pre>
 	</div>
 

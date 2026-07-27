@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			Profiled color is the solution to infinite color space and precision support.
+			It allows for the storage of not only the color, but the space, transfer function
+			(regular or linear), and precision level.
+			As such, colors don't need to be stored in complex 
+			!! containers.objects ! objects ! or !! containers.doodads ! doodads !,
+			with non-standardized formats.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			Profiled color type declarations have three components: [/][code][terminator]
+		</p>
+		<p>
+			The first is the initial type declarator <dfn>/</dfn>. 
+			This tells the parser that the following value (or key type) is a profiled color.
+			The parser then reads what's after as the !! val.col.spaces.profiles.code ! color space code !.
+			Finally, once it reaches a !! val.col.spaces.prof.terminator ! terminator symbol !, it ends the declaration type and reads the next value
+			(or following !! keys.typed ! typed keys !) with the color profile loaded.
+		</p>
+		<h1 id="codes"> Codes </h1>
+		<p>
+			Color codes dictate the color space. 
+			There are !! val.col.spaces.prof.prim ! standardized color codes !,
+			the recommended color codes to use, 
+			and !! val.col.spaces.prof.custom ! custom color codes ! for more complex use cases.
+		</p>
+		<h2 id="primary"> Primary (Standardized) </h2>
+		<p>
+			Primary color space codes are codes composed of one or no characters.
+			They are the most used color space codes.
+		</p>
+		<ul>
+			<li>Display P3 <dfn></dfn><span class="a">*Empty color code, straight to the terminator</span></li>
+			<li>ACES2065-1 (AP0) <dfn>0</dfn></li>
+			<li>ACEScg (AP1) <dfn>1</dfn></li>
+			<li>ACEScct <dfn>7</dfn></li>
+			<li>ACEScc <dfn>6</dfn></li>
+			<li>Adobe RGB <dfn>#</dfn></li>
+			<li>DCI-P3 <dfn>3</dfn></li>
+			<li>ProPhoto <dfn>9</dfn></li>
+			<li>Rec. 2020 <dfn>2</dfn></li>
+			<li>Rec. 709 <dfn>8</dfn></li>
+			<li>Wildcard (unidentified) <dfn>?</dfn></li>
+		</ul>
+		<h2 id="secondary"> Secondary (Standardized) </h2>
+		<p>
+			Secondary color space codes are codes composed of two characters,
+			where the first character is always a letter.
+			They are less used then primary color spaces.
+		</p>
+		<ul>
+			<li>Adobe Wide-Gamut RGB <dfn>ad</dfn></li>
+			<li>Apple RGB <dfn>ap</dfn></li>
+			<li>ARRI Wide Gamut <dfn>aw</dfn></li>
+			<li>ARRI Wide Gamut 4 <dfn>a4</dfn></li>
+			<li>Best RGB <dfn>bs</dfn></li>
+			<li>Beta RGB <dfn>bt</dfn></li>
+			<li>Blackmagic Wide Gamut <dfn>bw</dfn></li>
+			<li>Canon Cinema Gamut <dfn>cg</dfn></li>
+			<li>CIE Lab <dfn>cl</dfn></li>
+			<li>CIE XYZ <dfn>cx</dfn></li>
+			<li>DaVinci Wide Gamut <dfn>dw</dfn></li>
+			<li>DJI D-Gamut <dfn>dd</dfn></li>
+			<li>Don RGB 4 <dfn>d4</dfn></li>
+			<li>Ekta Space <dfn>es</dfn></li>
+			<li>Fujifilm F-Gamut <dfn>ff</dfn></li>
+			<li>GoPro Protune Native <dfn>gp</dfn></li>
+			<li>Leica L-Log <dfn>ll</dfn></li>
+			<li>Nikon N-Log <dfn>nn</dfn></li>
+			<li>NTSC <dfn>nt</dfn></li>
+			<li>Panasonic V-Gamut <dfn>p1</dfn></li>
+			<li>Panasonic V-Gamut2 <dfn>p2</dfn></li>
+			<li>Panasonic V-Gamut3 <dfn>p3</dfn></li>
+			<li>PAL/SECAM <dfn>ps</dfn></li>
+			<li>Rec. 601 <dfn>r6</dfn></li>
+			<li>Rec. 2100 (HLG) <dfn>rh</dfn></li>
+			<li>Rec. 2100 (PQ) <dfn>r2</dfn></li>
+			<li>REDcolor <dfn>rc</dfn></li>
+			<li>REDWideGamut <dfn>rw</dfn></li>
+			<li>scRGB <dfn>sc</dfn></li>
+			<li>SMPTE-C <dfn>sm</dfn></li>
+			<li>sRGB (alternative) <dfn>s#</dfn><span class="a">*Used when regular sRGB isn't supported in the desired precision level</span></li>
+			<li>Sony S-Gamut3 <dfn>ss</dfn></li>
+			<li>Sony S-Gamut3.Cine <dfn>sg</dfn></li>
+			<li>Sony Venice S-Gamut3 <dfn>vs</dfn></li>
+			<li>Sony Venice S-Gamut3.Cine <dfn>vg</dfn></li>
+		</ul>
+		<h2 id="custom"> Custom </h2>
+		<p>
+			Custom color codes are 2+ character long codes starting with a letter
+			that aren't already used by any secondary codes (see above).
+			They don't resolve to anything, and must be interpreted after the fact.
+			It is generally considered bad practice, although for internal use cases it is fully understandable.
+		</p>
+		<p>
+			If any 2 character code gets popularized enough, it can be officially standardized
+			and resolved to a specific color space in future editions of the parser.
+			For standardization request submissions of 2 character codes (must start with a letter),
+			contact <dfn>lxon@lebbex.com</dfn>.
+		</p>
+		<h1 id="terminators"> Terminators </h1>
+		<p>
+			To terminate a profiled color type declaration, 
+			you must use a specific symbol that also indicates the precision level 
+			and whether or not it's a linear edition of the color space.
+		</p>
+		<h2 id="regular"> Regular</h2>
+		<p>
+			Regular profiled color is the intended color space in its default form,
+			with the computed curvature taken into account.
+			It's the most often used color profile EOTF.
+		</p>
+		<ul>
+			<li>!! val.col.prec.8 ! 8 Bit ! <dfn>/ with .</dfn></li>
+			<li>!! val.col.prec.10 ! 10 Bit ! <dfn>/ with ,</dfn></li>
+			<li>!! val.col.prec.12 ! 12 Bit ! <dfn>/ with :</dfn></li>
+			<li>!! val.col.prec.16 ! 16 Bit ! <dfn>/ with ;</dfn></li>
+			<li>!! val.col.prec.float ! Infinite (Float) ! <dfn>/ with '</dfn></li>
+		</ul>
+		<h2 id="linear"> Linear</h2>
+		<p>
+			Linear profiled color is the color space in its linear form,
+			with a linear EOTF applied. This makes it optimal for performing calculations on,
+			however it does require a conversion back to its regular form before displaying.
+		</p>
+		<ul>
+			<li>!! val.col.prec.8 ! 8 Bit ! <dfn>/ with -</dfn></li>
+			<li>!! val.col.prec.10 ! 10 Bit ! <dfn>/ with <</dfn></li>
+			<li>!! val.col.prec.12 ! 12 Bit ! <dfn>/ with ></dfn></li>
+			<li>!! val.col.prec.16 ! 16 Bit ! <dfn>/ with =</dfn></li>
+			<li>!! val.col.prec.float ! Infinite (Float) ! <dfn>/ with ^</dfn></li>
+		</ul>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Values", "Color", "Spaces", "Profiles"]);
+	</script>
+
+</body>
+
+</html>

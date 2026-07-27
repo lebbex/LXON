@@ -51,7 +51,7 @@
 		</ul>
 		<h1 id="types"> Supported Types </h1>
 		<p>
-			LXON supports 4 container types, 9 key types and 12 value types.
+			LXON supports 4 container types, 8 key types and 11 value types, along with hundreads of color types.
 		</p>
 		<h2 id="containers">
 			Containers
@@ -73,7 +73,7 @@
 			</li>
 			<li>!! keys.date ! Date ! <dfn>&</dfn></li>
 			<li>!! keys.bind ! Keybind ! <dfn>@</dfn></li>
-			<li>!! keys.col ! Color !
+			<li>!! keys.col ! Color !<span class="a">*Key can only be one color type</span>
 				<ul>
 					<li>SRGB Color <dfn># or ;</dfn></li>
 					<li>Linear Color <dfn>= or ;=</dfn></li>
@@ -103,9 +103,9 @@
 			<li>!! keys.col ! Color !
 				<ul>
 					<li>!! vals.col.spaces.srgb ! SRGB Color ! <dfn># or ;</dfn></li>
-					<li>!! vals.col.spaces.lin ! Linear Color ! <dfn>= or ;=</dfn></li>
-					<li>!! vals.col.spaces.preset ! Preset Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
-					<li>!! vals.col.spaces.linpreset ! Linear Preset Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+					<li>!! vals.col.spaces.lin ! Linear SRGB Color ! <dfn>= or ;=</dfn></li>
+					<li>!! vals.col.spaces.profile.reg ! Profiled Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+					<li>!! vals.col.spaces.profile.lin ! Linear Profiled Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
 				</ul>
 			</li>
 

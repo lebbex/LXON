@@ -359,12 +359,41 @@ window.linkReg = {
                                                 return "/color/linear/#def";
                                             default: return [split[4]];
                                         }
+                                    case "prof":
+                                    case "profs":
                                     case "profile":
                                     case "profiles":
+                                    case "profiled":
                                         if (len == 4) return "/color/profiles";
                                         switch (split[4]) {
                                             case "def":
+                                            case "definition":
                                                 return "/color/profiles/#def";
+                                            case "syntax":
+                                                return "/color/profiles/#syntax";
+                                            case "code":
+                                            case "codes":
+                                                return "/color/profiles/#codes"
+                                            case "prim":
+                                            case "primary":
+                                                return "/color/profiles/#primary"
+                                            case "sec":
+                                            case "secondary":
+                                                return "/color/profiles/#secondary"
+                                            case "cus":
+                                            case "cust":
+                                            case "custom":
+                                                return "/color/profiles/#custom"
+                                            case "term":
+                                            case "terminator":
+                                            case "terminators":
+                                                return "/color/profiles/#terminators"
+                                            case "reg":
+                                            case "regular":
+                                                return "/color/profiles/#regular";
+                                            case "lin":
+                                            case "linear":
+                                                return "/color/profiles/#linear";
                                             default: return [split[4]];
                                         }
                                     default: return [split[3]];
@@ -482,8 +511,18 @@ window.linkReg = {
                     case "enumerators":
                         if (len == 2) return "/enum";
                         switch (split[2]) {
-                            case "cat":
-                                return "/meow";
+                            case "def":
+                            case "definition":
+                                return "/enum/#def";
+                            case "syntax":
+                                return "/enum/#syntax";
+                            case "chain":
+                            case "chains":
+                            case "chaining":
+                                return "/enum/#chain";
+                            case "use":
+                            case "usage":
+                                return "/enum/#usage";
                             default: return [split[2]];
                         }
                     case "byte":
@@ -495,8 +534,18 @@ window.linkReg = {
                     case "binaries":
                         if (len == 2) return "/binary";
                         switch (split[2]) {
-                            case "cat":
-                                return "/meow";
+                            case "def":
+                            case "definition":
+                                return "/binary/#def";
+                            case "syntax":
+                                return "/binary/#syntax";
+                            case "chain":
+                            case "chains":
+                            case "chaining":
+                                return "/binary/#chain";
+                            case "use":
+                            case "usage":
+                                return "/binary/#usage";
                             default: return [split[2]];
                         }
                     case "special":

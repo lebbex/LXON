@@ -18,7 +18,76 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
-		<h1 id="types"> Definition and Types </h1>
+		<h1 id="def"> Definition </h1>
+		<p>
+			A color value with floating point precision allows for storing color with infinite precision.
+			It also permits channel ceiling unlock, allowing for a channel's value to go over 100%.
+			Unlike the other color spaces, 
+			the data is stored in litteral numerical form instead of hexadecimal characters.
+		</p>
+		<p>
+			This group supports only profiled colors.
+			In the rare event where you want to use sRGB color in 10 bit,
+			use the alternative sRGB code <dfn>s#</dfn>.
+		</p>
+		<ul>
+			<li>Profiled Color (Regular) <dfn>/ with '</dfn></li>
+			<li>Profiled Color (Linear) <dfn>/ with ^</dfn></li>
+		</ul>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			Following the type declaration (see above), 
+			the parser reads the channels identically to how it would read the elements of an 
+			!! containers.arr ! array !.
+			Simply write each channel as a !! val.num ! number ! item of the array,
+			using undefined (underscores <dfn>_</dfn>) to signal skipped channels.
+		</p>
+		<p>
+			Terminate the value the exact same way you would terminate an array,
+			using <dfn>]</dfn> if wishing to terminate inline.
+		</p>
+		<p>
+			See !! containers.arr.syntax ! array syntax ! 
+			to understand how to write proper infinite precision color values.
+		</p>
+		<h2 id="justification"> Justification </h2>
+		<p>
+			There are 3 reasons infinite color values reuse array syntax:
+		</p>
+		<ol>
+			<li>Simpler parsers with less conditions, more reused code.</li>
+			<li>Transferrable syntax knowledge (easier to learn, remember and predict).</li>
+			<li>
+				Storing color in float implies a general lack of interest for compact storage,
+				which allows a gain in ease of implementation and usage.
+			</li>
+		</ol>
+		<h1 id="skip"> Channel Skipping </h1>
+		<p>
+			If a channel's corresponding item is missing 
+			(whether it be that the color terminated or a non-numeric value, excluding undefined, is used)
+			the parsing of the color ceases and the current color returns,
+			setting the remaining channels to their default values (red: 0%, green: 0%, blue: 0%, alpha: 100%).
+		</p>
+		<p>
+			Also, if a certain channel's corresponding item is a undefined value 
+			(underscode <dfn>_</dfn>), the parsing of that channel gets skipped, 
+			setting the channel's value to it's default value (see above).
+		</p>
+		<p>
+			As consequence, if a color happens to have an empty color channel, writing of that data can be skipped.
+			This can be very useful to save characters, especially for skipping the alpha channel which is usually 100% opaque either way.
+		</p>
+		<p>
+			Channel skipping examples (the keys are named after the colors):
+		</p>
+		<pre><code>{
+black: /#'
+red: /s#' 1
+orange: /0^ 1 .45
+yellow: /vg'1 1
+green: /aw' _ 1
+</code></pre>
 	</div>
 
 

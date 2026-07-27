@@ -192,6 +192,7 @@ window.navTree = {
 			"KBind",
 			["Definition", "def"],
 			["Syntax", "syntax"],
+			["Chaining", "chain"],
 			["Usage", "usage"]
 		],
 		Color: {
@@ -217,9 +218,13 @@ window.navTree = {
 					"Linear",
 				],
 				Profiles: [
-					"Profiles", "Color Profiles",
-					"/color/profiles", "Color Profiles",
-					"Profiles",
+					"Profiled", "Profiled Color",
+					"/color/profiled", "Profiled Colors",
+					"Profiled",
+					["Definition", "def"],
+					["Syntax", "syntax"],
+					["Codes", "codes"],
+					["Terminators", "terminators"],
 				]
 			},
 			Precisions: {
@@ -232,6 +237,7 @@ window.navTree = {
 					"8 Bit", "8 Bit Color",
 					"/color/8bit", "8 Bit Colors",
 					"8 Bit",
+					["Definition", "def"],
 					["Syntax", "syntax"],
 					["Termination", "termination"],
 					["Channel Skipping", "skip"]
@@ -240,30 +246,35 @@ window.navTree = {
 					"10 Bit", "10 Bit Color",
 					"/color/10bit", "10 Bit Colors",
 					"10 Bit",
+					["Definition", "def"],
 					["Syntax", "syntax"],
 					["Termination", "termination"],
-					["Channel Skipping", "skip"]
+					["Channel Skipping", "skip"],
 				],
 				Bit_12: [
 					"12 Bit", "12 Bit Color",
 					"/color/12bit", "12 Bit Colors",
 					"16 Bit",
+					["Definition", "def"],
 					["Syntax", "syntax"],
+					["Termination", "termination"],
 					["Channel Skipping", "skip"]
 				],
 				Bit_16: [
 					"16 Bit", "16 Bit Color",
 					"/color/16bit", "16 Bit Colors",
 					"16 Bit",
+					["Definition", "def"],
 					["Syntax", "syntax"],
+					["Termination", "termination"],
 					["Channel Skipping", "skip"]
 				],
 				Float: [
 					"Infinite (Float)", "Float. Point Color",
 					"/color/float", "Float. Point Colors",
 					"Float",
+					["Definition", "def"],
 					["Syntax", "syntax"],
-					["Termination", "termination"],
 					["Channel Skipping", "skip"]
 				]
 			}
@@ -274,6 +285,7 @@ window.navTree = {
 			"Enum",
 			["Definition", "def"],
 			["Syntax", "syntax"],
+			["Chaining", "chain"],
 			["Usage", "usage"]
 		],
 		Binary: [
@@ -282,6 +294,7 @@ window.navTree = {
 			"Binary",
 			["Definition", "def"],
 			["Syntax", "syntax"],
+			["Chaining", "chain"],
 			["Usage", "usage"]
 		],
 		Special: [

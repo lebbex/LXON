@@ -18,19 +18,20 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
-		<h1 id="types"> Definition and Types </h1>
+		<h1 id="def"> Definition </h1>
 		<p>
 			An 8 bit color value is the simplest and most common way of storing a color.
 			It allows for storing colors with an 8 bit depth per channel, 
 			totalling 4 bytes (32 bits) over 4 channels (red, green, blue, alpha/opacity).
 		</p>
 		<p>
-			This group supports 3 color spaces:
+			This group supports all 3 color spaces:
 		</p>
 		<ul>
-			<li>sRGB Color<dfn>#</dfn></li>
-			<li>Linear Color<dfn>=</dfn></li>
-			<li>P3 Color<dfn>/</dfn></li>
+			<li>sRGB Color <dfn>#</dfn></li>
+			<li>Linear Color <dfn>=</dfn></li>
+			<li>Profiled Color (Regular) <dfn>/ with .</dfn></li>
+			<li>Profiled Color (Linear) <dfn>/ with -</dfn></li>
 		</ul>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
@@ -41,15 +42,26 @@
 			The first two characters converge into the red channel, where "00" gets read as the full lack of red
 			and "ff" reads as the full presence of red. The next two characters converge into the green channel,
 			following the same rules as the red, and the next two become the blue channel. 
-			The final character pair converge into the alpha channel, also known as opacity.
+			The final character pair converges into the alpha channel, also known as opacity.
 		</p>
 		<p>
-			The best way to end a color is using a space, although any other non-hexadecimal character would do the trick as well.
+			Spaces cannot be used inside of colors, as they will simply terminate them.
+			Also, channels can be skipped using underscores <dfn>_</dfn>. !! val.col.prec.8bit.skip ! View channel skipping. !
 		</p>
-		<h2 id="termination"> Termination </h2>
+		<h1 id="termination"> Termination </h1>
 		<p>
-			The terminating symbol of a color isn't skipped and is parsed as the start of a new key or value.
+			The color is terminated at the first non-hexadecimal character following a channel.
+		</p>
+		<p>
+			The terminating symbol of a color (any non-hexadecimal character) 
+			isn't skipped and is parsed as the start of a new key or value.
 			It is generally good practice to always end a color value by either a space or a newline.
+		</p>
+		<p>
+			Termination cannot happen within a channel. Once you begin writing a channel, 
+			you must write the full channel or face a potential parsing error.
+		</p>
+		<p>
 			Examples of proper and improper color termination (read comments):
 		</p>
 		<pre><code>{
@@ -71,8 +83,15 @@ array:[ =0000`string`
 </code></pre>
 		<h1 id="skip"> Channel Skipping</h1>
 		<p>
-			If a certain channel's hexadecimal pair isn't present, the parsing of the color ceases and the current color returns,
+			If a certain channel's first hexadecimal character isn't present, 
+			the parsing of the color ceases and the current color returns,
 			setting the remaining channels to their default values (red: 0%, green: 0%, blue: 0%, alpha: 100%).
+		</p>
+		<p>
+			Also, if a certain channel's first character is an underscore, 
+			the parsing of that channel gets skipped, 
+			setting the channel's value to it's default value (see above), 
+			and the parsing of the next happens.
 		</p>
 		<p>
 			As consequence, if a color happens to have an empty color channel, writing of that data can be skipped.
@@ -85,8 +104,8 @@ array:[ =0000`string`
 black: #
 red: #ff
 orange: =ff70
-yellow: =ffff
-green: /00ff
+yellow: /vg.ffff
+green: #_ff
 </code></pre>
 	</div>
 

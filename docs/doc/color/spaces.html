@@ -18,7 +18,35 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
-		<h1 id="srgb"> SRGB Color </h1>
+		<h1 id="distinction"> Distinction </h1>
+		<p>
+			A color space defines how the color should be interpreted, organized and reproduced. 
+			Different color spaces hold different color gamuts, with varying widths and utilities.
+		</p>
+		<p>
+			LXON supports infinite color spaces. Nevertheless, some are more important than others,
+			the most important being !! val.col.spaces.srgb ! regular sRGB color !.
+			To not burden all colors with complexity, three different major color spaces were created.
+		</p>
+		<p>
+			Consequently, the most used color space, !! val.col.spaces.srgb ! regular sRGB !, has very simple syntax.
+			Its !! val.col.spaces.lin ! linear alternative ! has almost the same complexity.
+			However, other color spaces are regrouped as !! val.col.spaces.prof ! profiled colors !,
+			which has far more complexity in type declaration than the former two.
+		</p>
+		<p>
+			Also, most environments dont support all color spaces, only the former two,
+			so seperating them from the other less supported ones allows for implementing them into the native solution,
+			while implementing profiled colors as a custom object.
+		</p>
+		<p>
+			Finally, seperating the three allows for simpler learning, where one could very comfortably
+			only learn how to read/write sRGB and linear sRGB colors, with its simple syntax,
+			and completely ignore the profiled colors altogether.
+			In many if not most cases, one might only acctually need to learn regular 8 bit sRGB.
+		</p>
+		<h1 id="spaces"> Spaces </h1>
+		<h2 id="col"> !! val.col.spaces.srgb ! SRGB Color ! </h2>
 		<p>
 			SRGB is likely the most used color space throughout technology, 
 			having been created by HP and Microsoft in 1996.
@@ -27,16 +55,10 @@
 			It is unable of recreating higher richness colors.
 		</p>
 		<p>
-			SRGB color is supported in two different precision levels, using two different type declarators:
+			It uses <dfn># and ;</dfn> as type declaration for regular/deep color respectively.
 		</p>
-		<ul>
-			<li>!! val.col.prec.bit8 ! Regular (8 bit) ! <dfn>#</dfn></li>
-			<li>!! val.col.prec.bit16 ! Deep (16 bit) ! <dfn>;</dfn></li>
-		</ul>
-		<h1 id="linear"> Linear SRGB Color </h1>
+		<h2 id="linear"> !! val.col.spaces.lin ! Linear SRGB Color ! </h2>
 		<p>
-			Linear sRGB color functions identically to sRGB color, 
-			sometimes being an extension of the type.
 			Color is percieved by the human eye with a curve, 
 			where it's very sensitive to dark colors but brighter colors not so much. 
 			To make up for it, most color spaces store color modified with a curve.
@@ -44,19 +66,17 @@
 			which cannot be displayed as is but is very practical for math operations.
 		</p>
 		<p>
-			Linear sRGB color is supported in two different precision levels, using two different type declarators:
+			It uses <dfn>= and ;=</dfn> as type declaration for regular/deep color respectively.
 		</p>
-		<ul>
-			<li>!! val.col.prec.bit8 ! Regular (8 bit) ! <dfn>=</dfn></li>
-			<li>!! val.col.prec.bit16 ! Deep (16 bit) ! <dfn>;=</dfn></li>
-		</ul>
-		<h1 id="presets"> Color Presets </h1>
+		<h2 id="other"> Other Color Spaces (!! val.col.spaces.profiles ! Profiled !) </h2>
 		<p>
-			TODO
+			There are many other color spaces supported in LXON. 
+			However, since they are less used by far, to save up on type declarators,
+			they all use <dfn>/</dfn> as type declarator, 
+			alongside with a code respective to the color space and terminator symbol respective to the precision.
 		</p>
-		<h1 id="linear-presets"> Linear Color Presets </h1>
 		<p>
-			TODO
+			View !! val.col.spaces.profile.syntax ! profiled color syntax ! to see more.
 		</p>
 	</div>
 
