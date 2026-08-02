@@ -6,7 +6,7 @@ LXON (Lebbex Object Notation) is a serialization format developped solely by Nic
 
 This project's source code is licensed under Apache License 2.0. The `/docs` folder (the LXON.lebbex.com website) is proprietary and excluded from that license. 
 
-"Lebbex", "LXON", associated logos, and the name "Nicholas Jasper Birla-Eliade" are trademarks/names of their owner and are NOT licensed under Apache 2.0 or any other license granted in this repository.
+"Lebbex", "LXON", associated logos, and the name "Nick Jasper" are trademarks/names of their owner and are NOT licensed under Apache 2.0 or any other license granted in this repository.
 
 **Read [LICENSE](./LICENSE) and [NOTICE](./NOTICE) in full before using, forking, or contributing to this project**. NOTICE covers naming rules for forks/derivatives (e.g. what you can and can't call a fork using "LXON").
 
