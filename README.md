@@ -1,6 +1,6 @@
 # LXON
 
-LXON (Lebbex Object Notation) is a serialization format developped solely by Nicholas (Jasper) Birla-Eliade, designed to be simple to read/edit, all while being as capable as possible for many and most usages.
+LXON (Lebbex Object Notation) is a serialization format developped solely by Nick Jasper, designed to be simple to read/edit, all while being as capable as possible for many and most usages.
 
 ## License & Trademarks
 
