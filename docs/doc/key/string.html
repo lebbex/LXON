@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			String keys are !! key.typed ! typed keys ! that use !! val.text.fullstring ! full strings ! 
+			to label values inside !! cont.map ! maps !. However, unlike casual full strings, 
+			they're terminated by colons <dfn>:</dfn> like !! keys.regular ! regular keys ! are.
+		</p>
+		<p>
+			String keys are useful in one scenerio and one scenerio only: when an 
+			!! cont.obj ! object ! is expected to recieve keys that may contain invalid characters or syntax.
+			This is because !! keys.regular ! regular keys ! (the ones used by objects) do not support
+			!! other.escape ! escape characters !.
+		</p>
+		<p>
+			For instance, if an object's keys may begin with a tab character, or contain a newline or colon,
+			it would be dangerous to serialize the object directly. It would either return an error, or 
+			in less friendly parsers, it might even just create corrupted data.
+			In that case, it would be critical to use !! cont.maps ! maps ! with string keys.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write a string key, first, ensure the !! cont.map ! map ! is set to use string keys.
+			Do so by writing the declaration character after the open parenthesis, 
+			a double quote <dfn>"</dfn>.
+		</p>
+		<p>
+			Your string key type declaration should look as follows:
+		</p>
+		<pre><code>("</code></pre>
+		<p>
+			Afterwards, write each key without declaring the type as it has already been declared.
+			Terminate the key using a colon <dfn>:</dfn>. Use the 
+			!! other.escape ! escape character ! only for the following characters inside the key:
+		</p>
+		<ul>
+			<li> Colon <dfn>\:</dfn></li>
+			<li> Newline <dfn>\n</dfn></li>
+			<li> Carriage Return <dfn>\r</dfn></li>
+			<li> Backslash <dfn>\\</dfn></li>
+		</ul>
+		<p>
+			You don't need to escape backticks <dfn>`</dfn> or carets <dfn>^</dfn> because the parser is only expecting
+			the colon as termination symbol for the key, 
+			backticks and carets are already parsed litterally for string keys.
+		</p>
+		<h2 id="important"> Important </h2>
+		<p>
+			If the first character of the key is a tab or a space, you MUST !! other.escape ! escape !
+			it using the <dfn>\t</dfn> and <dfn>\s</dfn> codes respectively.
+			Also, although tabs are supported within the key, it is standardized to replace them with <dfn>\t</dfn>. 
+			This allows for better visualization as well as a shortening of the visual length of the string.
+			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of string keys as reference 
+			(the !! cont.root ! root container ! is a map with string typed keys):
+		</p>
+		<pre><code>("
+key: "value
+\:colon: $
+newline\n: -.342
+`backtick: &26
+^caret: @keybind
+\s  key: #e52074
+\t \t k: =e2819c
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Keys", "String"]);
+	</script>
+
+</body>
+
+</html>

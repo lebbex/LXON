@@ -21,7 +21,7 @@
 		<h1 id="def"> Definition </h1>
 		<p>
 			A keybind is a value type which can hold any string. The only difference is its slightly more complex syntax,
-			and the fact it doesn't get parsed into a string. 
+			and the fact it doesn't get parsed into a string. As such, it isn't a !! val.text ! text value !.
 		</p>
 		<p>
 			Its primary use, as the name implies, is to store keybinds.
@@ -39,84 +39,101 @@
 		<p>
 			A keybind requires the at symbol <dfn>@</dfn> as type declaration.
 			Every following character is treated as the contents of the keybind, 
-			until the first instance of either one of these characters:
+			until the first instance of either its terminator symbol (backtick),
+			or another valid declaration character as show below:
 		</p>
 		<ul>
-			<li>Backtick <dfn>`</dfn></li>
-			<li>Caret <dfn>^</dfn></li>
-			<li>At Symbol <dfn>@</dfn></li>
-			<li>Asterisk <dfn>*</dfn></li>
-			<li>Question Mark <dfn>?</dfn></li>
+			<li> Backtick <dfn>`</dfn> (terminator symbol)</li>
+			<li> Caret <dfn>^</dfn> (!! val.text.string ! string ! declaration)</li>
+			<li> Ampersand <dfn>&</dfn> (!! val.date ! date ! declaration)</li>
+			<li> Dollar Sign <dfn>$</dfn> (!! val.bool ! boolean ! or !! val.mon ! monetary value ! declaration)</li>
+			<li> At Symbol <dfn>@</dfn> (!! val.bind ! keybind ! declaration)</li>
+			<li> Hashtag <dfn>#</dfn> (!! val.col.spaces.srgb ! srgb color ! declaration)</li>
+			<li> Equals <dfn>=</dfn> (!! val.col.spaces.lin ! linear srgb color ! declaration)</li>
+			<li> Slash <dfn>/</dfn> (!! val.col.spaces.prof ! profiled color ! declaration)</li>
+			<li> Asterisk <dfn>*</dfn> (!! val.enum ! enum ! declaration)</li>
+			<li> Question Mark <dfn>?</dfn> (!! val.bin ! binary value ! declaration)</li>
 		</ul>
 		<p>
 			It is standardized however to use the backtick, and only use the other characters for !! val.bind.chain ! chaining !
 			other values after it.
 			Like with full strings, keybinds also ends at the end of the line, so trailing backticks aren't strictly required.
-			Keybinds also support trailing whitespace such as tabs or space characters.
 		</p>
-		<p>
-			As a consequence of its increase in complexity, keybinds require escape sequences for the following characters:
-		</p>
-		<ul>
-			<li>Newline <dfn>\n</dfn></li>
-			<li>Carriage Return <dfn>\r</dfn></li>
-			<li>Backslash <dfn>\\</dfn></li>
-			<li>Backtick <dfn>\`</dfn></li>
-			<li>Caret <dfn>\^</dfn></li>
-			<li>At Symbol <dfn>\@</dfn></li>
-			<li>Asterisk <dfn>\*</dfn></li>
-			<li>Question Mark <dfn>\?</dfn></li>
-		</ul>
 		<h2 id="chain"> Chaining </h2>
 		<p>
-			Keybinds can be chained easily. However, these chains should only ever be done inside an !! containers.arr ! array !.
-			Here's all the possible chained values:
+			Keybinds support value chaining, a feature which makes use of the rare characters which are
+			unexpected to be present in a keybind, such as those stated above. 
+			These characters happen to be declaration characters for other types.
+		</p>
+		<p>
+			In order to make use of them, and save up on valuable space and syntax,
+			typing one of those characters in a keybind terminates the keybind and 
+			declares the next value as having the type declared by the termination character.
+		</p>
+		<p>
+			These chains should only ever be made inside an !! containers.arr ! array !,
+			as it is the only event where values are expected to follow eachother.
+		</p>
+		<p>
+			Here's some examples of keybind chaining in action:
+		</p>
+		<pre><code>{
+keys:[ @up @down @left @right` -40 23
+
+key+str1:[ @left_click` `string`
+key+str2:[ @right_click ^string`
+
+key+date:[ @up arrow &26-12-08
+key+cash:[ @down arrow $cad.400
+key+color:[ @left_joystick_y_axis #ff05ff
+key+enum:[ @right-joyX *weapon:sword`
+key+binary:[ @keybind ?b1c4 1710
+</code></pre>
+		<h2 id="escape"> Escaping </h2>
+		<p>
+			As a consequence of its increase in complexity, keybinds require !! other.escape ! escape sequences ! 
+			for the following characters, including ALL those shown above 
+			(simply add a <dfn>\</dfn> before the character to escape it):
 		</p>
 		<ul>
-			<li>
-				When a caret <dfn>^</dfn> is used to terminate a keybind, 
-				it will not only mark the end of the current keybind but also the start of a new !! val.text.str ! string !.
-			</li>
-			<li>
-				When a at symbol <dfn>@</dfn> is used to terminate a keybind, 
-				it will mark the end of the current keybind and the start of a new one.
-			</li>
-			<li>
-				When a asterik <dfn>*</dfn> is used to terminate a keybind, 
-				it will mark the end of the current keybind and the start of a !! val.enum ! enum !.
-			</li>
-			<li>
-				When a question mark <dfn>?</dfn> is used to terminate a keybind, 
-				it will mark the end of the current keybind and the start of a !! val.binary ! binary ! value.
-			</li>
+			<li> Newline <dfn>\n</dfn></li>
+			<li> Carriage Return <dfn>\r</dfn></li>
+			<li> Backslash <dfn>\\</dfn></li>
 		</ul>
-		<h2 id="important"> Important </h2>
+		<p>
+			Here's some example usage of keybind escaping:
+		</p>
+		<pre><code>{
+newln keybind: @up\ndown
+
+backs keybind: @left\\right
+
+anpsd keybind: @front\&back
+
+weird keybind: @lxon\@lebbex.com
+# This last one ^ is
+# likely a mischosen value type.
+</code></pre>
+		<h2 id="whitespace"> Whitespace </h2>
+		<p>
+			Keybinds support trailing whitespace such as tabs or space characters if terminated using the backticks.
+			Otherwise, it trims all trailing whitespace. This allows for cleaner formatting.
+		</p>
 		<p>
 			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
 			This allows for better visualization as well as a shortening of the visual length of the keybind.
 			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
-		</p>
-		<p>
-			Also, although trailing whitespace is supported, if there's no trailing backtick,
-			it is standardized to replace the last character with a <dfn>\s</dfn> if it's a space, or a <dfn>\t</dfn> if it's a tab.
-			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
-			For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing mistake.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
 			Here's some example usage of keybind values as reference:
 		</p>
 		<pre><code>{
-left: @A Key
-right: @D Key
+forward: @W
+jump: @space bar
 
-jump: @spacebar` crouch: @left shift
-
-movement:[ @up_arrow@down_arrow^string`
-
-bind-enum:[ @keybind*enum:member
-
-kb-binary:[ @keybind?32e5 fa24
+key+str1:[ @left_click` `string`
+key+str2:[ @right_click ^string`
 </code></pre>
 	</div>
 

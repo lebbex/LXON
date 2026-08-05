@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			A map is the more expansive version of the !! cont.obj ! object ! type.
+			It uses typed keys over regular keys, which not only allows for non-text keys
+			(such as numbers, booleans, dates, colors, etc.),
+			but also allows for string keys with no limitations.
+			You can then have keys that accept !! other.escape ! escaped characters !,
+			allowing for newlines or colons within the key, or even tabs at the start of the key.
+			It doesn't allow for duplicate keys.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write a map, you must use its declaration character, 
+			the open parenthesis <dfn>(</dfn> when prompted for a value.
+			The declaration then demands for a !! keys.typed ! typed key declaration !.
+		</p>
+		<p>
+			Here is a cheat sheet list of all typed key types and their respective declaration characters:
+		</p>
+		<ul>
+			<li>!! keys.string ! String ! <dfn>"</dfn></li>
+			<li>!! keys.bool ! Boolean ! <dfn>:</dfn></li>
+			<li>!! keys.num ! Number ! <dfn></dfn></li>
+			<li>!! keys.date ! Date ! <dfn>&</dfn></li>
+			<li> !! key.mon ! Monetary ! <dfn>$</dfn></li>
+			<li>!! keys.bind ! Keybind ! <dfn>@</dfn></li>
+			<li>
+				!! keys.color ! Color !
+				<ul>
+					<li>SRGB Color <dfn># or ;</dfn></li>
+					<li>Linear SRGB Color <dfn>= or ;=</dfn></li>
+					<li>Profiled Color <dfn>/</dfn><span id="a">*Complex type declaration</span></li>
+				</ul>
+			</li>
+			<li>!! keys.enum ! Enum ! <dfn>*</dfn></li>
+		</ul>
+		<p>
+			Afterwards, you must write key/value pairs.
+		</p>
+		<p>
+			To do so, first write a !! keys.typed ! key ! with the chose type above, 
+			In all scenerios, the key terminates after the first colon <dfn>:</dfn>,
+			except for !! keys.date ! date keys !, which require double colons <dfn>::</dfn>.
+		</p>
+		<p>
+			After terminating the key with a colon, write the !! val ! value ! properly, 
+			ensuring to correctly terminate it before proceeding to the next key.
+			Some values, such as !! val.text.full ! full strings ! 
+			cannot be terminated on the same line and require a newline altogether.
+			The most reliable way of terminating a value is with a newline, 
+			which is supported for all value types.
+		</p>
+		<p>
+			Here are examples of objects written on a single line:
+		</p>
+		<pre><code>{
+movie1:(" title:`The Notebook` \nyear:2024
+
+movie2:(' t:`Titanic` r:&1997-12-19
+</code></pre>
+		<h2 id="multiline"> Multiline </h2>
+		<p>
+			As apparent in the example above, 
+			writing a map on a single line often makes it hard to read.
+			The standard way of writing LXON demands (for readable data)
+			that map containing more than one key/value pair use multiline for clarity.
+		</p>
+		<p>
+			When writing a key/value pair on a newline, 
+			simply ensure to add 1 additionnal indentation compared to the line preceding it.
+			Indentation MUST use tab characters, 
+			space characters aren't taken into consideration for indentation 
+			and are instead appended at the start of the key.
+		</p>
+		<p>
+			Here are examples of maps written with multiline taken into account:
+		</p>
+		<pre><code>("
+album:
+	title: "Black Silk
+	artist: "Spooky Black
+	release: &14-2-28
+
+	lead single:(*field
+		title: "Without U
+		sample:('
+			t: "Darkest Place
+			a: "Woman's Hour
+			r: &14-7-21 g:$
+</code></pre>
+		<h2 id="termination"> Termination </h2>
+		<p>
+			Maps are mainly terminated when the next line doesn't have the required indentation level.
+			This is the most common way to terminate objects.
+		</p>
+		<p>
+			Here are examples of indentation terminated objects:
+		</p>
+		<pre><code>{
+map1:(" key: "value
+map2:("
+	key: "value
+</code></pre>
+		<p>
+			Rarely, usually only when writing a LXON data inline (all on one line),
+			the indentation termination is impossible to achieve.
+			This is because the next key or value external to the map isn't on a newline,
+			but on the same line following the map.
+		</p>
+		<p>
+			In this scenerio, you should use the object termination symbol,
+			a closing parenthesis <dfn>)</dfn>.
+		</p>
+		<p>
+			Here are examples of ways to terminate map using the termination symbol
+			(read !! other.comments ! comments ! as some of the examples showcase common mistakes):
+		</p>
+		<pre><code>("
+# THIS IS CORRECT
+map1:(" id: 4 ) map2:(' i: 5 )
+map3:("
+	key: `value` )
+map4:("
+	key: "value
+	)
+
+# THIS IS A MISTAKE
+# It terminates the root map instead
+map5:("
+	key: 'v
+)
+
+# This data is never read
+# because the root was terminated above
+key: "value"
+</code></pre>
+		<h2 id="empty"> Empty Maps </h2>
+		<p>
+			The most straightforward way of creating an empty map
+			is to terminate it as soon as you create it
+			(map1 in the example below).
+		</p>
+		<p>
+			However, maps are also terminated if the next line has improper indentation
+			(map2 in the example below).
+		</p>
+		<p>
+			Here's an example showcasing both methods of creating an empty map as shown above:
+		</p>
+		<pre><code>{
+map2: (
+map1: ()
+</code></pre>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Feel free to temporarily skip all syntax documentation above and 
+			look through these examples if you're more of a pattern recognition/visual learner.
+			However, it is very wise to be aware of the rules to avoid doing something 
+			that seems like it would work but doesn't.
+		</p>
+		<p>
+			Also, since maps are much more complex than !! cont.obj ! objects ! or
+			!! cont.arr ! arrays !, it is highly reccomended to look into explicit syntax rules.
+		</p>
+		<p>
+			With that being said, here are additionnal map usage examples, for reference:
+		</p>
+		<pre><code>("
+game:(*field
+	name: "Minecraft
+	prev: "Cave Game
+	start: &9-5-10
+	version:(@ classic: "0.0.11a
+	devs:(?
+		2c9d985a: "Notch
+		e8bc8849: "Jeb
+		08c9a9dd: "C418
+	language:(
+		23412: "Java
+		%: "Infinity
+		
+
+nest1:("
+	deeper:(
+		$:(
+			-3.14: "pi
+
+nest2:(" deeper:(& 26-4::(@ up_arrow:"jump
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Containers", "Map"]);
+	</script>
+
+</body>
+
+</html>

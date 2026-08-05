@@ -32,95 +32,132 @@ window.navTree = {
 		_url: "/containers",
 		_page: "Containers",
 		_min: "Containers",
+		Root: [
+			"Root", "Root Container",
+			"/root", "Root Containers",
+			"Root",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage (Object)", "object"],
+			["Usage (Array)", "array"],
+			["Usage (Map)", "map"],
+			["Usage (Doodad)", "doodad"]
+		],
 		Object: [
 			"Object", "Object",
 			"/object", "Objects",
 			"Obj",
 			["Definition", "def"],
-			["Syntax", "syntax"]
+			["Syntax", "syntax"],
+			["Multiline", "multiline"],
+			["Termination", "termination"],
+			["Empty Objects", "empty"],
+			["Usage", "usage"]
 		],
 		Array: [
 			"Array", "Array",
 			"/array", "Arrays",
 			"Array",
-			["title", "id"]
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Multiline", "multiline"],
+			["Termination", "termination"],
+			["Empty Arrays", "empty"],
+			["Usage", "usage"]
 		],
 		Map: [
 			"Map", "Map",
 			"/map", "Maps",
 			"Map",
-			["title", "id"]
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Multiline", "multiline"],
+			["Termination", "termination"],
+			["Empty Maps", "empty"],
+			["Usage", "usage"]
 		],
 		Doodad: [
 			"Doodad", "Doodad",
 			"/doodad", "Doodads",
 			"Doodad",
-			["title", "id"]
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Multiline", "multiline"],
+			["Termination", "termination"],
+			["Empty Doodads", "empty"],
+			["Standards", "standards"],
+			["Usage", "usage"]
 		],
 	},
 	Keys: {
 		_nav: "Keys",
 		_tit: "(Typed) Keys",
-		_url: "/keys",
+		_url: "/key",
 		_page: "Keys",
 		_min: "Keys",
-		Text: {
-			_nav: "Text",
-			_tit: "Text Key Types",
-			_url: "/keys/text",
-			_page: "Keys // Text Types",
-			_min: "Text",
-			String: [
-				"String", "String Key",
-				"/keys/string", "Keys // Strings",
-				"Str",
-				["title", "id"]
-			],
-			Char: [
-				"Char", "Char Key",
-				"/keys/char", "Keys // Chars",
-				"Char",
-				["title", "id"]
-			],
-		},
+		String: [
+			"String", "String Key",
+			"/key/string", "Keys // Strings",
+			"Str",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
+		],
 		Boolean: [
 			"Boolean", "Boolean Key",
-			"/keys/bool", "Keys // Booleans",
-			"Bool"
+			"/key/bool", "Keys // Booleans",
+			"Bool",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		],
 		Number: [
 			"Number", "Number Key",
-			"/keys/number", "Keys // Numbers",
+			"/key/number", "Keys // Numbers",
 			"Num",
 			["Definition", "def"],
-			["Regular Number", "regular"],
-			["Decimal Number", "decimal"],
-			["Scientific Notation", "sci"],
-			["Static Number", "static"]
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		],
 		Date: [
 			"Date", "Date Key",
-			"/keys/date", "Keys // Dates",
+			"/key/date", "Keys // Dates",
 			"Date",
-			["Year / Unix", "year-unix"],
-			["Week", "week"],
-			["Month", "month"],
-			["Time", "time"]
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
+		],
+		Monetary: [
+			"Monetary", "Monetary Key",
+			"/key/monetary", "Keys // Monetary Keys",
+			"Monetary",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		],
 		Keybind: [
 			"Keybind", "Keybind Key",
-			"/keys/keybind", "Keys // Keybinds",
-			"KBind"
+			"/key/keybind", "Keys // Keybinds",
+			"KBind",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		],
 		Color: [
 			"Color", "Color Key Types",
-			"/keys/color", "Keys // Color Types",
-			"Color"
+			"/key/color", "Keys // Color Types",
+			"Color",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		],
 		Enum: [
 			"Enum", "Enum Key",
-			"/keys/enum", "Keys // Enums",
+			"/key/enum", "Keys // Enums",
 			"Enum",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Usage", "usage"]
 		]
 	},
 	Values: {
@@ -155,7 +192,7 @@ window.navTree = {
 				"Char",
 				["Syntax", "syntax"],
 				["Usage", "usage"]
-			],
+			]
 		},
 		Boolean: [
 			"Boolean", "Boolean",
@@ -186,6 +223,16 @@ window.navTree = {
 			["Month", "month"],
 			["Time", "time"]
 		],
+		Monetary: [
+			"Monetary", "Monetary Value",
+			"/monetary", "Monetary Values",
+			"Monetary",
+			["Definition", "def"],
+			["Syntax", "syntax"],
+			["Currency Examples", "examples"],
+			["Unspecified Currency", "unspecified"],
+			["Specified Currency", "specified"]
+		],
 		Keybind: [
 			"Keybind", "Keybind",
 			"/keybind", "Keybinds",
@@ -193,6 +240,8 @@ window.navTree = {
 			["Definition", "def"],
 			["Syntax", "syntax"],
 			["Chaining", "chain"],
+			["Escaping", "escape"],
+			["Whitespace", "whitespace"],
 			["Usage", "usage"]
 		],
 		Color: {
@@ -286,6 +335,8 @@ window.navTree = {
 			["Definition", "def"],
 			["Syntax", "syntax"],
 			["Chaining", "chain"],
+			["Escaping", "escape"],
+			["Whitespace", "whitespace"],
 			["Usage", "usage"]
 		],
 		Binary: [

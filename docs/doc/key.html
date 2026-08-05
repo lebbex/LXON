@@ -20,24 +20,25 @@
 	<div class="content" id="content">
 		<h1 id="outline"> Outline </h1>
 		<p>
-			Keys are labels attatched to chunks of data (values) that allow for identifying, organizing and recuperating them.
+			Keys are labels attached to chunks of data (values) that allow for identifying, organizing and recuperating
+			them.
 		</p>
 		<p>
 			They're used by !! containers.objects ! objects !, !! containers.maps ! maps !
-			and !! containers.doodads ! doodads !, although doodad keys are only a single
-			character, so no further documentation is required. 
-			Doodad keys are the only keys that do not require a colon following the key.
+			and !! containers.doodads ! doodads !, all of which using different key types (see below).
+			!! keys.single ! Doodad keys ! are the only keys that do not require a colon following the key.
 		</p>
 		<h1 id="regular"> Regular Keys </h1>
 		<p>
-			Regular keys are used by !! containers.objects ! objects !. 
+			Regular keys are used by !! containers.objects ! objects !.
 			They can only be text with a specific format and syntax.
 			Many characters aren't allowed, such as starting whitespace and colons.
-			Escape characters (\n, \s, etc.) also aren't supported.
+			!! other.escape ! Escape characters ! (\n, \:, etc.) also aren't supported.
+			You can create an empty key by simply typing a colon directly.
 		</p>
 		<h2 id="regular-usage"> Usage </h2>
 		<p>
-			To use a regular key, simply create a !! containers.object ! object ! and write your key as is. 
+			To use a regular key, simply create a !! containers.object ! object ! and write your key as is.
 			Terminate the key using a colon. Here's some example usage as reference:
 		</p>
 		<pre><code>{
@@ -49,6 +50,8 @@ key2:{
 
 key3:
 	3key: "value
+
+: "value's key is empty
 </code></pre>
 
 		<h1 id="typed"> Typed Keys </h1>
@@ -62,24 +65,31 @@ key3:
 			Here is a cheat sheet list of all typed key types and their respective declaration characters:
 		</p>
 		<ul>
-			<li>String<dfn>" `</dfn></li>
-			<li>Char<dfn>'</dfn></li>
-			<li>Boolean<dfn></dfn></li>
-			<li>Number<dfn></dfn></li>
-			<li>Date<dfn>&</dfn></li>
-			<li>Keybind<dfn>@</dfn></li>
-			<li>SRGB Color<dfn>#</dfn></li>
-			<li>Linear Color<dfn>= /</dfn></li>
-			<li>Enum<dfn>*</dfn></li>
+			<li> !! key.str ! String ! <dfn>"</dfn></li>
+			<li> !! key.bool ! Boolean ! <dfn>:</dfn></li>
+			<li> !! key.num ! Number ! <dfn></dfn></li>
+			<li> !! key.date ! Date ! <dfn>&</dfn></li>
+			<li> !! key.mon ! Monetary ! <dfn>$</dfn></li>
+			<li> !! key.bind ! Keybind ! <dfn>@</dfn></li>
+			<li>
+				!! key.col ! Color !
+				<ul>
+					<li> SRGB Color <dfn># or ;</dfn></li>
+					<li> Linear SRGB Color <dfn>= or ;=</dfn></li>
+					<li> Profiled Color <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+					<li> Linear Profiled Color <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+				</ul>
+			</li>
+			<li> !! key.enum ! Enum ! <dfn>*</dfn></li>
 		</ul>
-
 		<h2 id="typed-usage"> Usage </h2>
 		<p>
-			To use a key, simply create a !! containers.map ! map ! and declare the key type using a respective declaration character (see above).
+			To use a typed key, simply create a !! containers.map ! map !
+			and declare the key type using a respective declaration character (see above).
 			Terminate the key using a colon.
 		</p>
 		<p>
-			For dates, it is reccomended to use double colons following the key. 
+			For dates, it is reccomended to use double colons following the key.
 			This is because dates themselves use colons to seperate the time components,
 			and those colons take priority when parsing.
 			Double colons also help with readability for date keys.
@@ -106,6 +116,35 @@ key5:(*weapon
 	sword: 42
 	gun: 83
 	hammer: 0
+</code></pre>
+		<h1 id="single"> Single Character Keys </h1>
+		<p>
+			Single character keys are used by objects.
+			They are single characters and do not require a colon as termination.
+			!! other.escape ! Escape characters ! (\n, \:, etc.) are supported.
+			You can type an empty key by typing the null character's escape sequence <dfn>\0</dfn>.
+		</p>
+		<p>
+			Characters containing escape sequences should be avoided though,
+			as they can create ugly and confusing formatting.
+			It should only be done for data that likely won't be read or editable by others.
+		</p>
+		<h2 id="single-usage"> Usage </h2>
+		<p>
+			To use a single character key, simply create a !! cont.doo ! doodad !
+			by using any character that isn't a declaration character when prompted for a value.
+			This character will be your first key.
+			Here's some example usage as reference:
+		</p>
+		<pre><code>{
+coordinates: x5.39 y-.12 z102.43
+
+more coords: x291
+	y1920 z5839
+
+rotation: y0 p0 r0
+
+empty key doodad: \0 "value
 </code></pre>
 	</div>
 

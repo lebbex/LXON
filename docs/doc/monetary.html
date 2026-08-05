@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			A monetary value is a value type which can hold an int64 value, 
+			divided by a power of 10 as to provide limited decimal points.
+			It can also optionally hold a currency type, such EUR and USD.
+		</p>
+		<p>
+			This allows for safely storing money and its currency, or, for more general purposes,
+			decimal values that don't suffer floating point precision issues.
+			Monetary values do take up significantly more storage then floating point,
+			and, in the event of an integer overflow, can have devasting repurcussions.
+		</p>
+		<p>
+			The absolute number with decimal point removed cannot exceed
+			9223 372 036 854 775 807 (9.223 quintillion).
+			This is likely never to be an issue with real monetary values,
+			as its the system many banks use.
+			If it does exceed this number, the value will wrap around, 
+			almost as if multiplying the number by -1.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			A monetary value first requires the dollar symbol <dfn>$</dfn> as type declaration.
+			If the first character following that is a number, 
+			then the cash value is read as is with no currency specified.
+			Otherwise, it reads every character until the first backtick <dfn>`</dfn> as the currency.
+		</p>
+		<p>
+			It is required to use the
+			<a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes_(list_one)">ISO 4217 standard codes</a>
+			to be internationally understood by others. However, if wishing to use custom currency names,
+			you are free to do so. !! other.escape ! Escape characters ! are not supported in the currency name,
+			it is read litterally until the backtick symbol.
+		</p>
+		<p>
+			Three character codes MUST follow ISO standards, 
+			as diverging would mean that developpers would need to 
+			implement custom checking of the codes against a database of all currency codes.
+			This is too much effort. It is acceptable for a system to interpret 
+			a 3 character currency type as following ISO standard because this is standard practice.
+		</p>
+		<h2 id="examples"> Examples </h2>
+		<p>
+			Here are examples of monetary values with specified and unspecified currencies 
+			(all monetary numbers are set to 0, as this example is only meant to show the declaration of currencies,
+			below is the explanation of monetary number syntax) :
+		</p>
+		<pre><code>{
+unspecified: $0
+
+euro: $eur.0
+british pound: $gbp.0
+american dollar: $usd.0
+canadian dollar: $cad.0
+australian dollar: $aud.0
+
+custom1 (vbuck): $vbuck.0
+custom2 (vbuck): $vb.0
+custom3 (vbuck): $v.0
+
+custom4 (vbuck): $vbc.0
+# ^^ INCORRECT!! ^^
+# Assumes ISO standard
+# but uses custom currency.
+# Only use 3 chars for ISO!
+</code></pre>
+		<h1 id="unspecified"> Unspecified Currency </h1>
+		<p>
+			When reading a monetary value with unspecified currency,
+			if the first character is a minus <dfn>-</dfn>, 
+			the the monetary number is set to be negative.
+			Afterwards, every numerical digit is read one by one and creates the whole part of the monetary number.
+			Spaces are skipped, as they allow for formatting which reduces the chance of human mistakes.
+		</p>
+		<p>
+			If the first non-numerical character is a period <dfn>.</dfn>,
+			it will read the following numerical characters as 
+			the fractional (decimal) part of the monetary number.
+		</p>
+		<p>
+			Here's example usage of monetary values with unspecified currency 
+			(read !! other.comments ! comments !, they specify the monetary value):
+		</p>
+		<pre><code>{
+# 500 dollars
+john: $500.00
+
+# 500 dollar debt
+jane: $-500
+
+# half a dollar (50 cents)
+cain: $.5000
+lisa: $0.5
+
+# 30 thousand dollars each
+luke: $30000
+mark: $30 000
+jake: $3 000 0
+pete: $3 0 00 0
+</code></pre>
+		<h1 id="specified"> Specified Currency </h1>
+		<p>
+			When reading a monetary value with specified currency,
+			if the first character is a minus <dfn>-</dfn>, 
+			the the monetary number is set to be negative.
+			Afterwards, every numerical digit is read one by one and 
+			amounts to the minor unit of the monetary number.
+		</p>
+		<p>
+			This means, when you write 5000 USD, you're not storing 5 thousand dollars, 
+			but instead 5 thousand cents, which is 50 dollars, as 100 cents is a dollar.
+			In this case, the last two digits are therefore used to represent the cents,
+			so 5000 USD acctually means 50.00 USD, with a hidden period.
+		</p>
+		<p>
+			That period must remain hidden, as a period would end the monetary value for good,
+			identically to any other non-numerical character that isn't a space character
+			Spaces are skipped, as they allow for formatting which reduces the chance of human mistakes.
+		</p>
+		<p>
+			Here's example usage of monetary values with specified currency 
+			(read !! other.comments ! comments !, they specify the monetary value):
+		</p>
+		<pre><code>{
+# 500 american dollars
+john: $usd.50000
+
+# 500 euro debt
+jane: $eur.-500
+
+# half a euro (50 cents)
+cain: $eur.50
+
+# 30 thousand canadian dollars each
+luke: $cad.3000000
+mark: $cad.30 000 00
+jake: $cad.3 000 0 00
+pete: $cad.3 0 00 0 00
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Values", "Monetary"]);
+	</script>
+
+</body>
+
+</html>

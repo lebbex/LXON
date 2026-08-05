@@ -32,6 +32,17 @@
 		<p>
 			To write a comment, include <dfn>#</dfn> as the first character of a newline. The parser will then skip that entire line.
 		</p>
+		<h2 id="skip"> Line Skips </h2>
+		<p>
+			Not only are commented lines skipped, but empty lines are also skipped.
+			This might seem like a nothing burger, but in a heavy indentation-relying format like LXON,
+			this is a huge quality of life feature.
+		</p>
+		<p>
+			You can confidently insert empty lines anywhere for cleaner formatting 
+			and it will have no effect on the parsed data,
+			even if the line is full of random whitespace.
+		</p>
 		<h2 id="escape"> !! other.escape ! Escape Sequences ! </h2>
 		<p>
 			An escape sequence is a way to represent a character in an environment where,

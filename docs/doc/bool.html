@@ -40,6 +40,18 @@
 			It only requires the declaration character, that is either <dfn>$</dfn> for true or <dfn>!</dfn> for false.
 			Once the parser reads this declaration character, it instantly completes the value.
 		</p>
+		<h2 id="important"> Important </h2>
+		<p>
+			After writing true <dfn>$</dfn>, make sure the next character is either a space, 
+			a newline or another bool symbol (dollar sign or exclamation point).
+			Otherwise, the parser will consider the dollar symbol as a type declaration for a !! val.mon ! monetary value !.
+		</p>
+		<p>
+			Do the same for false <dfn>!</dfn> as it simplifies the mental load and 
+			exclamation points may someday become a dual-declaration type like the dollar sign is.
+			Failure to keep a space or newline after the exclamation point 
+			may cause later parsers to misparse old data that doesn't follow this rule.
+		</p>
 		<h1 id="visualization"> Visualization </h1>
 		<p>
 			A simple trick to remember the characters for booleans is to think of money.
@@ -75,7 +87,8 @@
 			</li>
 		</ul>
 		<p>
-			Here's some example usage of booleans alongside custom values to represent stored gender information:
+			Here's some example usage of booleans alongside custom values to represent stored gender information
+			(read !! other.comments ! comments !):
 		</p>
 		<pre><code>{
 male: $
@@ -85,6 +98,8 @@ secret: _
 # This  ^  means undefined, which is very 
 # appropriate to use in the case where the
 # user wishes not to disclose their gender
+
+array:[ !$$!$ `string`!$
 </code></pre>
 	</div>
 

@@ -69,10 +69,15 @@ text: "Hello\nWorld
 			Here's all supported escape sequence codes:
 		</p>
 		<ul>
-			<li>Newline <dfn>\n</dfn></li>
-			<li>Carriage Return <dfn>\r</dfn></li>
-			<li>Tabulator (tab) <dfn>\t</dfn></li>
-			<li>Space <dfn>\s</dfn></li>
+			<li> Newline <dfn>\n</dfn></li>
+			<li> Carriage Return <dfn>\r</dfn></li>
+			<li> Tabulator (tab) <dfn>\t</dfn></li>
+			<li> Space <dfn>\s</dfn></li>
+			<li> 
+				Empty Char 
+				<dfn>\0</dfn>
+				<span class="a">*Only supported in !! keys.single ! single char keys !.</span>
+			</li>
 		</ul>
 		<p>
 			If a escape sequence isn't a valid code, it will parse into the character after the backslash <dfn>\</dfn>, 
@@ -81,13 +86,13 @@ text: "Hello\nWorld
 			Here's all of the commonly used, and arguably the only other useful escape sequences:
 		</p>
 		<ul>
-			<li>Backslash <dfn>\\</dfn></li>
-			<li>Colon <dfn>\:</dfn></li>
-			<li>Backtick <dfn>\`</dfn></li>
-			<li>Caret <dfn>\^</dfn></li>
-			<li>At <dfn>\@</dfn></li>
-			<li>Asterisk <dfn>\*</dfn></li>
-			<li>Question Mark <dfn>\?</dfn></li>
+			<li> Backslash <dfn>\\</dfn></li>
+			<li> Colon <dfn>\:</dfn></li>
+			<li> Backtick <dfn>\`</dfn></li>
+			<li> Caret <dfn>\^</dfn></li>
+			<li> At <dfn>\@</dfn></li>
+			<li> Asterisk <dfn>\*</dfn></li>
+			<li> Question Mark <dfn>\?</dfn></li>
 		</ul>
 		<h2 id="environments"> Supported Environments </h1>
 		<p>
@@ -108,12 +113,8 @@ text: "Hello\nWorld
 					<li>!! val.text.char ! Char !</li>
 				</ul>
 			</li>
-			<li>!! keys.text ! Text Keys !
-				<ul>
-					<li>!! keys.text.str ! String Key !</li>
-					<li>!! keys.text.char ! Char Key !</li>
-				</ul>
-			</li>
+			<li>!! val.keybind ! Keybind Values !</li>
+			<li>!! keys.str ! String Key !</li>
 		</ul>
 		<h1 id="usage"> Usage </h1>
 		<p>

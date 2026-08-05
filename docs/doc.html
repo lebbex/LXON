@@ -47,11 +47,11 @@
 		</p>
 		<ul>
 			<li>!! other.comments ! Comments ! <dfn>#</dfn></li>
-			<li>!! other.escape ! Escaped Characters ! <dfn>\</dfn></li>
+			<li>!! other.escape ! Escape Sequences ! <dfn>\</dfn></li>
 		</ul>
 		<h1 id="types"> Supported Types </h1>
 		<p>
-			LXON supports 4 container types, 8 key types and 11 value types, along with hundreads of color types.
+			LXON supports 4 container types, 8 key types and 12 value types, along with hundreads of color types.
 		</p>
 		<h2 id="containers">
 			Containers
@@ -66,12 +66,11 @@
 			Keys
 		</h2>
 		<ul>
-			<li>!! keys.text.str ! String ! <dfn>" or `</dfn></li>
-			<li>!! keys.text.char ! Char ! <dfn>'</dfn></li>
-			<li>!! keys.bool ! Boolean ! <dfn></dfn></li>
-			<li>!! keys.num ! Number ! <dfn></dfn>
-			</li>
+			<li>!! keys.str ! String ! <dfn>"</dfn></li>
+			<li>!! keys.bool ! Boolean ! <dfn>:</dfn></li>
+			<li>!! keys.num ! Number ! <dfn></dfn></li>
 			<li>!! keys.date ! Date ! <dfn>&</dfn></li>
+			<li>!! key.mon ! Monetary ! <dfn>$</dfn></li>
 			<li>!! keys.bind ! Keybind ! <dfn>@</dfn></li>
 			<li>!! keys.col ! Color !<span class="a">*Key can only be one color type</span>
 				<ul>
@@ -90,17 +89,18 @@
 			<li>!! vals.text.full ! Full String ! <dfn>"</dfn></li>
 			<li>!! vals.text.str ! String ! <dfn>` or ^</dfn></li>
 			<li>!! vals.text.char ! Char ! <dfn>'</dfn></li>
-			<li>!! vals.bool ! Boolean ! <dfn>$ !</dfn></li>
+			<li>!! vals.bool ! Boolean ! <dfn>$ or !</dfn></li>
 			<li>!! vals.num ! Number ! <dfn></dfn>
 				<ul>
 					<li>NaN <dfn>-</dfn></li>
-					<li>+Infinity <dfn>% +%</dfn></li>
+					<li>+Infinity <dfn>% or +%</dfn></li>
 					<li>-Infinity<dfn>-%</dfn></li>
 				</ul>
 			</li>
 			<li>!! vals.date ! Date ! <dfn>&</dfn></li>
+			<li>!! vals.mon ! Monetary ! <dfn>$</dfn></li>
 			<li>!! vals.bind ! Keybind ! <dfn>@</dfn></li>
-			<li>!! keys.col ! Color !
+			<li>!! vals.col ! Color !
 				<ul>
 					<li>!! vals.col.spaces.srgb ! SRGB Color ! <dfn># or ;</dfn></li>
 					<li>!! vals.col.spaces.lin ! Linear SRGB Color ! <dfn>= or ;=</dfn></li>
@@ -136,9 +136,15 @@
 			for string values.
 		</p>
 		<p>
+			This first syntax change would later become LXON's syntax.
+		</p>
+		<p>
 			As he developped the editor, he decided to remake it due to its bugs, switching from a text based editor
 			similar to Visual Studio Code,
 			to something node based with seamless editing, the best of both worlds.
+		</p>
+		<p>
+			This editor would later become the <a href="https://lxon.lebbex.com/editor">LXON Editor</a>.
 		</p>
 		<p>
 			With this came the realization of the limitations of JSON, where it's missing many crucial value types and
@@ -150,10 +156,10 @@
 			LXON's source code in the <a href="https://github.com/lebbex/LXON" target="_blank">github repository</a> 
 			is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License 2.0</a>,
 			however the <a href="https://github.com/lebbex/LXON/tree/main/docs" target="_blank">/docs folder</a>
-			(the LXON.lebbex.com website) is proprietary and excluded from that license.
+			(the lxon.lebbex.com website) is proprietary and excluded from that license.
 		</p>
 		<p>
-			"Lebbex", "LXON", associated logos, and the name "Nicholas Jasper Birla-Eliade" 
+			"Lebbex", "LXON", associated logos, and the name "Nicholas (Nick) Jasper" 
 			are trademarks/names of their owner and are NOT licensed under Apache 2.0 
 			or any other license granted in the github repository.
 		</p>

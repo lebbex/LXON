@@ -20,83 +20,106 @@
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
 		<p>
-			A enum is a value type which can hold an optional enum type and a required enum member.
+			An enum is a value type which can hold an optional enum type and a required enum member.
 			This allows for storing enums under text, which can be read and understood
 			(as opposed to storing them under numbers), and can be distinguished from regular string.
 		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			A enum requires the asterisk symbol <dfn>*</dfn> as type declaration.
+			An enum requires the asterisk symbol <dfn>*</dfn> as type declaration.
 			If the first character following that is another asterisk,
 			then the enum type becomes undefined.
 			Otherwise, everything until the first colon gets parsed into the enum type.
+			The enum's type does not support !! other.escape ! escape sequences !.
 		</p>
 		<p>
 			After reading or skipping the enum type, the enum member is parsed.
-			Everything until the end of the line or the first terminator symbol gets parsed into the enum member.
-			Here's a list of all terminator symbols for the enum member:
+			Every following character is treated as the contents of the enum member, 
+			until the first instance of either its terminator symbol (backtick), 
+			or another valid declaration character as show below:
 		</p>
 		<ul>
-			<li>Backtick <dfn>`</dfn></li>
-			<li>Caret <dfn>^</dfn></li>
-			<li>At Symbol <dfn>@</dfn></li>
-			<li>Asterisk <dfn>*</dfn></li>
-			<li>Question Mark <dfn>?</dfn></li>
+			<li> Backtick <dfn>`</dfn> (terminator symbol)</li>
+			<li> Caret <dfn>^</dfn> (!! val.text.string ! string ! declaration)</li>
+			<li> Ampersand <dfn>&</dfn> (!! val.date ! date ! declaration)</li>
+			<li> Dollar Sign <dfn>$</dfn> (!! val.bool ! boolean ! or !! val.mon ! monetary value ! declaration)</li>
+			<li> At Symbol <dfn>@</dfn> (!! val.bind ! keybind ! declaration)</li>
+			<li> Hashtag <dfn>#</dfn> (!! val.col.spaces.srgb ! srgb color ! declaration)</li>
+			<li> Equals <dfn>=</dfn> (!! val.col.spaces.lin ! linear srgb color ! declaration)</li>
+			<li> Slash <dfn>/</dfn> (!! val.col.spaces.prof ! profiled color ! declaration)</li>
+			<li> Asterisk <dfn>*</dfn> (!! val.enum ! enum ! declaration)</li>
+			<li> Question Mark <dfn>?</dfn> (!! val.bin ! binary value ! declaration)</li>
 		</ul>
 		<p>
 			It is standardized however to use the backtick, and only use the other characters for 
 			!! val.enum.chain ! chaining ! other values after it.
 			Like with full strings, enum members also ends at the end of the line, 
 			so trailing backticks aren't strictly required.
-			Enum members also support trailing whitespace such as tabs or space characters.
 		</p>
-		<p>
-			As a consequence of its increase in complexity, enum members require escape sequences for the following characters:
-		</p>
-		<ul>
-			<li>Newline <dfn>\n</dfn></li>
-			<li>Carriage Return <dfn>\r</dfn></li>
-			<li>Backslash <dfn>\\</dfn></li>
-			<li>Backtick <dfn>\`</dfn></li>
-			<li>Caret <dfn>\^</dfn></li>
-			<li>At Symbol <dfn>\@</dfn></li>
-			<li>Asterisk <dfn>\*</dfn></li>
-			<li>Question Mark <dfn>\?</dfn></li>
-		</ul>
 		<h2 id="chain"> Chaining </h2>
 		<p>
-			Enums can be chained easily. However, these chains should only ever be done inside an !! containers.arr ! array !.
-			Here's all the possible chained values:
+			Enums can be chained easily, 
+			a feature which makes use of the rare characters which are unexpected to be present in a keybind, 
+			such as those stated above. These characters happen to be declaration characters for other types.
+		</p>
+		<p>
+			In order to make use of them, and save up on valuable space and syntax,
+			typing one of those characters in an enum member terminates the enum and 
+			declares the next value as having the type declared by the termination character.
+		</p>
+		<p>
+			These chains should only ever be made inside an !! containers.arr ! array !,
+			as it is the only event where values are expected to follow eachother.
+		</p>
+		<p>
+			Here's some examples of enum chaining in action:
+		</p>
+		<pre><code>{
+enums:[ **gun **sword **grande
+
+enum+str1:[ **foo` `string`
+enum+str2:[ **foo ^string`
+
+enum+date:[ *brand:nike &26-12-08
+enum+cash:[ *tier:platinum $cad.400
+enum+color:[ **bread #ff05ff
+enum+bind:[ *weapon:sword @right-joyX
+enum+binary:[ *type:member ?b1c4 1710
+</code></pre>
+		<h2 id="escape"> Escaping </h2>
+		<p>
+			As a consequence of its increase in complexity, enum members require !! other.escape ! escape sequences ! 
+			for the following characters, including ALL those shown above 
+			(simply add a <dfn>\</dfn> before the character to escape it):
 		</p>
 		<ul>
-			<li>
-				When a caret <dfn>^</dfn> is used to terminate an enum member, 
-				it will not only mark the end of the current enum but also the start of a new !! val.text.str ! string !.
-			</li>
-			<li>
-				When a at symbol <dfn>@</dfn> is used to terminate an enum member, 
-				it will mark the end of the current enum and the start of a !! val.keybind ! keybind !.
-			</li>
-			<li>
-				When a asterik <dfn>*</dfn> is used to terminate an enum member, 
-				it will mark the end of the current enum and the start of a new one.
-			</li>
-			<li>
-				When a question mark <dfn>?</dfn> is used to terminate an enum member, 
-				it will mark the end of the current enum and the start of a !! val.binary ! binary ! value.
-			</li>
+			<li> Newline <dfn>\n</dfn></li>
+			<li> Carriage Return <dfn>\r</dfn></li>
+			<li> Backslash <dfn>\\</dfn></li>
 		</ul>
-		<h2 id="important"> Important </h2>
+		<p>
+			Here's some example usage of keybind escaping:
+		</p>
+		<pre><code>{
+enum1: *newline:\n
+
+enum2: *backslash:\\
+
+enum3: *title:Romeo \& Juliet
+
+weird enum: *email:lxon\@lebbex.com
+# ^ This last one ^
+# is likely a mischosen value type.
+</code></pre>
+		<h2 id="whitespace"> Whitespace </h2>
+		<p>
+			Enum members support trailing whitespace such as tabs or space characters if terminated using the backticks.
+			Otherwise, it trims all trailing whitespace. This allows for cleaner formatting.
+		</p>
 		<p>
 			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
 			This allows for better visualization as well as a shortening of the visual length of the keybind.
 			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
-		</p>
-		<p>
-			Also, although trailing whitespace is supported, if there's no trailing backtick,
-			it is standardized to replace the last character with a <dfn>\s</dfn> if it's a space, or a <dfn>\t</dfn> if it's a tab.
-			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
-			For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing mistake.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
@@ -106,13 +129,18 @@
 perms: *perm:admin
 theme: **dark
 
-inventory:[ *weapon:sword` *weapon:gun*food:bread
+inventory:[ *weapon:sword` *weapon:gun *food:bread
+
+book: *title:Romeo \& Juliet
 
 enum-keybind:[ *enum:member@left_key
 
-enum-binary:[ *type:bin?32e5 fa24
+enum-binary:[ *type:bin ?32e5 fa24
 
-enum-string:[ **dev^Nick Jasper
+enum-string1:[ **dev` `Carlos
+enum-string2:[ **dev ^Nick Jasper
+
+game: *game:arrel`
 </code></pre>
 	</div>
 

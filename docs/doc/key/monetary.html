@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			Monetary keys are !! key.typed ! typed keys ! that use
+			!! val.monetary ! monetary values ! to label other values inside !! cont.map ! maps !.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write a monetary key, first, ensure the !! cont.map ! map ! is set to use monetary keys.
+			Do so by writing the declaration character after the open parenthesis, 
+			a dollar sign <dfn>$</dfn>.
+		</p>
+		<p>
+			If you wish to keep the currency unspecified 
+			(you can then optionnally specify a different currency per key), 
+			type a newline or asterisk <dfn>*</dfn> after the dollar sign.
+		</p>
+		<p>
+			Your monetary key type declaration with unspecified currency should look as follows:
+		</p>
+		<pre><code>($*</code></pre>
+		<p>
+			If you wish to specify a currency homogeniously on all keys, 
+			add the currency code after the dollar sign.
+			Terminate the code with either a newline or period <dfn>.</dfn>.
+		</p>
+		<p>
+			Your monetary key type declaration with specified currency should look as follows (use any currency code):
+		</p>
+		<pre><code>($eur</code></pre>
+		<p>
+			Afterwards, write each key as a !! val.mon.syntax ! valid monetary value !, 
+			optionnally specifying a currency if it wasn't specified.
+			Terminate the key with a colon <dfn>:</dfn> before writing the value associated to the key.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of monetary keys as reference:
+		</p>
+		<pre><code>{
+unspec:($
+	400.0: "400 unkown coins
+	cad.8000: "80 canadian dollars
+
+unspec2:($*
+	0.50: "50 unknown cents
+	usd.3: "3 american cents
+
+unspec3:($*10: `value` eur.10: "val
+	
+
+canadian:($cad
+	300: "300 cents aka 3 dollars
+
+american:($usd.
+	2000: "2000 cents aka 20 dollars
+	40 00: "4000 cents aka 40 dollars
+
+euro:($eur.50: "50 cents
+	10: "10 cents
+	100 00: "100 dollars
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Keys", "Monetary"]);
+	</script>
+
+</body>
+
+</html>

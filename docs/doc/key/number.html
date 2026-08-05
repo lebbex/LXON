@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			Number keys are !! key.typed ! typed keys ! that use
+			!! val.num ! numbers ! to label values inside !! cont.map ! maps !.
+		</p>
+		<p>
+			They can be useful in many cases, such as when wishing to make a indexed list 
+			where not all items at all indexes are present,
+			or where the indexes are seperate from the order in the list.
+		</p>
+		<p>
+			Number keys support any number, signed and with decimal points, 
+			in scientific notation and static numbers such as NaN and +/-Infinity.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write a number key, first, ensure the !! cont.map ! map ! has no specified key type declaration.
+		</p>
+		<p>
+			This means that, following the open parenthesis which declares the map, 
+			there is no symbol declaring the key type of the map.
+			This is because the parser can recognize the key type directly by looking at the first key,
+			which self-declares the map's key type.
+		</p>
+		<p>
+			Afterwards, write each key as a valid number,
+			terminating the key with a colon <dfn>:</dfn> before writing the value associated to the key.
+		</p>
+		<p>
+			View !! val.num ! number value syntax ! to see how to write valid numbers in LXON.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of date keys as reference 
+			(the !! cont.root ! root container ! is a map with date typed keys):
+		</p>
+		<pre><code>(&
+1: "value
+2: "value
+4: "value
+7: "value
+6: "value
++10: "value
+-1: "value
+.5: "value
+-.25: "value
+-1.1: "value
+-: "value
+%: "value
++%: "value
+-%: "value
+.5e+10: "value
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Keys", "Number"]);
+	</script>
+
+</body>
+
+</html>

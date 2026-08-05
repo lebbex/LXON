@@ -65,9 +65,8 @@
 
 			<section>
 				<h2>About</h2>
-				<p>The LXON serialization format is a better JSON alternative developed solely by Nicholas (Jasper)
-					Birla-Eliade.</p>
-				<p>It introduces twice the container types and quadruple the value types.
+				<p>The LXON serialization format is a better JSON alternative developed solely by Nick Jasper.</p>
+				<p>It introduces twice the container types and over quadruple the value types.
 					It also uses far less syntax, making it much smaller (often up to half a JSON file)
 					and far easier to read, write and edit.
 				</p>
@@ -147,7 +146,7 @@
 		document.getElementById("nav-doc").href = createHref("/doc");
 		document.getElementById("nav-editor").href = createHref("/editor");
 		document.getElementById("nav-containers").href = createHref("/doc/containers");
-		document.getElementById("nav-keys").href = createHref("/doc/keys");
+		document.getElementById("nav-keys").href = createHref("/doc/key");
 		document.getElementById("nav-values").href = createHref("/doc/values");
 
 
@@ -397,25 +396,28 @@
 
 		const subDropOptions = {
 			containers: [
+				["Root", "/root"],
 				["Object", "/object"],
 				["Array", "/array"],
 				["Map", "/map"],
 				["Doodad", "/doodad"]
 			],
 			keys: [
-				["Text", "/keys/text"],
-				["Boolean", "/keys/bool"],
-				["Number", "/keys/number"],
-				["Date", "/keys/date"],
-				["Keybind", "/keys/keybind"],
-				["Color", "/keys/color"],
-				["Enum", "/keys/enum"]
+				["String", "/key/string"],
+				["Boolean", "/key/bool"],
+				["Number", "/key/number"],
+				["Date", "/key/date"],
+				["Monetary", "/key/monetary"],
+				["Keybind", "/key/keybind"],
+				["Color", "/key/color"],
+				["Enum", "/key/enum"]
 			],
 			values: [
 				["Text", "/text"],
 				["Boolean", "/bool"],
 				["Number", "/number"],
 				["Date", "/date"],
+				["Monetary", "/monetary"],
 				["Keybind", "/keybind"],
 				["Color", "/color"],
 				["Enum", "/enum"],

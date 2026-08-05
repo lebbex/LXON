@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			Enum keys are !! key.typed ! typed keys ! that use !! val.enum ! enums ! 
+			to label other values inside !! cont.map ! maps !.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write an enum key, first, ensure the !! cont.map ! map ! is set to use enum keys.
+			Do so by writing the declaration character after the open parenthesis, 
+			an asterisk <dfn>*</dfn>.
+		</p>
+		<p>
+			If you wish to leave the enum type undefined,
+			type a newline or a second asterisk after the first asterisk.
+		</p>
+		<p>
+			Your enum key type declaration with unspecified type should look as follows:
+		</p>
+		<pre><code>(**</code></pre>
+		<p>
+			If you wish to specify an enum type homogeniously on all keys,
+			write the enum type after the first asterisk, 
+			terminating the enum type with either a newline or colon <dfn>:</dfn>.
+		</p>
+		<p>
+			Your enum key type declaration with specified type should look as follows
+			(use any enum type):
+		</p>
+		<pre><code>(*weapon:</code></pre>
+		<p>
+			Afterwards, write each key as a !! val.enum.syntax ! valid enum !.
+			Terminate the key with a colon <dfn>:</dfn> before writing the value associated to the key.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of enum keys as reference:
+		</p>
+		<pre><code>{
+unspec1:(*
+	gun: "value
+	grenade: "value
+
+unspec2:(**
+	bread: "value
+	sugar: "value
+
+unspec3:(**cx7: `mazda` q5: "audi
+
+map1:(*weapons
+	gun: "value
+	grenade: "value
+
+map2:(*food:
+	bread: "value
+	sugar: "value
+
+map3:(*cars:cx7: `mazda` q5: "audi
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Keys", "Enum"]);
+	</script>
+
+</body>
+
+</html>

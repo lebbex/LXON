@@ -20,15 +20,20 @@
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
 		<p>
-			A color type is a color value's precision and color space (which can be linear).
+			Color keys are !! key.typed ! typed keys ! that use
+			!! val.col ! colors ! to label values inside !! cont.map ! maps !.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write a color key, first, decide which color space, gamma curve 
+			(default / linear) and precision level you want the color keys in the map to have.
+			Color keys must be of homogenious type throughout the map.
 		</p>
 		<p>
-			The color's !! val.col.precision ! precision ! defines how many bits a color is stored in, 
-			which, in the case of !! val.col.prec.float ! float !, can be infinite.
-		</p>
-		<p>
-			The color's !! val.col.space ! space ! defines how the color should be interpreted, organized and reproduced.
-			Different color spaces hold different color gamuts, with varying widths and utilities.
+			Once you have it chosen, ensure the !! cont.map ! map ! 
+			is set to use correct key type.
+			Do so by writing the full declaration character for the color type 
+			after the open parenthesis.
 		</p>
 		<p>
 			Here are the avaible color type declaration sequences
@@ -76,44 +81,30 @@
 			</li>
 		</ul>
 		<p>
-			Most languages and environments don't have implementations for all these value types.
-			Many don't even have implementations for the sRGB color types.
-			To make up for it, LXON parsers/serializers often have custom objects that hold the color types.
+			Your keybind key type declaration should look as follows 
+			(example uses !! val.col.prec.8bit ! 8bit ! !! val.col.space.srgb ! sRGB ! color):
+		</p>
+		<pre><code>(#</code></pre>
+		<p>
+			Afterwards, write each key as a valid color for the chosen color type,
+			terminating the key with a colon <dfn>:</dfn> before writing the value associated to the key.
 		</p>
 		<p>
-			For example, in JavaScript, there are sRGB colors, which have a "linear" and "deep" boolean, on top of a float for each channel.
-			There are also preset color objects and custom color objects, all containing color, precision and color space data.
-		</p>
-		<h1 id="distinction"> Distinction </h1>
-		<p>
-			This documentation won't go into depth on the difference between all color spaces.
-		</p>
-		<p>
-			If you never had to ask yourself which colorspace you're using, then you're most likely using 8 bit sRGB,
-			and can confidently use that color type for your implementation. 
-			It's what's used for web, photography, user interfaces, and countless other usecases and industries.
-			It is wise however to look into virtual color theory.
-		</p>
-		<p>
-			As to the difference between 8 bit, 10 bit, 12 bit, 16 bit and infinite float precision, 
-			the difference is only a question of what's necessary for your implementation.
-			Gnerally, 8 bit is what's used by most programs and systems. 
-			The only time you'll ever need to use a higher definition color representation is 
-			when you explicitly know the difference and this section of documentation is obsolete to you.
+			View !! val.col ! color syntax ! to see how to write valid colors in LXON.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
-			Here's some example usage of color values as reference (all colors are the same after conversion):
+			Here's some example usage of keybind keys as reference 
+			(the !! cont.root ! root container ! is a map with keybind typed keys):
 		</p>
-		<pre><code>{
-8bit:
-	srgb: #92c6f280
+		<pre><code>(@
+up_arrow: "forwards
+down_arrow: "backwards
+left_arrow: "strafe left
+right_arrow: "strafe right
 
-	linear: =4a90e280 
-
-	p3: /.9dc5ff80
-
-	adobe: /#.a2c5f080
+miscelanious keybind: "value
+symbols `^&$@#=/*?` : "value
 </code></pre>
 	</div>
 
@@ -125,7 +116,7 @@
 	<script src="/ressources/nav-tree.js"></script>
 	<script src="/ressources/docu.js"></script>
 	<script>
-		docu.init(["Values", "Color"]);
+		docu.init(["Keys", "Color"]);
 	</script>
 
 </body>

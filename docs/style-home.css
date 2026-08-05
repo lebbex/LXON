@@ -183,11 +183,11 @@
 }
 
 .subdown-content.keys {
-    transform: translateY(2.3rem);
+    transform: translateY(2.5rem);
 }
 
 .subdown-content.values {
-    transform: translateY(4.6rem);
+    transform: translateY(5rem);
 }
 
 .subdown-content-box {
@@ -233,9 +233,10 @@ section {
 }
 
 .landing {
-    min-height: 90lvh;
-    height: 90lvh;
+    min-height: 100lvh;
+    height: 100lvh;
     justify-content: center;
+    padding-bottom: 10lvh;
 }
 
 .eyebrow {

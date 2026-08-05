@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			Boolean keys are typed keys that use !! val.bool ! booleans ! 
+			to label values inside !! cont.map ! maps !.
+		</p>
+		<p>
+			They are some of the least useful key types, supporting an astonishing 2 keys.
+			This makes it useless in almost any scenerio. However, 
+			since they could be implemented, they were implemented.
+		</p>
+		<p>
+			If you end up needing to use boolean keys, 
+			please email <dfn>lxon@lebbex.com</dfn> because I'm geniuenly curious what your use case is.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write a boolean key, first, ensure the !! cont.map ! map ! is set to use the bool key type.
+			Do so by typing the bool key type declaration character directly following the open parenthesis,
+			a colon <dfn>:</dfn>.
+		</p>
+		<p>
+			Your boolean key type declaration should look as follows (yes it looks like a smiley face):
+		</p>
+		<pre><code>(:</code></pre>
+		<p>
+			Afterwards, write each key as simple <dfn>$</dfn> for true and <dfn>!</dfn> for false.
+			Unlike the other !! keys.typed ! typed keys ! in !! cont.map ! maps !, 
+			you do not need to terminate the key using a colon <dfn>:</dfn>,
+			as the key itself can only be a single character long. This saves up on a byte of storage.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of boolean keys as reference (all maps have the same data):
+		</p>
+		<pre><code>{
+pretty: (:
+	$: "value
+	!: 400
+
+clean: (:
+	$ "value1
+	! 400
+
+small: (:
+	$"value1
+	!400
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Keys", "Boolean"]);
+	</script>
+
+</body>
+
+</html>

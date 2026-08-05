@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			The root container isn't a container type itself.
+            The root container is, as the name implies, the main container that wraps all the data.
+		</p>
+        <p>
+            The most common root container to use is the !! cont.obj ! object !,
+            and in certain cases the !! cont.arr ! array !.
+            However, any container type can be used as the root container,
+            including !! cont.map ! maps ! and !! cont.doo ! doodads !.
+        </p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write any LXON file, you first need to instanciate a root container type.
+            To do so, write, as the first character, the type declarator of the target container type.
+            The symbol HAS to be the first character of the file, as many parsers won't trim preceding whitespace.
+        </p>
+        <p>
+            Here are the different type declarator options:
+        </p>
+        <ul>
+            <li>!! cont.obj ! Object ! <dfn>{</dfn></li>
+            <li>!! cont.arr ! Array ! <dfn>[</dfn></li>
+            <li>!! cont.map ! Map ! <dfn>(</dfn></li>
+        </ul>
+        <p>
+            As you may notice, there is no type declarator for !! cont.doo ! doodads !.
+            That is because a doodad is the catch all exception, 
+            the else condition if no declarator symbol was used (or if it wasn't the first character).
+        </p>
+		<h1 id="usage"> Usage </h1>
+        <h2 id="object"> !! cont.obj ! Object ! </h2>
+        <p>
+            Here's example usage of an object as root container:
+        </p>
+        <pre><code>{
+id: 92
+name: "Malcom
+male: $
+home:
+    Country: "USA
+    State: "Pennsylvania
+    City: "Pittsburgh
+    N.H.: "Point Breeze
+albums:[
+    "Swimming
+    "Circles
+</code></pre>
+        <h2 id="array"> !! cont.arr ! Array ! </h2>
+        <p>
+            Here's example usage of an array as root container:
+        </p>
+        <pre><code>[
+96
+"Gustav
+$
+{
+    Country: "USA
+    State: "New York
+    City: "Long Beach
+    N.H.: "West End
+[
+    "PART ONE
+    "LIVE FOREVER
+</code></pre>
+        <h2 id="map"> !! cont.map ! Map ! </h2>
+        <p>
+            Here's example usage of a map as root container:
+        </p>
+        <pre><code>(*field:
+id: 93
+name: "Jahron
+$
+home:
+    Country: "Canada
+    Province: "Ontario
+    City: "Mississauga
+    N.H.: "Applewood
+albums:[
+    "TWO
+    "4
+</code></pre>
+        <h2 id="doodad"> !! cont.doo ! Doodad ! </h2>
+        <p>
+            Here's example usage of a doodad as root container:
+        </p>
+        <pre><code>i83
+n"Nayvadius
+m$
+h
+    Country: "USA
+    State: "Georgia
+    City: "Atlanta
+    N.H.: "Kirkwood
+a[
+    "HNDRXX
+    "PURPLE REIGN
+</code></pre>
+    <p>
+        And here's a relatively compressed form of the doodad above:
+    </p>
+    <pre><code>i83 n`Nayvadius` m$ h
+    Country: "USA
+    State: "Georgia
+    City: "Atlanta
+    N.H.: "Kirkwood
+a[`HNDRXX^PURPLE REIGN
+</code></pre>
+    <p>
+        And here's a ultra-compressed inline form of the same data:
+    </p>
+    <pre><code>i83n`Nayvadius`m$hc`USA`s`Georgia`p`Atlanta`n`Kirkwood`|a[`HNDRXX^PURPLE REIGN</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Containers", "Root"]);
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			Keybind keys are !! key.typed ! typed keys ! that use
+			!! val.bind ! keybinds ! to label values inside !! cont.map ! maps !.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write a keybind key, first, ensure the 
+			!! cont.map ! map ! is set to use keybind keys.
+			Do so by writing the declaration character after the open parenthesis, 
+			an at symbol <dfn>@</dfn>.
+		</p>
+		<p>
+			Your keybind key type declaration should look as follows:
+		</p>
+		<pre><code>(@</code></pre>
+		<p>
+			Afterwards, write each key as a !! val.bind.syntax ! valid keybind !,
+			terminating the key with a colon <dfn>:</dfn> before writing the value associated to the key.
+			Do not terminate keybinds with any other terminator symbol,
+			even if keybind values can be terminated with them. 
+			Those termination symbols will be parsed as content of the keybind.
+			As such, you don't need to !! other.escape ! escape ! them either.
+		</p>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Here's some example usage of keybind keys as reference 
+			(the !! cont.root ! root container ! is a map with keybind typed keys):
+		</p>
+		<pre><code>(@
+up_arrow: "forwards
+down_arrow: "backwards
+left_arrow: "strafe left
+right_arrow: "strafe right
+
+miscelanious keybind: "value
+symbols `^&$@#=/*?` : "value
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Keys", "Keybind"]);
+	</script>
+
+</body>
+
+</html>

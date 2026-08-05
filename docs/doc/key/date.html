@@ -20,39 +20,34 @@
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
 		<p>
-			In LXON, "text" is a way to group all string-like types into one. 
-			Text values encapsulate three distinct yet similar values types:
+			Date keys are !! key.typed ! typed keys ! that use
+			!! val.date ! dates ! to label values inside !! cont.map ! maps !.
 		</p>
-		<ul>
-			<li>Full String <dfn>"</dfn></li>
-			<li>Regular String <dfn>` or ^</dfn></li>
-			<li>String Character <dfn>'</dfn></li>
-		</ul>
+		<h1 id="syntax"> Syntax </h1>
 		<p>
-			Text values are values that get turned into string by default,
-			unless the language or environment supports a dinstinct single-character string value type (char).
+			To write a date key, first, ensure the !! cont.map ! map ! is set to use date keys.
+			Do so by writing the declaration character after the open parenthesis, 
+			an ampersand <dfn>&</dfn>.
 		</p>
 		<p>
-			When serializing the data, the string automatically choses the correct text type
-			based on whether it's the last value on the line, and, 
-			in the case of a language that doesn't support char,
-			if the length of the string is of 1.
+			Your date key type declaration should look as follows:
+		</p>
+		<pre><code>(&</code></pre>
+		<p>
+			Afterwards, write each key as a valid date,
+			terminating the key with a double colons <dfn>::</dfn> before writing the value associated to the key.
+		</p>
+		<p>
+			View !! val.date ! date value syntax ! to see how to write valid dates in LXON.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
-			Here's some example usage of text values as reference:
+			Here's some example usage of number keys as reference 
+			(the !! cont.root ! root container ! is a map with number typed keys):
 		</p>
-		<pre><code>{
-name: "Scott
-last: `Cawthon`
-char: 'S
-cha2: '4'
-
-array:[ "Full string 1
-	"Full string 2
-	`string1` `string2`
-	`string3` `string4
-	`string3^string4`
+		<pre><code>(&
+26:: "value
+26-12-08T12:30:: "value
 </code></pre>
 	</div>
 
@@ -64,7 +59,7 @@ array:[ "Full string 1
 	<script src="/ressources/nav-tree.js"></script>
 	<script src="/ressources/docu.js"></script>
 	<script>
-		docu.init(["Values", "Text"]);
+		docu.init(["Keys", "Date"]);
 	</script>
 
 </body>

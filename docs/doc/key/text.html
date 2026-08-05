@@ -20,39 +20,49 @@
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
 		<p>
-			In LXON, "text" is a way to group all string-like types into one. 
-			Text values encapsulate three distinct yet similar values types:
+			Text key types are keys that use regular text for their keys.
+			They are often used in maps to alow for keys that aren't supported by 
+			!! keys.reg ! object keys ! or !! keys.char ! doodad keys !.
+		</p>
+		<p>
+			If dynamically constructing an object with dynamic keys that may differ,
+			you should always use maps with !! keys.text.string ! string keys !, or
+			!! keys.text.char ! char keys ! in the event of every key being 1 character long exactly.
+		</p>
+		<p>
+			Here are both text key type's declaration characters:
 		</p>
 		<ul>
-			<li>Full String <dfn>"</dfn></li>
-			<li>Regular String <dfn>` or ^</dfn></li>
-			<li>String Character <dfn>'</dfn></li>
+			<li>
+				String
+				<dfn>" or `</dfn>
+				<span class="a">(Expansion from !! cont.obj ! objects !)</span>
+			</li>
+			<li>
+				Character
+				<dfn>'</dfn>
+				<span class="a">(Expansion from objects or !! cont.doo ! doodads !)</span>
+			</li>
 		</ul>
 		<p>
-			Text values are values that get turned into string by default,
+			Text keys get turned into string by default,
 			unless the language or environment supports a dinstinct single-character string value type (char).
-		</p>
-		<p>
-			When serializing the data, the string automatically choses the correct text type
-			based on whether it's the last value on the line, and, 
-			in the case of a language that doesn't support char,
-			if the length of the string is of 1.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
-			Here's some example usage of text values as reference:
+			Here's some example usage of text keys as reference:
 		</p>
 		<pre><code>{
-name: "Scott
-last: `Cawthon`
-char: 'S
-cha2: '4'
+string map: ("
+	key: "value
+	\:key: $
+	key\n: -.342
 
-array:[ "Full string 1
-	"Full string 2
-	`string1` `string2`
-	`string3` `string4
-	`string3^string4`
+char map: ('
+	k: "value
+	\:: $
+	\n: -.342
+	!: "all keys are litteral chars
 </code></pre>
 	</div>
 
@@ -64,7 +74,7 @@ array:[ "Full string 1
 	<script src="/ressources/nav-tree.js"></script>
 	<script src="/ressources/docu.js"></script>
 	<script>
-		docu.init(["Values", "Text"]);
+		docu.init(["Keys", "Text"]);
 	</script>
 
 </body>

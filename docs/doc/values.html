@@ -24,7 +24,7 @@
 		</p>
 		<p>
 			Containers are also values and can be used anywhere a value is expected,
-			although "value" often refers to the non-container values, 
+			although "value" often refers to the non-container values,
 			such as on this page and all it's sub-pages in majority.
 		</p>
 		<h1 id="static"> Static Values </h1>
@@ -55,19 +55,31 @@
 			Here is a cheat sheet list of all dynamic values and their respective declaration characters:
 		</p>
 		<ul>
-			<li>!! vals.text.full ! Full String ! <dfn>"</dfn></li>
-			<li>!! vals.text.str ! String ! <dfn>` or ^</dfn></li>
-			<li>!! vals.text.char ! Char ! <dfn>'</dfn></li>
-			<li>!! vals.num ! Number ! <dfn></dfn>
+			<li>!! val.text ! Text !
+				<ul>
+					<li>!! vals.text.full ! Full String ! <dfn>"</dfn></li>
+					<li>!! vals.text.str ! String ! <dfn>` or ^</dfn></li>
+					<li>!! vals.text.char ! Char ! <dfn>'</dfn></li>
+				</ul>
 			</li>
+			<li>!! vals.num ! Number ! <dfn></dfn></li>
 			<li>!! vals.date ! Date ! <dfn>&</dfn></li>
+			<li>!! vals.mon ! Monetary ! <dfn>$</dfn></li>
 			<li>!! vals.bind ! Keybind ! <dfn>@</dfn></li>
 			<li>!! keys.col ! Color !
 				<ul>
 					<li>!! vals.col.spaces.srgb ! SRGB Color ! <dfn># or ;</dfn></li>
 					<li>!! vals.col.spaces.lin ! Linear SRGB Color ! <dfn>= or ;=</dfn></li>
-					<li>!! vals.col.spaces.profile ! Profiled Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
-					<li>!! vals.col.spaces.profile.lin ! Linear Profiled Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+					<li>
+						!! vals.col.spaces.profile ! Profiled Color !
+						<dfn>/</dfn>
+						<span class="a">*Complex type declaration</span>
+					</li>
+					<li>
+						!! vals.col.spaces.profile.lin ! Linear Profiled Color !
+						<dfn>/</dfn>
+						<span class="a">*Complex type declaration</span>
+					</li>
 				</ul>
 			</li>
 

@@ -20,16 +20,176 @@
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
 		<p>
-			An object is possibly the most used container type in LXON. 
+			An object is the most used container type in LXON. 
 			It is based on the JSON object type, which is in turn based on the native JavaScript object type.
-			It serves to organize values by key using simple, yet limited key text.
+			It serves to organize values by simple yet limited !! keys.reg ! keys !.
+			It doesn't allow for duplicate keys.
 		</p>
-		<h1 id="keys"> Multline </h1>
+		<h1 id="syntax"> Syntax </h1>
 		<p>
-
+			To write an object, you must use its declaration character when prompted for a value.
+			Objects have two type declarators:
 		</p>
-		<h1 id="keys"> Inline </h1>
+		<ul>
+			<li>Opening curly bracket <dfn>{</dfn></li>
+			<li>Newline <span class="a">(The litteral end of line)</span></li>
+		</ul>
+		<p>
+			Afterwards, you must write key/value pairs.
+		</p>
+		<p>
+			To do so, first write a !! keys.reg ! regular key !, 
+			which is mostly just text with a couple conditions requiring to be met.
+			The regular key terminates at the first colon <dfn>:</dfn>, 
+			which helps seperate the key from the value.
+		</p>
+		<p>
+			After terminating the key with a colon, write the !! val ! value ! properly, 
+			ensuring to correctly terminate it before proceeding to the next key.
+			Some values, such as !! val.text.full ! full strings ! 
+			cannot be terminated on the same line and require a newline altogether.
+			The most reliable way of terminating a value is with a newline, 
+			which is supported for all value types.
+		</p>
+		<p>
+			Here are examples of objects written on a single line:
+		</p>
+		<pre><code>{
+movie1:{ title:`Jacob's Ladder` year:1990 dir:"Adrian Lyne
+
+movie2:{ title:`The Shining` release:&1980-5-23
+</code></pre>
+		<h2 id="multiline"> Multiline </h2>
+		<p>
+			As apparent in the example above, 
+			writing an object on a single line often makes it hard to read.
+			The standard way of writing LXON demands (for readable data)
+			that objects containing more than one key/value pair use multiline for clarity.
+		</p>
+		<p>
+			When writing a key/value pair on a newline, 
+			simply ensure to add 1 additionnal indentation compared to the line preceding it.
+			Indentation MUST use tab characters, 
+			space characters aren't taken into consideration for indentation 
+			and are instead appended at the start of the key.
+		</p>
+		<p>
+			Here are examples of objects written with multiline taken into account:
+		</p>
+		<pre><code>{
+album:
+	title: "Skin
+	artist: "Flume
+	release: &16-5-27
+
+	lead single:{
+		title: "Never Be Like You
+		feature:
+			name: "Kai
+			birth: 1990 male: !
+</code></pre>
+		<h2 id="termination"> Termination </h2>
+		<p>
+			Objects are mainly terminated when the next line doesn't have the required indentation level.
+			This is the most common way to terminate objects.
+		</p>
+		<p>
+			Here are examples of indentation terminated objects:
+		</p>
+		<pre><code>{
+obj1:{ key: "value
+obj2:
+	key: "value
+</code></pre>
+		<p>
+			Rarely, usually only when writing a LXON data inline (all on one line),
+			the indentation termination is impossible to achieve.
+			This is because the next key or value external to the object isn't on a newline,
+			but on the same line following the object.
+		</p>
+		<p>
+			In this scenerio, you should use the object termination symbol,
+			a closing curly bracket <dfn>}</dfn>.
+		</p>
+		<p>
+			Here are examples of ways to terminate objects using the termination symbol
+			(read !! other.comments ! comments ! as some of the examples showcase common mistakes):
+		</p>
+		<pre><code>{
+# THIS IS CORRECT
+obj1:{ id: 4 } obj2:{ id: 5 }
+obj3:
+	key: `value` }
+obj4:
+	key: "value
+	}
+
+# THIS IS A MISTAKE
+# It terminates the root object instead
+obj5:{
+	key: 'v
+}
+
+# This data is never read
+# because the root was terminated above
+key: "value"
+</code></pre>
+		<h2 id="empty"> Empty Objects </h2>
+		<p>
+			The most straightforward way of creating an empty object
+			is to terminate it as soon as you create it
+			(obj1 in the example below).
+		</p>
+		<p>
+			However, objects are also terminated if the next line has improper indentation
+			(obj2 in the example below).
+		</p>
+		<p>
+			Since objects can be declared by a newline, 
+			you can even create an empty object by simply writing nothing as a value,
+			a simple newline with improper indentation on the next line
+			(obj3 in the example below).
+		</p>
+		<p>
+			Here's an example showcasing all methods of creating an empty object as shown above:
+		</p>
+		<pre><code>{
+obj3:
+obj2: {
+obj1: {}
+</code></pre>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Feel free to temporarily skip all syntax documentation above and 
+			look through these examples if you're more of a pattern recognition/visual learner.
+			However, it is very wise to be aware of the rules to avoid doing something 
+			that seems like it would work but doesn't.
+		</p>
+		<p>
+			With that being said, here are additionnal object usage examples, for reference:
+		</p>
+		<pre><code>{
+game:
+	name: "Arrel SG
+	prev: "RLSG
+	start: &21-8-17
+	version:{ pre-dev: 1
+	devs:
+		coding: "Nick Jasper
+		models: "Carlos Humberto
+		other: "Coutu
+	language:{
+		id: 23412
+		name: "C#
 		
+
+nest1:
+	deeper:
+		deeper:
+			key: "value
+
+nest2:{ deeper:{ deeper:{ key: "value
+</code></pre>
 	</div>
 
 

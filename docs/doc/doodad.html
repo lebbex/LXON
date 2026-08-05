@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			A doodad is the compressed form of an object.
+			It serves to organize values by !! keys.single ! single character keys !.
+			It doesn't allow for duplicate keys.
+		</p>
+		<p>
+			Doodads are most commonly used for storing vectors, coordinates, rotations,
+			or in general small objects where the keys don't require full words to be identifyable.
+		</p>
+		<p>
+			They are also used in events where all keys in an !! cont.obj ! object ! or
+			!! cont.map ! map ! will definetely be of single character length.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			To write a doodad, when prompted for a value, you must use a non-existant declaration character.
+			The simplest way of doing so is using any letter, uppercase or lowercase, and
+			!! other.escape ! escaping ! other characters that may be declaration characters.
+			You can escape them by prepending a backslash <dfn>\</dfn> to the character.
+		</p>
+		<p>
+			The letter (or symbol) you chose will be your first key in the doodad.
+			The key does not require a colon at the end.
+			Any key in the doodad following the first key doesn't need to be !! other.escape ! escaped !,
+			as the doodad was already declared and all keys are recognized as keys directly,
+			except for the obvious ones like:
+		</p>
+		<ul>
+			<li> Newline <dfn>\n</dfn></li>
+			<li> Carriage Return <dfn>\r</dfn></li>
+			<li> Backslash <dfn>\\</dfn></li>
+			<li> Tab <dfn>\t</dfn> (preferably)</li>
+			<li> 
+				Null Character <dfn>\0</dfn> (represents an empty character,
+				which can also be a key, the same way you can have empty keys in
+				!! cont.obj ! objects ! or !! cont.map ! maps ! by typing a colon directly)
+			</li>
+		</ul>
+		<p>
+			After writing a key, write the !! val ! value ! properly,
+			ensuring to properly terminate it before proceeding to the next key.
+			Some values, such as !! val.text.full ! full strings !
+			cannot be terminated on the same line and require a newline altogether.
+			The most reliable way of terminating a value is with a newline,
+			which is supported for all value types.
+		</p>
+		<p>
+			Here are examples of doodads written on a single line
+			(same movies listed in the !! cont.obj.syntax ! object's syntax example !):
+		</p>
+		<pre><code>{
+coordinate: x2391 y.3298 z-4234
+
+movie1: t`Jacob's Ladder` y1990 d"Adrian Lyne
+
+movie2: t`The Shining` r&1980-5-23
+</code></pre>
+		<h2 id="multiline"> Multiline </h2>
+		<p>
+			As apparent in the example above,
+			writing a doodad on a single line sometimes makes it hard to read.
+			It is at the developper's discretion when they chose to represent doodads
+			on multiple lines or on a single line,
+			however it is wise to know to write doodads on multiple lines if necessary.
+		</p>
+		<p>
+			When writing a key/value pair on a newline,
+			simply ensure to add 1 additionnal indentation compared to the line preceding it.
+			Indentation MUST use tab characters,
+			space characters aren't taken into consideration for indentation
+			and are instead appended at the start of the key.
+		</p>
+		<p>
+			Here are examples of doodads written with multiline taken into account:
+		</p>
+		<pre><code>a t"Acid Rap
+	a "Chance The Rapper
+	r &16-5-27
+
+	b t "Acid Rain
+		l &T0:3:36
+
+c x0 y0
+	z0
+
+r y0
+	p0 r0
+</code></pre>
+		<h2 id="termination"> Termination </h2>
+		<p>
+			Doodads are mainly terminated when the next line doesn't have the required indentation level.
+			This is the most common way to terminate doodads.
+		</p>
+		<p>
+			Here are examples of indentation terminated objects:
+		</p>
+		<pre><code>{
+doo1: k"value
+doo2:
+	k"value
+</code></pre>
+		<p>
+			Rarely, usually only when writing a LXON data inline (all on one line),
+			the indentation termination is impossible to achieve.
+			This is because the next key or value external to the doodad isn't on a newline,
+			but on the same line following the doodad.
+		</p>
+		<p>
+			In this scenerio, you should use the doodad termination symbol,
+			a vertical bar / pipe <dfn>|</dfn>.
+		</p>
+		<p>
+			Here are examples of ways to terminate doodads using the termination symbol:
+		</p>
+		<pre><code>{
+doo1: i4 | doo2: i5 |
+doo3: n3 | doo4: n4
+doo5:
+	k`value` |
+</code></pre>
+		<h2 id="empty"> Empty Doodads </h2>
+		<p>
+			Doodads cannot be empty, as their declaration character is also their first key.
+			There is no purpose to supporting empty doodads,
+			as doodads parse into objects with single character keys,
+			and objects with single character keys parse into doodads.
+			Therefore, to write an empty doodad, you must write an !! cont.obj.empty ! empty object !.
+		</p>
+		<h1 id="standards"> Standards </h1>
+		<p>
+			Doodads are often used to represent complex yet standard value with with determined keys,
+			such as coordinates, rotations and vectors.
+			There are standard ways of representing these values through doodads,
+			although it is not a strict requirement nor an enforcement of a single meaning for a selection of keys.
+		</p>
+		<p>
+			Here are the standard ways of representing those complex values (the keys and their order):
+		</p>
+		<ul>
+			<li> Vectors and Coordinates:
+				<ul>
+					<li> 2D Coordinates (Vector2) <dfn>x</dfn><dfn>y</dfn></li>
+					<li> 3D Coordinates (Vector3) <dfn>x</dfn><dfn>y</dfn><dfn>z</dfn></li>
+					<li> 4D Coordinates (Vector4) <dfn>x</dfn><dfn>y</dfn><dfn>z</dfn><dfn>w</dfn></li>
+					<li> 4D Physics Vector (time + coordinates) <dfn>t</dfn><dfn>x</dfn><dfn>y</dfn><dfn>z</dfn></li>
+					<li> Spherical Coordinates <dfn>r</dfn><dfn>t</dfn><dfn>p</dfn></li>
+					<li> 2D Geospatial Location (lat / long) <dfn>l</dfn><dfn>g</dfn></li>
+					<li> 3D Geospatial Location (lat / long / alt) <dfn>l</dfn><dfn>g</dfn><dfn>a</dfn></li>
+					<li> 2D Texture Coordinates <dfn>u</dfn><dfn>v</dfn></li>
+					<li> 3D Texture Coordinates <dfn>u</dfn><dfn>v</dfn><dfn>w</dfn></li>
+				</ul>
+			</li>
+			<li> Rotations:
+				<ul>
+					<li> Euler Rotation <dfn>y</dfn><dfn>p</dfn><dfn>r</dfn></li>
+					<li>
+						Quaternion Rotation
+						<dfn>w</dfn><dfn>x</dfn><dfn>y</dfn><dfn>z</dfn>
+						<span class="a">*Distinguished from 4D Coordinates</span>
+					</li>
+					<li> Axis-Angle Rotation <dfn>x</dfn><dfn>y</dfn><dfn>z</dfn><dfn>a</dfn></li>
+				</ul>
+			</li>
+			<li> Dimensions:
+				<ul>
+					<li> 2D Scale (width / height) <dfn>w</dfn><dfn>h</dfn></li>
+					<li> 3D Scale (width / height / depth) <dfn>w</dfn><dfn>h</dfn><dfn>d</dfn></li>
+				</ul>
+			</li>
+			<li> Color:
+				<ul>
+					<li>
+						red / green / blue / alpha (opacity)
+						<dfn>r</dfn><dfn>g</dfn><dfn>b</dfn><dfn>a</dfn>,
+						although it's always better to use !! val.col.prec.float ! infinite precision color ! 
+						representation instead.
+					</li>
+					<li> red / green / blue <dfn>r</dfn><dfn>g</dfn><dfn>b</dfn></li>
+					<li> hue / saturation / value (brightness) <dfn>h</dfn><dfn>s</dfn><dfn>v</dfn></li>
+				</ul>
+			</li>
+		</ul>
+		<h1 id="usage"> Usage </h1>
+		<p>
+			Feel free to temporarily skip all syntax documentation above and
+			look through these examples if you're more of a pattern recognition/visual learner.
+			However, it is very wise to be aware of the rules to avoid doing something
+			that seems like it would work but doesn't.
+		</p>
+		<p>
+			With that being said, here are additionnal doodad usage examples, for reference
+			(it's almost the same data as used for the !! cont.obj.use ! object's usage example !):
+		</p>
+		<pre><code>g n "Arrel SG
+	p "RLSG
+	s &21-8-17
+	v p 1
+	d{
+		coding: "Nick Jasper
+		models: "Carlos Humberto
+		other: "Coutu
+	l
+		id: 23412
+		name: "C#
+
+n d d k "value
+mddk"value
+
+c x0 y0 z0
+dx0y0z0
+</code></pre>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Containers", "Doodad"]);
+	</script>
+
+</body>
+
+</html>
