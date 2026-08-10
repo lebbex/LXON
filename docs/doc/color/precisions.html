@@ -18,19 +18,7 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
-		<h1 id="distinction"> Distinction </h1>
-		<p>
-			Colors have 5 different levels of precision. 
-			Each level allows for more color depth and detail, however at the cost of more storage being taken.
-			Another use of using a different level of color precision is to store the acctual precision used.
-		</p>
-		<p>
-			When serializing a number in LXON, the original type gets lost (int, float, double, etc.).
-			In most cases, this is perfectly acceptable, as the number itself is what matters.
-			However, in the case of color, it is sometimes necessary to store the color space AND precision.
-			Having different explicit precision syntaxes solves this need.
-		</p>
-		<h1 id="precisions"> Precisions </h1>
+		<h1 id="types"> Types </h1>
 		<h2 id="8bit"> !! val.col.prec.bit8 ! 8 Bit !</h2>
 		<p>
 			Allows for storing each channel using 2 hex characters, without the need of delimiters.
@@ -71,6 +59,18 @@
 		<p>
 			Allows for storing each channel using unlimited precision by supporting positive numbers for the individual channels.
 			Requires a space between channel. Channels can be skipped with a simple <dfn>_</dfn> character.
+		</p>
+		<h1 id="distinction"> Distinction </h1>
+		<p>
+			Colors have 5 different levels of precision. 
+			Each level allows for more color depth and detail, however at the cost of more storage being taken.
+			Another use of using a different level of color precision is to store the acctual precision used.
+		</p>
+		<p>
+			When serializing a number in LXON, the original type gets lost (int, float, double, etc.).
+			In most cases, this is perfectly acceptable, as the number itself is what matters.
+			However, in the case of color, it is sometimes necessary to store the color space AND precision.
+			Having different explicit precision syntaxes solves this need.
 		</p>
 	</div>
 

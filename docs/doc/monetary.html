@@ -43,8 +43,15 @@
 			A monetary value first requires the dollar symbol <dfn>$</dfn> as type declaration.
 			If the first character following that is a number, 
 			then the cash value is read as is with no currency specified.
-			Otherwise, it reads every character until the first backtick <dfn>`</dfn> as the currency.
+			Otherwise, it reads every character until the first period <dfn>.</dfn> as the currency.
 		</p>
+		<h2 id="currency"> Currency </h2>
+		<p>
+			Currencies are optional codes that can be attached to monetary values.
+			Their purpose is self-explanatory, although they also remove the need for a decimal point
+			as the currency then defines how many decimal positions there are.
+		</p>
+		<h3 id="iso"> ISO Standards </h3>
 		<p>
 			It is required to use the
 			<a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes_(list_one)">ISO 4217 standard codes</a>
@@ -59,11 +66,25 @@
 			This is too much effort. It is acceptable for a system to interpret 
 			a 3 character currency type as following ISO standard because this is standard practice.
 		</p>
-		<h2 id="examples"> Examples </h2>
+		<h3 id="case"> Case Sensitivity </h3>
+		<p>
+			Currency codes are case-insensitive and must use lowercase letters only.
+			Custom codes must follow this rule as well.
+			Writing currency codes with uppercase letters is considered malpractice,
+			as this can break certain interpreters.
+			For example, if a script searches for an uppercase code inside an internal dictionary,
+			map, object, set or array, it likely won't find it and result in an error due to the malpractice.
+		</p>
+		<p>
+			Parsers and serializers that aren't optimized for speed should force currency codes 
+			into lowercase to account for potentially miswritten codes.
+			This, however, is not a requirement.
+		</p>
+		<h3 id="example"> Example </h3>
 		<p>
 			Here are examples of monetary values with specified and unspecified currencies 
-			(all monetary numbers are set to 0, as this example is only meant to show the declaration of currencies,
-			below is the explanation of monetary number syntax) :
+			(all amounts are set to 0, as this example is only meant to show the declaration of currencies,
+			below is the explanation of amount syntax) :
 		</p>
 		<pre><code>{
 unspecified: $0
@@ -84,19 +105,20 @@ custom4 (vbuck): $vbc.0
 # but uses custom currency.
 # Only use 3 chars for ISO!
 </code></pre>
-		<h1 id="unspecified"> Unspecified Currency </h1>
+		<h2 id="unspecified"> Amount (Unspecified Currency) </h2>
 		<p>
 			When reading a monetary value with unspecified currency,
 			if the first character is a minus <dfn>-</dfn>, 
-			the the monetary number is set to be negative.
-			Afterwards, every numerical digit is read one by one and creates the whole part of the monetary number.
+			the the amount is set to be negative.
+			Afterwards, every numerical digit is read one by one and creates the whole part of the amount.
 			Spaces are skipped, as they allow for formatting which reduces the chance of human mistakes.
 		</p>
 		<p>
 			If the first non-numerical character is a period <dfn>.</dfn>,
 			it will read the following numerical characters as 
-			the fractional (decimal) part of the monetary number.
+			the fractional (decimal) part of the amount.
 		</p>
+		<h3 id="example-unspecified"> Example </h3>
 		<p>
 			Here's example usage of monetary values with unspecified currency 
 			(read !! other.comments ! comments !, they specify the monetary value):
@@ -118,13 +140,13 @@ mark: $30 000
 jake: $3 000 0
 pete: $3 0 00 0
 </code></pre>
-		<h1 id="specified"> Specified Currency </h1>
+		<h2 id="specified"> Amount (Specified Currency) </h2>
 		<p>
 			When reading a monetary value with specified currency,
 			if the first character is a minus <dfn>-</dfn>, 
-			the the monetary number is set to be negative.
+			the the amount is set to be negative.
 			Afterwards, every numerical digit is read one by one and 
-			amounts to the minor unit of the monetary number.
+			amounts to the minor unit of the amount.
 		</p>
 		<p>
 			This means, when you write 5000 USD, you're not storing 5 thousand dollars, 
@@ -137,6 +159,7 @@ pete: $3 0 00 0
 			identically to any other non-numerical character that isn't a space character
 			Spaces are skipped, as they allow for formatting which reduces the chance of human mistakes.
 		</p>
+		<h3 id="example-specified"> Example </h3>
 		<p>
 			Here's example usage of monetary values with specified currency 
 			(read !! other.comments ! comments !, they specify the monetary value):

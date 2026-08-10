@@ -22,32 +22,44 @@
 		<p>
 			A date is a value type which can hold any date/time combination value.
 			For the date part of the date, it can store years, including negative ones, or unix timestamps.
-			If year is chosen, it can store as well month/day of the month pairs or week/day of the week pairs, 
+			If year is chosen, it can store as well month/day of the month pairs or week/day of the week pairs,
 			although the latter is much less used.
 		</p>
 		<p>
-			For the time part of the date, you can precise an hour, minute and second, 
+			For the time part of the date, you can precise an hour, minute and second,
 			as well as fractions of seconds going up to millisecond precision.
 			You can also chose to skip precising a date, which results in a date of January 1st, year 0.
-			It is reccomended to recognize that date as the lack of a date, 
+			It is reccomended to recognize that date as the lack of a date,
 			although it is to the developper's discretion how they chose to interpret it.
+		</p>
+		<h1 id="syntax"> Syntax </h1>
+		<p>
+			Dates use the <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601 standard</a>
+			for date/time notation, modified to permit for more dynamic and space efficient representations.
+			Most ISO 8601 abiding dates also abide by LXON specifications.
+			However, none of the representations that omit the seperation symbols (colons, dashes, etc.)
+			abide by LXON specifications. On the bright side, zero padding isn't necessary for any fields,
+			except for certain instances of year / unix timestamps (see category below).
 		</p>
 		<h2 id="year-unix"> Year / Unix Timestamp </h2>
 		<p>
-			If the first number is over 11 digits long (12+), 
+			If the first number is over 11 digits long (12+),
 			it assumes it's looking at a millisecond timestamp and returns the date as a Unix Timestamp.
-			If the first number is over 7 digits long (8+), it assumes it's looking at a seconds timestamp and returns the date as such.
+			If the first number is over 7 digits long (8+), it assumes it's looking at a seconds timestamp and returns
+			the date as such.
 		</p>
 		<p>
-			Otherwise, it reads the first number as a year. 
-			However, if the year is less then 3 digits long (1 or 2), it assumes a 21st century abbreviation and adds 2000. 
-			So, in the rare case you may want to represent, for instance, the year 50, 
+			Otherwise, it reads the first number as a year.
+			However, if the year is less then 3 digits long (1 or 2), it assumes a 21st century abbreviation and adds
+			2000.
+			So, in the rare case you may want to represent, for instance, the year 50,
 			you would have to type it out as 050 otherwise it would read 50 as 2050.
 		</p>
 		<p>
-			If it had read the number as a year, it then moves onto looking for the week or month, 
+			If it had read the number as a year, it then moves onto looking for the week or month,
 			and if that fails, it looks for the time instead.
 		</p>
+		<h3 id="example"> Example </h3>
 		<p>
 			Here's an example of year and unix timestamp usage. It is the same example as below,
 			representing January 1st, 2026 (UTC):
@@ -60,27 +72,31 @@ simple year: &2026
 </code></pre>
 		<h2 id="week"> Week </h2>
 		<p>
-			If, following the year, is the character <dfn>W</dfn> (with or without a dash in front), 
-			then it will read the number as the week of the year. 
-			If, after that number, is a <dfn>-</dfn>, then it will read the number following that as the day of the week, 
+			If, following the year, is the character <dfn>W</dfn> (with or without a dash in front),
+			then it will read the number as the week of the year.
+			If, after that number, is a <dfn>-</dfn>, then it will read the number following that as the day of the
+			week,
 			starting from 1 being Monday.
 		</p>
+		<h3 id="example-week"> Example </h3>
 		<p>
-			Here's an example of a date made up of a year, a week and day of the week. 
-			It is the same example as above and below, representing Januay 1st 2026 (1st week of the year on a thursday):
+			Here's an example of a date made up of a year, a week and day of the week.
+			It is the same example as above and below, representing Januay 1st 2026 (1st week of the year on a
+			thursday):
 		</p>
 		<pre><code>{
 date: &2026-W1-4
 </code></pre>
 		<h2 id="month"> Month </h2>
 		<p>
-			If, following the year, is the character <dfn>-</dfn> and no <dfn>W</dfn> following, 
-			then it will read the number following as the month of the year, 
-			starting from 1 being January. If after that number is another <dfn>-</dfn>, 
+			If, following the year, is the character <dfn>-</dfn> and no <dfn>W</dfn> following,
+			then it will read the number following as the month of the year,
+			starting from 1 being January. If after that number is another <dfn>-</dfn>,
 			then it reads the following number as the day of the month, where 1 is the first day of the month.
 		</p>
+		<h3 id="example-month"> Example </h3>
 		<p>
-			Here's an example of a date made up of a year, a month and a day of the month. 
+			Here's an example of a date made up of a year, a month and a day of the month.
 			It is the same example as all above, representing January 1st, 2026:
 		</p>
 		<pre><code>{
@@ -88,22 +104,23 @@ date: &2026-01-01
 </code></pre>
 		<h2 id="time"> Time </h2>
 		<p>
-			If the first character is a T, then it will read the number following as the hour of the day, 
+			If the first character is a T, then it will read the number following as the hour of the day,
 			where 0 is 12am, 1 is 1am and 16 is 4pm of the same day. 24 is 12am of the next day.
 		</p>
 		<p>
-			If, following this number, which can be either 1 or 2 digits long, is a <dfn>:</dfn>, 
+			If, following this number, which can be either 1 or 2 digits long, is a <dfn>:</dfn>,
 			then it will read the following number as the minutes of the hour.
 		</p>
 		<p>
-			If, following this number, which can also be either 1 or 2 digits long, is another <dfn>:</dfn>, 
+			If, following this number, which can also be either 1 or 2 digits long, is another <dfn>:</dfn>,
 			then it will read the following number as the seconds of the minute.
 		</p>
 		<p>
-			If, following this number, which can also be either 1 or 2 digits long, is a <dfn>.</dfn>, 
-			then it will read the following number as the milliseconds of the second. 
+			If, following this number, which can also be either 1 or 2 digits long, is a <dfn>.</dfn>,
+			then it will read the following number as the milliseconds of the second.
 			It reads it as the decimals to the second, so .5 doesn't mean 5 milliseconds, it means half a second.
 		</p>
+		<h3 id="example-time"> Example </h3>
 		<p>
 			Here's some example usage of the time segment of a date (read comment):
 		</p>
@@ -117,6 +134,48 @@ time2: &T1:05:03.5
 time3: &T01:5:3.50
 time4: &T01:05:03.500
 </code></pre>
+		<h2 id="offset"> Offset </h2>
+		<p>
+			If, following the time, is a plus <dfn>+</dfn> or minus <dfn>-</dfn> symbol,
+			it will store a UTC offset with the date and time.
+		</p>
+		<p>
+			Following the symbol, the parser reads the next character, and possibly the next one after that
+			if they are numerical. It reads the number as the hour offset.
+		</p>
+		<p>
+			If, following this number is a colon <dfn>:</dfn>, it will read the next character if it is numerical.
+			This next character is the minute offset, representing the tens digit.
+			It will then read the next character after that, if it is numerical, as the units digit of the minute
+			offset.
+		</p>
+		<h3 id="example-offset"> Example </h3>
+		<p>
+			Here's some example usage of offsets (all times are the same when offset is calculated):
+		</p>
+		<pre><code>{
+time1: &T12:05:00
+time2: &T07:05:00-5
+time3: &T07:05:00-05
+time4: &T06:35:00-5:3
+time6: &T22:35:00+10:30
+time7: &T22:35:00+10:30
+</code></pre>
+		<h2 id="time-zone"> Time Zone </h2>
+		<p>
+			You can add an optional uppercase Z character after either the !! val.date.offset ! offset !
+			if an offset is present or the !! val.date.time ! time ! if the offset isn't present.
+			This is to further support the <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601 standard</a>'s notation specifications.
+		</p>
+		<p>
+			The Z character designates that the time refers to coordinated universal time (UTC).
+			If no Z character is present, the time-zone is understood to be local time, 
+			one which cannot be converted or interpreted without further context.
+		</p>
+		<p>
+			If a !! val.date.offset ! UTC offset ! is present however, the time is automatically assumed to be UTC,
+			even without the Z character appended.
+		</p>
 	</div>
 
 

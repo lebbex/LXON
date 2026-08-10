@@ -29,6 +29,7 @@
 			It is recommended to terminate numbers using spaces or newlines in cases where the LXON might be
 			manually edited later.
 		</p>
+		<h1 id="syntax"> Syntax </h1>
 		<h2 id="regular"> Regular Numbers </h2>
 		<p>
 			To write a number, you just write the number as is, 
@@ -70,18 +71,23 @@ num3: .5e+10
 		</p>
 		<ul>
 			<li>NaN <dfn>-</dfn><span class="a">*Must be followed by a non-numerical character</span></li>
-			<li>Positive (+) Infinity <dfn>% or +%</dfn></li>
+			<li>Positive (+) Infinity <dfn>+%</dfn></li>
 			<li>Negative (-) Infinity <dfn>-%</dfn></li>
 		</ul>
 		<pre><code>{
 not a number: -
-pos infinity: %
+pos infinity: +%
 neg infinity: -%
 </code></pre>
-		<h3 id="important"> Important Precision for NaN </h3>
+		<h3 id="important"> Important Precisions </h3>
 		<p>
-			The <dfn>+</dfn> and <dfn>-</dfn> symbols are technically type declarators, 
-			where the minus symbol also acts as a modifier on the number following it.
+			Infinity must be either <dfn>+%</dfn> or <dfn>-%</dfn>,
+			since the percent symbol <dfn>%</dfn> isn't a type declarator itself.
+			This frees up the percent symbol to potentially be used as a type declarator in the future.
+		</p>
+		<p>
+			The <dfn>+</dfn> and <dfn>-</dfn> symbols are type declarators, 
+			where the minus symbol also acts as a modifier on the number following it, inverting it.
 			However, if there is no number following the symbol,
 			the parser attempts to multiply a undefined value by "-1",
 			which, in the case of JavaScript (the native implementation of LXON), returns NaN.

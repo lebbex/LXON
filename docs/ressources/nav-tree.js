@@ -221,17 +221,18 @@ window.navTree = {
 			["Year / Unix", "year-unix"],
 			["Week", "week"],
 			["Month", "month"],
-			["Time", "time"]
+			["Time", "time"],
+			["Offset", "offset"],
+			["Time Zone", "time-zone"]
 		],
 		Monetary: [
 			"Monetary", "Monetary Value",
 			"/monetary", "Monetary Values",
 			"Monetary",
 			["Definition", "def"],
-			["Syntax", "syntax"],
-			["Currency Examples", "examples"],
-			["Unspecified Currency", "unspecified"],
-			["Specified Currency", "specified"]
+			["Currency", "currency"],
+			["Amount (Unspecified)", "unspecified"],
+			["Amount (Specified)", "specified"]
 		],
 		Keybind: [
 			"Keybind", "Keybind",
@@ -260,11 +261,17 @@ window.navTree = {
 					"SRGB", "SRGB Color",
 					"/color/srgb", "SRGB Colors",
 					"SRGB",
+					["Definition", "def"],
+					["Syntax", "syntax"],
+					["Usage", "usage"]
 				],
 				Linear: [
 					"Linear SRGB", "Linear SRGB Color",
 					"/color/linear", "Linear SRGB Colors",
 					"Linear",
+					["Definition", "def"],
+					["Syntax", "syntax"],
+					["Usage", "usage"]
 				],
 				Profiles: [
 					"Profiled", "Profiled Color",
@@ -274,6 +281,7 @@ window.navTree = {
 					["Syntax", "syntax"],
 					["Codes", "codes"],
 					["Terminators", "terminators"],
+					["Usage", "usage"]
 				]
 			},
 			Precisions: {

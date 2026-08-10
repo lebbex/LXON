@@ -451,8 +451,27 @@ window.linkReg = {
                     case "dates":
                         if (len == 2) return "/date";
                         switch (split[2]) {
-                            case "cat":
-                                return "/meow";
+                            case "def":
+                            case "definition":
+                                return "/date/#def";
+                            case "year":
+                            case "unix":
+                            case "yearunix":
+                            case "yu":
+                                return "/date/#year-unix";
+                            case "week":
+                                return "/date/#week";
+                            case "month":
+                                return "/date/#month";
+                            case "time":
+                                return "/date/#time";
+                            case "offset":
+                                return "/date/#offset";
+                            case "zone":
+                            case "zones":
+                            case "timezone":
+                            case "timezones":
+                                return "/date/#time-zone";
                             default: return [split[2]];
                         }
                     case "mon":
