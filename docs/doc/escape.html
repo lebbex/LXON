@@ -61,9 +61,10 @@ text: "Hello\nWorld
 			To escape a character, prepend it with <dfn>\</dfn>. 
 			The parser will ignore the backslash and read only the character following it. 
 			If it's a code character, it will replace the pair with the represented character (\n -> newline, \s -> space, etc.), 
-			otherwise it will read the second character litterally (\" -> ").
+			otherwise it will read the second character litterally (\b -> b).
 		</p>
-		<h2 id="characters"> Supported Characters </h1>
+		<h1 id="characters"> Supported Characters </h1>
+		<h2 id="codes"> Codes Sequences </h2>
 		<p>
 			LXON offers support for many of the conventional escape characters, as well as a select assembly of custom ones.
 			Here's all supported escape sequence codes:
@@ -79,22 +80,40 @@ text: "Hello\nWorld
 				<span class="a">*Only supported in !! keys.single ! single char keys !.</span>
 			</li>
 		</ul>
+		<h2 id="force"> Force Codes </h2>
 		<p>
-			If a escape sequence isn't a valid code, it will parse into the character after the backslash <dfn>\</dfn>, 
+			If an escape sequence isn't a valid code, it will parse it into the character after the backslash <dfn>\</dfn>, 
 			completely ignoring the backslash as is. 
 			By consequence, many commonly used escape characters aren't explicit implementations and merely an intended consequence.
-			Here's all of the commonly used, and arguably the only other useful escape sequences:
+			Here's all of the commonly used, and arguably the only other truly useful escape sequences:
 		</p>
 		<ul>
 			<li> Backslash <dfn>\\</dfn></li>
-			<li> Colon <dfn>\:</dfn></li>
-			<li> Backtick <dfn>\`</dfn></li>
-			<li> Caret <dfn>\^</dfn></li>
-			<li> At <dfn>\@</dfn></li>
-			<li> Asterisk <dfn>\*</dfn></li>
-			<li> Question Mark <dfn>\?</dfn></li>
+			<li> Colon <dfn>\:</dfn> (terminator symbol)</li>
+			<li> Backtick <dfn>\`</dfn> (terminator symbol)</li>
+			<li> Caret <dfn>\^</dfn> (!! val.text.string ! string ! declaration)</li>
+			<li> Ampersand <dfn>\&</dfn> (!! val.date ! date ! declaration)</li>
+			<li> Dollar Sign <dfn>\$</dfn> (!! val.bool ! boolean ! or !! val.mon ! monetary value ! declaration)</li>
+			<li> Exclamation Mark <dfn>\!</dfn> (!! val.bool ! boolean ! declaration) </li>
+			<li> At Symbol <dfn>\@</dfn> (!! val.bind ! keybind ! declaration)</li>
+			<li> Hashtag <dfn>\#</dfn> (!! val.col.spaces.srgb ! srgb color ! declaration)</li>
+			<li> Equals <dfn>\=</dfn> (!! val.col.spaces.lin ! linear srgb color ! declaration)</li>
+			<li> Slash <dfn>\/</dfn> (!! val.col.spaces.prof ! profiled color ! declaration)</li>
+			<li> Asterisk <dfn>\*</dfn> (!! val.enum ! enum ! declaration)</li>
+			<li> Question Mark <dfn>\?</dfn> (!! val.bin ! binary value ! declaration)</li>
+			<li> Tilde <dfn>\~</dfn> (!! val.text.str.mult ! multiline string value ! declaration)</li>
 		</ul>
-		<h2 id="environments"> Supported Environments </h1>
+		<p>
+			These escape sequences all resolve to the character following the backslash <dfn>\</dfn>.
+			All other characters can be escaped 
+		</p>
+		<p>
+			Keep in mind, these are the sum of all characters that may require being escaped.
+			However, whether or not it requires escaping is fully based on the context of the character.
+			For instance, tilde <dfn>~</dfn> only needs escaping when its the first character of a string value
+			that's terminated with a end of line or end of file. This context is so rare that it likely will never happen
+		</p>
+		<h1 id="environments"> Supported Environments </h1>
 		<p>
 			Before escaping a character, first ensure escaped characters are even supported in the current environment.
 			For example, !! keys.regular ! regular keys ! used in !! containers.obj ! objects !

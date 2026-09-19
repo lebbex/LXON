@@ -186,6 +186,13 @@ window.navTree = {
 				["Syntax", "syntax"],
 				["Usage", "usage"]
 			],
+			Raw_String: [
+				"Raw String", "Raw String",
+				"/rawstring", "Raw Strings",
+				"Raw",
+				["Syntax", "syntax"],
+				["Usage", "usage"]
+			],
 			Char: [
 				"Char", "Char",
 				"/char", "Chars",

@@ -389,6 +389,10 @@ window.linkReg = {
                                         return "/string/#chain";
                                     case "important":
                                         return "/string/#important";
+                                    case "mult":
+                                    case "multi":
+                                    case "multiline":
+                                        return "/string/#mutliline";
                                     case "usage":
                                         return "/string/#usage";
                                     default: return [split[3]];

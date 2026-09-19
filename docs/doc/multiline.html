@@ -27,16 +27,8 @@
 		</p>
 		<p>
 			Like with full strings, the string also ends at the end of the line, so trailing backticks aren't strictly required.
+			They also support trailing whitespace such as tabs or space characters.
 		</p>
-		<h2 id="chain"> Chaining </h2>
-		<p>
-			Strings can be chained easily with the caret symbol <dfn>^</dfn>. When a caret is used to terminate a string,
-			it will not only mark the end of the current value but also the start of a new string.
-			This should only ever be done inside an !! containers.arr ! array !.
-			It allows for string chaining, which is also supported by
-			!! values.keybind ! keybinds !, !! values.enum ! enums ! and even !! values.binary ! binary ! values,
-		</p>
-		<h2 id="escape"> Escaping </h2>
 		<p>
 			As a consequence of its increase in complexity, strings require escape sequences for the following characters:
 		</p>
@@ -46,24 +38,26 @@
 			<li>Backslash <dfn>\\</dfn></li>
 			<li>Backtick <dfn>\`</dfn></li>
 			<li>Caret <dfn>\^</dfn></li>
-			<li>Tilde <dfn>\~</dfn>
-				<span class="a">
-					*When the first character of a string is tilde, followed by EOL / EOF
-				</span>
-			</li>
 		</ul>
-		<h2 id="whitespace"> Whitespace </h2>
+		<h2 id="chain"> Chaining </h2>
+		<p>
+			Strings can be chained easily with the caret symbol <dfn>^</dfn>. When a caret is used to terminate a string,
+			it will not only mark the end of the current value but also the start of a new string.
+			This should only ever be done inside an !! containers.arr ! array !.
+			It allows for string chaining, which is also supported by
+			!! values.keybind ! keybinds !, !! values.enum ! enums ! and even !! values.binary ! binary ! values,
+		</p>
+		<h2 id="important"> Important </h2>
 		<p>
 			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
 			This allows for better visualization as well as a shortening of the visual length of the string.
 			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
 		</p>
 		<p>
-			Strings support trailing whitespace such as tabs or space characters 
-			if terminated using the backticks <dfn>`</dfn>. 
-			Otherwise, it trims all trailing whitespace.
-			You can alternatively replace the last whitespace with its escape code 
-			(<dfn>\s</dfn> for space and <dfn>\t</dfn> for tab) if wishing to prevent trimmed trailing whitespace.
+			Also, although trailing whitespace is supported, if there's no trailing backtick,
+			it is standardized to replace the last character with a <dfn>\s</dfn> if it's a space, or a <dfn>\t</dfn> if it's a tab.
+			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
+			For this reason, it is very possible for a friendly parser to trim leading whitespace, assuming it's a typing mistake.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
@@ -88,7 +82,7 @@ array:[ `str1` `str2`
 	<script src="/ressources/nav-tree.js"></script>
 	<script src="/ressources/docu.js"></script>
 	<script>
-		docu.init(["Values", "Text", "String"]);
+		docu.init(["Values", "Text", "Multiline_String"]);
 	</script>
 
 </body>

@@ -47,6 +47,7 @@
 			<li> Caret <dfn>^</dfn> (!! val.text.string ! string ! declaration)</li>
 			<li> Ampersand <dfn>&</dfn> (!! val.date ! date ! declaration)</li>
 			<li> Dollar Sign <dfn>$</dfn> (!! val.bool ! boolean ! or !! val.mon ! monetary value ! declaration)</li>
+			<li> Exclamation Mark <dfn>!</dfn> (!! val.bool ! boolean ! declaration) </li>
 			<li> At Symbol <dfn>@</dfn> (!! val.bind ! keybind ! declaration)</li>
 			<li> Hashtag <dfn>#</dfn> (!! val.col.spaces.srgb ! srgb color ! declaration)</li>
 			<li> Equals <dfn>=</dfn> (!! val.col.spaces.lin ! linear srgb color ! declaration)</li>
@@ -116,13 +117,16 @@ weird keybind: @lxon\@lebbex.com
 </code></pre>
 		<h2 id="whitespace"> Whitespace </h2>
 		<p>
-			Keybinds support trailing whitespace such as tabs or space characters if terminated using the backticks.
-			Otherwise, it trims all trailing whitespace. This allows for cleaner formatting.
-		</p>
-		<p>
 			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
 			This allows for better visualization as well as a shortening of the visual length of the keybind.
 			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
+		</p>
+		<p>
+			Keybinds support trailing whitespace such as tabs or space characters 
+			if terminated using the backticks <dfn>`</dfn>. 
+			Otherwise, it trims all trailing whitespace.
+			You can alternatively replace the last whitespace with its escape code 
+			(<dfn>\s</dfn> for space and <dfn>\t</dfn> for tab) if wishing to prevent trimmed trailing whitespace.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>

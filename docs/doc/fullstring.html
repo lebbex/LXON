@@ -32,14 +32,12 @@
 			This makes them very desireable for string representation.
 			Full strings also support trailing whitespace such as tabs or space characters.
 		</p>
-		<h2 id="important"> Important </h2>
+		<h2 id="whitespace"> Whitespace </h2>
 		<p>
-			Although trailing whitespace is supported,
-			it is standardized to replace the last character with a <dfn>\s</dfn> if it's a space, 
-			or a <dfn>\t</dfn> if it's a tab.
-			Otherwise, it's easy to miss the trailing whitespace and be unclear as to whether it was intentionally done or not.
-			For this reason, it is very possible for a friendly parser to trim leading whitespace, 
-			assuming it's a typing mistake.
+			Full strings trim all trailing whitespace (spaces and tabs).
+			It is required to escape the last space or tab character using 
+			<dfn>\s</dfn> and <dfn>\t</dfn> respectively.
+			This prevents accidental whitespace at the end.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
