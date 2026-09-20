@@ -58,16 +58,6 @@ Now go read the LICENSE and NOTICE files.
 * Binary (Stored as hexadecimal)
 * Null, Undefined, NaN, +Infinity and -Infinity
 
-## The Backstory
-
-Originally, Nick Jasper was creating a way to automatically set up email redirect on Cloudflare for the @lebbex.com domain (and all its LTD alternatives). The redirect editor script had a HTML user interface that would allow him to add email addresses and where they redirect to and sync up these changes across the different domain extensions automatically. Initially, he structured it under a tree navigation system, before switching to a pure custom-made JSON editor. 
-
-He then realized how terrible JSON is to write and read, so he modified the editor, removing clutter. One of the first big changes, the root of what was changed in what would later become LXON, was the removal of trailing quotation marks for string values.
-
-As he developped the editor, he decided to remake it due to its bugs, switching from a text based editor similar to Visual Studio Code, to something node based with seamless editing, the best of both worlds.
-
-With this came the realization of the limitations of JSON, where it's missing many crucial value types and container types. This realization is what gave birth to LXON.
-
 ## Contributing
 
 Before even considering contribution, read the LICENSE and NOTICE files.
