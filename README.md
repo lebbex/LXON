@@ -34,7 +34,7 @@ You can also do `npm i lebbex` (lxon is too similar to other packages unfortunat
 
 ## Why LXON?
 
-It's just better, like it or not. Name me something better and I'll find a reason to call you a loser. -Nick Jasper (I do not speak in the image of the company)
+It's just better, like it or not. Name me something better and I'll find a reason to call you a loser.
 
 Now go read the LICENSE and NOTICE files.
 
@@ -45,18 +45,18 @@ Now go read the LICENSE and NOTICE files.
 * Doodad (same as objects but with single character keys that optimize speed and size, practical for Vectors)
 
 ## Supported Value Types
-* Full String (Doesn't require trailing double quote)
-* String
+* Raw String (Doesn't require trailing double quote)
+* String (Inline and Multiline)
 * Char (Single character string)
 * Boolean
-* Number
-* Null, Undefined, NaN, +Infinity and -Infinity
+* Number (Regular, Decimal, Scientific Notation)
 * Date (ISO standard, very forgiving and dynamic syntax)
+* Monetary (Big Int, along with optional currency information)
 * Keybind (Can be used as special String alternatives in unsupporting languages, with more limitations)
-* SRGB Color (represented through 8bit hexadecimal color code)
-* Linear Color (represented through 8bit hexadecimal color code or unlimited 16bit declaration)
+* Color (All color spaces in 8bit, 10bit, 12bit, 16bit and float precision)
 * Enum
-* Binary (stored as hexadecimal)
+* Binary (Stored as hexadecimal)
+* Null, Undefined, NaN, +Infinity and -Infinity
 
 ## The Backstory
 
