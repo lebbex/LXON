@@ -18,52 +18,82 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
-		<h1 id="syntax"> Syntax </h1>
+		<h1 id="def"> Definition </h1>
 		<p>
-			A string value is the more versatile alternative to !! values.text.full ! full string ! values.
-			It requires a backtick <dfn>`</dfn> or caret <dfn>^</dfn> at the start, as type declaration. 
-			Every following character is treated as the contents of the string, until the first instance either one of those characters.
-			This means you start and end string characters with either of the same two characters.
+			A string value is the most versatile and useful way of representing a string in LXON.
+			It allows for storing any string imaginable, usually following
+			!! val.text.str.inline ! inline syntax !, however with the option of
+			!! val.text.str.mult ! multiline syntax !.
 		</p>
+		<h1 id="inline"> Inline </h1>
 		<p>
-			Like with full strings, the string also ends at the end of the line, so trailing backticks aren't strictly required.
-		</p>
-		<h2 id="chain"> Chaining </h2>
-		<p>
-			Strings can be chained easily with the caret symbol <dfn>^</dfn>. When a caret is used to terminate a string,
-			it will not only mark the end of the current value but also the start of a new string.
-			This should only ever be done inside an !! containers.arr ! array !.
-			It allows for string chaining, which is also supported by
-			!! values.keybind ! keybinds !, !! values.enum ! enums ! and even !! values.binary ! binary ! values,
+			An inline string requires a backtick <dfn>`</dfn>
+			or caret <dfn>^</dfn> at the start, as type declaration.
+			Everything until the terminator symbol or until the end of the line will be
+			read as the string, accepting !! other.escape ! escape sequences ! and trimming no whitespace.
 		</p>
 		<h2 id="escape"> Escaping </h2>
 		<p>
-			As a consequence of its increase in complexity, strings require escape sequences for the following characters:
+			Inline strings require !! other.escape ! escape sequences ! for the following characters:
 		</p>
 		<ul>
 			<li>Newline <dfn>\n</dfn></li>
 			<li>Carriage Return <dfn>\r</dfn></li>
 			<li>Backslash <dfn>\\</dfn></li>
 			<li>Backtick <dfn>\`</dfn></li>
-			<li>Caret <dfn>\^</dfn></li>
-			<li>Tilde <dfn>\~</dfn>
-				<span class="a">
-					*When the first character of a string is tilde, followed by EOL / EOF
-				</span>
-			</li>
 		</ul>
 		<h2 id="whitespace"> Whitespace </h2>
 		<p>
-			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
+			Although tab representation is supported, it is reccomended to replace them with <dfn>\t</dfn>.
 			This allows for better visualization as well as a shortening of the visual length of the string.
-			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
+			This does however come at the cost of an extra byte stored per tab,
+			so this decision comes down to the developper.
 		</p>
 		<p>
-			Strings support trailing whitespace such as tabs or space characters 
-			if terminated using the backticks <dfn>`</dfn>. 
-			Otherwise, it trims all trailing whitespace.
-			You can alternatively replace the last whitespace with its escape code 
-			(<dfn>\s</dfn> for space and <dfn>\t</dfn> for tab) if wishing to prevent trimmed trailing whitespace.
+			Trailing whitespace is also supported, however it is standardized to replace them with their
+			!! other.escape ! escape character ! counterpart,
+			such as <dfn>\t</dfn> for tab and <dfn>\s</dfn> for space.
+			This makes it clear it wasn't a typo.
+		</p>
+		<h2 id="chain"> Chaining </h2>
+		<p>
+			When a caret <dfn>^</dfn> is used to terminate an string,
+			it will not only mark the end of the current string value but also the start of a new one.
+			This new string can be a !! val.text.str.mult ! multiline string ! if declared as such.
+		</p>
+		<h1 id="multiline"> Multiline </h1>
+		<p>
+			To declare a multiline string, after the string declaration symbol
+			(backtick <dfn>`</dfn> or caret <dfn>^</dfn>),
+			immediately end the line. This will declare the string as potentially being a multiline string.
+		</p>
+		<p>
+			For every line of the string's value, ensure there's
+			1 additionnal indentation compared to parent's indentation,
+			followed by a backtick <dfn>`</dfn>.
+			Indentation MUST use tab characters.
+		</p>
+		<p>
+			The entire rest of the line will be read verbatim as the string,
+			ignoring all !! other.escape ! escape sequences ! and trimming no whitespace.
+		</p>
+		<h2 id="important"> Important </h2>
+		<p>
+			The declaration character MUST be followed IMMEDIATELY by the end of the line.
+			If there's whitespace (space, tab, etc.) then the end of the line,
+			it will fail to declare the multiline string,
+			even though it looks identical to a multiline string declaration.
+		</p>
+		<p>
+			If a multiline declaration is failing,
+			make sure there's no space after the initial declaration character.
+		</p>
+		<h2 id="termination"> Termination </h2>
+		<p>
+			The multiline string is terminated by either breaking this indentation rule
+			or ommiting the required backtick <dfn>`</dfn> on a line.
+			When only forgetting the backtick and having properly used indentation,
+			most parsers will likely throw an error, however many could silently fail.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
@@ -73,10 +103,22 @@
 key: `string`
 ehh: `string
 
+multiline: `
+	`The choir sings, all maintain the same tempo.
+	`The tempo rises, thundering into a roaring crescendo.
+	`The thunder claps, the cymbals crash, the choir breathes.
+	`The choir inhales and exhales at the rhythm of the orchestrator.
+	`- God Waits for No Man (2026)
+	`
+
 array:[ `str1` `str2`
 	`str3
 	`str4^str5`
-	`str6^str7
+	`str6^str7^
+		`This is the string contents of the 8th item of the
+		`parent array. Each line is part of the same string.
+		`This is the last line of the 8th string.
+	`str9` `str10
 </code></pre>
 	</div>
 

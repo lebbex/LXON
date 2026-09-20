@@ -72,12 +72,11 @@ text: "Hello\nWorld
 		<ul>
 			<li> Newline <dfn>\n</dfn></li>
 			<li> Carriage Return <dfn>\r</dfn></li>
-			<li> Tabulator (tab) <dfn>\t</dfn></li>
+			<li> Tabulator (Tab) <dfn>\t</dfn></li>
 			<li> Space <dfn>\s</dfn></li>
 			<li> 
-				Empty Char 
-				<dfn>\0</dfn>
-				<span class="a">*Only supported in !! keys.single ! single char keys !.</span>
+				Null Byte (Empty Character) <dfn>\0</dfn>
+				<span class="a">*Used in !! keys.single ! single char keys ! and !! val.text.char ! string char values !</span>
 			</li>
 		</ul>
 		<h2 id="force"> Force Codes </h2>
@@ -91,7 +90,7 @@ text: "Hello\nWorld
 			<li> Backslash <dfn>\\</dfn></li>
 			<li> Colon <dfn>\:</dfn> (terminator symbol)</li>
 			<li> Backtick <dfn>\`</dfn> (terminator symbol)</li>
-			<li> Caret <dfn>\^</dfn> (!! val.text.string ! string ! declaration)</li>
+			<li> Caret <dfn>\^</dfn> (terminator and !! val.text.string ! string ! declaration)</li>
 			<li> Ampersand <dfn>\&</dfn> (!! val.date ! date ! declaration)</li>
 			<li> Dollar Sign <dfn>\$</dfn> (!! val.bool ! boolean ! or !! val.mon ! monetary value ! declaration)</li>
 			<li> Exclamation Mark <dfn>\!</dfn> (!! val.bool ! boolean ! declaration) </li>

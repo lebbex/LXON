@@ -50,11 +50,10 @@
 			<li> Newline <dfn>\n</dfn></li>
 			<li> Carriage Return <dfn>\r</dfn></li>
 			<li> Backslash <dfn>\\</dfn></li>
-			<li> Tab <dfn>\t</dfn> (preferably)</li>
+			<li> Tab <dfn>\t</dfn></li>
+			<li> Space <dfn>\s</dfn></li>
 			<li> 
-				Null Character <dfn>\0</dfn> (represents an empty character,
-				which can also be a key, the same way you can have empty keys in
-				!! cont.obj ! objects ! or !! cont.map ! maps ! by typing a colon directly)
+				Null Character <dfn>\0</dfn> <span class="a">*Represents an empty character</span>
 			</li>
 		</ul>
 		<p>
@@ -86,7 +85,7 @@ movie2: t`The Shining` r&1980-5-23
 		</p>
 		<p>
 			When writing a key/value pair on a newline,
-			simply ensure to add 1 additionnal indentation compared to the line preceding it.
+			simply ensure to add 1 additionnal indentation compared to the parent's indentation.
 			Indentation MUST use tab characters,
 			space characters aren't taken into consideration for indentation
 			and are instead appended at the start of the key.
@@ -186,18 +185,6 @@ doo5:
 				<ul>
 					<li> 2D Scale (width / height) <dfn>w</dfn><dfn>h</dfn></li>
 					<li> 3D Scale (width / height / depth) <dfn>w</dfn><dfn>h</dfn><dfn>d</dfn></li>
-				</ul>
-			</li>
-			<li> Color:
-				<ul>
-					<li>
-						red / green / blue / alpha (opacity)
-						<dfn>r</dfn><dfn>g</dfn><dfn>b</dfn><dfn>a</dfn>,
-						although it's always better to use !! val.col.prec.float ! infinite precision color ! 
-						representation instead.
-					</li>
-					<li> red / green / blue <dfn>r</dfn><dfn>g</dfn><dfn>b</dfn></li>
-					<li> hue / saturation / value (brightness) <dfn>h</dfn><dfn>s</dfn><dfn>v</dfn></li>
 				</ul>
 			</li>
 		</ul>

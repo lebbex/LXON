@@ -18,53 +18,109 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
-		<h1 id="analogy"> Analogy </h1>
+		<h1 id="intro"> Introduction </h1>
 		<p>
-			The best way to picture LXON is as follows:
+			LXON is a serialization format, used to store data into readable, non verbose text.
+			That text can then be parsed, extracting the data back into computer workable objects.
 		</p>
+		<p>
+			Its primary use cases are:
+		</p>
+		<ul>
+			<li>
+				Storing data on files locally in order to load them (such as game saves, settings, config files, etc.)
+			</li>
+			<li>
+				Uploading data to a local HTTP server to allow for data exchange
+				or general communication between two apps.
+			</li>
+			<li>
+				Creating request and response packets for modern Web APIs where the size,
+				feature and type benefits far outweigh the need for a globally, easily accessible data language.
+			</li>
+		</ul>
+		<h3 id="pros"> Pros </h3>
 		<ol>
 			<li>
-				The root object (the serialized data) is a store.
+				Support for a lot of different container and value types,
+				allowing for better data representation.
 			</li>
 			<li>
-				Inside the store, we want to fit items that clients can purchase or browse.
-				Those items are !! vals ! values !.
+				Requiring little syntax, resulting in smaller, less verbose files.
 			</li>
 			<li>
-				We also want to organize those items using boxes, shelves, or rooms.
-				Those are !! containers ! containers !.
+				Requiring little syntax, making it faster and more enjoyable to write.
 			</li>
 			<li>
-				In order to find those items or boxes, we either index them by number or assign them labels.
-				The labels are the !! keys ! keys ! used by
-				!! containers.objects ! objects !, !! containers.maps ! maps ! and !! containers.doodads ! doodads !,
-				while the indexes are invisible keys used internally by !! containers.arrays ! arrays !.
+				Heavily based on JSON, where someone who understands the JSON fundamentals
+				could easily pick up the basics of the format within a short explanation.
+			</li>
+			<li>
+				Very intuitive syntax rules, having been refined by me personally (Nick Jasper)
+				for countless months.
+			</li>
+			<li>
+				Low floor, high ceiling: The basics of the format are what's used 90% of the time,
+				the more advanced stuff (colors, maps, etc.) are only used in specific scenerios
+				and can be ignored in most cases.
+			</li>
+			<li>
+				A LXON file can be very spaced out and readable,
+				or a single, ultra-compressed line of data, or anywhere in between.
 			</li>
 		</ol>
-		<h1 id="features"> Supported Features </h1>
+		<h3 id="cons"> Cons </h3>
+		<ol>
+			<li>
+				More syntax rules, upping the barrier to entry if wishing to learn and remember
+				the entire format or to read/edit complex LXON files.
+			</li>
+			<li>
+				Less of an industry standard then the more limited alternatives like JSON, YAML and (god forbid) XML.
+			</li>
+			<li>
+				The whole entire documentation is written by me, a human, with no usage of AI
+				other then for searching up specific terms. 
+				This means it could be harder to read at times, but at least there's personality in it.
+			</li>
+		</ol>
+		<h2 id="analogy"> Analogy </h2>
 		<p>
-			LXON supports a few useful features.
+			The !! cont.root ! root object ! is a store.
 		</p>
+		<p>
+			Inside the store, we can add items that clients can purchase or browse.
+			Those items are !! vals ! values !.
+		</p>
+		<p>
+			We organize those items using boxes, shelves, rooms, or within the root itself.
+			Things that can hold groups of items together, those are !! containers ! containers !.
+			We can even put containers inside of other containers, known as nesting (nested containers).
+		</p>
+		<p>
+			In order to find the items or containers inside the parent container, we assign them labels.
+			The labels are the !! keys ! keys !, used by
+			!! containers.objects ! objects !, !! containers.maps ! maps ! and !! containers.doodads ! doodads !.
+			!! containers.arrays ! Arrays ! use invisible and automatically assigned labels known as indexes.
+		</p>
+		<h1 id="supported"> Supported Types </h1>
+		<p>
+			LXON supports 2 main features, 4 container types, 8 key types and 12 value types, along with hundreads of
+			color types.
+		</p>
+		<h3 id="features"> Features</h3>
 		<ul>
 			<li>!! other.comments ! Comments ! <dfn>#</dfn></li>
 			<li>!! other.escape ! Escape Sequences ! <dfn>\</dfn></li>
 		</ul>
-		<h1 id="types"> Supported Types </h1>
-		<p>
-			LXON supports 4 container types, 8 key types and 12 value types, along with hundreads of color types.
-		</p>
-		<h2 id="containers">
-			Containers
-		</h2>
+		<h3 id="containers"> Containers </h3>
 		<ul>
 			<li>!! conts.obj ! Object ! <dfn>{ with }</dfn></li>
 			<li>!! conts.arr ! Array ! <dfn>[ with ]</dfn></li>
 			<li>!! conts.map ! Map ! <dfn>( with )</dfn></li>
 			<li>!! conts.doo ! Doodad ! <dfn></dfn></li>
 		</ul>
-		<h2 id="keys">
-			Keys
-		</h2>
+		<h3 id="keys"> Keys </h3>
 		<ul>
 			<li>!! keys.str ! String ! <dfn>"</dfn></li>
 			<li>!! keys.bool ! Boolean ! <dfn>:</dfn></li>
@@ -82,9 +138,7 @@
 			</li>
 			<li>!! keys.enum ! Enum ! <dfn>*</dfn></li>
 		</ul>
-		<h2 id="values">
-			Values
-		</h2>
+		<h3 id="values"> Values </h3>
 		<ul>
 			<li>!! vals.text.full ! Full String ! <dfn>"</dfn></li>
 			<li>!! vals.text.str ! String ! <dfn>` or ^</dfn></li>
@@ -104,8 +158,10 @@
 				<ul>
 					<li>!! vals.col.spaces.srgb ! SRGB Color ! <dfn># or ;</dfn></li>
 					<li>!! vals.col.spaces.lin ! Linear SRGB Color ! <dfn>= or ;=</dfn></li>
-					<li>!! vals.col.spaces.profile.reg ! Profiled Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
-					<li>!! vals.col.spaces.profile.lin ! Linear Profiled Color ! <dfn>/</dfn><span class="a">*Complex type declaration</span></li>
+					<li>!! vals.col.spaces.profile.reg ! Profiled Color ! <dfn>/</dfn><span class="a">*Complex type
+							declaration</span></li>
+					<li>!! vals.col.spaces.profile.lin ! Linear Profiled Color ! <dfn>/</dfn><span class="a">*Complex
+							type declaration</span></li>
 				</ul>
 			</li>
 
@@ -153,19 +209,20 @@
 		</p>
 		<h1 id="license-trademarks"> License & Trademarks </h1>
 		<p>
-			LXON's source code in the <a href="https://github.com/lebbex/LXON" target="_blank">github repository</a> 
-			is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License 2.0</a>,
+			LXON's source code in the <a href="https://github.com/lebbex/LXON" target="_blank">github repository</a>
+			is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License
+				2.0</a>,
 			however the <a href="https://github.com/lebbex/LXON/tree/main/docs" target="_blank">/docs folder</a>
 			(the lxon.lebbex.com website) is proprietary and excluded from that license.
 		</p>
 		<p>
-			"Lebbex", "LXON", associated logos, and the name "Nicholas (Nick) Jasper" 
-			are trademarks/names of their owner and are NOT licensed under Apache 2.0 
+			"Lebbex", "LXON", associated logos, and the name "Nicholas (Nick) Jasper"
+			are trademarks/names of their owner and are NOT licensed under Apache 2.0
 			or any other license granted in the github repository.
 		</p>
 		<p>
-			Read <a href="https://github.com/lebbex/LXON/blob/main/LICENSE" target="_blank">LICENSE</a> and 
-			<a href="https://github.com/lebbex/LXON/blob/main/NOTICE" target="_blank">NOTICE</a> 
+			Read <a href="https://github.com/lebbex/LXON/blob/main/LICENSE" target="_blank">LICENSE</a> and
+			<a href="https://github.com/lebbex/LXON/blob/main/NOTICE" target="_blank">NOTICE</a>
 			before using, forking, or contributing to the project.
 			NOTICE covers naming rules for forks/derivatives (e.g. what you can and can't call a fork using "LXON").
 		</p>

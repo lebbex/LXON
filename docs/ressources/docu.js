@@ -323,7 +323,7 @@ window.docu = {
 
 			}
 
-			const allHeadings = Array.from(container.children).filter(el => el.tagName === 'H1' || el.tagName === 'H2');
+			const allHeadings = Array.from(container.children).filter(el => /^H[1-3]$/.test(el.tagName));
 			const h1s = allHeadings.filter(el => targets.has(el.id));
 
 			// headings that won't be picked up by the loop below still get a bare wrapper

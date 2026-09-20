@@ -18,65 +18,48 @@
 	<canvas id="noise-canvas"></canvas>
 
 	<div class="content" id="content">
+		<h1 id="def"> Definition </h1>
+		<p>
+			A raw string is the simplest way of representing a string in LXON.
+			It doesn't allow for !! other.escape ! escape characters !,
+			which is what makes it so simple, but also limits it heavily for many use cases.
+		</p>
+		<p>
+			The only use case for a raw string is for a single-line string with no trailing whitespace.
+			This makes it perfect for usernames, titles, email addresses, URLs, file names and paths, 
+			IDs, tags, labels, version numbers, country codes, etc.
+		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			A string value is the more versatile alternative to !! values.text.full ! full string ! values.
-			It requires a backtick <dfn>`</dfn> or caret <dfn>^</dfn> at the start, as type declaration. 
-			Every following character is treated as the contents of the string, until the first instance either one of those characters.
-			This means you start and end string characters with either of the same two characters.
+			A raw string requires a double quote <dfn>"</dfn> at the start as a type declaration.
+			The entire rest of the line will be read verbatim as the string,
+			ignoring all !! other.escape ! escape sequences !.
 		</p>
 		<p>
-			Like with full strings, the string also ends at the end of the line, so trailing backticks aren't strictly required.
-		</p>
-		<h2 id="chain"> Chaining </h2>
-		<p>
-			Strings can be chained easily with the caret symbol <dfn>^</dfn>. When a caret is used to terminate a string,
-			it will not only mark the end of the current value but also the start of a new string.
-			This should only ever be done inside an !! containers.arr ! array !.
-			It allows for string chaining, which is also supported by
-			!! values.keybind ! keybinds !, !! values.enum ! enums ! and even !! values.binary ! binary ! values,
-		</p>
-		<h2 id="escape"> Escaping </h2>
-		<p>
-			As a consequence of its increase in complexity, strings require escape sequences for the following characters:
-		</p>
-		<ul>
-			<li>Newline <dfn>\n</dfn></li>
-			<li>Carriage Return <dfn>\r</dfn></li>
-			<li>Backslash <dfn>\\</dfn></li>
-			<li>Backtick <dfn>\`</dfn></li>
-			<li>Caret <dfn>\^</dfn></li>
-			<li>Tilde <dfn>\~</dfn>
-				<span class="a">
-					*When the first character of a string is tilde, followed by EOL / EOF
-				</span>
-			</li>
-		</ul>
-		<h2 id="whitespace"> Whitespace </h2>
-		<p>
-			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
-			This allows for better visualization as well as a shortening of the visual length of the string.
-			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
+			The only way to end a raw string is with a newline or end of file.
+			This means raw strings are not to be used for inline data unless it's the last element of the line.
 		</p>
 		<p>
-			Strings support trailing whitespace such as tabs or space characters 
-			if terminated using the backticks <dfn>`</dfn>. 
-			Otherwise, it trims all trailing whitespace.
-			You can alternatively replace the last whitespace with its escape code 
-			(<dfn>\s</dfn> for space and <dfn>\t</dfn> for tab) if wishing to prevent trimmed trailing whitespace.
+			All trailing whitespace is removed. This ensures no accidental,
+			invisible input makes its way into the data content.
+			To represent a string with trailing whitespace, use a
+			!! val.text.str ! regular string ! instead.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
-			Here's some example usage of string values as reference:
+			Here's some example usage of raw string values as reference:
 		</p>
 		<pre><code>{
-key: `string`
-ehh: `string
+name: "Heather Mason
 
-array:[ `str1` `str2`
-	`str3
-	`str4^str5`
-	`str6^str7
+residence:
+	street: "Bergen
+	apartment: "Daisy Villa    
+	room: "102
+
+aliases:[
+	"Cheryl Mason     
+	"Alessa Gillespie
 </code></pre>
 	</div>
 
@@ -88,7 +71,7 @@ array:[ `str1` `str2`
 	<script src="/ressources/nav-tree.js"></script>
 	<script src="/ressources/docu.js"></script>
 	<script>
-		docu.init(["Values", "Text", "Raw_String"]);
+		docu.init(["Values", "Text", "Raw String"]);
 	</script>
 
 </body>

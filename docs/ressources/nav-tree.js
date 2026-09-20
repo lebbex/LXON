@@ -18,6 +18,9 @@ window.navTree = {
 		"Overview", "Documentation",
 		"", null, // <- null because it gets set through code
 		"Documentation",
+		["Introduction", "intro"],
+		["Pros", "pros"],
+		["Cons", "cons"],
 		["Analogy", "analogy"],
 		["Supported Features", "features"],
 		["Supported Containers", "containers"],
@@ -172,10 +175,11 @@ window.navTree = {
 			_url: "/text",
 			_page: "Text Values",
 			_min: "Text",
-			Full_String: [
-				"Full String", "Full String",
-				"/fullstring", "Full Strings",
-				"Full",
+			Raw_String: [
+				"Raw String", "Raw String",
+				"/rawstring", "Raw Strings",
+				"Raw",
+				["Definition", "def"],
 				["Syntax", "syntax"],
 				["Usage", "usage"]
 			],
@@ -183,20 +187,16 @@ window.navTree = {
 				"String", "String",
 				"/string", "Strings",
 				"Str",
-				["Syntax", "syntax"],
-				["Usage", "usage"]
-			],
-			Raw_String: [
-				"Raw String", "Raw String",
-				"/rawstring", "Raw Strings",
-				"Raw",
-				["Syntax", "syntax"],
+				["Defintion", "def"],
+				["Inline", "inline"],
+				["Multiline", "multiline"],
 				["Usage", "usage"]
 			],
 			Char: [
 				"Char", "Char",
 				"/char", "Chars",
 				"Char",
+				["Definition", "def"],
 				["Syntax", "syntax"],
 				["Usage", "usage"]
 			]

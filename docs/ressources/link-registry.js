@@ -367,14 +367,18 @@ window.linkReg = {
                             case "fullstr":
                             case "fullstring":
                             case "fullstrings":
-                                if (len == 3) return "/fullstring";
+                            case "raw":
+                            case "rawstr":
+                            case "rawstring":
+                            case "rawstrings":
+                                if (len == 3) return "/rawstring";
                                 switch (split[3]) {
                                     case "syntax":
-                                        return "/fullstring/#syntax";
+                                        return "/rawstring/#syntax";
                                     case "important":
-                                        return "/fullstring/#important";
+                                        return "/rawstring/#important";
                                     case "usage":
-                                        return "/fullstring/#usage";
+                                        return "/rawstring/#usage";
                                     default: return [split[3]];
                                 }
                             case "str":
@@ -387,8 +391,13 @@ window.linkReg = {
                                     case "chain":
                                     case "chaining":
                                         return "/string/#chain";
-                                    case "important":
-                                        return "/string/#important";
+                                    case "escape":
+                                    case "escaping":
+                                        return "/string/#escape"
+                                    case "whitespace":
+                                        return "/string/#whitespace"
+                                    case "inline":
+                                        return "/string/#inline";
                                     case "mult":
                                     case "multi":
                                     case "multiline":
