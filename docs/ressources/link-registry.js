@@ -523,6 +523,17 @@ window.linkReg = {
                             case "chains":
                             case "chaining":
                                 return "/keybind/#chain";
+                            case "escape":
+                            case "escaping":
+                                return "/keybind/#escape";
+                            case "mouse":
+                                return "/keybind/#mouse"
+                            case "key":
+                            case "keyboard":
+                                return "/keybind/#keyboard";
+                            case "gp":
+                            case "gamepad":
+                                return "/keybind/#gamepad"
                             default: return [split[2]];
                         }
                     case "col":
@@ -755,7 +766,18 @@ window.linkReg = {
                 switch (split[1]) {
                     case "comment":
                     case "comments":
-                        return "/comments";
+                        if (len == 2) return "/comments";
+                        switch (split[2]) {
+                            case "why":
+                            case "just":
+                            case "justification":
+                                return "/comments/#why";
+                            case "syntax":
+                                return "/comments/#syntax";
+                            case "usage":
+                                return "/comments/#usage"
+                            default: return [split[2]];
+                        }
                     case "escape":
                     case "escaped":
                         if (len == 2) return "/escape";
@@ -779,6 +801,10 @@ window.linkReg = {
                                 return "/escape/#usage"
                             default: return [split[2]];
                         }
+                    case "back":
+                    case "story":
+                    case "backstory":
+                        return "/backstory";
                     default: return [split[1]];
                 }
             default: return [split[0]];

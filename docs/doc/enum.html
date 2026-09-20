@@ -41,14 +41,7 @@
 		<ul>
 			<li> Backtick <dfn>`</dfn> (terminator symbol)</li>
 			<li> Caret <dfn>^</dfn> (!! val.text.string ! string ! declaration)</li>
-			<li> Ampersand <dfn>&</dfn> (!! val.date ! date ! declaration)</li>
-			<li> Dollar Sign <dfn>$</dfn> (!! val.bool ! boolean ! or !! val.mon ! monetary value ! declaration)</li>
-			<li> At Symbol <dfn>@</dfn> (!! val.bind ! keybind ! declaration)</li>
-			<li> Hashtag <dfn>#</dfn> (!! val.col.spaces.srgb ! srgb color ! declaration)</li>
-			<li> Equals <dfn>=</dfn> (!! val.col.spaces.lin ! linear srgb color ! declaration)</li>
-			<li> Slash <dfn>/</dfn> (!! val.col.spaces.prof ! profiled color ! declaration)</li>
 			<li> Asterisk <dfn>*</dfn> (!! val.enum ! enum ! declaration)</li>
-			<li> Question Mark <dfn>?</dfn> (!! val.bin ! binary value ! declaration)</li>
 		</ul>
 		<p>
 			It is standardized however to use the backtick, and only use the other characters for 
@@ -79,47 +72,41 @@ enums:[ **gun **sword **grande
 
 enum+str1:[ **foo` `string`
 enum+str2:[ **foo ^string`
-
-enum+date:[ *brand:nike &26-12-08
-enum+cash:[ *tier:platinum $cad.400
-enum+color:[ **bread #ff05ff
-enum+bind:[ *weapon:sword @right-joyX
-enum+binary:[ *type:member ?b1c4 1710
 </code></pre>
 		<h2 id="escape"> Escaping </h2>
 		<p>
 			As a consequence of its increase in complexity, enum members require !! other.escape ! escape sequences ! 
-			for the following characters, including ALL those shown above 
-			(simply add a <dfn>\</dfn> before the character to escape it):
+			for the following characters:
 		</p>
 		<ul>
 			<li> Newline <dfn>\n</dfn></li>
 			<li> Carriage Return <dfn>\r</dfn></li>
 			<li> Backslash <dfn>\\</dfn></li>
+			<li> Backtick <dfn>\`</dfn></li>
+			<li> Caret <dfn>\^</dfn></li>
+			<li> Asterisk <dfn>\*</dfn></li>
 		</ul>
 		<p>
 			Here's some example usage of keybind escaping:
 		</p>
 		<pre><code>{
-enum1: *newline:\n
+enum1: *newline:Element\n
 
-enum2: *backslash:\\
+enum2: *songs:sweatpants \\ easy access
 
-enum3: *title:Romeo \& Juliet
-
-weird enum: *email:lxon\@lebbex.com
-# ^ This last one ^
-# is likely a mischosen value type.
+enum3: *operator:\*
 </code></pre>
 		<h2 id="whitespace"> Whitespace </h2>
 		<p>
-			Enum members support trailing whitespace such as tabs or space characters if terminated using the backticks.
-			Otherwise, it trims all trailing whitespace. This allows for cleaner formatting.
+			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
+			This allows for better visualization as well as a shortening of the visual length of the enum.
+			This does however come at the cost of an extra byte stored per tab,
+			so this decision comes down to the developper.
 		</p>
 		<p>
-			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
-			This allows for better visualization as well as a shortening of the visual length of the keybind.
-			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
+			Enums trim all trailing whitespace if terminated by the end of the line.
+			Counter this by either using a terminator symbol, or replacing the last whitespace with
+			its escape code (<dfn>\s</dfn> for space and <dfn>\t</dfn> for tab).
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
@@ -131,14 +118,8 @@ theme: **dark
 
 inventory:[ *weapon:sword` *weapon:gun *food:bread
 
-book: *title:Romeo \& Juliet
-
-enum-keybind:[ *enum:member@left_key
-
-enum-binary:[ *type:bin ?32e5 fa24
-
 enum-string1:[ **dev` `Carlos
-enum-string2:[ **dev ^Nick Jasper
+enum-string2:[ **dev ^Nick Jasper\s
 
 game: *game:arrel`
 </code></pre>

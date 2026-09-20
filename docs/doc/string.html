@@ -32,6 +32,12 @@
 			Everything until the terminator symbol or until the end of the line will be
 			read as the string, accepting !! other.escape ! escape sequences ! and trimming no whitespace.
 		</p>
+		<h2 id="chain"> Chaining </h2>
+		<p>
+			When a caret <dfn>^</dfn> is used to terminate an string,
+			it will not only mark the end of the current string value but also the start of a new one.
+			This new string can be a !! val.text.str.mult ! multiline string ! if declared as such.
+		</p>
 		<h2 id="escape"> Escaping </h2>
 		<p>
 			Inline strings require !! other.escape ! escape sequences ! for the following characters:
@@ -50,16 +56,9 @@
 			so this decision comes down to the developper.
 		</p>
 		<p>
-			Trailing whitespace is also supported, however it is standardized to replace them with their
-			!! other.escape ! escape character ! counterpart,
-			such as <dfn>\t</dfn> for tab and <dfn>\s</dfn> for space.
-			This makes it clear it wasn't a typo.
-		</p>
-		<h2 id="chain"> Chaining </h2>
-		<p>
-			When a caret <dfn>^</dfn> is used to terminate an string,
-			it will not only mark the end of the current string value but also the start of a new one.
-			This new string can be a !! val.text.str.mult ! multiline string ! if declared as such.
+			Strings trim all trailing whitespace if terminated by the end of the line.
+			Counter this by either using a terminator symbol, or replacing the last whitespace with
+			its escape code (<dfn>\s</dfn> for space and <dfn>\t</dfn> for tab).
 		</p>
 		<h1 id="multiline"> Multiline </h1>
 		<p>

@@ -249,6 +249,10 @@ window.navTree = {
 			["Chaining", "chain"],
 			["Escaping", "escape"],
 			["Whitespace", "whitespace"],
+			["Codes", "codes"],
+			["Codes Mouse", "mouse"],
+			["Codes Keyboard", "keyboard"],
+			["Codes Gamepad", "gamepad"],
 			["Usage", "usage"]
 		],
 		Color: {
