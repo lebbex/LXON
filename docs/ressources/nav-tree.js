@@ -94,12 +94,12 @@ window.navTree = {
 	Keys: {
 		_nav: "Keys",
 		_tit: "(Typed) Keys",
-		_url: "/key",
+		_url: "/keys",
 		_page: "Keys",
 		_min: "Keys",
 		String: [
 			"String", "String Key",
-			"/key/string", "Keys // Strings",
+			"/keys/string", "Keys // Strings",
 			"Str",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -107,7 +107,7 @@ window.navTree = {
 		],
 		Boolean: [
 			"Boolean", "Boolean Key",
-			"/key/bool", "Keys // Booleans",
+			"/keys/bool", "Keys // Booleans",
 			"Bool",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -115,7 +115,7 @@ window.navTree = {
 		],
 		Number: [
 			"Number", "Number Key",
-			"/key/number", "Keys // Numbers",
+			"/keys/number", "Keys // Numbers",
 			"Num",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -123,7 +123,7 @@ window.navTree = {
 		],
 		Date: [
 			"Date", "Date Key",
-			"/key/date", "Keys // Dates",
+			"/keys/date", "Keys // Dates",
 			"Date",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -131,7 +131,7 @@ window.navTree = {
 		],
 		Monetary: [
 			"Monetary", "Monetary Key",
-			"/key/monetary", "Keys // Monetary Keys",
+			"/keys/monetary", "Keys // Monetary Keys",
 			"Monetary",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -139,7 +139,7 @@ window.navTree = {
 		],
 		Keybind: [
 			"Keybind", "Keybind Key",
-			"/key/keybind", "Keys // Keybinds",
+			"/keys/keybind", "Keys // Keybinds",
 			"KBind",
 			["Definition", "def"],
 			["Syntax", "syntax"],

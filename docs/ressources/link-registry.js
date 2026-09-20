@@ -203,25 +203,25 @@ window.linkReg = {
             // -------------------- Keys --------------------
             case "key":
             case "keys":
-                if (len == 1) return "/key";
+                if (len == 1) return "/keys";
                 switch (split[1]) {
                     case "outline":
-                        return "/key/#outline";
+                        return "/keys/#outline";
                     case "reg":
                     case "regular":
-                        if (len == 2) return "/key/#regular";
+                        if (len == 2) return "/keys/#regular";
                         switch (split[2]) {
                             case "use":
                             case "usage":
-                                return "/key/#regular-usage";
+                                return "/keys/#regular-usage";
                             default: return [split[2]];
                         }
                     case "typed":
-                        if (len == 2) return "/key/#typed";
+                        if (len == 2) return "/keys/#typed";
                         switch (split[2]) {
                             case "use":
                             case "usage":
-                                return "/key/#typed-usage";
+                                return "/keys/#typed-usage";
                             default: return [split[2]];
                         }
                     case "single":
@@ -229,70 +229,70 @@ window.linkReg = {
                     case "singlechar":
                     case "character":
                     case "singlecharacter":
-                        if (len == 2) return "/key/#single";
+                        if (len == 2) return "/keys/#single";
                         switch (split[2]) {
                             case "use":
                             case "usage":
-                                return "/key/#single-usage";
+                                return "/keys/#single-usage";
                             default: return [split[2]];
                         }
                     case "str":
                     case "string":
                     case "strings":
-                        if (len == 2) return "/key/string";
+                        if (len == 2) return "/keys/string";
                         switch (split[2]) {
                             case "syntax":
-                                return "/key/string/#syntax";
+                                return "/keys/string/#syntax";
                             case "chain":
                             case "chaining":
-                                return "/key/string/#chain";
+                                return "/keys/string/#chain";
                             case "important":
-                                return "/key/string/#important";
+                                return "/keys/string/#important";
                             case "usage":
-                                return "/key/string/#usage";
+                                return "/keys/string/#usage";
                             default: return [split[2]];
                         }
                     case "bool":
                     case "bools":
                     case "boolean":
                     case "booleans":
-                        if (len == 2) return "/key/bool";
+                        if (len == 2) return "/keys/bool";
                         switch (split[2]) {
                             case "cat":
-                                return "/key/meow";
+                                return "/keys/meow";
                             default: return [split[2]];
                         }
                     case "num":
                     case "nums":
                     case "number":
                     case "numbers":
-                        if (len == 2) return "/key/number";
+                        if (len == 2) return "/keys/number";
                         switch (split[2]) {
                             case "def":
                             case "definition":
-                                return "/key/number/#def";
+                                return "/keys/number/#def";
                             case "reg":
                             case "regs":
                             case "regular":
                             case "regulars":
-                                return "/key/number/#regular";
+                                return "/keys/number/#regular";
                             case "dec":
                             case "decs":
                             case "decimal":
                             case "decimals":
-                                return "/key/number/#decimal";
+                                return "/keys/number/#decimal";
                             case "sci":
                             case "scientific":
                             case "scientifics":
-                                return "/key/number/#sci";
+                                return "/keys/number/#sci";
                             case "static":
                             case "statics":
-                                return "/key/number/#static";
+                                return "/keys/number/#static";
                             default: return [split[2]];
                         }
                     case "date":
                     case "dates":
-                        if (len == 2) return "/key/date";
+                        if (len == 2) return "/keys/date";
                         switch (split[2]) {
                             case "cat":
                                 return "/meow";
@@ -302,7 +302,7 @@ window.linkReg = {
                     case "mons":
                     case "monetary":
                     case "monetaries":
-                        if (len == 2) return "/key/monetary";
+                        if (len == 2) return "/keys/monetary";
                         switch (split[2]) {
                             case "cat":
                                 return "/meow";
@@ -312,7 +312,7 @@ window.linkReg = {
                     case "binds":
                     case "keybind":
                     case "keybinds":
-                        if (len == 2) return "/key/keybind";
+                        if (len == 2) return "/keys/keybind";
                         switch (split[2]) {
                             case "cat":
                                 return "/meow";
@@ -322,7 +322,7 @@ window.linkReg = {
                     case "cols":
                     case "color":
                     case "colors":
-                        if (len == 2) return "/key/color";
+                        if (len == 2) return "/keys/color";
                         switch (split[2]) {
                             case "srgb":
                                 return "/meow";
@@ -335,7 +335,7 @@ window.linkReg = {
                     case "enums":
                     case "enumerator":
                     case "enumerators":
-                        if (len == 2) return "/key/enum";
+                        if (len == 2) return "/keys/enum";
                         switch (split[2]) {
                             case "cat":
                                 return "/meow";
