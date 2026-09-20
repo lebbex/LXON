@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>LXON Documentation</title>
+	<link rel="icon" href="/ressources/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400&display=swap">
+	<link rel="stylesheet" href="/ressources/styles.css">
+	<link rel="stylesheet" href="/ressources/style-doc.css">
+</head>
+
+<body>
+
+	<canvas id="noise-canvas"></canvas>
+
+	<div class="content" id="content">
+		<h1> How it began </h1>
+		<p>
+			Originally, Nick Jasper was creating a way to automatically set up email redirect on Cloudflare for the
+			@lebbex.com domain
+			(and all its TLD alternatives).
+			The redirect editor script had a HTML user interface that would allow him to add email addresses and where
+			they redirect to
+			and sync up these changes across the different domain extensions automatically.
+			Initially, he structured it under a tree navigation system, before switching to a pure custom-made JSON
+			editor.
+		</p>
+		<p>
+			He then realized how terrible JSON is to write and read, so he modified the editor, removing clutter. One of
+			the first big changes,
+			the root of what was changed in what would later become LXON, was the removal of trailing quotation marks
+			for string values.
+		</p>
+		<p>
+			This first syntax change would later become LXON's syntax.
+		</p>
+		<p>
+			As he developped the editor, he decided to remake it due to its bugs, switching from a text based editor
+			similar to Visual Studio Code,
+			to something node based with seamless editing, the best of both worlds.
+		</p>
+		<p>
+			This editor would later become the <a href="https://lxon.lebbex.com/editor">LXON Editor</a>.
+		</p>
+		<p>
+			With this came the realization of the limitations of JSON, where it's missing many crucial value types and
+			container types.
+			This realization is what gave birth to LXON.
+		</p>
+	</div>
+
+
+
+	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+	<script src="/ressources/fog.js"></script>
+	<script src="/ressources/link-registry.js"></script>
+	<script src="/ressources/nav-tree.js"></script>
+	<script src="/ressources/docu.js"></script>
+	<script>
+		docu.init(["Other", "Backstory"]);
+	</script>
+
+</body>
+
+</html>

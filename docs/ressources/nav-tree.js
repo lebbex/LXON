@@ -26,7 +26,6 @@ window.navTree = {
 		["Supported Containers", "containers"],
 		["Supported Keys", "keys"],
 		["Supported Values", "values"],
-		["Backstory", "backstory"],
 		["License & Trademarks", "license-trademarks"]
 	],
 	Containers: {
@@ -395,6 +394,11 @@ window.navTree = {
 			["Supported Characters", "characters"],
 			["Supported Environments", "environments"],
 			["Usage", "usage"]
+		],
+		Backstory: [
+			"Backstory", "Backstory",
+			"/backstory", "Backstory",
+			"Backstory",
 		]
 	}
 }
