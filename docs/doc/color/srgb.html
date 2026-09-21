@@ -19,34 +19,53 @@
 
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
+		<h3> Regular </h3>
 		<p>
-			SRGB is likely the most used color space throughout technology, 
+			SRGB is likely the most used color space throughout technology,
 			having been created by HP and Microsoft in 1996.
 			It's universally supported, pandering to the lowest common denominator.
 			As consequence, sRGB color has the smallest color range in most if not all other color spaces.
 			It is unable of recreating higher richness colors.
 		</p>
+		<h3> Linear </h3>
+		<p>
+			Color is percieved by the human eye with a curve, 
+			where it's very sensitive to dark colors but brighter colors not so much. 
+			To make up for it, most color spaces store color modified with a curve.
+			Linear color stores color linearly, without the curve, 
+			which cannot be displayed as is but is very practical for math operations.
+		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			SRGB color is supported in two different precision levels, using two different type declarators:
+			SRGB color is supported in !! val.col.prec.bit8 ! 8 bit precision ! only,
+			in two different color spaces using two different type declarators:
 		</p>
 		<ul>
-			<li>!! val.col.prec.bit8 ! Regular (8 bit) ! <dfn>#</dfn></li>
-			<li>!! val.col.prec.bit16 ! Deep (16 bit) ! <dfn>;</dfn></li>
+			<li> Regular SRGB <dfn>#</dfn></li>
+			<li> Linear SRGB <dfn>=</dfn></li>
 		</ul>
 		<p>
-			View !! val.col.prec.bit8.syntax ! 8 bit syntax ! to write basic sRGB color.<span class="a">(Recommended)</span>
+			Following the type declaration (see above), all succeeding hexadecimal characters 
+			(0 to 9 and "a" through "f") are used to store the color data.
 		</p>
 		<p>
-			View !! val.col.prec.bit16.syntax ! 16 bit syntax ! to write deep sRGB color.
+			The first two characters converge into the red channel, where "00" gets read as the full lack of red
+			and "ff" reads as the full presence of red. The next two characters converge into the green channel,
+			following the same rules as the red, and the next two become the blue channel. 
+			The final character pair converges into the alpha channel, also known as opacity.
+		</p>
+		<p>
+			Spaces cannot be used inside of colors, as they will simply terminate them.
+			Also, channels can be skipped using underscores <dfn>_</dfn>. !! val.col.prec.8bit.skip ! View channel skipping. !
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
 			Here's some examples of regular sRGB color usage:
 		</p>
 		<pre><code>{
-8 bit: #92c6f280
-16bit: ;e328 ffff 92c2 8000
+regular: #92c6f280
+linear1: =00ff00ff
+linear2: =_ff_ff
 </code></pre>
 	</div>
 

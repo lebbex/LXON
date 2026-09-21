@@ -275,14 +275,6 @@ window.navTree = {
 					["Syntax", "syntax"],
 					["Usage", "usage"]
 				],
-				Linear: [
-					"Linear SRGB", "Linear SRGB Color",
-					"/color/linear", "Linear SRGB Colors",
-					"Linear",
-					["Definition", "def"],
-					["Syntax", "syntax"],
-					["Usage", "usage"]
-				],
 				Profiles: [
 					"Profiled", "Profiled Color",
 					"/color/profiled", "Profiled Colors",
@@ -290,6 +282,9 @@ window.navTree = {
 					["Definition", "def"],
 					["Syntax", "syntax"],
 					["Codes", "codes"],
+					["Codes Primary", "primary"],
+					["Codes Secondary", "secondary"],
+					["Codes Custom", "custom"],
 					["Terminators", "terminators"],
 					["Usage", "usage"]
 				]

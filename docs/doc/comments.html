@@ -20,21 +20,18 @@
 	<div class="content" id="content">
 		<h1 id="why"> Justification </h1>
 		<p>
-			Comments aren't a feature to use in publicly packaged LXON.
-			They add prolixity, which goes against the entire scope of LXON.
-		</p>
-		<p>
-			Well structured data should always be readable without comments, same rule as with code,
-			however we do understand the need for some to comment on their data when, for example,
-			sharing it for debugging, or simply reminding themselves what something means or what it's supposed to look like.
+			Well structured data should always be readable without comments, same rule as with code.
+			However, it's understandable the neee to comment on data when, for example,
+			sharing it for debugging, writing config files,
+			or simply reminding future you and others what something means or what it's supposed to look like.
 		</p>
 		<p>
 			In short, comments are something to avoid using, but are supported for the rare occurences you may want them.
 		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			A comment is very straightforward to write. 
-			Simply begin a new line with <dfn>#</dfn> and the rest of the line in full will be skipped by the parser.
+			A comment is very straightforward to write. Simply begin a new line with
+			<dfn>;</dfn> and the rest of the line in full will be skipped by the parser.
 		</p>
 		<h2> Important </h2>
 		<p>
@@ -49,20 +46,20 @@
 			Here's some example usage of comments as reference (read comments):
 		</p>
 		<pre><code>{
-# Below is a key and value
+; Below is a key and value
 key1: "value1
 
-# key2: "value2
-# ^^^^^^^^^^^^^
-#Doesn't get parsed
+;; key2: "value2
+;; ^^^^^^^^^^^^^
+;;Doesn't get parsed
 
-#Neither this-> key3: 4
+;;Neither this-> key3: 4
 
- # Not a comment cause the
-	# first char isnt a "#"
+ ;; Not a comment cause the
+	;; first char isnt a "#"
 
-key4: "str  #still a string
-key5: `str`  #this is a key
+key4: "str  ;;still a string
+key5: `str`  ;;this is a key
 </code></pre>
 	</div>
 

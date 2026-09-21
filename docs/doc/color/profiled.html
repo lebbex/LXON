@@ -47,7 +47,7 @@
 		</p>
 		<h2 id="primary"> Primary (Standardized) </h2>
 		<p>
-			Primary color space codes are codes composed of one or no characters.
+			Primary color space codes are codes composed of one non-letter character.
 			They are the most used color space codes.
 		</p>
 		<ul>
@@ -60,14 +60,18 @@
 			<li>Display P3 <dfn>/</dfn></li>
 			<li>ProPhoto <dfn>+</dfn></li>
 			<li>Rec. 2020 <dfn>4</dfn></li>
+			<li>Rec. 2100 (HLG) <dfn>8</dfn></li>
+			<li>Rec. 2100 (PQ) <dfn>9</dfn></li>
 			<li>Rec. 709 <dfn>7</dfn></li>
+			<li>scRGB <dfn>_</dfn></li>
+			<li>sRGB (alternative) <dfn>#</dfn><span class="a">*Used when regular sRGB isn't supported in the desired precision level</span></li>
 			<li>Wildcard (unidentified) <dfn>*</dfn></li>
 		</ul>
 		<h2 id="secondary"> Secondary (Standardized) </h2>
 		<p>
-			Secondary color space codes are codes composed of two characters,
-			where the first character is always a letter.
-			They are less used then primary color spaces.
+			Secondary color space codes are codes composed of two characters, the first of which a letter.
+			All letters are lowercase.
+			They are less used then the primary color space codes.
 		</p>
 		<ul>
 			<li>Adobe Wide-Gamut RGB <dfn>ad</dfn></li>
@@ -89,32 +93,27 @@
 			<li>Leica L-Log <dfn>ll</dfn></li>
 			<li>Nikon N-Log <dfn>nn</dfn></li>
 			<li>NTSC <dfn>nt</dfn></li>
-			<li>Panasonic V-Gamut <dfn>p1</dfn></li>
-			<li>Panasonic V-Gamut2 <dfn>p2</dfn></li>
-			<li>Panasonic V-Gamut3 <dfn>p3</dfn></li>
+			<li>Panasonic V-Gamut <dfn>v1</dfn></li>
+			<li>Panasonic V-Gamut2 <dfn>v2</dfn></li>
+			<li>Panasonic V-Gamut3 <dfn>v3</dfn></li>
 			<li>PAL/SECAM <dfn>ps</dfn></li>
 			<li>Rec. 601 <dfn>r6</dfn></li>
-			<li>Rec. 2100 (HLG) <dfn>rh</dfn></li>
-			<li>Rec. 2100 (PQ) <dfn>r2</dfn></li>
 			<li>REDcolor <dfn>rc</dfn></li>
 			<li>REDWideGamut <dfn>rw</dfn></li>
-			<li>scRGB <dfn>sc</dfn></li>
 			<li>SMPTE-C <dfn>sm</dfn></li>
-			<li>sRGB (alternative) <dfn>#</dfn><span class="a">*Used when regular sRGB isn't supported in the desired precision level</span></li>
-			<li>Sony S-Gamut3 <dfn>ss</dfn></li>
-			<li>Sony S-Gamut3.Cine <dfn>sg</dfn></li>
-			<li>Sony Venice S-Gamut3 <dfn>vs</dfn></li>
-			<li>Sony Venice S-Gamut3.Cine <dfn>vg</dfn></li>
+			<li>Sony S-Gamut3 <dfn>sg</dfn></li>
+			<li>Sony S-Gamut3.Cine <dfn>sc</dfn></li>
+			<li>Sony Venice S-Gamut3 <dfn>vg</dfn></li>
+			<li>Sony Venice S-Gamut3.Cine <dfn>vc</dfn></li>
 		</ul>
 		<h2 id="custom"> Custom </h2>
 		<p>
-			Custom color codes are 2+ character long codes starting with a letter
-			that aren't already used by any secondary codes (see above).
+			Custom color codes are 2 character color codes that aren't already used by any secondary codes (see above).
 			They don't resolve to anything, and must be interpreted after the fact.
 			It is generally considered bad practice, although for internal use cases it is fully understandable.
 		</p>
 		<p>
-			If any 2 character code gets popularized enough, it can be officially standardized
+			If any custom character code gets popularized enough, it can be officially standardized
 			and resolved to a specific color space in future editions of the parser.
 			For standardization request submissions of 2 character codes (must start with a letter),
 			contact <dfn>lxon@lebbex.com</dfn>.

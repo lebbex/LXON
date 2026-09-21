@@ -550,15 +550,13 @@ window.linkReg = {
                                         if (len == 4) return "/color/srgb";
                                         switch (split[4]) {
                                             case "def":
+                                            case "definition":
                                                 return "/color/srgb/#def";
-                                            default: return [split[4]];
-                                        }
-                                    case "lin":
-                                    case "linear":
-                                        if (len == 4) return "/color/linear";
-                                        switch (split[4]) {
-                                            case "def":
-                                                return "/color/linear/#def";
+                                            case "syntax":
+                                                return "/color/srgb/#syntax";
+                                            case "use":
+                                            case "usage":
+                                                return "/color/srgb/#usage";
                                             default: return [split[4]];
                                         }
                                     case "prof":

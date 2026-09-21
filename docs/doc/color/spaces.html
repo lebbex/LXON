@@ -20,26 +20,23 @@
 	<div class="content" id="content">
 		<h1 id="types"> Types </h1>
 		<h2 id="col"> !! val.col.spaces.srgb ! SRGB Color ! </h2>
+		<h3> Regular </h3>
 		<p>
 			SRGB is likely the most used color space throughout technology, 
 			having been created by HP and Microsoft in 1996.
 			It's universally supported, pandering to the lowest common denominator.
 			As consequence, sRGB color has the smallest color range in most if not all other color spaces.
 			It is unable of recreating higher richness colors.
+			It uses <dfn>#</dfn> as type declaration.
 		</p>
-		<p>
-			It uses <dfn># and ;</dfn> as type declaration for regular/deep color respectively.
-		</p>
-		<h2 id="linear"> !! val.col.spaces.lin ! Linear SRGB Color ! </h2>
+		<h3> Linear </h3>
 		<p>
 			Color is percieved by the human eye with a curve, 
 			where it's very sensitive to dark colors but brighter colors not so much. 
 			To make up for it, most color spaces store color modified with a curve.
 			Linear color stores color linearly, without the curve, 
 			which cannot be displayed as is but is very practical for math operations.
-		</p>
-		<p>
-			It uses <dfn>= and ;=</dfn> as type declaration for regular/deep color respectively.
+			It uses <dfn>=</dfn> as type declaration.
 		</p>
 		<h2 id="other"> Other Color Spaces (!! val.col.spaces.profiles ! Profiled !) </h2>
 		<p>
@@ -57,19 +54,14 @@
 			Different color spaces hold different color gamuts, with varying widths and utilities.
 		</p>
 		<p>
-			LXON supports infinite color spaces. Nevertheless, some are more important than others,
-			the most important being !! val.col.spaces.srgb ! regular sRGB color !.
-			To not burden all colors with complexity, three different major color spaces were created.
+			LXON supports infinite color spaces. Nevertheless, some are more important than others.
+			Consequently, the most used color space, !! val.col.spaces.srgb ! sRGB !, has very simple syntax.
+			Other color spaces are regrouped as !! val.col.spaces.prof ! profiled colors !,
+			which has far more complexity in type declaration than the former.
 		</p>
 		<p>
-			Consequently, the most used color space, !! val.col.spaces.srgb ! regular sRGB !, has very simple syntax.
-			Its !! val.col.spaces.lin ! linear alternative ! has almost the same complexity.
-			However, other color spaces are regrouped as !! val.col.spaces.prof ! profiled colors !,
-			which has far more complexity in type declaration than the former two.
-		</p>
-		<p>
-			Also, most environments dont support all color spaces, only the former two,
-			so seperating them from the other less supported ones allows for implementing them into the native solution,
+			Also, most environments dont support all color spaces, so seperating sRGB from the other,
+			less supported ones allows for implementing sRGB into the native solution,
 			while implementing profiled colors as a custom object.
 		</p>
 		<p>

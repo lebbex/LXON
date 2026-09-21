@@ -14,7 +14,7 @@ body {
 
 .content {
     overflow-x: hidden;
-    padding-left: 440px;
+    padding-left: 460px;
     opacity: 0;
     transition: opacity 1s ease;
 }
@@ -25,13 +25,13 @@ body {
 
 @media (max-width: 1100px) {
     .content {
-        padding-left: 390px;
+        padding-left: 440px;
     }
 }
 
 @media (max-width: 900px) {
     .content {
-        padding-left: 320px;
+        padding-left: 360px;
     }
 }
 
@@ -411,13 +411,13 @@ pre {
     padding: 20px 0px 25px 20px;
     margin-top: -10px;
     margin-bottom: 50px;
-    margin-left: 60px;
-    margin-right: calc(10% + 10px);
+    margin-left: 50px;
+    margin-right: calc(10% + 70px);
     font-size: 130%;
     text-align: justify;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.733);
-    background-color: rgba(10, 5, 3, 0.6);
+    background-color: rgba(13, 7, 4, 0.4);
     border-radius: 20px;
     tab-size: 4;
     -moz-tab-size: 4;
@@ -447,7 +447,8 @@ pre::-webkit-scrollbar-thumb:hover {
 
 @media (max-width: 1100px) {
     pre {
-        margin-left: 20px;
+        margin-left: 10px;
+        margin-right: calc(10% + 10px);
     }
 }
 
@@ -457,7 +458,7 @@ button.symbol {
     align-items: center;
     font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
     margin: 0px 1px;
-    background-color: rgba(10, 5, 3, 0.6);
+    background-color: rgba(17, 7, 5, 0.6);
     border-radius: 10px;
     border-width: 0;
     position: relative;
@@ -509,7 +510,7 @@ div.symbol-text {
     position: fixed;
     top: 80px;
     left: 25px;
-    max-width: 320px;
+    max-width: 360px;
     width: calc(100dvw - 50px);
     height: calc(100dvh - 100px);
     background: rgba(0, 0, 0, 0.6);
@@ -527,7 +528,7 @@ div.symbol-text {
 
 @media (max-width: 900px) {
     #nav {
-        max-width: 260px;
+        max-width: 280px;
     }
 }
 
@@ -738,7 +739,7 @@ div.symbol-text {
     min-width: min-content;
 }
 
-@media(max-width: 420px) {
+@media(max-width: 900px) {
     .nav2 {
         padding: 5px 30px 5px 30px;
     }
@@ -774,7 +775,7 @@ div.symbol-text {
     min-width: min-content;
 }
 
-@media(max-width: 420px) {
+@media(max-width: 900px) {
     .nav3 {
         padding: 5px 30px 5px 48px;
     }
@@ -811,7 +812,7 @@ div.symbol-text {
     min-width: min-content;
 }
 
-@media(max-width: 420px) {
+@media(max-width: 900px) {
     .nav4 {
         padding: 5px 30px 5px 66px;
     }
@@ -873,7 +874,7 @@ div.symbol-text {
     padding: 5px 0px 5px 162px;
 }
 
-@media(max-width: 420px) {
+@media(max-width: 900px) {
     .nav-sub.depth1 {
         padding: 5px 0px 5px 30px;
     }
