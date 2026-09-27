@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>LXON</title>
+	<title>LXON 404</title>
 	<link rel="icon" href="ressources/icon.png" type="image/x-icon">
 	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
 	<link rel="stylesheet"
@@ -25,7 +25,7 @@
 		<main>
 			<section class="landing">
 				<div class="e404">404</div>
-				<div class="not-found">Looks like you typed some bullshit</div>
+				<div class="not-found"></div>
 			</section>
 
 			<div class="divider"></div>
@@ -57,6 +57,41 @@
 		const scrollContainer = document.getElementById('scroll-container');
 
 		scrollContainer.classList.add('loaded');
+
+		const notFoundMessages = [
+			"Looks like you typed some bullshit",
+			"Looks like you typed some bullshit",
+			"Looks like you typed some bullshit",
+			"Looks like you typed some bullshit",
+			"Looks like you typed some bullshit",
+			"Coulda been a phishing link",
+			"Try typing the link with your feet",
+			"Was thinking of putting a minigame here",
+			"You got the first part right",
+			"Reload the page, something might happen",
+			"Try the wayback machine",
+			"I love funny developer messages",
+			"Such a bespoke website, imagine what that page would look like",
+			"I don't get paid enough to write these messages",
+			"Some nerd once said 'Internet code 404', just say the page doesn't exist dawg",
+			"Try typing the link with your elbows",
+			"Is that a promo code in the address bar?",
+			"That's not a real thing",
+			"There is no out of here, you've been killed, don't you remember?",
+			"Still not a real thing",
+			"Slow down dropping all that BS in the address bar",
+			"I promise there's no secret pages",
+			"Pick up some salt and blow on it, throw it in the air and read what it says on the ground",
+			"Try turning your keyboard upside down",
+			"Try turning your keyboard rightside up",
+			"Don't hire me for your websites or I'll hide shit in them",
+			"Try typing the link with your knees",
+			"I didn't acctually look for your page, this just helps save on server costs",
+			"Your page acctually does exist if you pay me to make it",
+		];
+
+		const notFoundEl = document.querySelector('.not-found');
+		notFoundEl.innerHTML = notFoundMessages[Math.floor(Math.random() * notFoundMessages.length)];
 	</script>
 
 </body>
