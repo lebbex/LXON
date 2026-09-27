@@ -48,7 +48,7 @@
 			Spaces cannot be used inside of colors, as they will simply terminate them.
 			Also, channels can be skipped using underscores <dfn>_</dfn>. !! val.col.prec.8bit.skip ! View channel skipping. !
 		</p>
-		<h1 id="termination"> Termination </h1>
+		<h2 id="termination"> Termination </h2>
 		<p>
 			The color is terminated at the first non-hexadecimal character following a channel.
 		</p>
@@ -69,19 +69,19 @@ sRGB: #00112233
 Linear: =00112233
 P3: /00112233
 
-# Color bleeding into key (bad) -- here the color is acctually =ffffaaa2
+;; Color bleeding into key (bad) -- here the color is acctually =ffffaaa2
 aaa1: =ffffaaa2: "value
 
-# Color terminated by the next key (okay)
+;; Color terminated by the next key (okay)
 rrr1: =2e57rrr2: "value
 
-# Color not bleeding into key (recommended)
+;; Color not bleeding into key (recommended)
 aaa3: =ffff aaa4: "value
 
-# Color terminated by the next string
+;; Color terminated by the next string
 array:[ =0000`string`
 </code></pre>
-		<h1 id="skip"> Channel Skipping</h1>
+		<h2 id="skip"> Channel Skipping</h2>
 		<p>
 			If a certain channel's first hexadecimal character isn't present, 
 			the parsing of the color ceases and the current color returns,

@@ -116,7 +116,7 @@ obj2:
 			(read !! other.comments ! comments ! as some of the examples showcase common mistakes):
 		</p>
 		<pre><code>{
-# THIS IS CORRECT
+;; THIS IS CORRECT
 obj1:{ id: 4 } obj2:{ id: 5 }
 obj3:
 	key: `value` }
@@ -124,14 +124,14 @@ obj4:
 	key: "value
 	}
 
-# THIS IS A MISTAKE
-# It terminates the root object instead
+;; THIS IS A MISTAKE
+;; It terminates the root object instead
 obj5:{
 	key: 'v
 }
 
-# This data is never read
-# because the root was terminated above
+;; This data is never read
+;; because the root was terminated above
 key: "value"
 </code></pre>
 		<h2 id="empty"> Empty Objects </h2>

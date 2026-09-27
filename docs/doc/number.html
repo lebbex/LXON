@@ -30,47 +30,74 @@
 			manually edited later.
 		</p>
 		<h1 id="syntax"> Syntax </h1>
-		<h2 id="regular"> Regular Numbers </h2>
+		<h2 id="int"> Integral Part </h2>
 		<p>
-			To write a number, you just write the number as is, 
+			To write a number, you just write the number as is,
 			with a negative sign <dfn>-</dfn> in the case of a negative number,
-			or a optional plus sign <dfn>+</dfn> in the case of a positive number.
+			or an optional plus sign <dfn>+</dfn> in the case of a positive number.
 		</p>
 		<pre><code>{
 pos: 500
 neg: -50
-dec: +3.1416
+xtr: +50
 </code></pre>
-		<h2 id="decimal"> Decimal Numbers </h2>
+		<h2 id="decimal"> Decimal Part </h2>
 		<p>
-			If a decimal number begins with a zero (it's only decimals), 
-			you can skip writing the zero and write the number with a period before.
-			Obviously, only one period is allowed in a number; 
-			a second period terminates the value and returns it.
+			To write the decimal part of the number, write a dot <dfn>.</dfn>,
+			then write the decimal part.
+		</p>
+		<pre><code>{
+dec1: 0.2
+dec2: -15.32
+__pi: 3.1416
+posi: +10.5
+</code></pre>
+		<p>
+			If a number's integral part is 0 (zero), meaning there's only a decimal part,
+			then the integral part can be skipped altogether and only the decimal part be written.
 		</p>
 		<pre><code>{
 valid: .592
 extra: -.5
 wrong: .623.59
-# This last value wouldn't parse correctly
+;; This last value wouldn't parse correctly
 </code></pre>
 		<h2 id="sci"> Scientific Notation </h2>
 		<p>
-			Scientific notation is also supported for numbers, 
+			Scientific notation is also supported for numbers,
 			and is simply written by appending <dfn>e</dfn> right after the number,
 			as well as a optional sign and the exponent number.
+		</p>
+		<p>
+			Scientific notation is not compatible with !! val.num.percent ! percentage notation !.
 		</p>
 		<pre><code>{
 num1: 1.3e5
 num2: -2.6e-3
 num3: .5e+10
 </code></pre>
+		<h2 id="percent"> Percentage Notation </h2>
+		<p>
+			Numbers can also be represented as percentages,
+			and are simply written by appending <dfn>%</dfn> right after the number.
+			This divides the final number by 100 when parsing. It is mostly for aesthetic
+			and communicating the scope of the number to readers of the serialized data.
+		</p>
+		<p>
+			Percentage notation is not compatible with !! val.num.sci ! scientific notation !.
+		</p>
+		<pre><code>{
+master: 80%
+music: 90.4%
+world: 110%
+voice: .2%
+</code></pre>
 		<h2 id="static"> Static Numbers </h2>
 		<p>
 			There are three static values for numbers, each of which self-declared and requiring no type definition:
 		</p>
 		<ul>
-			<li>NaN <dfn>-</dfn><span class="a">*Must be followed by a non-numerical character</span></li>
+			<li>NaN <dfn>-</dfn> <span class="a">*Must be followed by a non-numerical character</span></li>
 			<li>Positive (+) Infinity <dfn>+%</dfn></li>
 			<li>Negative (-) Infinity <dfn>-%</dfn></li>
 		</ul>
@@ -86,7 +113,7 @@ neg infinity: -%
 			This frees up the percent symbol to potentially be used as a type declarator in the future.
 		</p>
 		<p>
-			The <dfn>+</dfn> and <dfn>-</dfn> symbols are type declarators, 
+			The <dfn>+</dfn> and <dfn>-</dfn> symbols are type declarators,
 			where the minus symbol also acts as a modifier on the number following it, inverting it.
 			However, if there is no number following the symbol,
 			the parser attempts to multiply a undefined value by "-1",
@@ -94,13 +121,13 @@ neg infinity: -%
 		</p>
 		<p>
 			NaN's syntax was an unintended side effect that ended up becomming part of the LXON standard.
-			Some parsers might support <dfn>+</dfn> as a declaration of NaN, 
-			however it is highly reccomended to refrain from doing so.
+			Some parsers might support <dfn>+</dfn> as a declaration of NaN,
+			however, for simplicity, NaN should always be represented as <dfn>-</dfn>.
 		</p>
 		<p>
-			To be sure that the value is properly interpreted, 
+			To be sure that the value is properly interpreted,
 			it is standardized to follow the minus symbol with either a space
-			character or a newline. 
+			character or a newline.
 			It will work however as long as what follows it cannot be interpreted as a number
 			(see regular/decimal number syntax above).
 		</p>

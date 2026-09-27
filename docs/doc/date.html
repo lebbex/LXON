@@ -59,7 +59,6 @@
 			If it had read the number as a year, it then moves onto looking for the week or month,
 			and if that fails, it looks for the time instead.
 		</p>
-		<h3 id="example"> Example </h3>
 		<p>
 			Here's an example of year and unix timestamp usage. It is the same example as below,
 			representing January 1st, 2026 (UTC):
@@ -78,7 +77,6 @@ simple year: &2026
 			week,
 			starting from 1 being Monday.
 		</p>
-		<h3 id="example-week"> Example </h3>
 		<p>
 			Here's an example of a date made up of a year, a week and day of the week.
 			It is the same example as above and below, representing Januay 1st 2026 (1st week of the year on a
@@ -94,7 +92,6 @@ date: &2026-W1-4
 			starting from 1 being January. If after that number is another <dfn>-</dfn>,
 			then it reads the following number as the day of the month, where 1 is the first day of the month.
 		</p>
-		<h3 id="example-month"> Example </h3>
 		<p>
 			Here's an example of a date made up of a year, a month and a day of the month.
 			It is the same example as all above, representing January 1st, 2026:
@@ -120,7 +117,6 @@ date: &2026-01-01
 			then it will read the following number as the milliseconds of the second.
 			It reads it as the decimals to the second, so .5 doesn't mean 5 milliseconds, it means half a second.
 		</p>
-		<h3 id="example-time"> Example </h3>
 		<p>
 			Here's some example usage of the time segment of a date (read comment):
 		</p>
@@ -128,7 +124,7 @@ date: &2026-01-01
 date1: &2026-07-01T12:30:05
 date2: &T12:30:05.025
 
-# These all represent 1:05am and 3.5 seconds
+;; These all represent 1:05am and 3.5 seconds
 time1: &T01:05:03.5
 time2: &T1:05:03.5
 time3: &T01:5:3.50
@@ -149,7 +145,6 @@ time4: &T01:05:03.500
 			It will then read the next character after that, if it is numerical, as the units digit of the minute
 			offset.
 		</p>
-		<h3 id="example-offset"> Example </h3>
 		<p>
 			Here's some example usage of offsets (all times are the same when offset is calculated):
 		</p>

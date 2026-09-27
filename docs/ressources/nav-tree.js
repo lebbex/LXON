@@ -186,9 +186,9 @@ window.navTree = {
 				"String", "String",
 				"/string", "Strings",
 				"Str",
-				["Defintion", "def"],
-				["Inline", "inline"],
-				["Multiline", "multiline"],
+				["Definition", "def"],
+				["Syntax Inline", "inline"],
+				["Syntax Multiline", "multiline"],
 				["Usage", "usage"]
 			],
 			Char: [
@@ -214,9 +214,10 @@ window.navTree = {
 			"/number", "Numbers",
 			"Num",
 			["Definition", "def"],
-			["Regular Number", "regular"],
-			["Decimal Number", "decimal"],
+			["Integral Part", "int"],
+			["Decimal Part", "decimal"],
 			["Scientific Notation", "sci"],
+			["Percentage Notation", "percent"],
 			["Static Number", "static"]
 		],
 		Date: [
@@ -334,6 +335,7 @@ window.navTree = {
 					"Float",
 					["Definition", "def"],
 					["Syntax", "syntax"],
+					["Justification", "why"],
 					["Channel Skipping", "skip"]
 				]
 			}

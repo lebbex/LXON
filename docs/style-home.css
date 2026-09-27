@@ -273,3 +273,17 @@ p {
     max-width: 74ch;
     overflow-wrap: anywhere;
 }
+
+.e404 {
+    font-size: 500%;
+    padding-bottom: 50px;
+    text-decoration: underline solid rgba(255, 255, 255, 0.3) 1px; 
+    text-underline-offset: 15px;
+}
+
+.not-found {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: lighter;
+    font-size: 90%;
+    padding-bottom: 50px;
+}

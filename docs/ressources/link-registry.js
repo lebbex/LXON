@@ -455,6 +455,10 @@ window.linkReg = {
                             case "scientific":
                             case "scientifics":
                                 return "/number/#sci";
+                            case "per":
+                            case "percent":
+                            case "percentage":
+                                return "/number/#percent"
                             case "static":
                             case "statics":
                                 return "/number/#static";

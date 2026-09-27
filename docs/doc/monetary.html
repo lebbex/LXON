@@ -80,7 +80,6 @@
 			into lowercase to account for potentially miswritten codes.
 			This, however, is not a requirement.
 		</p>
-		<h3 id="example"> Example </h3>
 		<p>
 			Here are examples of monetary values with specified and unspecified currencies 
 			(all amounts are set to 0, as this example is only meant to show the declaration of currencies,
@@ -100,10 +99,10 @@ custom2 (vbuck): $vb.0
 custom3 (vbuck): $v.0
 
 custom4 (vbuck): $vbc.0
-# ^^ INCORRECT!! ^^
-# Assumes ISO standard
-# but uses custom currency.
-# Only use 3 chars for ISO!
+;; ^^ INCORRECT!! ^^
+;; Assumes ISO standard
+;; but uses custom currency.
+;; Only use 3 chars for ISO!
 </code></pre>
 		<h2 id="unspecified"> Amount (Unspecified Currency) </h2>
 		<p>
@@ -118,23 +117,22 @@ custom4 (vbuck): $vbc.0
 			it will read the following numerical characters as 
 			the fractional (decimal) part of the amount.
 		</p>
-		<h3 id="example-unspecified"> Example </h3>
 		<p>
 			Here's example usage of monetary values with unspecified currency 
 			(read !! other.comments ! comments !, they specify the monetary value):
 		</p>
 		<pre><code>{
-# 500 dollars
+;; 500 dollars
 john: $500.00
 
-# 500 dollar debt
+;; 500 dollar debt
 jane: $-500
 
-# half a dollar (50 cents)
+;; half a dollar (50 cents)
 cain: $.5000
 lisa: $0.5
 
-# 30 thousand dollars each
+;; 30 thousand dollars each
 luke: $30000
 mark: $30 000
 jake: $3 000 0
@@ -159,22 +157,21 @@ pete: $3 0 00 0
 			identically to any other non-numerical character that isn't a space character
 			Spaces are skipped, as they allow for formatting which reduces the chance of human mistakes.
 		</p>
-		<h3 id="example-specified"> Example </h3>
 		<p>
 			Here's example usage of monetary values with specified currency 
 			(read !! other.comments ! comments !, they specify the monetary value):
 		</p>
 		<pre><code>{
-# 500 american dollars
+;; 500 american dollars
 john: $usd.50000
 
-# 500 euro debt
+;; 500 euro debt
 jane: $eur.-500
 
-# half a euro (50 cents)
+;; half a euro (50 cents)
 cain: $eur.50
 
-# 30 thousand canadian dollars each
+;; 30 thousand canadian dollars each
 luke: $cad.3000000
 mark: $cad.30 000 00
 jake: $cad.3 000 0 00

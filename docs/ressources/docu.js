@@ -233,7 +233,7 @@ window.docu = {
 		// Create the nav
 		const nav = document.createElement('div');
 		nav.id = "nav";
-		if(path.length == 1) nav.classList.add("hidden");
+		if (path.length == 1) nav.classList.add("hidden");
 		body.appendChild(nav);
 
 
@@ -685,6 +685,12 @@ window.docu = {
 		keys.forEach(key => {
 			docu.subNavs[key].classList.remove("inter");
 		})
+		const scrollEl = document.scrollingElement || document.documentElement;
+		const atBottom = scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight < 60;
+		if (atBottom) {
+			docu.subNavs[keys[keys.length - 1]].classList.add("inter");
+			return;
+		}
 		let wasSet = false;
 		for (let i = 0; i < keys.length; i++) {
 			const key = keys[i];
