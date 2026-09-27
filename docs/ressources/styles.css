@@ -84,11 +84,3 @@ body {
     background: var(--line);
     margin: 0 0;
 }
-
-footer {
-    padding: 3vh 0 3vh;
-    color: var(--ink-dim);
-    font-size: 0.85rem;
-    align-items: center;
-    text-align: center;
-}

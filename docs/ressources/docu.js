@@ -161,6 +161,11 @@ window.docu = {
 		body.append(tabButton);
 		body.append(miniNav);
 
+		const footer = document.createElement("footer");
+		footer.className = "site-footer";
+		footer.textContent = "©Lebbex 2026. All rights reserved.";
+		body.append(footer);
+
 		function closeNavOnOutsideInteraction(e) {
 			if (nav.classList.contains("hidden")) return;
 			if (nav.contains(e.target) || tabButton.contains(e.target) || home.contains(e.target) || miniNav.contains(e.target)) return;
@@ -402,8 +407,6 @@ window.docu = {
 		}
 
 		wrapH1Sections(content, path);
-
-
 
 		// -------------------- Convert all !! into links --------------------
 

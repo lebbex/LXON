@@ -256,6 +256,7 @@ h1 {
     max-width: 18ch;
     font-weight: 600;
     overflow-x: hidden;
+    user-select: none;
 }
 
 h2 {
@@ -264,6 +265,7 @@ h2 {
     max-width: 20ch;
     font-weight: 600;
     overflow-x: hidden;
+    user-select: none;
 }
 
 p {
@@ -286,4 +288,13 @@ p {
     font-weight: lighter;
     font-size: 90%;
     padding-bottom: 50px;
+}
+
+footer {
+    padding: 3vh 0 3vh;
+    color: var(--ink-dim);
+    font-size: 0.85rem;
+    align-items: center;
+    text-align: center;
+    user-select: none;
 }
