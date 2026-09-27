@@ -147,7 +147,7 @@ window.navTree = {
 		],
 		Color: [
 			"Color", "Color Key Types",
-			"/key/color", "Keys // Color Types",
+			"/keys/color", "Keys // Color Types",
 			"Color",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -155,7 +155,7 @@ window.navTree = {
 		],
 		Enum: [
 			"Enum", "Enum Key",
-			"/key/enum", "Keys // Enums",
+			"/keys/enum", "Keys // Enums",
 			"Enum",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -246,9 +246,6 @@ window.navTree = {
 			"KBind",
 			["Definition", "def"],
 			["Syntax", "syntax"],
-			["Chaining", "chain"],
-			["Escaping", "escape"],
-			["Whitespace", "whitespace"],
 			["Codes", "codes"],
 			["Codes Mouse", "mouse"],
 			["Codes Keyboard", "keyboard"],
@@ -347,9 +344,6 @@ window.navTree = {
 			"Enum",
 			["Definition", "def"],
 			["Syntax", "syntax"],
-			["Chaining", "chain"],
-			["Escaping", "escape"],
-			["Whitespace", "whitespace"],
 			["Usage", "usage"]
 		],
 		Binary: [
@@ -358,7 +352,6 @@ window.navTree = {
 			"Binary",
 			["Definition", "def"],
 			["Syntax", "syntax"],
-			["Chaining", "chain"],
 			["Usage", "usage"]
 		],
 		Special: [

@@ -20,99 +20,42 @@
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
 		<p>
-			A keybind is a value type which can hold any string. The only difference is its slightly more complex syntax,
+			A keybind is a value type which can hold any string. The only difference is its slightly more complex
+			syntax,
 			and the fact it doesn't get parsed into a string. As such, it isn't a !! val.text ! text value !.
 		</p>
 		<p>
 			Its primary use, as the name implies, is to store keybinds.
-			In any development environment that supports keybinds, it will get parsed into one, such as in Unreal Engine 5.
+			In any development environment that supports keybinds, it will get parsed into one, such as in Unreal Engine
+			5.
 			However, in languages that don't, such as JavaScript, it will get parsed into an alternative.
 			To continue with the JavaScript example, in that language, it gets parsed into a Symbol.
 			In other languages or development environments that have no support for anything but string,
 			it will get parsed into a custom object, allowing it to be distinguished to regular string.
 		</p>
 		<p>
-			If the project doesn't require keybind parsing, you can either chose to ignore this feature or use it for something else,
+			If the project doesn't require keybind parsing, you can either chose to ignore this feature or use it for
+			something else,
 			such as codes. It is generally useful to have a string alternative that doesn't parse into string.
 		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
 			A keybind requires the at symbol <dfn>@</dfn> as type declaration.
-			Every following character is treated as the contents of the keybind, 
-			until the first instance of either its terminator symbol (backtick),
-			or another valid declaration character as show below:
+			Every following character is treated as the contents of the keybind,
+			until the first instance of a terminator symbol:
 		</p>
 		<ul>
-			<li> Backtick <dfn>`</dfn> (terminator symbol)</li>
-			<li> Caret <dfn>^</dfn> (!! val.text.string ! string ! declaration)</li>
-			<li> At Symbol <dfn>@</dfn> (!! val.bind ! keybind ! declaration)</li>
+			<li> Backtick <dfn>`</dfn> (terminates)</li>
+			<li> Caret <dfn>^</dfn> (terminates and declares !! val.text.string ! string !)</li>
 		</ul>
 		<p>
-			It is standardized however to use the backtick, and only use the other characters for !! val.bind.chain ! chaining !
-			other values after it.
-			Like with raw strings, keybinds also ends at the end of the line, so trailing backticks aren't strictly required.
-		</p>
-		<h2 id="chain"> Chaining </h2>
-		<p>
-			Keybinds support value chaining, a feature which makes use of the rare characters which are
-			unexpected to be present in a keybind, such as those stated above. 
-			These characters happen to be declaration characters for other types.
+			Keybinds also ends at the end of the line,
+			so trailing backticks aren't strictly required.
+			This does however trim all trailing whitespace,
+			as with all other value types terminated by end of line.
 		</p>
 		<p>
-			In order to make use of them, and save up on valuable space and syntax,
-			typing one of those characters in a keybind terminates the keybind and 
-			declares the next value as having the type declared by the termination character.
-		</p>
-		<p>
-			These chains should only ever be made inside an !! containers.arr ! array !,
-			as it is the only event where values are expected to follow eachother.
-		</p>
-		<p>
-			Here's some examples of keybind chaining in action:
-		</p>
-		<pre><code>{
-keys:[ @Up @Down @Left @Right` -40 23
-
-key+str1:[ @Mouse Left` `string`
-key+str2:[ @Mouse Right ^string`
-</code></pre>
-		<h2 id="escape"> Escaping </h2>
-		<p>
-			As a consequence of its increase in complexity, keybinds require !! other.escape ! escape sequences ! 
-			for the following characters:
-		</p>
-		<ul>
-			<li> Newline <dfn>\n</dfn></li>
-			<li> Carriage Return <dfn>\r</dfn></li>
-			<li> Backslash <dfn>\\</dfn></li>
-			<li> Backtick <dfn>\`</dfn></li>
-			<li> Caret <dfn>\^</dfn></li>
-			<li> At Symbol <dfn>\@</dfn></li>
-		</ul>
-		<p>
-			Here's some example usage of keybind escaping:
-		</p>
-		<pre><code>{
-newln keybind: @up\ndown
-
-backs keybind: @left\\right
-
-anpsd keybind: @front\&back
-
-weird keybind: @lxon\@lebbex.com
-# This last one ^ is
-# likely a mischosen value type.
-</code></pre>
-		<h2 id="whitespace"> Whitespace </h2>
-		<p>
-			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
-			This allows for better visualization as well as a shortening of the visual length of the keybind.
-			This does however come at the cost of an extra byte stored per tab, so this decision comes down to the developper.
-		</p>
-		<p>
-			Keybinds trim all trailing whitespace if terminated by the end of the line.
-			Counter this by either using a terminator symbol, or replacing the last whitespace with
-			its escape code (<dfn>\s</dfn> for space and <dfn>\t</dfn> for tab).
+			Keybinds don't support !! other.escape ! escape sequences !.
 		</p>
 		<h1 id="codes"> Codes </h1>
 		<p>
@@ -120,6 +63,17 @@ weird keybind: @lxon\@lebbex.com
 			compatibility accross systems and applications.
 			If using keybinds for their intended purpose, which is to store device input keys,
 			keycodes are a crucial part of removing the keybind names language barrier.
+		</p>
+		<p>
+			Keycodes are whitespace and case insensitive. Before testing if it's a valid keycode,
+			all uppercase letters must be converted to lowercase (or all lowercase to uppercase),
+			all spaces must be removed, and, if the keybind is then greater then 1 character long (2+)
+			all underscores and hyphens/minuses must be removed as well.
+			This is a standard, as it allows for more flexible keycode syntax.
+		</p>
+		<p>
+			Example: <dfn>D-Pad Left</dfn> can be written as <dfn>dpad_left</dfn>, <dfn>D_Pad-Left</dfn>,
+			<dfn>_d padl eft_</dfn>, as well as infinite other combinations.
 		</p>
 		<h2 id="mouse"> Mouse Codes </h2>
 		<ul>
@@ -182,15 +136,6 @@ weird keybind: @lxon\@lebbex.com
 				</ul>
 			</li>
 			<li>
-				Arrow Keys
-				<ul>
-					<li> Arrow Up <dfn>Up</dfn></li>
-					<li> Arrow Down <dfn>Down</dfn></li>
-					<li> Arrow Left <dfn>Left</dfn></li>
-					<li> Arrow Right <dfn>Right</dfn></li>
-				</ul>
-			</li>
-			<li>
 				Numpad Keys
 				<ul>
 					<li> Numpad Divide <dfn>Num /</dfn></li>
@@ -201,6 +146,9 @@ weird keybind: @lxon\@lebbex.com
 					<li> Numpad Decimal <dfn>Num .</dfn></li>
 					<li> Num Lock <dfn>Num Lock</dfn></li>
 				</ul>
+			</li>
+			<li>
+				Arrow Keys <dfn>Up</dfn> <dfn>Down</dfn> <dfn>Left</dfn> <dfn>Right</dfn>
 			</li>
 			<li> Spacebar <dfn>Space</dfn></li>
 			<li> Enter / Return <dfn>Enter</dfn></li>
@@ -225,10 +173,10 @@ weird keybind: @lxon\@lebbex.com
 		<ul>
 			<li> Special Left (Back) <dfn>Special Left</dfn></li>
 			<li> Special Right (Start) <dfn>Special Right</dfn></li>
-			<li> D-Pad Up <dfn>D Up</dfn></li>
-			<li> D-Pad Down <dfn>D Down</dfn></li>
-			<li> D-Pad Left <dfn>D Left</dfn></li>
-			<li> D-Pad Right <dfn>D Right</dfn></li>
+			<li> D-Pad Up <dfn>D-Pad Up</dfn></li>
+			<li> D-Pad Down <dfn>D-Pad Down</dfn></li>
+			<li> D-Pad Left <dfn>D-Pad Left</dfn></li>
+			<li> D-Pad Right <dfn>D-Pad Right</dfn></li>
 			<li>
 				Face Top
 				(Xbox Y, PlayStation Triangle, Switch X)

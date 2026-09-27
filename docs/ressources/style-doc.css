@@ -408,7 +408,7 @@ ul {
 }
 
 pre {
-    padding: 20px 0px 25px 20px;
+    padding: 20px 40px 25px 20px;
     margin-top: -10px;
     margin-bottom: 50px;
     margin-left: 50px;
@@ -504,6 +504,49 @@ div.symbol-text {
     transform: translateX(-50%) translateY(0px);
     opacity: 1;
 }
+
+/* Copy-link "#" button that lives inside h1/h2/h3, hidden until the heading is hovered */
+.hash-button {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    padding: 5px 15px;
+    font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, Menlo, 'Roboto Mono', 'Liberation Mono', monospace, 'Source Sans Pro', sans-serif;
+    font-size: 70%;
+    font-weight: normal;
+    line-height: 1.6;
+    color: rgba(249, 248, 248, 0.1);
+    background-color: rgba(248, 241, 240, 0);
+    border: none;
+    opacity: 0;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: opacity 0.9s ease, color 0.3s ease, background-color 0.4s ease;
+}
+
+h1:hover > .hash-button,
+h2:hover > .hash-button,
+h3:hover > .hash-button {
+    opacity: 0.9;
+}
+
+@media (hover: hover) {
+    .hash-button:hover {
+        color: rgba(150, 255, 150, 1);
+    }
+}
+
+/* remove it on mobile */
+@media not all and (hover: hover) {
+    .hash-button {
+        opacity: 0;
+        pointer-events: none;
+        color: rgba(249, 248, 248, 0);
+    }
+}
+
 
 /* Position the entire sidebar container on the screen */
 #nav {

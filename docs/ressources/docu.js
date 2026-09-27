@@ -14,6 +14,19 @@ window.docu = {
 
 	failedLinkConversions: [],
 
+	hashScrollInterval: null,
+
+	hashScrollTicks: 0,
+
+	stopHashScrollRepeat: function () {
+		if (docu.hashScrollInterval) {
+			clearInterval(docu.hashScrollInterval);
+			docu.hashScrollInterval = null;
+			docu.isScrollingToHash = false;
+			docu.renderSubNavs();
+		}
+	},
+
 	init: function (path) {
 		const canvas = document.getElementById('noise-canvas');
 		const body = document.body;
@@ -46,19 +59,29 @@ window.docu = {
 		}, { threshold: 0.0001 })
 
 
-
-		// Scroll to hash
-
 		let initialHash = location.hash ? location.hash.slice(1) : null;
 		if (initialHash) {
 			history.scrollRestoration = 'manual';
+			history.replaceState(null, '', location.pathname + location.search);
 			window.scrollTo(0, 0);
+		}
+
+		function repeatScrollToHash(id) {
+			docu.stopHashScrollRepeat();
+			docu.hashScrollTicks = 0;
+			docu.hashScrollInterval = setInterval(() => {
+				docu.hashScrollTicks++;
+				scrollToHash(id, true);
+				if (docu.hashScrollTicks >= 50) {
+					docu.stopHashScrollRepeat();
+				}
+			}, 100);
 		}
 
 		function scrollToHash(id, updateHistory = true) {
 			const el = document.getElementById(id);
 			if (!el || !docu.lenis) return;
-			if (updateHistory) history.pushState(null, '', '#' + id);
+			if (updateHistory) history.pushState(null, '', location.pathname + location.search);
 			docu.lenis.scrollTo(el, {
 				onComplete: () => {
 					docu.isScrollingToHash = false;
@@ -71,11 +94,13 @@ window.docu = {
 				docu.isScrollingToHash = false;
 				docu.renderSubNavs();
 			}
+			docu.stopHashScrollRepeat();
 		};
 
 		const interruptScrollForce = () => {
 			docu.isScrollingToHash = false;
 			docu.renderSubNavs();
+			docu.stopHashScrollRepeat();
 		};
 
 		content.addEventListener('wheel', interruptScrollForce, { passive: true });
@@ -93,9 +118,10 @@ window.docu = {
 			if (!link || !link.hash) return;
 
 			const url = new URL(link.href, location.href);
-			if (url.pathname !== location.pathname) return; // different page, let it navigate normally
+			if (url.pathname !== location.pathname) return;
 
 			e.preventDefault();
+			docu.stopHashScrollRepeat();
 			scrollToHash(url.hash.slice(1));
 		});
 
@@ -204,12 +230,10 @@ window.docu = {
 		content.prepend(title);
 
 
-
-
 		// Create the nav
 		const nav = document.createElement('div');
 		nav.id = "nav";
-		nav.classList.add("hidden");
+		if(path.length == 1) nav.classList.add("hidden");
 		body.appendChild(nav);
 
 
@@ -284,7 +308,11 @@ window.docu = {
 				docu.applyObservers = false;
 
 				if (initialHash) {
-					scrollToHash(initialHash, false);
+					const subs = docu.subNavs;
+					Object.keys(subs).forEach(key => subs[key].classList.remove("inter"));
+					if (subs[initialHash]) subs[initialHash].classList.add("inter");
+					docu.isScrollingToHash = true;
+					repeatScrollToHash(initialHash);
 				}
 			});
 		});
@@ -334,6 +362,7 @@ window.docu = {
 					plainWrapper.className = "h-wrapper";
 					container.insertBefore(plainWrapper, el);
 					plainWrapper.appendChild(el);
+					docu.addHashButton(el, el.id);
 				});
 
 			for (let i = 0; i < h1s.length; i++) {
@@ -366,6 +395,7 @@ window.docu = {
 				currentH1.id = "h-" + hWrapper.id;
 
 				docu.observer.observe(currentH1);
+				docu.addHashButton(currentH1, hWrapper.id);
 			}
 
 			return container;
@@ -579,6 +609,7 @@ window.docu = {
 					sub.classList.add("depth" + index.toString())
 					sub.href = docu.createHref("/doc" + value[2], value[i][1]);
 					sub.onclick = event => {
+						docu.stopHashScrollRepeat();
 						const subs = docu.subNavs;
 						const keys = Object.keys(subs);
 						keys.forEach(key => {
@@ -693,5 +724,33 @@ window.docu = {
 
 		if (anchor === "") return path;
 		else return path + "#" + anchor;
+	},
+
+	// Appends a "#" button inside a h1/h2/h3 (only visible on hover, via CSS)
+	// that copies the current page URL with that heading's id as a hash.
+	addHashButton: function (heading, id) {
+		if (!id) return;
+
+		// Move the heading's existing content into its own span so the heading
+		// can be a flex row of [text, button] and vertically center them exactly.
+		const textWrap = document.createElement('span');
+		textWrap.className = 'h-text';
+		while (heading.firstChild) {
+			textWrap.appendChild(heading.firstChild);
+		}
+		heading.appendChild(textWrap);
+
+		const button = document.createElement('button');
+		button.type = 'button';
+		button.className = 'hash-button';
+		button.textContent = '#';
+		button.setAttribute('aria-label', 'Copy link to this section');
+
+		button.addEventListener('click', () => {
+			const url = location.origin + location.pathname + location.search + "#" + id;
+			navigator.clipboard.writeText(url);
+		});
+
+		heading.appendChild(button);
 	}
 }

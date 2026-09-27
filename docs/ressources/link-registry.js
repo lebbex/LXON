@@ -401,7 +401,7 @@ window.linkReg = {
                                     case "mult":
                                     case "multi":
                                     case "multiline":
-                                        return "/string/#mutliline";
+                                        return "/string/#multiline";
                                     case "usage":
                                         return "/string/#usage";
                                     default: return [split[3]];

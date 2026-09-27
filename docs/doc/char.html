@@ -20,7 +20,7 @@
 	<div class="content" id="content">
 		<h1 id="def"> Definition </h1>
 		<p>
-			A char value allows for storing explicitly single character strings.
+			A char value allows for storing any single character string, including empty characters.
 		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
@@ -28,21 +28,21 @@
 			A char requires a single quote <dfn>'</dfn> at the start, as type declaration. 
 			The following character is treated as the full contents of the value (or char if the language supports it).
 		</p>
-		<h2> Escaping </h2>
 		<p>
-			Chars require !! other.escape ! escape characters ! for the following characters:
+			If there is no character after the type declaration (end of line),
+			the char's value will be empty. This can also be done with <dfn>\e</dfn> (more on this below).
+		</p>
+		<h2 id="escaping"> Escaping </h2>
+		<p>
+			Chars require !! other.escape ! escape sequences ! for the following characters:
 		</p>
 		<ul>
 			<li>Newline <dfn>\n</dfn></li>
 			<li>Carriage Return <dfn>\r</dfn></li>
 			<li>Backslash <dfn>\\</dfn></li>
-			<li>Null Byte <dfn>\0</dfn>
-				<span class="a">
-					*Represents an empty character
-				</span>
-			</li>
+			<li>Empty Character <dfn>\e</dfn></li>
 		</ul>
-		<h2> Important </h2>
+		<h2 id="important"> Important </h2>
 		<p>
 			The char value ends after the first character, so trailing single quotes don't acctually close the string, 
 			they announces the start of a new string character, similarly to the caret symbol <dfn>^</dfn> for !! values.text.string ! string ! values.
@@ -60,11 +60,11 @@
 		<pre><code>{
 letterA: 'A
 newline: '\n
+empty1: '
+empty2: '\e
 
-char map:('
-	A: "value
-	B: "value
-	\:: "value
+array:[ 'r 'S '@
+	'#'w'W'\e'.
 </code></pre>
 	</div>
 

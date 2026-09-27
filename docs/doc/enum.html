@@ -30,83 +30,24 @@
 			If the first character following that is another asterisk,
 			then the enum type becomes undefined.
 			Otherwise, everything until the first colon gets parsed into the enum type.
-			The enum's type does not support !! other.escape ! escape sequences !.
 		</p>
 		<p>
 			After reading or skipping the enum type, the enum member is parsed.
-			Every following character is treated as the contents of the enum member, 
-			until the first instance of either its terminator symbol (backtick), 
-			or another valid declaration character as show below:
+			Every following character is treated as the contents of the enum member,
+			until the first instance of a terminator symbol:
 		</p>
 		<ul>
-			<li> Backtick <dfn>`</dfn> (terminator symbol)</li>
-			<li> Caret <dfn>^</dfn> (!! val.text.string ! string ! declaration)</li>
-			<li> Asterisk <dfn>*</dfn> (!! val.enum ! enum ! declaration)</li>
+			<li> Backtick <dfn>`</dfn> (terminates)</li>
+			<li> Caret <dfn>^</dfn> (terminates and declares !! val.text.string ! string !)</li>
 		</ul>
 		<p>
-			It is standardized however to use the backtick, and only use the other characters for 
-			!! val.enum.chain ! chaining ! other values after it.
-			Like with full strings, enum members also ends at the end of the line, 
+			Enum members also ends at the end of the line,
 			so trailing backticks aren't strictly required.
-		</p>
-		<h2 id="chain"> Chaining </h2>
-		<p>
-			Enums can be chained easily, 
-			a feature which makes use of the rare characters which are unexpected to be present in a keybind, 
-			such as those stated above. These characters happen to be declaration characters for other types.
+			This does however trim all trailing whitespace,
+			as with all other value types terminated by end of line.
 		</p>
 		<p>
-			In order to make use of them, and save up on valuable space and syntax,
-			typing one of those characters in an enum member terminates the enum and 
-			declares the next value as having the type declared by the termination character.
-		</p>
-		<p>
-			These chains should only ever be made inside an !! containers.arr ! array !,
-			as it is the only event where values are expected to follow eachother.
-		</p>
-		<p>
-			Here's some examples of enum chaining in action:
-		</p>
-		<pre><code>{
-enums:[ **gun **sword **grande
-
-enum+str1:[ **foo` `string`
-enum+str2:[ **foo ^string`
-</code></pre>
-		<h2 id="escape"> Escaping </h2>
-		<p>
-			As a consequence of its increase in complexity, enum members require !! other.escape ! escape sequences ! 
-			for the following characters:
-		</p>
-		<ul>
-			<li> Newline <dfn>\n</dfn></li>
-			<li> Carriage Return <dfn>\r</dfn></li>
-			<li> Backslash <dfn>\\</dfn></li>
-			<li> Backtick <dfn>\`</dfn></li>
-			<li> Caret <dfn>\^</dfn></li>
-			<li> Asterisk <dfn>\*</dfn></li>
-		</ul>
-		<p>
-			Here's some example usage of keybind escaping:
-		</p>
-		<pre><code>{
-enum1: *newline:Element\n
-
-enum2: *songs:sweatpants \\ easy access
-
-enum3: *operator:\*
-</code></pre>
-		<h2 id="whitespace"> Whitespace </h2>
-		<p>
-			Although tab representation is supported, it is standardized to replace them with <dfn>\t</dfn>. 
-			This allows for better visualization as well as a shortening of the visual length of the enum.
-			This does however come at the cost of an extra byte stored per tab,
-			so this decision comes down to the developper.
-		</p>
-		<p>
-			Enums trim all trailing whitespace if terminated by the end of the line.
-			Counter this by either using a terminator symbol, or replacing the last whitespace with
-			its escape code (<dfn>\s</dfn> for space and <dfn>\t</dfn> for tab).
+			Neither the enum types nor members support !! other.escape ! escape sequences !.
 		</p>
 		<h1 id="usage"> Usage </h1>
 		<p>
@@ -116,10 +57,10 @@ enum3: *operator:\*
 perms: *perm:admin
 theme: **dark
 
-inventory:[ *weapon:sword` *weapon:gun *food:bread
+inventory:[ *weapon:sword` *weapon:gun` *food:bread
 
 enum-string1:[ **dev` `Carlos
-enum-string2:[ **dev ^Nick Jasper\s
+enum-string2:[ **dev ^Nick Jasper
 
 game: *game:arrel`
 </code></pre>
