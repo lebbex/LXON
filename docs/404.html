@@ -115,7 +115,8 @@
 			"Who was that?",
 			"Do you know that guy?",
 			"Are you friends with that guy?",
-			"Thank God he didn't do the... thing",
+			"Thank God he didn't do the thing",
+			"He was about to do the thing",
 			"I was anticipating the end",
 			"Thank you for saving me"
 		]
@@ -235,12 +236,13 @@
 
 			man.addEventListener('pointerenter', (e) => {
 				if (e.pointerType === 'touch') return;
+				if(Math.random < 0.4) return;
 				dodge();
 			});
 
 			man.addEventListener('pointerdown', (e) => {
 				if (e.pointerType === 'touch') {
-					if (Math.random() < 0.95) {
+					if (Math.random() < 0.9) {
 						dodge();
 						return;
 					}
