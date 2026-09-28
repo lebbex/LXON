@@ -71,9 +71,13 @@
 			"Looks to me like you typed some bullshit",
 			"Sorta looks like you typed some bullshit",
 			"This could have been a phishing link",
+			"Bold of you to assume this page exists",
+			"Close, but no cigar",
+			"This page is in another castle",
 			"Try typing the link with your feet",
 			"Try typing the link with your knees",
 			"Try typing the link with your elbows",
+			"Try typing the link with your eyes closed",
 			"Was thinking of putting a minigame here",
 			"The first part of the link is right",
 			"Try the wayback machine",
@@ -84,26 +88,227 @@
 			"This website has no promo codes",
 			"This website has no secret pages",
 			"That's not a real thing",
-			"That's never been a real thing",
-			"That isn't a real thing",
 			"Slow down dropping all that BS in the address bar",
 			"Pick up some salt, blow on it, throw it in the air and read what it says on the ground",
-			"Thanks for reducing server costs",
+			"Thank you for reducing server costs",
 			"Not all those who wander are lost",
 			"Not till we are lost do we begin to find ourselves",
 			"It's important for the explorer to be willing to be led astray",
 			"Try swapping a few letters",
-			"Please appreciate the foggy background",,
+			"Please appreciate the foggy background",
 			"Take a moment to admire the foggy background",
 			"This background took almost a week, please stare at it for a bit",
 			"This page is playing hide and seek",
 			"This page is being built, come back in a few years",
 			"This page might be on another website",
+			"Don't trust Ivan",
+			"You try making a website with infinite pages",
+			"Try procedurally generating pages yourself",
+			"There's only 46 pages on this website",
 			"Someone tried parsing the HTML on this page using regex"
 		];
 
+		const goodRiddanceMessages = [
+			"Looks like you typed some bullshit",
+			"I hope that never happens again",
+			"Who was that?",
+			"Do you know that guy?",
+			"Are you friends with that guy?",
+			"Thank God he didn't do the... thing",
+			"I was anticipating the end",
+			"Thank you for saving me"
+		]
+
 		const notFoundEl = document.querySelector('.not-found');
-		notFoundEl.innerHTML = notFoundMessages[Math.floor(Math.random() * notFoundMessages.length)];
+
+		const MAN_CHANCE = 0.15;
+		const manMessage = "Yo who the fuck is this guy? Catch him before he does something strange";
+
+		if (Math.random() < MAN_CHANCE) {
+			notFoundEl.textContent = manMessage;
+			spawnFloatingMan();
+		} else {
+			notFoundEl.innerHTML = notFoundMessages[Math.floor(Math.random() * notFoundMessages.length)];
+		}
+
+		function spawnFloatingMan() {
+			const man = document.createElement('img');
+			man.src = 'ressources/floatingman.png';
+			man.draggable = false;
+			Object.assign(man.style, {
+				position: 'fixed',
+				left: '0',
+				top: '0',
+				height: '150px',
+				width: 'auto',
+				zIndex: '9999',
+				cursor: 'pointer',
+				userSelect: 'none',
+				webkitUserSelect: 'none',
+				touchAction: 'manipulation',
+				willChange: 'transform',
+				opacity: '0',
+				transition: 'opacity 1.5s ease',
+				filter: 'drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.1))',
+			});
+
+			// random speed between 2 and 10, with the given sign (1 or -1)
+			const randSpeed = (sign) => sign * (2 + Math.random() * 8);
+			const randSign = () => (Math.random() < 0.5 ? -1 : 1);
+
+			let x = 0, y = 0;
+			let vx = randSpeed(randSign());
+			let vy = randSpeed(randSign());
+			let last = null;
+			let speed = 1.0;
+			let dead = false;
+			let rot = 0;
+			let rotSpeed = 0;
+
+			const jumpSounds = Array.from({ length: 5 }, (_, i) => {
+				const a = new Audio(`ressources/jump${i}.ogg`);
+				a.preload = 'auto';
+				return a;
+			});
+
+			const stepSounds = Array.from({ length: 20 }, (_, i) => {
+				const a = new Audio(`ressources/${i}.ogg`);
+				a.preload = 'auto';
+				return a;
+			});
+
+			const hurtSound = new Audio(`ressources/hurt.ogg`);
+			hurtSound.preload = 'auto';
+
+			function playStep() {
+				const s = stepSounds[Math.floor(Math.random() * stepSounds.length)];
+				s.currentTime = 0;
+				s.play().catch(() => { });
+			}
+
+			const activeSources = new Set();
+
+			function play(name, volume = 1) {
+				const buf = buffers[name];
+				if (!buf || audioCtx.state !== 'running') return;
+				const src = audioCtx.createBufferSource();
+				const gain = audioCtx.createGain();
+				src.buffer = buf;
+				gain.gain.value = Math.min(1, volume);
+				src.connect(gain).connect(audioCtx.destination);
+
+				activeSources.add(src);
+				src.onended = () => activeSources.delete(src);
+
+				src.start();
+			}
+
+			function stopAllSounds() {
+				activeSources.forEach(src => {
+					try { src.stop(); } catch (e) { }
+				});
+				activeSources.clear();
+			}
+
+			man.addEventListener('pointerenter', () => {
+				if (dead) return;
+				if (Math.random() < 0.3) return;
+				speed = speed * 2 + 2;
+				if (Math.random() < 0.8) vy = randSpeed(randSign());
+				if (Math.random() < 0.8) vx = randSpeed(randSign());
+
+				const sound = jumpSounds[Math.floor(Math.random() * jumpSounds.length)];
+				sound.currentTime = 0;
+				sound.play().catch(() => { });
+			});
+
+			man.addEventListener('pointerdown', () => {
+				if (dead) return;
+				stopAllSounds();
+				hurtSound.play();
+				dead = true;
+				vy = -10;
+				rotSpeed = (Math.random() < 0.5 ? -1 : 1) * 2;
+				notFoundEl.innerHTML = goodRiddanceMessages[Math.floor(Math.random() * goodRiddanceMessages.length)];
+			});
+
+			function tick(time) {
+				if (last === null) last = time;
+				// normalize to 60fps so speed is the same on 120/144Hz screens
+				const dt = Math.min((time - last) / 16.667, 3);
+				last = time;
+
+				const w = man.offsetWidth;
+				const h = man.offsetHeight;
+				const maxX = window.innerWidth - w;
+				const maxY = window.innerHeight - h;
+
+				if (dead) {
+					const GRAVITY = 0.4;
+
+					if (vx > 10) vx = 10;
+					if (vx < -10) vx = -10;
+
+					vy += GRAVITY * dt;
+					x += vx * dt;
+					y += vy * dt;
+					rot += rotSpeed * dt;
+
+					man.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+					requestAnimationFrame(tick);
+					return;
+				}
+
+				x += vx * dt * speed;
+				y += vy * dt * speed;
+
+				speed = speed - dt * 0.01 * speed;
+				if (speed < 0.2) speed = Math.random();
+
+				if (Math.random() < 0.005) {
+					vy = randSpeed(randSign());
+					vx = randSpeed(randSign());
+					playStep();
+				}
+
+				if (x <= 0) {
+					x = 0;
+					vx = randSpeed(1);
+					if (Math.random() < 0.3) vy = randSpeed(randSign());
+					playStep();
+				} else if (x >= maxX) {
+					x = maxX;
+					vx = randSpeed(-1);
+					if (Math.random() < 0.3) vy = randSpeed(randSign());
+					playStep();
+				}
+
+				if (y <= 0) {
+					y = 0;
+					vy = randSpeed(1);
+					if (Math.random() < 0.3) vx = randSpeed(randSign());
+					playStep();
+				} else if (y >= maxY) {
+					y = maxY;
+					vy = randSpeed(-1);
+					if (Math.random() < 0.3) vx = randSpeed(randSign());
+					playStep();
+				}
+
+				man.style.transform = `translate(${x}px, ${y}px)`;
+				requestAnimationFrame(tick);
+			}
+
+			// wait for the image to load so we know its size before picking a start position
+			man.addEventListener('load', () => {
+				x = Math.random() * Math.max(0, window.innerWidth - man.offsetWidth);
+				y = Math.random() * Math.max(0, window.innerHeight - man.offsetHeight);
+				requestAnimationFrame(tick);
+				requestAnimationFrame(() => { man.style.opacity = '1'; });
+			});
+
+			document.body.appendChild(man);
+		}
 	</script>
 
 </body>
