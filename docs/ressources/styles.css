@@ -84,3 +84,8 @@ body {
     background: var(--line);
     margin: 0 0;
 }
+
+.floating-man {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}

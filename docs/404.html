@@ -151,6 +151,9 @@
 				opacity: '0',
 				transition: 'opacity 1.5s ease',
 				filter: 'drop-shadow(0px 0px 7px rgba(150, 150, 150, 0.1))',
+				webkitTapHighlightColor: 'transparent',
+				outline: 'none',
+				webkitTouchCallout: 'none',
 			});
 
 			// random speed between 2 and 10, with the given sign (1 or -1)
@@ -211,26 +214,38 @@
 				activeSources.clear();
 			}
 
-			man.addEventListener('pointerenter', () => {
+			function dodge() {
 				if (dead) return;
-				if (Math.random() < 0.3) return;
 				speed = speed * 2 + 2;
 				if (Math.random() < 0.8) vy = randSpeed(randSign());
 				if (Math.random() < 0.8) vx = randSpeed(randSign());
-
 				const sound = jumpSounds[Math.floor(Math.random() * jumpSounds.length)];
 				sound.currentTime = 0;
 				sound.play().catch(() => { });
-			});
+			}
 
-			man.addEventListener('pointerdown', () => {
-				if (dead) return;
+			function die() {
 				stopAllSounds();
 				hurtSound.play();
 				dead = true;
 				vy = -10;
 				rotSpeed = (Math.random() < 0.5 ? -1 : 1) * 2;
 				notFoundEl.innerHTML = goodRiddanceMessages[Math.floor(Math.random() * goodRiddanceMessages.length)];
+			}
+
+			man.addEventListener('pointerenter', (e) => {
+				if (e.pointerType === 'touch') return;
+				dodge();
+			});
+
+			man.addEventListener('pointerdown', (e) => {
+				if (e.pointerType === 'touch') {
+					if (Math.random() < 0.95) {
+						dodge();
+						return;
+					}
+				}
+				die();
 			});
 
 			function tick(time) {
