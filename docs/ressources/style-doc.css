@@ -736,7 +736,7 @@ h3:hover > .hash-button {
 }
 
 #nav-inner {
-    padding: 10px 20px 60px 20px;
+    padding: 15px 20px 60px 20px;
     overscroll-behavior: contain;
     transform: translateZ(0);
     will-change: transform;
