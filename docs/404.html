@@ -78,7 +78,6 @@
 			"Try typing the link with your knees",
 			"Try typing the link with your elbows",
 			"Try typing the link with your eyes closed",
-			"Was thinking of putting a minigame here",
 			"The first part of the link is right",
 			"Try the wayback machine",
 			"Such a bespoke website, imagine what that page could look like",
@@ -110,9 +109,7 @@
 		];
 
 		const goodRiddanceMessages = [
-			"Looks like you typed some bullshit",
-			"I hope that never happens again",
-			"Do you know that guy?",
+			"Still looks like you typed some bullshit though",
 			"Thank God he didn't do the thing",
 			"He was about to do the thing",
 			"I was anticipating the end",
@@ -121,19 +118,27 @@
 			"I've been dealing with him for months"
 		]
 
-		const notFoundEl = document.querySelector('.not-found');
+		const cloudMessages = [
+			["Don't touch the cloud"],
+			["Stop", "Stop that", "Stop it"],
+			["I said stop!", "Cut it out man!", "Please stop touching the cloud"],
+			["STOP DOING THAT!", "I'VE HAD IT!", "STOP TOUCHING THE CLOUD!"],
+			["LAST WARNING!", "THIS IS YOUR LAST CHANCE!"]
+		];
 
-		const MAN_CHANCE = 0.1;
-		const manMessage = "Yo who the fuck is this guy? Catch him before he does something strange";
+		const notFoundEl = document.querySelector('.not-found');
+		notFoundEl.innerHTML = notFoundMessages[Math.floor(Math.random() * notFoundMessages.length)];
+
+		const MAN_CHANCE = 0.5;
+		const CLOUD_CHANCE = 0.5;
 
 		if (Math.random() < MAN_CHANCE) {
-			notFoundEl.textContent = manMessage;
-			spawnFloatingMan();
-		} else {
-			notFoundEl.innerHTML = notFoundMessages[Math.floor(Math.random() * notFoundMessages.length)];
+			spawnDoor();
+		} else if (Math.random() < CLOUD_CHANCE) {
+			spawnCloud();
 		}
 
-		function spawnFloatingMan() {
+		function spawnFloatingMan(origin) {
 			const man = document.createElement('img');
 			man.src = 'ressources/floatingman.png';
 			man.draggable = false;
@@ -149,13 +154,16 @@
 				webkitUserSelect: 'none',
 				touchAction: 'manipulation',
 				willChange: 'transform',
-				opacity: '0',
-				transition: 'opacity 6s ease',
+				opacity: '1',
+				visibility: 'hidden',
 				filter: 'drop-shadow(0px 0px 7px rgba(150, 150, 150, 0.1))',
 				webkitTapHighlightColor: 'transparent',
 				outline: 'none',
 				webkitTouchCallout: 'none',
 			});
+
+			man.style.setProperty('transition', 'none', 'important');
+			let spawning = !!origin;
 
 			// random speed between 2 and 10, with the given sign (1 or -1)
 			const randSpeed = (sign) => sign * (2 + Math.random() * 8);
@@ -217,6 +225,7 @@
 
 			function dodge() {
 				if (dead) return;
+				if (spawning) return;
 				speed = speed * 2 + 2;
 				if (Math.random() < 0.8) vy = randSpeed(randSign());
 				if (Math.random() < 0.8) vx = randSpeed(randSign());
@@ -226,6 +235,7 @@
 			}
 
 			function die() {
+				if (spawning) return;
 				stopAllSounds();
 				hurtSound.play();
 				dead = true;
@@ -236,7 +246,7 @@
 
 			man.addEventListener('pointerenter', (e) => {
 				if (e.pointerType === 'touch') return;
-				if(Math.random < 0.4) return;
+				if (Math.random < 0.4) return;
 				dodge();
 			});
 
@@ -272,7 +282,14 @@
 					y += vy * dt;
 					rot += rotSpeed * dt;
 
-					man.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+					man.style.translate = `${x}px ${y}px`;
+					man.style.rotate = `${rot}deg`;
+					requestAnimationFrame(tick);
+					return;
+				}
+
+				if (spawning) {
+					man.style.translate = `${x}px ${y}px`;
 					requestAnimationFrame(tick);
 					return;
 				}
@@ -313,19 +330,297 @@
 					playStep();
 				}
 
-				man.style.transform = `translate(${x}px, ${y}px)`;
+				man.style.translate = `${x}px ${y}px`;
 				requestAnimationFrame(tick);
 			}
 
-			// wait for the image to load so we know its size before picking a start position
 			man.addEventListener('load', () => {
-				x = Math.random() * Math.max(0, window.innerWidth - man.offsetWidth);
-				y = Math.random() * Math.max(0, window.innerHeight - man.offsetHeight);
+				const w = man.offsetWidth;
+				const h = man.offsetHeight;
+				const maxX = Math.max(0, window.innerWidth - w);
+				const maxY = Math.max(0, window.innerHeight - h);
+
+				if (origin) {
+					x = Math.min(Math.max(0, origin.x - w / 2), maxX);
+					y = Math.min(Math.max(0, origin.y - h / 2), maxY);
+				} else {
+					x = Math.random() * maxX;
+					y = Math.random() * maxY;
+				}
+
+				man.style.translate = `${x}px ${y}px`;
+				man.style.visibility = 'visible';
 				requestAnimationFrame(tick);
-				requestAnimationFrame(() => { man.style.opacity = '1'; });
+
+				if (origin) {
+					man.animate(
+						[{ scale: '0.1' }, { scale: '1' }],
+						{ duration: 1200, easing: 'cubic-bezier(0.2, 0.9, 0.3, 1)' }
+					);
+					setTimeout(() => { spawning = false; dodge(); }, 1200);
+				}
 			});
 
 			document.body.appendChild(man);
+		}
+
+
+		function spawnDoor() {
+			const LINGER = 4000;
+			const side = Math.random() < 0.5 ? 'left' : 'right';
+
+			let state = 0;            // 0 closed, 1 knocked, 2 open
+			let busy = false;
+
+			const knockSound = new Audio('ressources/knock.ogg');
+			knockSound.preload = 'auto';
+			const openSound = new Audio('ressources/open.ogg');
+			openSound.preload = 'auto';
+
+			const style = document.createElement('style');
+			style.textContent = `
+		.door {
+			position: absolute; bottom: 0; ${side}: 4vw;
+			height: min(75px, 22vh);
+			aspect-ratio: 800 / 900;
+			translate: 0 2px; /* pushes the door down */
+			z-index: 1;
+			pointer-events: none;
+			opacity: 0; transition: opacity 3s ease;
+			${side === 'right' ? 'transform: scaleX(-1);' : ''}
+		}
+		.door.visible { opacity: 0.1; }
+		.door.fade { opacity: 0 !important; transition: opacity 3s ease !important; }
+		.door img {
+			position: absolute; left: 0; bottom: 0;
+			height: 100%; width: auto;
+			pointer-events: auto; cursor: pointer;
+			user-select: none; -webkit-user-select: none;
+			-webkit-user-drag: none;
+			-webkit-tap-highlight-color: transparent;
+		}
+		.door .door-open { display: none; }
+		.door.open .door-closed { display: none; }
+		.door.open .door-open { display: block; cursor: default; pointer-events: none; }
+	`;
+			document.head.appendChild(style);
+
+			const door = document.createElement('div');
+			door.className = 'door';
+
+			const closedImg = document.createElement('img');
+			closedImg.className = 'door-closed';
+			closedImg.src = 'ressources/closed.png';
+			closedImg.draggable = false;
+
+			const openImg = document.createElement('img');
+			openImg.className = 'door-open';
+			openImg.src = 'ressources/open.png';
+			openImg.draggable = false;
+
+			door.append(closedImg, openImg);
+
+			// the door lives inside the landing section, pinned to its bottom edge
+			// (so it scrolls with the page and sits right above the divider/footer)
+			const landing = document.querySelector('.landing');
+			if (getComputedStyle(landing).position === 'static') landing.style.position = 'relative';
+			landing.appendChild(door);
+
+			closedImg.addEventListener('pointerdown', () => {
+				if (busy || state >= 2) return;
+
+				if (state === 0) {
+					busy = true;
+					setTimeout(() => {
+						knockSound.currentTime = 0;
+						knockSound.play().catch(() => { });
+						state = 1;
+						busy = false;
+					}, 50);
+					return;
+				}
+
+				// state === 1: open it, and spawn the man from the doorway
+				state = 2;
+				const r = closedImg.getBoundingClientRect(); // read before hiding it
+				const origin = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+
+				door.classList.add('open');
+				notFoundEl.textContent = "Yo who the fuck is this guy? Catch him before he does something strange";
+				openSound.play();
+				spawnFloatingMan(origin);
+
+				setTimeout(() => {
+					door.classList.add('fade');
+					setTimeout(() => {
+						door.remove();
+						style.remove();
+					}, 3000);
+				}, LINGER);
+			});
+
+			requestAnimationFrame(() => requestAnimationFrame(() => door.classList.add('visible')));
+		}
+
+		function startRain() {
+			const canvas = document.createElement('canvas');
+			Object.assign(canvas.style, {
+				position: 'fixed',
+				left: '0',
+				top: '0',
+				width: '100%',
+				height: '100%',
+				pointerEvents: 'none',
+				zIndex: '5', // above the fog, below the man/cloud (9999)
+			});
+			document.body.appendChild(canvas);
+			const ctx = canvas.getContext('2d');
+
+			let W = 0, H = 0;
+			function resize() {
+				const dpr = window.devicePixelRatio || 1;
+				W = window.innerWidth;
+				H = window.innerHeight;
+				canvas.width = W * dpr;
+				canvas.height = H * dpr;
+				ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			}
+			resize();
+			window.addEventListener('resize', resize);
+
+			const RAIN_COLOR = 'rgba(200, 225, 255, 0.2)';
+			const DESPAWN_MARGIN = 100;  // px below the bottom before a drop is removed
+			const drops = [];
+			let spawnAcc = 0;
+			let last = null;
+
+			function tick(time) {
+				if (last === null) last = time;
+				// normalize to 60fps so it looks the same on 120/144Hz screens
+				const dt = Math.min((time - last) / 16.667, 3);
+				last = time;
+
+				// spawn rate scales with screen width (drops per 60fps frame)
+				spawnAcc += (W / 250) * dt;
+				while (spawnAcc >= 1) {
+					spawnAcc--;
+					const len = 20 + Math.random() * 25;
+					drops.push({
+						x: Math.random() * W,
+						y: -len,                        // just above the top
+						len,
+						speed: 18 + Math.random() * 10, // px per 60fps frame
+					});
+				}
+
+				ctx.clearRect(0, 0, W, H);
+				ctx.strokeStyle = RAIN_COLOR;
+				ctx.lineWidth = 1;
+				ctx.beginPath();
+
+				let n = 0;
+				for (let i = 0; i < drops.length; i++) {
+					const d = drops[i];
+					d.y += d.speed * dt;
+					if (d.y > H + DESPAWN_MARGIN) continue; // despawn
+					ctx.moveTo(d.x, d.y);
+					ctx.lineTo(d.x, d.y + d.len);
+					drops[n++] = d;
+				}
+				drops.length = n;
+
+				ctx.stroke();
+				requestAnimationFrame(tick);
+			}
+			requestAnimationFrame(tick);
+		}
+
+		function onCloudGone() {
+			notFoundEl.textContent = ":(";
+			const thunderSound = new Audio(`ressources/thunder${Math.floor(Math.random() * 2)}.ogg`);
+			thunderSound.preload = 'auto';
+			thunderSound.play();
+			startRain();
+		}
+
+		function spawnCloud() {
+			const MAX_TOUCHES = cloudMessages.length + 1;
+			let touches = 0;
+			let gone = false;
+
+			const style = document.createElement('style');
+			style.textContent = `
+		.cloud {
+			position: fixed; z-index: 9999;
+			left: 0; width: 100%; top: 10%;
+			display: flex; justify-content: center;
+			pointer-events: none; /* wrapper is full-width, so don't let it block clicks */
+			-webkit-tap-highlight-color: transparent;
+			user-select: none; -webkit-user-select: none;
+			opacity: 0; transition: opacity 4s ease;
+			animation: cloud-drift 12s ease-in-out infinite alternate;
+		}
+		.cloud img {
+			display: block; height: 100px; width: auto;
+			pointer-events: auto; cursor: pointer; /* only the image itself is clickable */
+			transition: transform 0.6s ease, filter 0.6s ease;
+			-webkit-user-drag: none;
+		}
+		.cloud.visible { opacity: 1; }
+		.cloud.vanish { opacity: 0 !important; transition: opacity 1.5s ease !important; }
+		.cloud img.shake { animation: cloud-shake 0.3s; }
+		@keyframes cloud-drift {
+			from { transform: translate(-30px, -8px); }
+			to   { transform: translate(30px, 8px); }
+		}
+		@keyframes cloud-shake {
+			0%, 100% { translate: 0 0; }
+			25% { translate: -6px 2px; }
+			75% { translate: 6px -2px; }
+		}
+	`;
+			document.head.appendChild(style);
+
+			const cloud = document.createElement('div');
+			cloud.className = 'cloud';
+
+			const img = document.createElement('img');
+			img.src = 'ressources/cloud.png';
+			img.draggable = false;
+			cloud.appendChild(img);
+
+			function applyProgress() {
+				const t = touches / MAX_TOUCHES;
+				img.style.transform = `scale(${1 - t * 0.85})`;
+				img.style.filter = `brightness(${1 - t * 0.8}) drop-shadow(0 0 12px rgba(150,150,150,0.15))`; // darker
+			}
+
+			cloud.addEventListener('pointerdown', () => {
+				if (gone) return;
+				touches++;
+
+				img.classList.remove('shake');
+				void img.offsetWidth; // restart animation
+				img.classList.add('shake');
+
+				if (touches >= MAX_TOUCHES) {
+					gone = true;
+					onCloudGone();
+					cloud.classList.add('vanish');
+					setTimeout(() => {
+						cloud.remove();
+						style.remove();
+					}, 1500);
+					return;
+				}
+				const msg = cloudMessages[touches - 1];
+				notFoundEl.textContent = msg[Math.floor(Math.random() * msg.length)];
+				applyProgress();
+			});
+
+			applyProgress();
+			document.body.appendChild(cloud);
+			requestAnimationFrame(() => requestAnimationFrame(() => cloud.classList.add('visible')));
 		}
 	</script>
 
