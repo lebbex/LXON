@@ -129,8 +129,8 @@
 		const notFoundEl = document.querySelector('.not-found');
 		notFoundEl.innerHTML = notFoundMessages[Math.floor(Math.random() * notFoundMessages.length)];
 
-		const MAN_CHANCE = 0.5;
-		const CLOUD_CHANCE = 0.5;
+		const MAN_CHANCE = 0.7;
+		const CLOUD_CHANCE = 1;
 
 		if (Math.random() < MAN_CHANCE) {
 			spawnDoor();
