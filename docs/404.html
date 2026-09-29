@@ -109,7 +109,6 @@
 		];
 
 		const goodRiddanceMessages = [
-			"Still looks like you typed some bullshit though",
 			"Thank God he didn't do the thing",
 			"He was about to do the thing",
 			"I was anticipating the end",
@@ -129,13 +128,50 @@
 		const notFoundEl = document.querySelector('.not-found');
 		notFoundEl.innerHTML = notFoundMessages[Math.floor(Math.random() * notFoundMessages.length)];
 
-		const MAN_CHANCE = 0.7;
-		const CLOUD_CHANCE = 1;
+		const MAN_CHANCE = 0.2;
+		const CLOUD_CHANCE = 0.1;
+		const LONG_CHANCE = 0.2;
 
 		if (Math.random() < MAN_CHANCE) {
 			spawnDoor();
 		} else if (Math.random() < CLOUD_CHANCE) {
 			spawnCloud();
+		} else if (Math.random() < LONG_CHANCE) {
+			spawnLongFooter();
+		}
+
+		function spawnLongFooter() {
+			const footer = document.querySelector('footer');
+			footer.style.position = 'relative';
+			if(Math.random() < 0.2) footer.style.paddingBottom = '444444444400000000004444444444px';
+			else footer.style.paddingBottom = '440044px';
+
+			const style = document.createElement('style');
+			style.textContent = `
+		.back-to-top {
+			position: absolute; left: 0; bottom: 60px; width: 100%;
+			background: none; border: none; outline: none;
+			font: inherit; color: inherit; text-align: center;
+			opacity: 0.4; cursor: pointer;
+			transition: opacity 0.3s ease;
+			-webkit-tap-highlight-color: transparent;
+		}
+		.back-to-top:hover { opacity: 0.8; }
+	`;
+			document.head.appendChild(style);
+
+			const btn = document.createElement('button');
+			btn.className = 'back-to-top';
+			btn.textContent = 'Press me to go back to the top';
+			btn.addEventListener('click', () => {
+				lenis.scrollTo(0, {
+					duration: 4,
+					easing: (t) => 1 - Math.pow(1 - t, 4), // fast start, soft landing
+				});
+			});
+			footer.appendChild(btn);
+
+			lenis.resize(); // make Lenis pick up the new page height right away
 		}
 
 		function spawnFloatingMan(origin) {
@@ -369,7 +405,7 @@
 			const LINGER = 4000;
 			const side = Math.random() < 0.5 ? 'left' : 'right';
 
-			let state = 0;            // 0 closed, 1 knocked, 2 open
+			let state = 0;
 			let busy = false;
 
 			const knockSound = new Audio('ressources/knock.ogg');
@@ -427,21 +463,20 @@
 			landing.appendChild(door);
 
 			closedImg.addEventListener('pointerdown', () => {
-				if (busy || state >= 2) return;
+				if (busy || state >= 1000) return;
 
-				if (state === 0) {
+				if (state < Math.random() * 20) {
 					busy = true;
 					setTimeout(() => {
 						knockSound.currentTime = 0;
 						knockSound.play().catch(() => { });
-						state = 1;
+						state += 1;
 						busy = false;
-					}, 50);
+					}, 100);
 					return;
 				}
 
-				// state === 1: open it, and spawn the man from the doorway
-				state = 2;
+				state = 1000;
 				const r = closedImg.getBoundingClientRect(); // read before hiding it
 				const origin = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
 
