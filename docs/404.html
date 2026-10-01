@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>LXON 404</title>
+	<title>LXON 404 (Not Found)</title>
 	<link rel="icon" href="ressources/icon.png" type="image/x-icon">
 	<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
 	<link rel="stylesheet"
@@ -51,6 +51,18 @@
 			requestAnimationFrame(docuRaf);
 		}
 		requestAnimationFrame(docuRaf);
+
+		// End key acts like Page Down instead of jumping to the bottom
+		window.addEventListener('keydown', (e) => {
+			if (e.key !== 'End') return;
+			if (e.altKey || e.metaKey) return;
+
+			const t = e.target;
+			if (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+
+			e.preventDefault();
+			window.scrollBy({ top: window.innerHeight * 0.875 });
+		});
 
 		fog.init([-0.12, -0.1, -0.15], [0.7, 0.69, 0.8], lenis, document.scrollingElement, 0.02, 1, 0.06, -0.5);
 
@@ -125,25 +137,48 @@
 			["LAST WARNING!", "THIS IS YOUR LAST CHANCE!"]
 		];
 
+		function perlin1D(x) {
+			const hash = (n) => {
+				const s = Math.sin(n * 127.1) * 43758.5453;
+				return (s - Math.floor(s)) * 2 - 1; // gradient in [-1, 1]
+			};
+			const xi = Math.floor(x);
+			const xf = x - xi;
+			const u = xf * xf * xf * (xf * (xf * 6 - 15) + 10); // smooth fade curve
+			const a = hash(xi) * xf;
+			const b = hash(xi + 1) * (xf - 1);
+			return (a + (b - a) * u) * 2; // roughly [-1, 1]
+		}
+
 		const notFoundEl = document.querySelector('.not-found');
 		notFoundEl.innerHTML = notFoundMessages[Math.floor(Math.random() * notFoundMessages.length)];
 
+		const DEBUG_SPAWN_ALL = false;
 		const MAN_CHANCE = 0.2;
-		const CLOUD_CHANCE = 0.1;
-		const LONG_CHANCE = 0.2;
+		const CLOUD_CHANCE = 0.25;
+		const LONG_CHANCE = 0.15;
 
-		if (Math.random() < MAN_CHANCE) {
+		const CLOUD_PUSH_SCREEN_AREA_PERCENTAGE = 20; // edge zone size, as % of page width
+		const CLOUD_MAX_PUSH_FORCE = 4;               // px per 60fps frame, at the very edge
+		const CLOUD_SPEED = 0.5;                      // speed multiplier
+		const CLOUD_NOISE_FREQUENCY = 0.1;            // how fast the noise changes (per second)
+		const RAIN_WIND_MAX_ANGLE = 15;
+		const RAIN_WIND_NOISE_FREQUENCY = 0.4;
+
+		if (Math.random() < MAN_CHANCE || DEBUG_SPAWN_ALL) {
 			spawnDoor();
-		} else if (Math.random() < CLOUD_CHANCE) {
+		}
+		if (Math.random() < CLOUD_CHANCE || DEBUG_SPAWN_ALL) {
 			spawnCloud();
-		} else if (Math.random() < LONG_CHANCE) {
+		}
+		if (Math.random() < LONG_CHANCE || DEBUG_SPAWN_ALL) {
 			spawnLongFooter();
 		}
 
 		function spawnLongFooter() {
 			const footer = document.querySelector('footer');
 			footer.style.position = 'relative';
-			if(Math.random() < 0.2) footer.style.paddingBottom = '444444444400000000004444444444px';
+			if (Math.random() < 0.2) footer.style.paddingBottom = '444444444400000000004444444444px';
 			else footer.style.paddingBottom = '440044px';
 
 			const style = document.createElement('style');
@@ -282,7 +317,7 @@
 
 			man.addEventListener('pointerenter', (e) => {
 				if (e.pointerType === 'touch') return;
-				if (Math.random < 0.4) return;
+				if (Math.random < 0.3) return;
 				dodge();
 			});
 
@@ -430,7 +465,7 @@
 		.door img {
 			position: absolute; left: 0; bottom: 0;
 			height: 100%; width: auto;
-			pointer-events: auto; cursor: pointer;
+			pointer-events: auto;
 			user-select: none; -webkit-user-select: none;
 			-webkit-user-drag: none;
 			-webkit-tap-highlight-color: transparent;
@@ -506,7 +541,7 @@
 				width: '100%',
 				height: '100%',
 				pointerEvents: 'none',
-				zIndex: '5', // above the fog, below the man/cloud (9999)
+				zIndex: '10000',
 			});
 			document.body.appendChild(canvas);
 			const ctx = canvas.getContext('2d');
@@ -524,10 +559,15 @@
 			window.addEventListener('resize', resize);
 
 			const RAIN_COLOR = 'rgba(200, 225, 255, 0.2)';
-			const DESPAWN_MARGIN = 100;  // px below the bottom before a drop is removed
+			const DESPAWN_MARGIN = 100;  // px past any edge before a drop is removed
 			const drops = [];
 			let spawnAcc = 0;
 			let last = null;
+
+			// wind always blows from one side, picked once: 1 = from the left (drops move right), -1 = from the right
+			const windSide = Math.random() < 0.5 ? -1 : 1;
+			const windNoiseOffset = Math.random() * 1000;
+			const maxTan = Math.tan(RAIN_WIND_MAX_ANGLE * Math.PI / 180);
 
 			function tick(time) {
 				if (last === null) last = time;
@@ -535,16 +575,27 @@
 				const dt = Math.min((time - last) / 16.667, 3);
 				last = time;
 
-				// spawn rate scales with screen width (drops per 60fps frame)
-				spawnAcc += (W / 250) * dt;
+				// perlin noise -> wind strength 0..1, never flips sides
+				const noise = perlin1D((time / 1000) * RAIN_WIND_NOISE_FREQUENCY + windNoiseOffset);
+				const strength = Math.min(Math.max((noise + 1) / 2, 0), 1);
+				const angle = windSide * strength * RAIN_WIND_MAX_ANGLE * Math.PI / 180;
+				const slant = Math.tan(angle); // x movement per 1px of y movement
+
+				// spawn a bit past the upwind edge so slanted drops still cover the whole screen
+				const pad = H * maxTan + DESPAWN_MARGIN;
+				const spawnMinX = windSide === 1 ? -pad : 0;
+				const spawnWidth = W + pad;
+
+				// spawn rate scales with spawn width (drops per 60fps frame)
+				spawnAcc += (spawnWidth / 250) * dt;
 				while (spawnAcc >= 1) {
 					spawnAcc--;
 					const len = 20 + Math.random() * 25;
 					drops.push({
-						x: Math.random() * W,
+						x: spawnMinX + Math.random() * spawnWidth,
 						y: -len,                        // just above the top
 						len,
-						speed: 18 + Math.random() * 10, // px per 60fps frame
+						speed: 18 + Math.random() * 10, // px per 60fps frame (y speed, unaffected by wind)
 					});
 				}
 
@@ -557,9 +608,12 @@
 				for (let i = 0; i < drops.length; i++) {
 					const d = drops[i];
 					d.y += d.speed * dt;
-					if (d.y > H + DESPAWN_MARGIN) continue; // despawn
+					d.x += d.speed * slant * dt; // wind only adds x movement
+					if (d.y > H + DESPAWN_MARGIN) continue;
+					if (d.x < -DESPAWN_MARGIN - pad || d.x > W + DESPAWN_MARGIN + pad) continue;
+					// the drop is rotated by the wind angle: same y length, x offset follows the slant
 					ctx.moveTo(d.x, d.y);
-					ctx.lineTo(d.x, d.y + d.len);
+					ctx.lineTo(d.x + d.len * slant, d.y + d.len);
 					drops[n++] = d;
 				}
 				drops.length = n;
@@ -585,35 +639,30 @@
 
 			const style = document.createElement('style');
 			style.textContent = `
-		.cloud {
-			position: fixed; z-index: 9999;
-			left: 0; width: 100%; top: 10%;
-			display: flex; justify-content: center;
-			pointer-events: none; /* wrapper is full-width, so don't let it block clicks */
-			-webkit-tap-highlight-color: transparent;
-			user-select: none; -webkit-user-select: none;
-			opacity: 0; transition: opacity 4s ease;
-			animation: cloud-drift 12s ease-in-out infinite alternate;
-		}
-		.cloud img {
-			display: block; height: 100px; width: auto;
-			pointer-events: auto; cursor: pointer; /* only the image itself is clickable */
-			transition: transform 0.6s ease, filter 0.6s ease;
-			-webkit-user-drag: none;
-		}
-		.cloud.visible { opacity: 1; }
-		.cloud.vanish { opacity: 0 !important; transition: opacity 1.5s ease !important; }
-		.cloud img.shake { animation: cloud-shake 0.3s; }
-		@keyframes cloud-drift {
-			from { transform: translate(-30px, -8px); }
-			to   { transform: translate(30px, 8px); }
-		}
-		@keyframes cloud-shake {
-			0%, 100% { translate: 0 0; }
-			25% { translate: -6px 2px; }
-			75% { translate: 6px -2px; }
-		}
-	`;
+				.cloud {
+					position: absolute; z-index: 9999;
+					left: 0; top: 0;
+					pointer-events: none;
+					-webkit-tap-highlight-color: transparent;
+					user-select: none; -webkit-user-select: none;
+					opacity: 0; transition: opacity 10s ease;
+					will-change: translate;
+				}
+				.cloud img {
+					display: block; height: 100px; width: auto;
+					pointer-events: auto;
+					transition: transform 0.6s ease, filter 0.6s ease;
+					-webkit-user-drag: none;
+				}
+				.cloud.visible { opacity: 0.05; }
+				.cloud.vanish { opacity: 0 !important; transition: opacity 1.5s ease !important; }
+				.cloud img.shake { animation: cloud-shake 0.3s; }
+				@keyframes cloud-shake {
+					0%, 100% { translate: 0 0; }
+					25% { translate: -6px 2px; }
+					75% { translate: 6px -2px; }
+				}
+			`;
 			document.head.appendChild(style);
 
 			const cloud = document.createElement('div');
@@ -627,7 +676,12 @@
 			function applyProgress() {
 				const t = touches / MAX_TOUCHES;
 				img.style.transform = `scale(${1 - t * 0.85})`;
-				img.style.filter = `brightness(${1 - t * 0.8}) drop-shadow(0 0 12px rgba(150,150,150,0.15))`; // darker
+				img.style.filter = `brightness(${1 - t * 0.8}) drop-shadow(0 0 12px rgba(150,150,150,0.15))`;
+
+				if (touches > 0) {
+					cloud.style.transition = 'opacity 0.6s ease';
+					cloud.style.opacity = touches * 0.15;
+				}
 			}
 
 			cloud.addEventListener('pointerdown', () => {
@@ -635,7 +689,7 @@
 				touches++;
 
 				img.classList.remove('shake');
-				void img.offsetWidth; // restart animation
+				void img.offsetWidth;
 				img.classList.add('shake');
 
 				if (touches >= MAX_TOUCHES) {
@@ -653,8 +707,68 @@
 				applyProgress();
 			});
 
+			// lives inside the landing section so it scrolls with the page without affecting layout
+			const landing = document.querySelector('.landing');
+			if (getComputedStyle(landing).position === 'static') landing.style.position = 'relative';
+			landing.appendChild(cloud);
+
+			// movement
+			let x = 0, y = 0;
+			let last = null;
+			const noiseOffset = Math.random() * 1000; // so every cloud wanders differently
+
+			function tick(time) {
+				if (!cloud.isConnected) return; // removed after vanishing
+
+				if (last === null) last = time;
+				const dt = Math.min((time - last) / 16.667, 3); // normalize to 60fps
+				last = time;
+
+				const pageW = landing.clientWidth;
+				const cloudW = cloud.offsetWidth;
+				const maxX = Math.max(0, pageW - cloudW);
+
+				// perlin noise as the base x velocity
+				const noise = perlin1D((time / 1000) * CLOUD_NOISE_FREQUENCY + noiseOffset);
+				let vx = noise * CLOUD_SPEED;
+
+				// extra push away from the sides, which can overpower the noise
+				const zone = pageW * (CLOUD_PUSH_SCREEN_AREA_PERCENTAGE / 100);
+				if (zone > 0) {
+					const leftDist = x;
+					const rightDist = maxX - x;
+					if (leftDist < zone) {
+						const k = 1 - leftDist / zone; // 0 at zone edge, 1 at the wall
+						vx += CLOUD_MAX_PUSH_FORCE * k * k;
+					}
+					if (rightDist < zone) {
+						const k = 1 - rightDist / zone;
+						vx -= CLOUD_MAX_PUSH_FORCE * k * k;
+					}
+				}
+
+				x = Math.min(Math.max(0, x + vx * dt), maxX);
+				cloud.style.translate = `${x}px ${y}px`;
+				requestAnimationFrame(tick);
+			}
+
+			img.addEventListener('load', () => {
+				// random x, semi-random y anywhere above the 404 title
+				const cloudW = cloud.offsetWidth;
+				const cloudH = cloud.offsetHeight;
+				const lr = landing.getBoundingClientRect();
+				const titleTop = document.querySelector('.e404').getBoundingClientRect().top - lr.top;
+
+				const minY = 10;
+				const maxY = Math.max(minY, titleTop - cloudH - 20);
+				y = minY + Math.random() * (maxY - minY);
+				x = Math.random() * Math.max(0, landing.clientWidth - cloudW);
+
+				cloud.style.translate = `${x}px ${y}px`;
+				requestAnimationFrame(tick);
+			});
+
 			applyProgress();
-			document.body.appendChild(cloud);
 			requestAnimationFrame(() => requestAnimationFrame(() => cloud.classList.add('visible')));
 		}
 	</script>
