@@ -30,15 +30,22 @@
 		</p>
 		<h1 id="syntax"> Syntax </h1>
 		<p>
-			A comment is very straightforward to write. Simply begin a new line with
-			<dfn>;</dfn> and the rest of the line in full will be skipped by the parser.
+			A comment is very straightforward to write. Simply begin a new line with a hashtag
+			<dfn>#</dfn>, followed by a space, tab, or another hashtag.
+			The rest of the line in full will be skipped by the parser.
+		</p>
+		<p>
+			You can also begin a line with a hashtag, followed by a newline, to skip an empty line.
+			This is pretty much useless though, and is merely a quality of life feature.
 		</p>
 		<h2 id="important"> Important </h2>
 		<p>
-			You cannot write inline comments, that means comments on the same line with data. 
-			Some friendly parsers will understand and keep the comment as a comment, however, 
-			to simplify the workload of most parsers, the standard is to only allow full-line comments.
-			Writing inline comments would go against this standard and will likely break on many parsers,
+			You must include the space character after the hashtag, or it will be interpreted as an
+			!! val.col.space.srgb ! sRGB color value !, since they share declaration character.
+		</p>
+		<p>
+			Also, you cannot write inline comments, that means comments on the same line with data. 
+			Writing inline comments would go against the standard and will likely break on many parsers,
 			including the officially released ones.
 		</p>
 		<h1 id="usage"> Usage </h1>
@@ -46,20 +53,34 @@
 			Here's some example usage of comments as reference (read comments):
 		</p>
 		<pre><code>{
-; Below is a key and value
+# Below is a key and value
 key1: "value1
 
-;; key2: "value2
-;; ^^^^^^^^^^^^^
-;;Doesn't get parsed
+# Below is a comment
+# key2: "value2
 
-;;Neither this-> key3: 4
+# Comment -> key3: "value3
 
- ;; Not a comment cause the
-	;; first char isnt a "#"
+##Correct (uses hashtag)
+## Correct (uses hashtag)
+# Correct (uses space)
+#	Correct (uses tab)
 
-key4: "str  ;;still a string
-key5: `str`  ;;this is a key
+#
+######################
+# Both above are correct
+
+# Correct
+ # Incorrect
+	# Incorrect
+
+#Incorrect cause the hashtag
+#isn't followed by a space.
+#Would be parsed as a key
+#(or as a color if the root was an array)
+
+key4: "str  # still the value
+key5: `str` # this is a key
 </code></pre>
 	</div>
 

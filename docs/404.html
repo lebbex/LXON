@@ -70,7 +70,7 @@
 
 		scrollContainer.classList.add('loaded');
 
-		const notFoundMessages = [
+		let notFoundMessages = [
 			"Looks like you typed some bullshit",
 			"Looks like you typed some bullshit",
 			"Looks like you typed some bullshit",
@@ -87,38 +87,55 @@
 			"Close, but no cigar",
 			"This page is in another castle",
 			"Try typing the link with your feet",
-			"Try typing the link with your knees",
-			"Try typing the link with your elbows",
 			"Try typing the link with your eyes closed",
 			"The first part of the link is right",
 			"Try the wayback machine",
 			"Such a bespoke website, imagine what that page could look like",
-			"Such a pristine website, imagine what that page would look like",
 			"Such an immaculate website, imagine what that page could have been",
-			"Some nerd once said 'code 404', dawg just say the page doesn't exist",
 			"This website has no promo codes",
 			"This website has no secret pages",
-			"That's not a real thing",
+			"Don't look too close",
+			"If you spot something, ignore it",
 			"Slow down dropping all that BS in the address bar",
+			"Woah, good thing that page doesn't exist",
+			"That's a pretty big number, what could it mean though?",
+			"That's a pretty big number, might mean something too",
+			"What a bad website, missing pages and all",
+			"What a lazy website, just load my page",
 			"Pick up some salt, blow on it, throw it in the air and read what it says on the ground",
 			"Thank you for reducing server costs",
+			"Who are you and why are you in my house?",
+			"That's one wrong turn too many",
+			"Were you even trying?",
+			"Look around, take a hint",
+			"I spent too long on this website, go look at it for real",
 			"Not all those who wander are lost",
 			"Not till we are lost do we begin to find ourselves",
+			"Sometimes, when you lose your way, you find yourself",
 			"It's important for the explorer to be willing to be led astray",
+			"To be lost is as legitimate a part of your process as being found",
+			"If you don't know where you're going, any road will get you there",
 			"Try swapping a few letters",
 			"Please appreciate the foggy background",
 			"Take a moment to admire the foggy background",
 			"This background took almost a week, please stare at it for a bit",
-			"This page is playing hide and seek",
+			"This page is winning at hide and seek",
 			"This page is being built, come back in a few years",
 			"This page might be on another website",
 			"Don't trust Ivan",
-			"You try making a website with infinite pages",
+			"Try making a website with infinite pages",
 			"Try procedurally generating pages yourself",
-			"There's only 46 pages on this website",
+			"There's only 46 pages on this website, your odds were slim",
 			"Someone tried parsing the HTML on this page using regex",
-			"Reload the page, something might happen"
+			"Reload the page, something might happen",
+			"Don't worry, I couldn't find this page either",
+			"That's the worst guess I've seen all day",
+			"Whoever gave you this link doesn't like you",
+			"Sorry, this page told me it doesn't want to see you anymore",
+			"You gotta stop chasing the pages and let them come to you"
 		];
+
+		notFoundMessages.push(`Funny message number ${Math.floor(Math.random() * notFoundMessages.length) + 1}`);
 
 		const goodRiddanceMessages = [
 			"Thank God he didn't do the thing",
@@ -460,7 +477,7 @@
 			opacity: 0; transition: opacity 3s ease;
 			${side === 'right' ? 'transform: scaleX(-1);' : ''}
 		}
-		.door.visible { opacity: 0.1; }
+		.door.visible { opacity: 0.05; }
 		.door.fade { opacity: 0 !important; transition: opacity 3s ease !important; }
 		.door img {
 			position: absolute; left: 0; bottom: 0;
@@ -654,7 +671,7 @@
 					transition: transform 0.6s ease, filter 0.6s ease;
 					-webkit-user-drag: none;
 				}
-				.cloud.visible { opacity: 0.05; }
+				.cloud.visible { opacity: 0.02; }
 				.cloud.vanish { opacity: 0 !important; transition: opacity 1.5s ease !important; }
 				.cloud img.shake { animation: cloud-shake 0.3s; }
 				@keyframes cloud-shake {

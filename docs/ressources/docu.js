@@ -238,7 +238,7 @@ window.docu = {
 		// Create the nav
 		const nav = document.createElement('div');
 		nav.id = "nav";
-		if (path.length == 1 && (path[0] == "Overview" || path[0] == "Other")) nav.classList.add("hidden");
+		if (path[0] == "Other" || (path.length == 1 && path[0] == "Overview")) nav.classList.add("hidden");
 		body.appendChild(nav);
 
 
