@@ -22,10 +22,6 @@ LXON was created with the following principles in mind:
 * Extremely dynamic, supporting pracically all necessary container and value types.
 * Extensible syntax that can evolve while still being able of parsing LXON written in previous versions.
 
-## Why LXON?
-
-It's just better, like it or not. Name me something better and I'll find a reason to call you a loser.
-
 ## Supported Container Types
 * Object
 * Array
