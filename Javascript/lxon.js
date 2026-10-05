@@ -2279,11 +2279,4 @@ function writeValueInline(value, wasString = false, willString = false) {
 }
 
 
-
-/* -------------------- EXPORTS --------------------
- * 
- * Reminder to read the Notice at the top of the file
- * It is legally significant and should not be ignored
- */
-
 export default { parse, parseFile, stringify, writeFile, stringifyInline, writeFileInline, ColorSRGB, LinearColor, Doodad };
