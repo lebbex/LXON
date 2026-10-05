@@ -6,7 +6,7 @@ LXON (Lebbex Object Notation) is a serialization format developped solely by Nic
 
 This project's source code is proprietary and cannot be used, distributed, modified, adapted, altered, translated or otherwise used to create derivative works.
 
-The overall combination of syntax rules, unique and identifiable to this serialization format, are also forbidden from being reused in any products.
+The overall combinations of syntax rules, unique and identifiable to this serialization format, are also forbidden from being reused in any products.
 
 A future EULA may be put in place to allow usage and distribution, which is the main reason this repository is public, although this isn't guaranteed. Think of this as more of a public showcase, look but don't touch.
 
