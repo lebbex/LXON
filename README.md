@@ -28,6 +28,17 @@ LXON was created with the following principles in mind:
 * Map (same as objects but with typed keys, key type must be homogeneous)
 * Doodad (same as objects but with single character keys that optimize speed and size, practical for Vectors)
 
+## Supported Key Types
+* String
+* Boolean
+* Number
+* Date
+* Monetary
+* Keybind
+* Color
+* Enum
+* Binary
+
 ## Supported Value Types
 * Raw String (Doesn't require trailing double quote)
 * String (Inline and Multiline)
