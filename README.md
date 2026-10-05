@@ -4,11 +4,11 @@ LXON (Lebbex Object Notation) is a serialization format developped solely by Nic
 
 ## License & Trademarks
 
-This project's source code is licensed under Apache License 2.0. The `/docs` folder (the lxon.lebbex.com website) is proprietary and excluded from that license. 
+This project's source code is proprietary and cannot be used, distributed, modified, adapted, altered, translated or otherwise used to create derivative works.
 
-"Lebbex", "LXON", associated logos, and the name "Nicholas (Nick) Jasper" are trademarks/names of their owner and are NOT licensed under Apache 2.0 or any other license granted in this repository.
+The overall combination of syntax rules, unique and identifiable to this serialization format, are also forbidden from being reused in any products.
 
-**Read [LICENSE](./LICENSE) and [NOTICE](./NOTICE) in full before using, forking, or contributing to this project**. NOTICE covers naming rules for forks/derivatives (e.g. what you can and can't call a fork using "LXON").
+A future EULA may be put in place to allow usage and distribution, which is the main reason this repository is public, although this isn't guaranteed. Think of this as more of a public showcase, look but don't touch.
 
 ## Goals
 
@@ -22,21 +22,9 @@ LXON was created with the following principles in mind:
 * Extremely dynamic, supporting pracically all necessary container and value types.
 * Extensible syntax that can evolve while still being able of parsing LXON written in previous versions.
 
-## How To Use
-
-Read the LICENSE and NOTICE files.
-
-Go to Releases, then find the latest version which has the tag representing the programming language or framework your project uses. 
-
-Alternatively, you can simply open the folder representing the programming language or framework your project uses, and download the source code from there, whether it be a single file script or a full Unreal Engine plugin.
-
-You can also do `npm i lebbex` (lxon is too similar to other packages unfortunately, but since Lebbex probably will never have any other npm packages this works, i rather something simple and personal)
-
 ## Why LXON?
 
 It's just better, like it or not. Name me something better and I'll find a reason to call you a loser.
-
-Now go read the LICENSE and NOTICE files.
 
 ## Supported Container Types
 * Object
@@ -60,4 +48,4 @@ Now go read the LICENSE and NOTICE files.
 
 ## Contributing
 
-This repository is not open to contributions.
+This repository is not open to contributions, as it is a proprietary project solely developed and maintained by the author. Pull requests, issues requesting code changes, and feature forks won't be accepted nor reviewed.
