@@ -216,8 +216,8 @@ window.docu = {
 				}
 				if (item === "Overview") document.title = "LXON Documentation";
 				else {
-					if (path.length > 1) document.title = "LXON // " + append;
-					else document.title = "LXON Documentation // " + append;
+					if (path.length > 1) document.title = append + " | LXON";
+					else document.title = append + " | LXON Documentation";
 				}
 			}
 			t.style.color = depthColors[i];

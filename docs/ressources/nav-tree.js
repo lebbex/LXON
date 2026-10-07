@@ -99,7 +99,7 @@ window.navTree = {
 		_min: "Keys",
 		String: [
 			"String", "String Key",
-			"/keys/string", "Keys // Strings",
+			"/keys/string", "String Keys",
 			"Str",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -107,7 +107,7 @@ window.navTree = {
 		],
 		Boolean: [
 			"Boolean", "Boolean Key",
-			"/keys/bool", "Keys // Booleans",
+			"/keys/bool", "Boolean Keys",
 			"Bool",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -115,7 +115,7 @@ window.navTree = {
 		],
 		Number: [
 			"Number", "Number Key",
-			"/keys/number", "Keys // Numbers",
+			"/keys/number", "Number Keys",
 			"Num",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -123,7 +123,7 @@ window.navTree = {
 		],
 		Date: [
 			"Date", "Date Key",
-			"/keys/date", "Keys // Dates",
+			"/keys/date", "Date Keys",
 			"Date",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -131,7 +131,7 @@ window.navTree = {
 		],
 		Monetary: [
 			"Monetary", "Monetary Key",
-			"/keys/monetary", "Keys // Monetary Keys",
+			"/keys/monetary", "Monetary Keys",
 			"Monetary",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -139,15 +139,15 @@ window.navTree = {
 		],
 		Keybind: [
 			"Keybind", "Keybind Key",
-			"/keys/keybind", "Keys // Keybinds",
+			"/keys/keybind", "Keybind Keys",
 			"KBind",
 			["Definition", "def"],
 			["Syntax", "syntax"],
 			["Usage", "usage"]
 		],
 		Color: [
-			"Color", "Color Key Types",
-			"/keys/color", "Keys // Color Types",
+			"Color", "Color Key",
+			"/keys/color", "Color Keys",
 			"Color",
 			["Definition", "def"],
 			["Syntax", "syntax"],
@@ -155,7 +155,7 @@ window.navTree = {
 		],
 		Enum: [
 			"Enum", "Enum Key",
-			"/keys/enum", "Keys // Enums",
+			"/keys/enum", "Enum Keys",
 			"Enum",
 			["Definition", "def"],
 			["Syntax", "syntax"],
