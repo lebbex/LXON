@@ -208,7 +208,7 @@ window.docu = {
 					title.textContent = obj[1];
 					append = obj[3];
 					if (item !== "Overview") t.textContent = obj[4];
-				}
+				} 
 				else {
 					title.textContent = obj._tit;
 					t.textContent = obj._min;
