@@ -39,6 +39,78 @@
 	<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
 	<script src="/ressources/fog.js"></script>
 	<script>
+		// Redirect to lxon.lebbex.dev if matching one of these
+		const redirects = {
+			"": ["doc", "docs", "documentation"],
+
+			// Containers
+			"containers": ["cont", "containers", "container"],
+			"root": ["root", "roots", "root-container", "root-containers"],
+			"object": ["object", "objects", "obj", "objs"],
+			"array": ["array", "arrays", "arr"],
+			"map": ["map", "maps"],
+			"doodad": ["doodad", "doodads"],
+
+			// Keys
+			"keys": ["keys", "key", "typed-keys", "typed-key"],
+			"keys/string": ["keys/string", "keys/str", "string-key", "string-keys"],
+			"keys/bool": ["keys/bool", "keys/boolean", "bool-key", "bool-keys", "boolean-key", "boolean-keys"],
+			"keys/number": ["keys/number", "keys/num", "number-key", "number-keys", "num-key", "num-keys"],
+			"keys/date": ["keys/date", "date-key", "date-keys"],
+			"keys/monetary": ["keys/monetary", "monetary-key", "monetary-keys"],
+			"keys/keybind": ["keys/keybind", "keys/kbind", "keybind-key", "keybind-keys"],
+			"keys/color": ["keys/color", "keys/colour", "color-key", "color-keys"],
+			"keys/enum": ["keys/enum", "enum-key", "enum-keys"],
+
+			// Values
+			"values": ["values", "value"],
+			"text": ["text", "texts", "text-values"],
+			"rawstring": ["rawstring", "rawstrings", "raw-string", "raw-strings", "raw"],
+			"string": ["string", "strings", "str"],
+			"char": ["char", "chars", "character", "characters"],
+			"bool": ["bool", "bools", "boolean", "booleans"],
+			"number": ["number", "numbers", "num", "nums"],
+			"date": ["date", "dates"],
+			"monetary": ["monetary", "money", "currency", "monetary-value", "monetary-values"],
+			"keybind": ["keybind", "keybinds", "kbind"],
+			"enum": ["enum", "enums"],
+			"binary": ["binary", "bin"],
+			"special": ["special", "special-values"],
+
+			// Colors
+			"color": ["color", "colors", "colour", "colours"],
+			"color/spaces": ["color/spaces", "colors/spaces", "color-spaces", "colorspaces"],
+			"color/srgb": ["color/srgb", "srgb", "srgb-color"],
+			"color/profiled": ["color/profiled", "profiled", "profiled-color", "profiles"],
+			"color/precisions": ["color/precisions", "color-precisions", "precisions", "precision"],
+			"color/8bit": ["color/8bit", "8bit", "8-bit"],
+			"color/10bit": ["color/10bit", "10bit", "10-bit"],
+			"color/12bit": ["color/12bit", "12bit", "12-bit"],
+			"color/16bit": ["color/16bit", "16bit", "16-bit"],
+			"color/float": ["color/float", "float", "float-color", "floating-point"],
+
+			// Other
+			"other": ["other", "other-features"],
+			"comments": ["comments", "comment"],
+			"escape": ["escape", "escapes", "escape-sequences"],
+		};
+
+		const clean = (p) => p.replace(/^\/+|\/+$/g, '').toLowerCase();
+
+		// invert once: { "cat": "meow", "cats": "meow", ... }
+		const lookup = {};
+		for (const [target, sources] of Object.entries(redirects)) {
+			for (const src of sources) lookup[clean(src)] = target;
+		}
+
+		const dest = lookup[clean(decodeURIComponent(location.pathname))];
+		if (dest !== undefined) {
+			location.replace('https://lxon.lebbex.dev/' + dest + location.search + location.hash);
+		}
+
+
+		// Redirect failed, procceed with the artistic display ;)
+
 		const lenis = new Lenis({
 			lerp: 0.1,
 			wheelMultiplier: 0.5,
