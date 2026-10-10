@@ -99,7 +99,7 @@
 
 		const clean = (p) => p.replace(/^\/+|\/+$/g, '').toLowerCase();
 
-		// invert once: { "cat": "meow", "cats": "meow", ... }
+		// invert once
 		const lookup = {};
 		for (const [target, sources] of Object.entries(redirects)) {
 			for (const src of sources) lookup[clean(src)] = target;
