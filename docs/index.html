@@ -143,10 +143,10 @@
 			else return path + "/#" + anchor;
 		}
 
-		document.getElementById("nav-doc").href = createHref("/doc");
-		document.getElementById("nav-containers").href = createHref("/doc/containers");
-		document.getElementById("nav-keys").href = createHref("/doc/keys");
-		document.getElementById("nav-values").href = createHref("/doc/values");
+		document.getElementById("nav-doc").href = createHref("https://lxon.lebbex.dev/");
+		document.getElementById("nav-containers").href = createHref("https://lxon.lebbex.dev/containers");
+		document.getElementById("nav-keys").href = createHref("https://lxon.lebbex.dev/keys");
+		document.getElementById("nav-values").href = createHref("https://lxon.lebbex.dev/values");
 
 
 
@@ -382,7 +382,7 @@
 			subdownBoxEl.innerHTML = null;
 			for (const value of subDropOptions[key]) {
 				const link = document.createElement("a");
-				link.href = createHref("/doc" + value[1]);
+				link.href = createHref("https://lxon.lebbex.dev" + value[1]);
 				link.className = "nav-link";
 				link.textContent = value[0];
 				subdownBoxEl.appendChild(link);
