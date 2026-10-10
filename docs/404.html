@@ -41,8 +41,6 @@
 	<script>
 		// Redirect to lxon.lebbex.dev if matching one of these
 		const redirects = {
-			"": ["doc", "docs", "documentation"],
-
 			// Containers
 			"containers": ["cont", "containers", "container"],
 			"root": ["root", "roots", "root-container", "root-containers"],
@@ -95,6 +93,8 @@
 			"escape": ["escape", "escapes", "escape-sequences"],
 		};
 
+		const DOC_PREFIXES = ["doc", "docs", "documentation"];
+
 		const clean = (p) => p.replace(/^\/+|\/+$/g, '').toLowerCase();
 
 		// invert once: { "cat": "meow", "cats": "meow", ... }
@@ -103,7 +103,16 @@
 			for (const src of sources) lookup[clean(src)] = target;
 		}
 
-		const dest = lookup[clean(decodeURIComponent(location.pathname))];
+		let segments = clean(decodeURIComponent(location.pathname)).split('/').filter(Boolean);
+
+		// strip a leading doc/docs/documentation segment
+		if (segments.length && DOC_PREFIXES.includes(segments[0])) {
+			segments.shift();
+			// nothing left after the prefix -> .dev root
+			if (segments.length === 0) segments = [""];
+		}
+
+		const dest = lookup[segments.join('/')];
 		if (dest !== undefined) {
 			location.replace('https://lxon.lebbex.dev/' + dest + location.search + location.hash);
 		}
