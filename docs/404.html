@@ -105,16 +105,28 @@
 			for (const src of sources) lookup[clean(src)] = target;
 		}
 
+		const APP_PATHS = ["edit", "editor", "app"];
+
 		let segments = clean(decodeURIComponent(location.pathname)).split('/').filter(Boolean);
-		let dest;
 
-		if (segments.length && DOC_PREFIXES.includes(segments[0])) {
-			segments.shift();
-			// nothing left after the prefix -> .dev root
-			dest = segments.length === 0 ? "" : lookup[segments.join('/')];
-		} else dest = lookup[segments.join('/')];
+		// edit / editor / app -> the app site
+		if (segments.length && APP_PATHS.includes(segments[0])) {
+			location.replace('https://lxon.lebbex.app/' + location.search + location.hash);
+		} else {
+			let dest;
 
-		if (dest !== undefined) location.replace('https://lxon.lebbex.dev/' + dest + location.search + location.hash);
+			if (segments.length && DOC_PREFIXES.includes(segments[0])) {
+				segments.shift();
+				// nothing left after the prefix -> .dev root
+				dest = segments.length === 0 ? "" : lookup[segments.join('/')];
+			} else {
+				dest = lookup[segments.join('/')];
+			}
+
+			if (dest !== undefined) {
+				location.replace('https://lxon.lebbex.dev/' + dest + location.search + location.hash);
+			}
+		}
 
 
 		// Redirect failed, procceed with the artistic display ;)
