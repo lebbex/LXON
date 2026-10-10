@@ -382,7 +382,7 @@
 			subdownBoxEl.innerHTML = null;
 			for (const value of subDropOptions[key]) {
 				const link = document.createElement("a");
-				link.href = createHref("https://lxon.lebbex.dev" + value[1]);
+				link.href = createHref("https://lxon.lebbex.dev/" + value[1]);
 				link.className = "nav-link";
 				link.textContent = value[0];
 				subdownBoxEl.appendChild(link);
@@ -395,34 +395,34 @@
 
 		const subDropOptions = {
 			containers: [
-				["Root", "/root"],
-				["Object", "/object"],
-				["Array", "/array"],
-				["Map", "/map"],
-				["Doodad", "/doodad"]
+				["Root", "root"],
+				["Object", "object"],
+				["Array", "array"],
+				["Map", "map"],
+				["Doodad", "doodad"]
 			],
 			keys: [
-				["String", "/keys/string"],
-				["Boolean", "/keys/bool"],
-				["Number", "/keys/number"],
-				["Date", "/keys/date"],
-				["Monetary", "/keys/monetary"],
-				["Keybind", "/keys/keybind"],
-				["Color", "/keys/color"],
-				["Enum", "/keys/enum"]
+				["String", "keys/string"],
+				["Boolean", "keys/bool"],
+				["Number", "keys/number"],
+				["Date", "keys/date"],
+				["Monetary", "keys/monetary"],
+				["Keybind", "keys/keybind"],
+				["Color", "keys/color"],
+				["Enum", "keys/enum"]
 			],
 			values: [
-				["Text", "/text"],
-				["Boolean", "/bool"],
-				["Number", "/number"],
-				["Date", "/date"],
-				["Monetary", "/monetary"],
-				["Keybind", "/keybind"],
-				["Color", "/color"],
-				["Enum", "/enum"],
-				["Binary", "/binary"],
-				["Special", "/special"],
-				["Static", "/values#static"]
+				["Text", "text"],
+				["Boolean", "bool"],
+				["Number", "number"],
+				["Date", "date"],
+				["Monetary", "monetary"],
+				["Keybind", "keybind"],
+				["Color", "color"],
+				["Enum", "enum"],
+				["Binary", "binary"],
+				["Special", "special"],
+				["Static", "values#static"]
 			]
 		}
 	</script>
