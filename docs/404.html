@@ -42,7 +42,7 @@
 		// Redirect to lxon.lebbex.dev if matching one of these
 		const redirects = {
 			"": ["overview", "index", "doc", "docs", "documentation"],
-			
+
 			// Containers
 			"containers": ["cont", "containers", "container"],
 			"root": ["root", "roots", "root-container", "root-containers"],
@@ -106,18 +106,15 @@
 		}
 
 		let segments = clean(decodeURIComponent(location.pathname)).split('/').filter(Boolean);
+		let dest;
 
-		// strip a leading doc/docs/documentation segment
 		if (segments.length && DOC_PREFIXES.includes(segments[0])) {
 			segments.shift();
 			// nothing left after the prefix -> .dev root
-			if (segments.length === 0) segments = [""];
-		}
+			dest = segments.length === 0 ? "" : lookup[segments.join('/')];
+		} else dest = lookup[segments.join('/')];
 
-		const dest = lookup[segments.join('/')];
-		if (dest !== undefined) {
-			location.replace('https://lxon.lebbex.dev/' + dest + location.search + location.hash);
-		}
+		if (dest !== undefined) location.replace('https://lxon.lebbex.dev/' + dest + location.search + location.hash);
 
 
 		// Redirect failed, procceed with the artistic display ;)
